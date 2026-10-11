@@ -102,6 +102,14 @@ main {
   color: var(--color-texto-suave);
 }
 
+/* Aviso si falla la carga de datos/contenido.json */
+.aviso-carga {
+  margin: 0;
+  font-size: 0.95rem;
+  font-style: italic;
+  color: var(--color-texto-suave);
+}
+
 .seccion {
   margin-bottom: calc(var(--espacio) * 2);
   scroll-margin-top: var(--margen-ancla);

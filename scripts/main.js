@@ -41,7 +41,8 @@
     consultaVertical.addListener(alCambiarDisposicion);
   }
 
-  reactivarTransiciones();
+  // La activación inicial de transiciones la hace el bloque de entradas,
+  // cuando el contenido cargado desde JSON ya está montado.
 })();
 
 // Secciones plegables: cada encabezado abre o cierra su contenido
@@ -74,21 +75,38 @@
     detalle.inert = !abierta;
   }
 
-  var botones = document.querySelectorAll('.linea-tiempo-alternar');
-
-  Array.prototype.forEach.call(botones, function (boton) {
+  // Delegación: sirve también para entradas creadas después de cargar
+  document.addEventListener('click', function (evento) {
+    var boton = evento.target.closest('.linea-tiempo-alternar');
+    if (!boton) return;
     var entrada = boton.closest('.linea-tiempo-entrada');
     if (!entrada) return;
-
-    boton.addEventListener('click', function () {
-      aplicarEstadoEntrada(entrada, !entrada.classList.contains('linea-tiempo-entrada--abierta'));
-    });
+    aplicarEstadoEntrada(entrada, !entrada.classList.contains('linea-tiempo-entrada--abierta'));
   });
 
-  // La primera entrada de Experiencia empieza desplegada. Se ejecuta de forma
-  // síncrona, antes de que el doble requestAnimationFrame quite .sin-transiciones.
-  var primera = document.querySelector('#experiencia .linea-tiempo-entrada');
-  if (primera) aplicarEstadoEntrada(primera, true);
+  // Activar transiciones solo después del siguiente pintado
+  var transicionesActivadas = false;
+  function activarTransiciones() {
+    if (transicionesActivadas) return;
+    transicionesActivadas = true;
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        document.body.classList.remove('sin-transiciones');
+      });
+    });
+  }
+
+  // La primera entrada de Experiencia empieza desplegada, sin animación:
+  // .sin-transiciones sigue puesto hasta que el contenido está montado.
+  document.addEventListener('contenido:listo', function () {
+    var primera = document.querySelector('#experiencia .linea-tiempo-entrada');
+    if (primera) aplicarEstadoEntrada(primera, true);
+    activarTransiciones();
+  });
+  document.addEventListener('contenido:error', activarTransiciones);
+
+  // Red de seguridad: si no llega ningún evento, no dejar la página sin transiciones
+  setTimeout(activarTransiciones, 5000);
 })();
 
 // Visor de imágenes: un clic en una miniatura de Proyectos la abre en grande
