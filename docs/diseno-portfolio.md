@@ -52,7 +52,7 @@ Las miniaturas son siempre cuadradas y recortan la foto sin deformarla (cover); 
 
 Línea de tiempo ligera, similar a Experiencia: contraída, muestra el año, el título del premio y, como subtítulo, el evento o la institución que lo concede; expandida, muestra «mes, AAAA» (sin rango), la descripción y un único enlace al proyecto asociado. Asociar cada reconocimiento a un proyecto cuando corresponda mediante un enlace interno visible.
 
-Al activar Ver proyecto: abrir Proyectos si está cerrado, ajustar el filtro si oculta el destino, desplegar la entrada y desplazarse suavemente hasta su inicio. Resaltar brevemente el destino. Dejarlo visible por debajo del encabezado permanente.
+Al activar Ver proyecto: abrir Proyectos si está cerrado, desplegar la entrada y, al terminar las animaciones, desplazarse suavemente hasta dejarla centrada en el área visible entre el encabezado permanente y el panel inferior (o lo más centrada posible; si es más alta que esa área, alineada arriba bajo el encabezado). Resaltar el destino con un parpadeo doble del fondo. El botón Atrás del navegador vuelve al mérito de origen. Pendiente: ajustar el filtro si oculta el destino, cuando existan los filtros.
 
 9. Pie: Sobre esta web
 
