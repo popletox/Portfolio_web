@@ -15,11 +15,12 @@ Cada tema es un archivo en `estilos/temas/<id>.css` que define **todas** las var
 | `claro` | Claro | `claro.css` | Tema por defecto. |
 | `oscuro` | Oscuro | `oscuro.css` | Provisional: fondo gris muy oscuro, texto claro y acento azul claro. |
 | `codigo` | Código | `codigo.css` | Provisional: apariencia de editor oscuro, fuente monoespaciada y un color para títulos, fechas, subtítulos (tecnologías) y enlaces. |
+| `comic` | Cómic | `comic.css` | Provisional: copia de Claro, pendiente de diseño. |
 
 ## Cómo añadir un tema
 
 1. Crea `estilos/temas/<id>.css` con el selector `:root[data-tema="<id>"]`, `color-scheme` y **todas** las variables de la tabla de abajo (lo más fácil es copiar `oscuro.css`).
-2. Añade una entrada a `TEMAS` en `scripts/temas.js`: `{ id: '<id>', nombre: 'Nombre visible', icono: 'sol' | 'luna' | 'terminal' }`. Para un icono nuevo, añádelo al mapa `ICONOS` de `scripts/opciones.js`.
+2. Añade una entrada a `TEMAS` en `scripts/temas.js`: `{ id: '<id>', nombre: 'Nombre visible', icono: 'sol' | 'luna' | 'terminal' | 'comic' }`. Para un icono nuevo, añádelo al mapa `ICONOS` de `scripts/opciones.js`.
 3. Enlaza el CSS en `index.html`, después de `claro.css`.
 
 ## Variables obligatorias

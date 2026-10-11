@@ -68,7 +68,7 @@ La tematización forma parte de la arquitectura desde el inicio. El tema princip
 
 Todos los temas comparten variables de estilo con significado estable: fondo, texto, acento, superficies, tipografía, etc. El degradado del encabezado y todos los colores usan el tema activo. JavaScript activa el tema y guarda la elección en el navegador. Una lista de temas disponibles genera el selector; añadir un tema no exige rehacer el contenido.
 
-Opciones es un botón con un engranaje en el encabezado, junto a los iconos de contacto, que abre un pequeño bocadillo con Claro, Oscuro y Código (icono y texto), mostrando el activo. Código es un tema de apariencia oscura, fuente monoespaciada y colores coherentes para títulos, fechas, tecnologías y enlaces. Conservar la legibilidad de los párrafos. Tema inicial normal; concretar si será claro o seguirá el sistema. No cambiar el orden ni el contenido al cambiar de tema.
+Opciones es un botón con un engranaje en el encabezado, junto a los iconos de contacto, que abre un pequeño bocadillo con Claro, Oscuro, Código y Cómic (icono y texto), mostrando el activo. Código es un tema de apariencia oscura, fuente monoespaciada y colores coherentes para títulos, fechas, tecnologías y enlaces. Conservar la legibilidad de los párrafos. Tema inicial normal; concretar si será claro o seguirá el sistema. No cambiar el orden ni el contenido al cambiar de tema.
 
 11. Efectos divertidos
 
