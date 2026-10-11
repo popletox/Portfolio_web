@@ -36,6 +36,14 @@ img {
   --margen-ancla: 9rem;
   --z-cabecera: 5;
   --ancho-contenido: 72rem;
+  --alto-panel-inferior: min(40vh, 18rem);
+  --lado-destacado-inferior: 7rem;
+}
+
+@supports (height: 1dvh) {
+  :root {
+    --alto-panel-inferior: min(40dvh, 18rem);
+  }
 }
 
 body {
@@ -47,7 +55,9 @@ body {
 
 /* Página */
 .pagina {
-  transition: padding-right var(--duracion-transicion) ease;
+  transition:
+    padding-right var(--duracion-transicion) ease,
+    padding-bottom var(--duracion-transicion) ease;
 }
 
 main {
@@ -167,9 +177,18 @@ main {
     transform var(--duracion-transicion) ease,
     visibility 0s linear var(--duracion-transicion);
   z-index: 10;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Lateral: el texto se integra en el flujo del panel y el título sube
+   encima del cuadrado (orden: título, cuadrado, párrafos) */
+.destacado-texto {
+  display: contents;
 }
 
 .panel-destacado h2 {
+  order: -1;
   margin-bottom: 1rem;
 }
 
@@ -233,16 +252,78 @@ body.panel-abierto .boton-destacado-flecha {
   transform: none;
 }
 
-/* Pantallas estrechas: el panel se superpone */
-@media (max-width: 768px) {
-  :root {
-    --ancho-panel: min(85vw, 360px);
+/* Disposición vertical: panel horizontal fijo abajo.
+   Debe coincidir con DISPOSICION_VERTICAL en scripts/main.js */
+@media (max-width: 768px), (max-aspect-ratio: 3/4) {
+  .panel-destacado {
+    top: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: var(--alto-panel-inferior);
+    display: grid;
+    grid-template-columns: var(--lado-destacado-inferior) minmax(0, 1fr);
+    column-gap: var(--espacio);
+    align-items: start;
+    transform: translateY(100%);
+  }
+
+  /* Cuadrado a la izquierda; bloque de texto a la derecha */
+  .destacado-texto {
+    display: block;
+  }
+
+  .destacado-imagen {
+    width: var(--lado-destacado-inferior);
+  }
+
+  .panel-destacado h2 {
+    margin-bottom: 0;
+  }
+
+  .panel-destacado p {
+    margin-top: 0.75rem;
+  }
+
+  body.panel-abierto .panel-destacado {
+    transform: translateY(0);
   }
 
   body.panel-abierto .pagina {
     padding-right: 0;
+    padding-bottom: var(--alto-panel-inferior);
   }
 
+  .boton-destacado {
+    top: auto;
+    right: auto;
+    bottom: 0;
+    left: 50%;
+    width: 3.5rem;
+    height: 2rem;
+    border-radius: 0.5rem 0.5rem 0 0;
+    transform: translateX(-50%);
+    transition: bottom var(--duracion-transicion) ease;
+  }
+
+  body.panel-abierto .boton-destacado {
+    right: auto;
+    bottom: var(--alto-panel-inferior);
+  }
+
+  /* Cerrado: flecha hacia arriba; abierto: hacia abajo */
+  .boton-destacado-flecha {
+    transform: rotate(-90deg);
+  }
+
+  body.panel-abierto .boton-destacado-flecha {
+    transform: rotate(90deg);
+  }
+}
+
+/* Pantallas estrechas: cabecera y contenido */
+@media (max-width: 768px) {
   main {
     padding: var(--espacio);
   }
