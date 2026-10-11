@@ -30,6 +30,8 @@ img {
   --color-destacado: #f28c28;
   --ancho-panel: clamp(220px, 20vw, 360px);
   --duracion-transicion: 300ms;
+  --duracion-expansion: 250ms;
+  --duracion-fundido: 200ms;
   --espacio: 1.5rem;
   --color-acento: #1a73e8;
   --color-texto-suave: #555555;
@@ -196,25 +198,29 @@ main {
   transform: rotate(90deg);
 }
 
-/* Contenido plegable: 0fr -> 1fr; visibility con retardo al cerrar */
-.seccion-contenido {
+/* Contenido plegable (secciones y detalle de entradas): 0fr -> 1fr.
+   Cerrar: primero fundido, luego contracción y al final visibility hidden.
+   Abrir: primero expansión (visible al instante), luego fundido. */
+.seccion-contenido,
+.linea-tiempo-detalle {
   display: grid;
   grid-template-rows: 0fr;
   opacity: 0;
   visibility: hidden;
   transition:
-    grid-template-rows var(--duracion-transicion) ease,
-    opacity var(--duracion-transicion) ease,
-    visibility 0s linear var(--duracion-transicion);
+    opacity var(--duracion-fundido) ease,
+    grid-template-rows var(--duracion-expansion) ease var(--duracion-fundido),
+    visibility 0s linear calc(var(--duracion-fundido) + var(--duracion-expansion));
 }
 
-.seccion--abierta .seccion-contenido {
+.seccion--abierta .seccion-contenido,
+.linea-tiempo-entrada--abierta .linea-tiempo-detalle {
   grid-template-rows: 1fr;
   opacity: 1;
   visibility: visible;
   transition:
-    grid-template-rows var(--duracion-transicion) ease,
-    opacity var(--duracion-transicion) ease,
+    grid-template-rows var(--duracion-expansion) ease,
+    opacity var(--duracion-fundido) ease var(--duracion-expansion),
     visibility 0s;
 }
 
@@ -294,12 +300,14 @@ main {
   color: var(--color-texto-suave);
 }
 
+/* Sincronizado con el fundido del detalle: al cerrar, cruce inmediato
+   (larga se oculta al acabar el fundido); al abrir, cruce tras la expansión. */
 .linea-tiempo-fecha-corta,
 .linea-tiempo-fecha-larga {
   display: block;
   transition:
-    opacity var(--duracion-transicion) ease,
-    visibility 0s linear var(--duracion-transicion);
+    opacity var(--duracion-fundido) ease,
+    visibility 0s linear var(--duracion-fundido);
 }
 
 .linea-tiempo-fecha-larga {
@@ -314,19 +322,22 @@ main {
 .linea-tiempo-entrada--abierta .linea-tiempo-fecha-corta {
   opacity: 0;
   visibility: hidden;
+  transition:
+    opacity var(--duracion-fundido) ease var(--duracion-expansion),
+    visibility 0s linear calc(var(--duracion-expansion) + var(--duracion-fundido));
 }
 
 .linea-tiempo-entrada--abierta .linea-tiempo-fecha-larga {
   opacity: 1;
   visibility: visible;
   transition:
-    opacity var(--duracion-transicion) ease,
+    opacity var(--duracion-fundido) ease var(--duracion-expansion),
     visibility 0s linear 0s;
 }
 
 .linea-tiempo-entrada:not(.linea-tiempo-entrada--abierta) .linea-tiempo-fecha-corta {
   transition:
-    opacity var(--duracion-transicion) ease,
+    opacity var(--duracion-fundido) ease,
     visibility 0s linear 0s;
 }
 
@@ -403,28 +414,7 @@ main {
   color: var(--color-texto-suave);
 }
 
-/* Detalle plegable: misma técnica que .seccion-contenido */
-.linea-tiempo-detalle {
-  display: grid;
-  grid-template-rows: 0fr;
-  opacity: 0;
-  visibility: hidden;
-  transition:
-    grid-template-rows var(--duracion-transicion) ease,
-    opacity var(--duracion-transicion) ease,
-    visibility 0s linear var(--duracion-transicion);
-}
-
-.linea-tiempo-entrada--abierta .linea-tiempo-detalle {
-  grid-template-rows: 1fr;
-  opacity: 1;
-  visibility: visible;
-  transition:
-    grid-template-rows var(--duracion-transicion) ease,
-    opacity var(--duracion-transicion) ease,
-    visibility 0s;
-}
-
+/* Detalle plegable: reglas compartidas con .seccion-contenido (más arriba) */
 .linea-tiempo-detalle-interior {
   min-height: 0;
   overflow: hidden;

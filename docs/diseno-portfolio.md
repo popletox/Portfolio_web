@@ -8,7 +8,7 @@ Portfolio personal con formato de currículum interactivo y proyecto de aprendiz
 
 2. Dirección visual
 
-Diseño limpio, plano y con espacio libre. Evitar bordes marcados y contenedores encajados. Distinguir los encabezados de sección mediante un contraste suave de fondo. Aperturas y cierres con desplazamiento progresivo del contenido inferior y aparición/desaparición suave del contenido; animaciones breves y tranquilas.
+Diseño limpio, plano y con espacio libre. Evitar bordes marcados y contenedores encajados. Distinguir los encabezados de sección mediante un contraste suave de fondo. Aperturas y cierres con desplazamiento progresivo del contenido inferior y aparición/desaparición suave del contenido; animaciones breves y tranquilas. Al abrir, primero se expande el espacio y después aparece el contenido con un fundido; al cerrar, el orden inverso.
 
 3. Encabezado permanente
 
