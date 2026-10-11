@@ -35,37 +35,144 @@
         </h2>
         <div class="seccion-contenido" id="contenido-experiencia">
           <div class="seccion-interior">
-            <!-- Futuro desplegable: añadir div.linea-tiempo-detalle dentro de .linea-tiempo-cuerpo -->
-            <ol class="linea-tiempo">
-              <li class="linea-tiempo-entrada">
-                <time class="linea-tiempo-fecha" datetime="2025">2025</time>
-                <div class="linea-tiempo-cuerpo">
-                  <h3 class="linea-tiempo-titulo">Puesto provisional 1</h3>
-                  <p class="linea-tiempo-subtitulo">Empresa provisional 1</p>
-                </div>
-              </li>
-              <li class="linea-tiempo-entrada">
-                <time class="linea-tiempo-fecha" datetime="2023">2023</time>
-                <div class="linea-tiempo-cuerpo">
-                  <h3 class="linea-tiempo-titulo">Puesto provisional 2</h3>
-                  <p class="linea-tiempo-subtitulo">Empresa provisional 2</p>
-                </div>
-              </li>
-              <li class="linea-tiempo-entrada">
-                <time class="linea-tiempo-fecha" datetime="2021">2021</time>
-                <div class="linea-tiempo-cuerpo">
-                  <h3 class="linea-tiempo-titulo">Puesto provisional 3</h3>
-                  <p class="linea-tiempo-subtitulo">Empresa provisional 3</p>
-                </div>
-              </li>
-              <li class="linea-tiempo-entrada">
-                <time class="linea-tiempo-fecha" datetime="2019">2019</time>
-                <div class="linea-tiempo-cuerpo">
-                  <h3 class="linea-tiempo-titulo">Puesto provisional 4</h3>
-                  <p class="linea-tiempo-subtitulo">Empresa provisional 4</p>
-                </div>
-              </li>
-            </ol>
+              <ol class="linea-tiempo">
+                <li class="linea-tiempo-entrada">
+                  <p class="linea-tiempo-fecha">
+                    <span class="linea-tiempo-fecha-corta"><time datetime="2023">2023</time> – <time datetime="2025">2025</time></span>
+                    <span class="linea-tiempo-fecha-larga"><time class="linea-tiempo-inicio" datetime="2023-03">marzo, 2023</time><span class="linea-tiempo-guion"> – </span><time class="linea-tiempo-fin" datetime="2025-06">junio, 2025</time></span>
+                  </p>
+                  <div class="linea-tiempo-cuerpo">
+                    <h3 class="linea-tiempo-titulo">
+                      <button class="linea-tiempo-alternar" type="button" aria-expanded="false" aria-controls="detalle-experiencia-1">
+                        <span class="linea-tiempo-texto-titulo">Puesto provisional 1</span>
+                        <span class="linea-tiempo-flecha" aria-hidden="true">&#8250;</span>
+                      </button>
+                    </h3>
+                    <p class="linea-tiempo-subtitulo">Empresa provisional 1</p>
+                    <div class="linea-tiempo-detalle" id="detalle-experiencia-1" inert>
+                      <div class="linea-tiempo-detalle-interior">
+                        <p class="linea-tiempo-descripcion">[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                        <div class="linea-tiempo-aptitudes">
+                          <span class="linea-tiempo-etiqueta">Aptitudes clave:</span>
+                          <ul class="lista-en-linea">
+                            <li>[Provisional] Aptitud provisional A</li>
+                            <li>[Provisional] Aptitud provisional B</li>
+                            <li>[Provisional] Aptitud provisional C</li>
+                            <li>[Provisional] Aptitud provisional D</li>
+                          </ul>
+                        </div>
+                        <div class="linea-tiempo-proyectos">
+                          <h4 class="linea-tiempo-proyectos-titulo">Proyectos</h4>
+                          <ul class="linea-tiempo-proyectos-lista">
+                            <li>[Provisional] Proyecto provisional 1A</li>
+                            <li><a href="#">[Provisional] Proyecto provisional 1B</a></li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li class="linea-tiempo-entrada">
+                  <p class="linea-tiempo-fecha">
+                    <span class="linea-tiempo-fecha-corta"><time datetime="2021">2021</time> – <time datetime="2023">2023</time></span>
+                    <span class="linea-tiempo-fecha-larga"><time class="linea-tiempo-inicio" datetime="2021-10">octubre, 2021</time><span class="linea-tiempo-guion"> – </span><time class="linea-tiempo-fin" datetime="2023-02">febrero, 2023</time></span>
+                  </p>
+                  <div class="linea-tiempo-cuerpo">
+                    <h3 class="linea-tiempo-titulo">
+                      <button class="linea-tiempo-alternar" type="button" aria-expanded="false" aria-controls="detalle-experiencia-2">
+                        <span class="linea-tiempo-texto-titulo">Puesto provisional 2</span>
+                        <span class="linea-tiempo-flecha" aria-hidden="true">&#8250;</span>
+                      </button>
+                    </h3>
+                    <p class="linea-tiempo-subtitulo">Empresa provisional 2</p>
+                    <div class="linea-tiempo-detalle" id="detalle-experiencia-2" inert>
+                      <div class="linea-tiempo-detalle-interior">
+                        <p class="linea-tiempo-descripcion">[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                        <div class="linea-tiempo-aptitudes">
+                          <span class="linea-tiempo-etiqueta">Aptitudes clave:</span>
+                          <ul class="lista-en-linea">
+                            <li>[Provisional] Aptitud provisional A</li>
+                            <li>[Provisional] Aptitud provisional B</li>
+                            <li>[Provisional] Aptitud provisional C</li>
+                          </ul>
+                        </div>
+                        <div class="linea-tiempo-proyectos">
+                          <h4 class="linea-tiempo-proyectos-titulo">Proyectos</h4>
+                          <ul class="linea-tiempo-proyectos-lista">
+                            <li><a href="#">[Provisional] Proyecto provisional 2A</a></li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li class="linea-tiempo-entrada">
+                  <p class="linea-tiempo-fecha">
+                    <span class="linea-tiempo-fecha-corta"><time datetime="2019">2019</time> – <time datetime="2021">2021</time></span>
+                    <span class="linea-tiempo-fecha-larga"><time class="linea-tiempo-inicio" datetime="2019-04">abril, 2019</time><span class="linea-tiempo-guion"> – </span><time class="linea-tiempo-fin" datetime="2021-09">septiembre, 2021</time></span>
+                  </p>
+                  <div class="linea-tiempo-cuerpo">
+                    <h3 class="linea-tiempo-titulo">
+                      <button class="linea-tiempo-alternar" type="button" aria-expanded="false" aria-controls="detalle-experiencia-3">
+                        <span class="linea-tiempo-texto-titulo">Puesto provisional 3</span>
+                        <span class="linea-tiempo-flecha" aria-hidden="true">&#8250;</span>
+                      </button>
+                    </h3>
+                    <p class="linea-tiempo-subtitulo">Empresa provisional 3</p>
+                    <div class="linea-tiempo-detalle" id="detalle-experiencia-3" inert>
+                      <div class="linea-tiempo-detalle-interior">
+                        <p class="linea-tiempo-descripcion">[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                        <div class="linea-tiempo-aptitudes">
+                          <span class="linea-tiempo-etiqueta">Aptitudes clave:</span>
+                          <ul class="lista-en-linea">
+                            <li>[Provisional] Aptitud provisional A</li>
+                            <li>[Provisional] Aptitud provisional B</li>
+                            <li>[Provisional] Aptitud provisional C</li>
+                            <li>[Provisional] Aptitud provisional D</li>
+                            <li>[Provisional] Aptitud provisional E</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li class="linea-tiempo-entrada">
+                  <p class="linea-tiempo-fecha">
+                    <span class="linea-tiempo-fecha-corta"><time datetime="2017">2017</time> – <time datetime="2019">2019</time></span>
+                    <span class="linea-tiempo-fecha-larga"><time class="linea-tiempo-inicio" datetime="2017-01">enero, 2017</time><span class="linea-tiempo-guion"> – </span><time class="linea-tiempo-fin" datetime="2019-03">marzo, 2019</time></span>
+                  </p>
+                  <div class="linea-tiempo-cuerpo">
+                    <h3 class="linea-tiempo-titulo">
+                      <button class="linea-tiempo-alternar" type="button" aria-expanded="false" aria-controls="detalle-experiencia-4">
+                        <span class="linea-tiempo-texto-titulo">Puesto provisional 4</span>
+                        <span class="linea-tiempo-flecha" aria-hidden="true">&#8250;</span>
+                      </button>
+                    </h3>
+                    <p class="linea-tiempo-subtitulo">Empresa provisional 4</p>
+                    <div class="linea-tiempo-detalle" id="detalle-experiencia-4" inert>
+                      <div class="linea-tiempo-detalle-interior">
+                        <p class="linea-tiempo-descripcion">[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                        <div class="linea-tiempo-aptitudes">
+                          <span class="linea-tiempo-etiqueta">Aptitudes clave:</span>
+                          <ul class="lista-en-linea">
+                            <li>[Provisional] Aptitud provisional A</li>
+                            <li>[Provisional] Aptitud provisional B</li>
+                            <li>[Provisional] Aptitud provisional C</li>
+                          </ul>
+                        </div>
+                        <div class="linea-tiempo-proyectos">
+                          <h4 class="linea-tiempo-proyectos-titulo">Proyectos</h4>
+                          <ul class="linea-tiempo-proyectos-lista">
+                            <li>[Provisional] Proyecto provisional 4A</li>
+                            <li><a href="#">[Provisional] Proyecto provisional 4B</a></li>
+                            <li>[Provisional] Proyecto provisional 4C</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ol>
           </div>
         </div>
       </section>

@@ -36,6 +36,8 @@ Línea de tiempo vertical sencilla: años o rango de años a la izquierda; punto
 
 Mostrar una señal persistente de apertura (flecha u otro icono discreto). El cambio de fondo al pasar el ratón puede reforzarla. Permitir abrir y cerrar cada entrada, así como contraer la sección completa. En móvil, compactar la columna temporal conservando las fechas legibles.
 
+Formato de fecha: contraída, «AAAA – AAAA»; expandida, «mes, AAAA – mes, AAAA» (mes en minúscula y en español, p. ej. «marzo, 2023 – junio, 2025»); el cambio entre ambos formatos se hace con un fundido suave. Detalle de cada entrada: descripción, aptitudes clave y, de forma opcional, proyectos.
+
 7. Proyectos: lista y filtros
 
 Una única lista cronológica con filtros por tecnología: Todos, Unity, Unreal, Roblox y las que correspondan al contenido real. El filtro modifica la misma lista y conserva el orden temporal. Evitar subcategorías desplegables. No añadir categorías vacías de herramientas; cuando existan, diferenciar tipo de proyecto y tecnología.

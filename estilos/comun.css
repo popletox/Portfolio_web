@@ -39,7 +39,8 @@ img {
   --ancho-contenido: 72rem;
   --alto-panel-inferior: min(40vh, 18rem);
   --lado-destacado-inferior: 7rem;
-  --ancho-columna-fecha: 4.5rem;
+  --ancho-columna-fecha: 8.5rem;
+  --desplazamiento-titulo-tiempo: 0rem;
   --ancho-columna-punto: 1.5rem;
   --tamano-punto: 0.75rem;
   --grosor-linea-tiempo: 2px;
@@ -254,8 +255,8 @@ main {
 .linea-tiempo-entrada::before {
   content: "";
   position: absolute;
-  top: calc(var(--alto-linea-titulo) / 2);
-  bottom: calc(var(--alto-linea-titulo) / -2);
+  top: calc(var(--desplazamiento-titulo-tiempo) + var(--alto-linea-titulo) / 2);
+  bottom: calc((var(--desplazamiento-titulo-tiempo) + var(--alto-linea-titulo) / 2) * -1);
   left: calc(var(--ancho-columna-fecha) + var(--hueco-columnas-tiempo) + (var(--ancho-columna-punto) - var(--grosor-linea-tiempo)) / 2);
   width: var(--grosor-linea-tiempo);
   background: var(--color-fondo-hover);
@@ -269,7 +270,7 @@ main {
 .linea-tiempo-entrada::after {
   content: "";
   position: absolute;
-  top: calc((var(--alto-linea-titulo) - var(--tamano-punto)) / 2);
+  top: calc(var(--desplazamiento-titulo-tiempo) + (var(--alto-linea-titulo) - var(--tamano-punto)) / 2);
   left: calc(var(--ancho-columna-fecha) + var(--hueco-columnas-tiempo) + (var(--ancho-columna-punto) - var(--tamano-punto)) / 2);
   width: var(--tamano-punto);
   height: var(--tamano-punto);
@@ -277,16 +278,75 @@ main {
   background: var(--color-acento);
 }
 
-.linea-tiempo-fecha {
+/* Fecha: contraída "AAAA – AAAA" en una línea;
+   abierta "mes, AAAA" / "mes, AAAA" en dos líneas, con fundido cruzado.
+   La variante larga va superpuesta en absoluto para no dictar la altura. */
+.linea-tiempo .linea-tiempo-fecha {
+  position: relative;
   grid-column: 1;
+  grid-row: 1;
+  align-self: start;
+  margin: 0;
   text-align: right;
+  font-size: 0.95rem;
   line-height: var(--alto-linea-titulo);
   font-variant-numeric: tabular-nums;
   color: var(--color-texto-suave);
 }
 
+.linea-tiempo-fecha-corta,
+.linea-tiempo-fecha-larga {
+  display: block;
+  transition:
+    opacity var(--duracion-transicion) ease,
+    visibility 0s linear var(--duracion-transicion);
+}
+
+.linea-tiempo-fecha-larga {
+  position: absolute;
+  top: 0;
+  right: 0;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.linea-tiempo-entrada--abierta .linea-tiempo-fecha-corta {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.linea-tiempo-entrada--abierta .linea-tiempo-fecha-larga {
+  opacity: 1;
+  visibility: visible;
+  transition:
+    opacity var(--duracion-transicion) ease,
+    visibility 0s linear 0s;
+}
+
+.linea-tiempo-entrada:not(.linea-tiempo-entrada--abierta) .linea-tiempo-fecha-corta {
+  transition:
+    opacity var(--duracion-transicion) ease,
+    visibility 0s linear 0s;
+}
+
+.linea-tiempo-fecha-larga .linea-tiempo-fin {
+  display: block;
+}
+
+/* Guion oculto a la vista en escritorio, pero legible por lector de pantalla */
+.linea-tiempo-fecha-larga .linea-tiempo-guion {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
 .linea-tiempo-cuerpo {
   grid-column: 3;
+  grid-row: 1;
 }
 
 .linea-tiempo-titulo {
@@ -295,15 +355,129 @@ main {
   line-height: var(--alto-linea-titulo);
 }
 
+/* Botón del título: sin estilos por defecto; margen negativo para que
+   el fondo del hover no desplace el texto respecto al punto */
+.linea-tiempo-alternar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: calc(100% + 1rem);
+  margin: 0 -0.5rem;
+  padding: 0 0.5rem;
+  border: 0;
+  border-radius: 0.25rem;
+  background: none;
+  color: inherit;
+  font: inherit;
+  line-height: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color var(--duracion-transicion) ease;
+}
+
+.linea-tiempo-alternar:hover {
+  background: var(--color-fondo-suave);
+}
+
+.linea-tiempo-alternar:focus-visible {
+  outline: 3px solid var(--color-foco);
+  outline-offset: 2px;
+}
+
+.linea-tiempo-flecha {
+  display: inline-block;
+  flex-shrink: 0;
+  line-height: 1;
+  color: var(--color-texto-suave);
+  transition: transform var(--duracion-transicion) ease;
+}
+
+.linea-tiempo-entrada--abierta .linea-tiempo-flecha {
+  transform: rotate(90deg);
+}
+
 .linea-tiempo .linea-tiempo-subtitulo {
   margin: 0.15rem 0 0;
   font-size: 0.95rem;
   color: var(--color-texto-suave);
 }
 
-/* Reservado para el futuro desplegable de cada entrada (sin implementar) */
+/* Detalle plegable: misma técnica que .seccion-contenido */
 .linea-tiempo-detalle {
-  margin-top: 0.5rem;
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    grid-template-rows var(--duracion-transicion) ease,
+    opacity var(--duracion-transicion) ease,
+    visibility 0s linear var(--duracion-transicion);
+}
+
+.linea-tiempo-entrada--abierta .linea-tiempo-detalle {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  visibility: visible;
+  transition:
+    grid-template-rows var(--duracion-transicion) ease,
+    opacity var(--duracion-transicion) ease,
+    visibility 0s;
+}
+
+.linea-tiempo-detalle-interior {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.linea-tiempo .linea-tiempo-descripcion {
+  margin: 0.75rem 0 0;
+}
+
+.linea-tiempo-aptitudes,
+.linea-tiempo-proyectos {
+  margin-top: 0.75rem;
+}
+
+.linea-tiempo-etiqueta,
+.linea-tiempo-proyectos-titulo {
+  font-weight: 600;
+}
+
+/* Lista en línea separada con " · " */
+.lista-en-linea {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lista-en-linea li {
+  display: inline;
+}
+
+.lista-en-linea li + li::before {
+  content: " · ";
+  color: var(--color-texto-suave);
+}
+
+.linea-tiempo-proyectos-titulo {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.linea-tiempo-proyectos-lista {
+  margin: 0.25rem 0 0;
+  padding-left: 1.25rem;
+}
+
+.linea-tiempo-proyectos-lista a {
+  color: var(--color-acento);
+}
+
+.linea-tiempo-proyectos-lista a:focus-visible {
+  outline: 3px solid var(--color-foco);
+  outline-offset: 2px;
 }
 
 .pie {
@@ -495,15 +669,45 @@ body.panel-abierto .boton-destacado-flecha {
     font-size: 0.9rem;
   }
 
+  /* La fecha pasa encima del título, en la columna del cuerpo, y siempre
+     en una línea; el punto baja lo que ocupa la fecha para seguir
+     alineado con el título */
   :root {
-    --ancho-columna-fecha: 2.75rem;
+    --ancho-columna-fecha: 0rem;
     --ancho-columna-punto: 1rem;
     --separacion-entradas: 1.75rem;
     --hueco-columnas-tiempo: 0.5rem;
+    --alto-linea-fecha-movil: 1.25rem;
+    --desplazamiento-titulo-tiempo: var(--alto-linea-fecha-movil);
   }
 
-  .linea-tiempo-fecha {
-    font-size: 0.9rem;
+  .linea-tiempo .linea-tiempo-fecha {
+    grid-column: 3;
+    font-size: 0.85rem;
+    line-height: var(--alto-linea-fecha-movil);
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  .linea-tiempo-fecha-larga {
+    right: auto;
+    left: 0;
+  }
+
+  .linea-tiempo-fecha-larga .linea-tiempo-fin {
+    display: inline;
+  }
+
+  .linea-tiempo-fecha-larga .linea-tiempo-guion {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip-path: none;
+  }
+
+  .linea-tiempo-cuerpo {
+    grid-row: 2;
   }
 }
 

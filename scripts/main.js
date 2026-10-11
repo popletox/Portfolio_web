@@ -61,3 +61,21 @@
     });
   });
 })();
+
+// Entradas de línea de tiempo: cada título abre o cierra su detalle
+(function () {
+  var botones = document.querySelectorAll('.linea-tiempo-alternar');
+
+  Array.prototype.forEach.call(botones, function (boton) {
+    var entrada = boton.closest('.linea-tiempo-entrada');
+    var detalle = document.getElementById(boton.getAttribute('aria-controls'));
+    if (!entrada || !detalle) return;
+
+    boton.addEventListener('click', function () {
+      var abierta = !entrada.classList.contains('linea-tiempo-entrada--abierta');
+      entrada.classList.toggle('linea-tiempo-entrada--abierta', abierta);
+      boton.setAttribute('aria-expanded', String(abierta));
+      detalle.inert = !abierta;
+    });
+  });
+})();
