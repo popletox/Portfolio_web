@@ -40,7 +40,7 @@ Formato de fecha: contraída, «AAAA – AAAA»; expandida, «mes, AAAA – mes,
 
 7. Proyectos: lista y filtros
 
-Una única lista cronológica con filtros por tecnología: Todos, Unity, Unreal, Roblox y las que correspondan al contenido real. El filtro modifica la misma lista y conserva el orden temporal. Evitar subcategorías desplegables. No añadir categorías vacías de herramientas; cuando existan, diferenciar tipo de proyecto y tecnología.
+Una única lista cronológica con filtros por tecnología: Todos, Unity, Unreal, Roblox y las que correspondan al contenido real. El filtro modifica la misma lista y conserva el orden temporal. Los botones se generan automáticamente a partir de las categorías del JSON (orden alfabético, más "Todos" al principio; no se muestran si hay una sola categoría); la selección es única, empieza en "Todos" sin persistir entre recargas, y los proyectos se ocultan o muestran con una transición suave (fundido y altura). La línea termina en el último proyecto visible. Evitar subcategorías desplegables. No añadir categorías vacías de herramientas; cuando existan, diferenciar tipo de proyecto y tecnología.
 
 En ordenador: línea temporal a la izquierda, con el ancho justo para las miniaturas, dejando más espacio al texto. A su izquierda se muestran como máximo dos miniaturas en una fila; a la derecha, nombre, tecnología, resumen breve e icono de desplegar. La fecha es única (año; "mes, año" al expandir, igual que en Méritos) y va en la columna izquierda, sobre las miniaturas. A la derecha van el nombre y la tecnología como subtítulo.
 
@@ -52,7 +52,7 @@ Las miniaturas son siempre cuadradas y recortan la foto sin deformarla (cover); 
 
 Línea de tiempo ligera, similar a Experiencia: contraída, muestra el año, el título del premio y, como subtítulo, el evento o la institución que lo concede; expandida, muestra «mes, AAAA» (sin rango), la descripción y un único enlace al proyecto asociado. Asociar cada reconocimiento a un proyecto cuando corresponda mediante un enlace interno visible.
 
-Al activar Ver proyecto: abrir Proyectos si está cerrado, desplegar la entrada y, al terminar las animaciones, desplazarse suavemente hasta dejarla centrada en el área visible entre el encabezado permanente y el panel inferior (o lo más centrada posible; si es más alta que esa área, alineada arriba bajo el encabezado). Resaltar el destino con un parpadeo doble del fondo. El botón Atrás del navegador vuelve al mérito de origen. Pendiente: ajustar el filtro si oculta el destino, cuando existan los filtros.
+Al activar Ver proyecto: abrir Proyectos si está cerrado, desplegar la entrada y, al terminar las animaciones, desplazarse suavemente hasta dejarla centrada en el área visible entre el encabezado permanente y el panel inferior (o lo más centrada posible; si es más alta que esa área, alineada arriba bajo el encabezado). Resaltar el destino con un parpadeo doble del fondo. El botón Atrás del navegador vuelve al mérito de origen. Si el filtro activo oculta el destino, se vuelve antes a "Todos".
 
 9. Pie: Sobre esta web
 

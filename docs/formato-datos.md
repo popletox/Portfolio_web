@@ -47,7 +47,7 @@ Igual que Experiencia, cambiando `puesto` por `titulo` y `empresa` por `instituc
 | --- | --- | --- |
 | `id` | Sí | Identificador único en minúsculas y con guiones (`mi-juego-2025`). No lo cambies después: lo usan los méritos y los enlaces internos. |
 | `titulo` | Sí | Nombre del proyecto. |
-| `categoria` | Sí | Tecnología (p. ej. `"Unity"`, `"Unreal Engine"`, `"Roblox"`). Se usará para los filtros; escríbela siempre igual. |
+| `categoria` | Sí | Tecnología (p. ej. `"Unity"`, `"Unreal Engine"`, `"Roblox"`). Genera automáticamente los filtros de Proyectos (un botón por categoría distinta). Escríbela siempre igual, con las mismas mayúsculas y espacios: `"Unity"` y `"unity"` serían dos filtros distintos. |
 | `fecha` | Sí | `"AAAA-MM"`. |
 | `descripcion` | Sí | String o array de strings. |
 | `aptitudes` | Sí | Array de strings. |

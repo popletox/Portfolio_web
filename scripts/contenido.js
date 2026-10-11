@@ -244,6 +244,7 @@
   function crearEntradaProyecto(proyecto, indice) {
     var entrada = crear('li', 'linea-tiempo-entrada');
     if (proyecto.id) entrada.id = proyecto.id;
+    if (proyecto.categoria) entrada.setAttribute('data-categoria', proyecto.categoria);
     entrada.appendChild(crearFechaSimple(proyecto.fecha));
 
     var miniaturas = crear('ul', 'proyecto-miniaturas');
@@ -340,6 +341,39 @@
     if (!lista) return;
     var entradas = ordenarPorFecha(proyectos || [], 'fecha').map(crearEntradaProyecto);
     lista.replaceChildren.apply(lista, entradas);
+    montarFiltrosProyectos(proyectos, lista);
+  }
+
+  function crearBotonFiltro(filtro, texto, activo) {
+    var boton = crear('button', 'filtro-proyecto', texto);
+    boton.type = 'button';
+    boton.setAttribute('data-filtro', filtro);
+    boton.setAttribute('aria-pressed', String(activo));
+    return boton;
+  }
+
+  // Botones de filtro: "Todos" más una categoría única por botón, en orden alfabético
+  function montarFiltrosProyectos(proyectos, lista) {
+    var previos = lista.parentNode.querySelector('.filtros-proyectos');
+    if (previos) previos.remove();
+    var categorias = [];
+    (proyectos || []).forEach(function (proyecto) {
+      var categoria = proyecto && proyecto.categoria;
+      if (typeof categoria === 'string' && categoria !== '' && categorias.indexOf(categoria) === -1) {
+        categorias.push(categoria);
+      }
+    });
+    if (categorias.length < 2) return;
+    categorias.sort(function (a, b) { return a.localeCompare(b, 'es'); });
+
+    var grupo = crear('div', 'filtros-proyectos');
+    grupo.setAttribute('role', 'group');
+    grupo.setAttribute('aria-label', 'Filtrar proyectos por tecnología');
+    grupo.appendChild(crearBotonFiltro('todos', 'Todos', true));
+    categorias.forEach(function (categoria) {
+      grupo.appendChild(crearBotonFiltro(categoria, categoria, false));
+    });
+    lista.parentNode.insertBefore(grupo, lista);
   }
 
   // Los títulos de proyecto se toman directamente de los datos del JSON

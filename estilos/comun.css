@@ -448,6 +448,55 @@ main {
   --ancho-columna-fecha: var(--ancho-columna-proyectos);
 }
 
+/* Filtros por categoría: píldoras como .boton-contacto; activo en acento */
+.filtros-proyectos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.filtro-proyecto {
+  padding: 0.4rem 0.9rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--color-fondo-suave);
+  color: var(--color-texto);
+  font: inherit;
+  cursor: pointer;
+  transition:
+    background-color var(--duracion-transicion) ease,
+    color var(--duracion-transicion) ease;
+}
+
+.filtro-proyecto:hover {
+  background: var(--color-fondo-hover);
+}
+
+.filtro-proyecto[aria-pressed="true"] {
+  background: var(--color-acento);
+  color: var(--color-fondo);
+}
+
+.filtro-proyecto:focus-visible {
+  outline: 3px solid var(--color-foco);
+  outline-offset: 2px;
+}
+
+/* display: grid de la entrada anularía el estilo por defecto de [hidden] */
+.linea-tiempo--proyectos .linea-tiempo-entrada[hidden] {
+  display: none;
+}
+
+/* Con filtros, la línea termina en el último proyecto visible */
+.linea-tiempo--proyectos .linea-tiempo-entrada--ultima-visible {
+  padding-bottom: 0;
+}
+
+.linea-tiempo--proyectos .linea-tiempo-entrada--ultima-visible::before {
+  display: none;
+}
+
 /* El cuerpo abarca las dos filas; la segunda (flexible) absorbe la altura
    del detalle para que la fecha y las miniaturas no se desplacen */
 .linea-tiempo--proyectos .linea-tiempo-entrada {
