@@ -49,6 +49,10 @@ img {
   --alto-linea-titulo: 1.75rem;
   --separacion-entradas: 2.25rem;
   --hueco-columnas-tiempo: 0.75rem;
+  --ancho-columna-proyectos: calc(var(--tamano-miniatura-max) * 4 + var(--hueco-miniaturas) * 3);
+  --tamano-miniatura-max: 4rem;
+  --hueco-miniaturas: 0.5rem;
+  --color-miniatura-provisional: #4caf50;
 }
 
 @supports (height: 1dvh) {
@@ -65,13 +69,20 @@ body {
 }
 
 /* Página */
+/* Sticky footer: el pie queda al fondo de la ventana si el contenido es corto */
 .pagina {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
   transition:
     padding-right var(--duracion-transicion) ease,
     padding-bottom var(--duracion-transicion) ease;
 }
 
 main {
+  flex: 1 0 auto;
+  width: 100%;
   max-width: var(--ancho-contenido);
   margin: 0 auto;
   /* Mismo padding horizontal que la cabecera para alinear con el nombre */
@@ -414,6 +425,29 @@ main {
   color: var(--color-texto-suave);
 }
 
+/* Línea de tiempo de Proyectos: columna izquierda con el ancho justo para
+   cuatro miniaturas fijas (y la fecha encima); la derecha ocupa el resto. */
+.linea-tiempo--proyectos {
+  --ancho-columna-fecha: var(--ancho-columna-proyectos);
+}
+
+.linea-tiempo--proyectos .proyecto-miniaturas {
+  grid-column: 1;
+  grid-row: 2;
+  display: grid;
+  grid-template-columns: repeat(4, var(--tamano-miniatura-max));
+  justify-content: end;
+  gap: var(--hueco-miniaturas);
+  margin: 0.5rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.proyecto-miniatura {
+  aspect-ratio: 1 / 1;
+  background: var(--color-miniatura-provisional);
+}
+
 /* Detalle plegable: reglas compartidas con .seccion-contenido (más arriba) */
 .linea-tiempo-detalle-interior {
   min-height: 0;
@@ -705,6 +739,18 @@ body.panel-abierto .boton-destacado-flecha {
 
   .linea-tiempo-cuerpo {
     grid-row: 2;
+  }
+
+  /* Proyectos: misma disposición que el resto; miniaturas bajo el cuerpo */
+  .linea-tiempo--proyectos {
+    --ancho-columna-fecha: 0rem;
+  }
+
+  .linea-tiempo--proyectos .proyecto-miniaturas {
+    grid-column: 3;
+    grid-row: 3;
+    grid-template-columns: repeat(4, minmax(0, var(--tamano-miniatura-max)));
+    justify-content: start;
   }
 }
 
