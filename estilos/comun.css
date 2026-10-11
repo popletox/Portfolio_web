@@ -32,6 +32,9 @@ img {
   --alto-degradado-cabecera: 2rem;
   --margen-ancla: 9rem;
   --z-cabecera: 5;
+  /* Dentro del contexto de la cabecera: por encima de su degradado */
+  --z-menu-opciones: 1;
+  --tamano-flecha-menu: 0.75rem;
   --tamano-boton-contacto: 2.5rem;
   --tamano-icono-contacto: 1.25rem;
   --area-tactil-minima: 2.75rem;
@@ -140,6 +143,7 @@ main {
 .cabecera-nombre {
   font-size: clamp(1.75rem, 3.5vw, 2.75rem);
   line-height: 1.15;
+  color: var(--color-titulo);
 }
 
 /* El nombre corto solo se usa en la cabecera compacta de móvil */
@@ -164,8 +168,18 @@ main {
   flex-shrink: 0;
 }
 
-/* Botones de contacto: iconos en círculo */
-.boton-contacto {
+/* Contacto y botón de Opciones; referencia para colocar el bocadillo */
+.cabecera-acciones {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+/* Botones de contacto y de Opciones: iconos en círculo */
+.boton-contacto,
+.boton-opciones {
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -183,7 +197,15 @@ main {
     height var(--duracion-transicion) ease;
 }
 
-.boton-contacto svg {
+.boton-opciones {
+  padding: 0;
+  border: 0;
+  font: inherit;
+  cursor: pointer;
+}
+
+.boton-contacto svg,
+.boton-opciones svg {
   width: var(--tamano-icono-contacto);
   height: var(--tamano-icono-contacto);
   transition:
@@ -192,24 +214,126 @@ main {
 }
 
 /* Amplía el área táctil hasta el mínimo aunque el círculo sea menor */
-.boton-contacto::before {
+.boton-contacto::before,
+.boton-opciones::before {
   content: "";
   position: absolute;
   inset: calc((var(--tamano-boton-contacto) - var(--area-tactil-minima)) / 2);
 }
 
-.boton-contacto:hover {
+.boton-contacto:hover,
+.boton-opciones:hover,
+.boton-opciones[aria-expanded="true"] {
   background: var(--color-acento);
   color: var(--color-texto-sobre-acento);
 }
 
-.boton-contacto:focus-visible {
+.boton-contacto:focus-visible,
+.boton-opciones:focus-visible {
+  outline: 3px solid var(--color-foco);
+  outline-offset: 2px;
+}
+
+/* Bocadillo de Opciones: bajo el engranaje, alineado a su borde derecho.
+   Abrir: se quita hidden y se añade --abierto; cerrar: se quita --abierto
+   y scripts/opciones.js vuelve a poner hidden al acabar la transición */
+.menu-opciones {
+  position: absolute;
+  top: calc(100% + var(--tamano-flecha-menu));
+  right: 0;
+  z-index: var(--z-menu-opciones);
+  min-width: 11rem;
+  max-width: calc(100vw - 2 * var(--espacio));
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+  background: var(--color-menu-fondo);
+  color: var(--color-texto);
+  /* drop-shadow (no box-shadow) para que la sombra incluya el pico */
+  filter: drop-shadow(0 0.25rem 0.75rem var(--color-sombra));
+  opacity: 0;
+  transform: translateY(-0.5rem);
+  transition:
+    opacity var(--duracion-fundido) ease,
+    transform var(--duracion-fundido) ease;
+}
+
+.menu-opciones[hidden] {
+  display: none;
+}
+
+.menu-opciones--abierto {
+  opacity: 1;
+  transform: none;
+}
+
+/* Pico hacia arriba, centrado con el engranaje */
+.menu-opciones::before {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  right: calc(var(--tamano-boton-contacto) / 2 - var(--tamano-flecha-menu));
+  border: var(--tamano-flecha-menu) solid transparent;
+  border-top-width: 0;
+  border-bottom-color: var(--color-menu-fondo);
+}
+
+.menu-opciones-titulo {
+  margin: 0 0 0.5rem;
+  padding: 0 0.25rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-texto-suave);
+}
+
+.menu-opciones-grupo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.opcion-tema {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  min-height: var(--area-tactil-minima);
+  padding: 0.4rem 0.75rem;
+  border: 0;
+  border-radius: 0.5rem;
+  background: none;
+  color: var(--color-texto);
+  font: inherit;
+  text-align: left;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color var(--duracion-transicion) ease,
+    color var(--duracion-transicion) ease;
+}
+
+.opcion-tema svg {
+  flex-shrink: 0;
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+.opcion-tema:hover {
+  background: var(--color-fondo-suave-hover);
+}
+
+.opcion-tema[aria-pressed="true"] {
+  background: var(--color-acento);
+  color: var(--color-texto-sobre-acento);
+}
+
+.opcion-tema:focus-visible {
   outline: 3px solid var(--color-foco);
   outline-offset: 2px;
 }
 
 .seccion h2 {
   background: var(--color-fondo-suave);
+  color: var(--color-titulo);
   transition: background-color var(--duracion-transicion) ease;
 }
 
@@ -350,7 +474,7 @@ main {
   font-size: 0.95rem;
   line-height: var(--alto-linea-titulo);
   font-variant-numeric: tabular-nums;
-  color: var(--color-texto-suave);
+  color: var(--color-fecha);
 }
 
 /* Sincronizado con el fundido del detalle: al cerrar, cruce inmediato
@@ -415,6 +539,7 @@ main {
 
 .linea-tiempo-titulo {
   margin: 0;
+  color: var(--color-titulo);
   font-size: 1.125rem;
   line-height: var(--alto-linea-titulo);
 }
@@ -464,7 +589,7 @@ main {
 .linea-tiempo .linea-tiempo-subtitulo {
   margin: 0.15rem 0 0;
   font-size: 0.95rem;
-  color: var(--color-texto-suave);
+  color: var(--color-subtitulo);
 }
 
 /* Línea de tiempo de Proyectos: columna izquierda con el ancho justo para
@@ -839,6 +964,7 @@ body.visor-abierto {
 
 .panel-destacado h2 {
   order: -1;
+  color: var(--color-titulo);
   margin-bottom: 1rem;
 }
 
@@ -978,12 +1104,18 @@ body.panel-abierto .boton-destacado-flecha {
     padding: var(--espacio);
   }
 
-  /* Rejilla: nombre e iconos en la primera fila, subtítulo debajo */
+  /* Rejilla normal en tres filas: nombre, subtítulo y botones. Las filas
+     son siempre tres (también en compacta) para que grid-template-rows
+     se pueda animar; el cambio de áreas es instantáneo */
   .cabecera {
     --tamano-boton-contacto: 2.75rem;
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
-    grid-template-rows: auto 1fr;
+    grid-template-areas:
+      "nombre nombre"
+      "subtitulo subtitulo"
+      "acciones acciones";
+    grid-template-rows: auto 1fr auto;
     align-items: center;
     gap: 0 0.75rem;
     padding: 1rem var(--espacio);
@@ -1002,9 +1134,9 @@ body.panel-abierto .boton-destacado-flecha {
   }
 
   .cabecera-nombre {
-    grid-column: 1;
-    grid-row: 1;
+    grid-area: nombre;
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     font-size: 1.5rem;
     transition: font-size var(--duracion-transicion) ease;
   }
@@ -1016,21 +1148,36 @@ body.panel-abierto .boton-destacado-flecha {
     transition: opacity var(--duracion-transicion) ease;
   }
 
+  /* En pantallas muy estrechas pasa a dos líneas ("Miguel A." / "Torrijos")
+     en vez de invadir la columna de los botones */
   .cabecera-nombre-corto {
     display: block;
     opacity: 0;
-    white-space: nowrap;
+    overflow-wrap: anywhere;
+  }
+
+  /* Botones en la tercera fila, a la derecha: al compactarse solo suben
+     de fila, sin desplazarse en horizontal */
+  .cabecera-acciones {
+    grid-area: acciones;
+    justify-self: end;
+    margin-top: 0.75rem;
+    transition: opacity var(--duracion-fundido) ease;
+  }
+
+  /* Al cambiar de estado, scripts/main.js oculta los botones en el frame del
+     salto de fila y los vuelve a mostrar con un fundido */
+  .cabecera--recolocando .cabecera-acciones {
+    opacity: 0;
+    transition: none;
   }
 
   .cabecera-contacto {
-    grid-column: 2;
-    grid-row: 1;
     flex-wrap: nowrap;
   }
 
   .cabecera-subtitulo-contenedor {
-    grid-column: 1 / -1;
-    grid-row: 2;
+    grid-area: subtitulo;
     min-height: 0;
     overflow: hidden;
     transition: opacity var(--duracion-transicion) ease;
@@ -1044,13 +1191,24 @@ body.panel-abierto .boton-destacado-flecha {
   .cabecera--compacta {
     --tamano-boton-contacto: 2.25rem;
     --tamano-icono-contacto: 1.1rem;
-    grid-template-rows: auto 0fr;
+    grid-template-areas:
+      "nombre acciones"
+      "subtitulo subtitulo"
+      ". .";
+    grid-template-rows: auto 0fr auto;
+    column-gap: 0.5rem;
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
   }
 
+  .cabecera--compacta .cabecera-acciones {
+    margin-top: 0;
+  }
+
+  /* Algo menor en pantallas de 320-360px para que el nombre corto quepa
+     en una línea o, como mucho, en dos */
   .cabecera--compacta .cabecera-nombre {
-    font-size: 1.15rem;
+    font-size: clamp(1rem, 5vw, 1.15rem);
   }
 
   /* El completo sigue en el árbol de accesibilidad (solo opacidad) y en una
@@ -1180,6 +1338,23 @@ body.panel-abierto .boton-destacado-flecha {
 @media (prefers-reduced-motion: reduce) {
   .entrada-resaltada {
     animation: fundido-resaltado 1.2s ease 1;
+  }
+}
+
+/* Cambio de tema: transición de colores solo mientras dura (clase temporal
+   en <html> que pone scripts/opciones.js). Sustituye a las transiciones
+   propias de cada elemento durante ese momento; el bocadillo conserva la suya
+   porque se está cerrando a la vez */
+@media (prefers-reduced-motion: no-preference) {
+  :root.cambiando-tema *:not(.menu-opciones),
+  :root.cambiando-tema *::before,
+  :root.cambiando-tema *::after {
+    transition:
+      background-color var(--duracion-fundido) ease,
+      color var(--duracion-fundido) ease,
+      border-color var(--duracion-fundido) ease,
+      fill var(--duracion-fundido) ease,
+      stroke var(--duracion-fundido) ease !important;
   }
 }
 

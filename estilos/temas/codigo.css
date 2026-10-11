@@ -1,0 +1,57 @@
+/* Tema Código (provisional): apariencia de editor oscuro, fuente
+   monoespaciada y un color por tipo de elemento (títulos, fechas,
+   tecnologías y enlaces). Lista y significado: docs/temas.md */
+:root[data-tema="codigo"] {
+  color-scheme: dark;
+
+  /* Tipografía */
+  --fuente-base: ui-monospace, "Cascadia Code", Consolas, "Courier New", monospace;
+
+  /* Fondos y superficies */
+  --color-fondo: #1e1e1e;
+  --color-fondo-suave: #252526;
+  --color-fondo-suave-hover: #2d2d30;
+  --color-panel: #252526;
+
+  /* Texto */
+  --color-texto: #d4d4d4;
+  --color-texto-suave: #9d9d9d;
+  --color-titulo: #569cd6;
+  --color-fecha: #ce9178;
+  --color-subtitulo: #c586c0;
+
+  /* Acento, enlaces y foco */
+  --color-acento: #4ec9b0;
+  --color-texto-sobre-acento: #1e1e1e;
+  --color-enlace: #dcdcaa;
+  --color-foco: #4ec9b0;
+
+  /* Bocadillo de Opciones */
+  --color-menu-fondo: #252526;
+  --color-sombra: rgba(0, 0, 0, 0.6);
+
+  /* Cabecera: degradado bajo la cabecera, derivado del fondo */
+  --color-degradado-cabecera-inicio: var(--color-fondo);
+  --color-degradado-cabecera-fin: transparent;
+
+  /* Líneas de tiempo */
+  --color-linea-tiempo: #3c3c3c;
+  --color-punto-tiempo: #4ec9b0;
+
+  /* Resaltado temporal del proyecto destino */
+  --color-resaltado: rgba(78, 201, 176, 0.2);
+
+  /* Elementos provisionales (sin imagen real) */
+  --color-miniatura-provisional: #3f8f43;
+  --color-destacado-provisional: #c9741f;
+
+  /* Visor de imágenes */
+  --color-fondo-visor: rgba(0, 0, 0, 0.85);
+  --color-boton-visor: rgba(0, 0, 0, 0.6);
+  --color-boton-visor-hover: #3c3c3c;
+  --color-boton-visor-texto: #ffffff;
+
+  /* Botón-pestaña del panel destacado */
+  --color-boton-panel: #3c3c3c;
+  --color-boton-panel-texto: #d4d4d4;
+}

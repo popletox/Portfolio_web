@@ -1,11 +1,14 @@
 // Temas: activa el tema guardado antes del primer pintado (se carga en el
-// <head> sin defer) y expone window.Temas para el futuro selector de Opciones.
-// Cada tema tiene su CSS en estilos/temas/<id>.css (ver docs/temas.md).
+// <head> sin defer) y expone window.Temas para el selector de Opciones
+// (scripts/opciones.js). Cada tema tiene su CSS en estilos/temas/<id>.css
+// (ver docs/temas.md).
 (function () {
-  // Lista de temas disponibles; el selector se generará a partir de ella.
-  // Pendiente añadir { id: 'oscuro', nombre: 'Oscuro' } y { id: 'codigo', nombre: 'Código' }
+  // Lista de temas disponibles; el selector de Opciones se genera a partir de
+  // ella. icono: 'sol' | 'luna' | 'terminal' (mapa de iconos en opciones.js)
   var TEMAS = [
-    { id: 'claro', nombre: 'Claro' }
+    { id: 'claro', nombre: 'Claro', icono: 'sol' },
+    { id: 'oscuro', nombre: 'Oscuro', icono: 'luna' },
+    { id: 'codigo', nombre: 'Código', icono: 'terminal' }
   ];
   var TEMA_POR_DEFECTO = 'claro';
   var CLAVE_ALMACEN = 'tema';

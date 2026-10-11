@@ -17,12 +17,19 @@
   /* Texto */
   --color-texto: #222222;
   --color-texto-suave: #555555;
+  --color-titulo: var(--color-texto);
+  --color-fecha: var(--color-texto-suave);
+  --color-subtitulo: var(--color-texto-suave);
 
   /* Acento, enlaces y foco */
   --color-acento: #1a73e8;
   --color-texto-sobre-acento: #ffffff;
   --color-enlace: #1a73e8;
   --color-foco: #1a73e8;
+
+  /* Bocadillo de Opciones */
+  --color-menu-fondo: var(--color-fondo);
+  --color-sombra: rgba(0, 0, 0, 0.18);
 
   /* Cabecera: degradado bajo la cabecera, derivado del fondo */
   --color-degradado-cabecera-inicio: var(--color-fondo);

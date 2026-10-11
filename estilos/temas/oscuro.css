@@ -1,0 +1,56 @@
+/* Tema Oscuro (provisional): misma lista de variables que claro.css.
+   Lista y significado: docs/temas.md */
+:root[data-tema="oscuro"] {
+  color-scheme: dark;
+
+  /* Tipografía */
+  --fuente-base: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  /* Fondos y superficies */
+  --color-fondo: #181a1b;
+  --color-fondo-suave: #24272a;
+  --color-fondo-suave-hover: #2f3337;
+  --color-panel: #1f2224;
+
+  /* Texto */
+  --color-texto: #e6e6e6;
+  --color-texto-suave: #a8adb3;
+  --color-titulo: var(--color-texto);
+  --color-fecha: var(--color-texto-suave);
+  --color-subtitulo: var(--color-texto-suave);
+
+  /* Acento, enlaces y foco */
+  --color-acento: #8ab4f8;
+  --color-texto-sobre-acento: #121314;
+  --color-enlace: #8ab4f8;
+  --color-foco: #8ab4f8;
+
+  /* Bocadillo de Opciones */
+  --color-menu-fondo: #24272a;
+  --color-sombra: rgba(0, 0, 0, 0.55);
+
+  /* Cabecera: degradado bajo la cabecera, derivado del fondo */
+  --color-degradado-cabecera-inicio: var(--color-fondo);
+  --color-degradado-cabecera-fin: transparent;
+
+  /* Líneas de tiempo */
+  --color-linea-tiempo: #3a3f44;
+  --color-punto-tiempo: #8ab4f8;
+
+  /* Resaltado temporal del proyecto destino */
+  --color-resaltado: rgba(138, 180, 248, 0.22);
+
+  /* Elementos provisionales (sin imagen real) */
+  --color-miniatura-provisional: #3f8f43;
+  --color-destacado-provisional: #c9741f;
+
+  /* Visor de imágenes */
+  --color-fondo-visor: rgba(0, 0, 0, 0.85);
+  --color-boton-visor: rgba(0, 0, 0, 0.6);
+  --color-boton-visor-hover: #3a3f44;
+  --color-boton-visor-texto: #ffffff;
+
+  /* Botón-pestaña del panel destacado */
+  --color-boton-panel: #3a3f44;
+  --color-boton-panel-texto: #e6e6e6;
+}

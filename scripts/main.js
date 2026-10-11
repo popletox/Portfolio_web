@@ -70,6 +70,18 @@ var ajustarCabeceraParaScroll = function () { return false; };
     compensar();
   }
 
+  // Los botones cambian de fila de golpe (grid-template-areas no se anima):
+  // se ocultan en el frame del salto y aparecen con un fundido en el siguiente
+  var fundido = 0;
+  function fundirAcciones() {
+    cancelAnimationFrame(fundido);
+    cabecera.classList.add('cabecera--recolocando');
+    fundido = requestAnimationFrame(function () {
+      fundido = 0;
+      cabecera.classList.remove('cabecera--recolocando');
+    });
+  }
+
   // Ajusta la compensación en cada frame hasta que acaba la transición
   function seguirTransicion() {
     cancelAnimationFrame(bucle);
@@ -122,6 +134,7 @@ var ajustarCabeceraParaScroll = function () { return false; };
     cabecera.classList.toggle('cabecera--compacta', nuevo);
     if (consultaEstrecha.matches && !sinAnimaciones()) {
       finCambio = Date.now() + duracionTransicion() + MARGEN_TRANSICION;
+      fundirAcciones();
       seguirTransicion();
     }
     compensar();
@@ -168,6 +181,9 @@ var ajustarCabeceraParaScroll = function () { return false; };
     cancelAnimationFrame(bucle);
     bucle = 0;
     finCambio = 0;
+    cancelAnimationFrame(fundido);
+    fundido = 0;
+    cabecera.classList.remove('cabecera--recolocando');
     cabecera.classList.add('cabecera--instantanea');
     cabecera.classList.toggle('cabecera--compacta', nuevo);
     void cabecera.offsetHeight; // aplica el tamaño final antes de medir
