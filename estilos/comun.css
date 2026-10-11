@@ -1,0 +1,180 @@
+/* Reset mínimo */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body,
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+/* Variables (colores provisionales) */
+:root {
+  --color-fondo: #ffffff;
+  --color-texto: #222222;
+  --color-fondo-suave: #f2f2f2;
+  --color-panel: #f7f7f7;
+  --color-boton: #333333;
+  --color-boton-texto: #ffffff;
+  --color-foco: #1a73e8;
+  --color-destacado: #f28c28;
+  --ancho-panel: clamp(220px, 20vw, 360px);
+  --duracion-transicion: 300ms;
+  --espacio: 1.5rem;
+}
+
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.6;
+  color: var(--color-texto);
+  background: var(--color-fondo);
+}
+
+/* Página */
+.pagina {
+  transition: padding-right var(--duracion-transicion) ease;
+}
+
+main {
+  max-width: 50rem;
+  margin: 0 auto;
+  padding: var(--espacio);
+}
+
+.seccion {
+  margin-bottom: calc(var(--espacio) * 2);
+}
+
+.seccion h2 {
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 1rem;
+  background: var(--color-fondo-suave);
+}
+
+.seccion p {
+  margin-bottom: 1rem;
+}
+
+.pie {
+  padding: var(--espacio);
+  text-align: center;
+  background: var(--color-fondo-suave);
+}
+
+/* Panel destacado */
+.panel-destacado {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: var(--ancho-panel);
+  height: 100vh;
+  height: 100dvh;
+  overflow-y: auto;
+  padding: var(--espacio);
+  background: var(--color-panel);
+  transform: translateX(100%);
+  visibility: hidden;
+  transition:
+    transform var(--duracion-transicion) ease,
+    visibility 0s linear var(--duracion-transicion);
+  z-index: 10;
+}
+
+.panel-destacado h2 {
+  margin-bottom: 1rem;
+}
+
+.panel-destacado p {
+  margin-top: 1rem;
+}
+
+.destacado-imagen {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: var(--color-destacado);
+}
+
+body.panel-abierto .panel-destacado {
+  transform: translateX(0);
+  visibility: visible;
+  transition:
+    transform var(--duracion-transicion) ease,
+    visibility 0s;
+}
+
+body.panel-abierto .pagina {
+  padding-right: var(--ancho-panel);
+}
+
+/* Botón-pestaña */
+.boton-destacado {
+  position: fixed;
+  top: 50%;
+  right: 0;
+  width: 2rem;
+  height: 3.5rem;
+  border: 0;
+  border-radius: 0.5rem 0 0 0.5rem;
+  background: var(--color-boton);
+  color: var(--color-boton-texto);
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  transform: translateY(-50%);
+  transition: right var(--duracion-transicion) ease;
+  z-index: 11;
+}
+
+.boton-destacado:focus-visible {
+  outline: 3px solid var(--color-foco);
+  outline-offset: 2px;
+}
+
+.boton-destacado-flecha {
+  display: inline-block;
+  transform: rotate(180deg);
+  transition: transform var(--duracion-transicion) ease;
+}
+
+body.panel-abierto .boton-destacado {
+  right: var(--ancho-panel);
+}
+
+body.panel-abierto .boton-destacado-flecha {
+  transform: none;
+}
+
+/* Pantallas estrechas: el panel se superpone */
+@media (max-width: 768px) {
+  :root {
+    --ancho-panel: min(85vw, 360px);
+  }
+
+  body.panel-abierto .pagina {
+    padding-right: 0;
+  }
+}
+
+/* Sin transiciones: carga inicial y movimiento reducido */
+body.sin-transiciones *,
+body.sin-transiciones *::before,
+body.sin-transiciones *::after {
+  transition: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+  }
+}
