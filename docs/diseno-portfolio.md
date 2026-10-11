@@ -45,7 +45,8 @@ Una única lista cronológica con filtros por tecnología: Todos, Unity, Unreal,
 En ordenador: línea temporal a la izquierda, con el ancho justo para las miniaturas, dejando más espacio al texto. A su izquierda se muestran como máximo dos miniaturas en una fila; a la derecha, nombre, tecnología, resumen breve e icono de desplegar. La fecha es única (año; "mes, año" al expandir, igual que en Méritos) y va en la columna izquierda, sobre las miniaturas. A la derecha van el nombre y la tecnología como subtítulo.
 
 Al expandir: aparece el detalle a la derecha (descripción, aptitudes clave y, de forma opcional, un enlace a donde esté publicado el proyecto) y las miniaturas crecen y se muestran todas, sin límite, en 2 columnas dentro de la misma columna izquierda, sin que la línea se mueva. Limitar el tamaño de las imágenes: no estirarlas ni hacer que dependan de la longitud de la descripción. Admitir menos miniaturas si cuatro resultan demasiado pequeñas.
-Al pasar el ratón por una miniatura: ampliación superpuesta, sin desplazar la página. En móvil: imágenes debajo del título y ampliación al tocar, con cierre claro. Mantener las proporciones y evitar que la vista ampliada salga de la pantalla.
+Al hacer clic o tocar una miniatura, se abre en un visor superpuesto, a gran tamaño sin ocupar toda la pantalla, que se cierra con ✕, Esc o un clic fuera. En móvil: imágenes debajo del título. Mantener las proporciones y evitar que la vista ampliada salga de la pantalla.
+Las miniaturas son siempre cuadradas y recortan la foto sin deformarla (cover); el encuadre se elige con clases en el `<img>` (`encuadre-arriba`, `-abajo`, `-izquierda`, `-derecha`; sin clase, centrado). El visor muestra la foto completa con su proporción original. Cada foto debería tener una versión pequeña para la miniatura y una grande (`data-imagen-grande`) para el visor, con `width`, `height` y `loading="lazy"` en el `<img>`.
 
 8. Méritos y reconocimientos
 

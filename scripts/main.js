@@ -90,3 +90,80 @@
   var primera = document.querySelector('#experiencia .linea-tiempo-entrada');
   if (primera) aplicarEstadoEntrada(primera, true);
 })();
+
+// Visor de imágenes: un clic en una miniatura de Proyectos la abre en grande
+(function () {
+  var visor = document.getElementById('visor-imagen');
+  if (!visor || typeof visor.showModal !== 'function') return;
+  var contenido = visor.querySelector('.visor-imagen-contenido');
+  var botonCerrar = visor.querySelector('.visor-imagen-cerrar');
+  var movimientoReducido = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var miniaturaOrigen = null;
+
+  function crearImagen(miniatura) {
+    var img = miniatura.querySelector('img');
+    if (img) {
+      var grande = document.createElement('img');
+      grande.src = miniatura.getAttribute('data-imagen-grande') || img.currentSrc || img.src;
+      grande.alt = img.alt || '';
+      return grande;
+    }
+    var provisional = document.createElement('div');
+    provisional.className = 'visor-imagen-provisional';
+    provisional.setAttribute('role', 'img');
+    provisional.setAttribute('aria-label', miniatura.getAttribute('aria-label') || 'Imagen provisional');
+    return provisional;
+  }
+
+  function abrir(miniatura) {
+    miniaturaOrigen = miniatura;
+    contenido.replaceChildren(crearImagen(miniatura));
+    visor.classList.remove('visor-imagen--cerrando');
+    document.body.classList.add('visor-abierto');
+    visor.showModal();
+    botonCerrar.focus();
+  }
+
+  function terminarCierre() {
+    visor.removeEventListener('animationend', terminarCierre);
+    visor.classList.remove('visor-imagen--cerrando');
+    if (visor.open) visor.close();
+  }
+
+  function cerrar() {
+    if (!visor.open || visor.classList.contains('visor-imagen--cerrando')) return;
+    if (movimientoReducido.matches) {
+      visor.close();
+      return;
+    }
+    visor.classList.add('visor-imagen--cerrando');
+    visor.addEventListener('animationend', terminarCierre);
+  }
+
+  // Delegación: un solo listener para todas las miniaturas
+  document.addEventListener('click', function (evento) {
+    var miniatura = evento.target.closest('.proyecto-miniatura');
+    if (miniatura) abrir(miniatura);
+  });
+
+  botonCerrar.addEventListener('click', cerrar);
+
+  // Clic en el fondo: el objetivo es el propio dialog, no su contenido
+  visor.addEventListener('click', function (evento) {
+    if (evento.target === visor) cerrar();
+  });
+
+  // Esc: se intercepta para animar la salida
+  visor.addEventListener('cancel', function (evento) {
+    evento.preventDefault();
+    cerrar();
+  });
+
+  visor.addEventListener('close', function () {
+    visor.classList.remove('visor-imagen--cerrando');
+    document.body.classList.remove('visor-abierto');
+    contenido.replaceChildren();
+    if (miniaturaOrigen) miniaturaOrigen.focus();
+    miniaturaOrigen = null;
+  });
+})();

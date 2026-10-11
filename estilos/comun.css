@@ -54,11 +54,17 @@ img {
   --hueco-miniaturas: 0.5rem;
   --tamano-miniatura-ampliada: calc((var(--ancho-columna-proyectos) - var(--hueco-miniaturas)) / 2);
   --color-miniatura-provisional: #4caf50;
+  --color-fondo-visor: rgba(0, 0, 0, 0.8);
+  --color-boton-visor: rgba(0, 0, 0, 0.6);
+  --tamano-boton-visor: 2.75rem;
+  --ancho-visor: 90vw;
+  --alto-visor: 85vh;
 }
 
 @supports (height: 1dvh) {
   :root {
     --alto-panel-inferior: min(40dvh, 18rem);
+    --alto-visor: 85dvh;
   }
 }
 
@@ -519,6 +525,138 @@ main {
   background: var(--color-miniatura-provisional);
 }
 
+/* Miniatura como botón: sin estilos por defecto, mismo aspecto */
+button.proyecto-miniatura {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  font: inherit;
+  color: inherit;
+  cursor: zoom-in;
+  overflow: hidden;
+}
+
+button.proyecto-miniatura:hover {
+  filter: brightness(1.1);
+}
+
+/* Contorno hacia dentro: el li recorta lo que sobresale */
+button.proyecto-miniatura:focus-visible {
+  outline: 3px solid var(--color-foco);
+  outline-offset: -3px;
+}
+
+.proyecto-miniatura img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Encuadre del recorte (por defecto, centrado). Uso: <img class="encuadre-arriba" ...> */
+.proyecto-miniatura img.encuadre-arriba { object-position: center top; }
+.proyecto-miniatura img.encuadre-abajo { object-position: center bottom; }
+.proyecto-miniatura img.encuadre-izquierda { object-position: left center; }
+.proyecto-miniatura img.encuadre-derecha { object-position: right center; }
+
+/* Visor de imágenes ampliadas */
+.visor-imagen {
+  margin: auto;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  max-width: none;
+  max-height: none;
+  overflow: visible;
+}
+
+.visor-imagen[open] {
+  animation: visor-entrada var(--duracion-fundido) ease;
+}
+
+.visor-imagen::backdrop {
+  background: var(--color-fondo-visor);
+  animation: visor-fondo-entrada var(--duracion-fundido) ease;
+}
+
+.visor-imagen--cerrando[open] {
+  animation: visor-salida var(--duracion-fundido) ease forwards;
+}
+
+.visor-imagen--cerrando::backdrop {
+  animation: visor-fondo-salida var(--duracion-fundido) ease forwards;
+}
+
+.visor-imagen-contenido img {
+  display: block;
+  max-width: var(--ancho-visor);
+  max-height: var(--alto-visor);
+  object-fit: contain;
+}
+
+.visor-imagen-provisional {
+  width: min(var(--alto-visor), var(--ancho-visor));
+  aspect-ratio: 1 / 1;
+  background: var(--color-miniatura-provisional);
+}
+
+.visor-imagen-cerrar {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: var(--tamano-boton-visor);
+  height: var(--tamano-boton-visor);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--color-boton-visor);
+  color: var(--color-boton-texto);
+  font: inherit;
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.visor-imagen-cerrar:hover {
+  background: var(--color-boton);
+}
+
+.visor-imagen-cerrar:focus-visible {
+  outline: 3px solid var(--color-foco);
+  outline-offset: 2px;
+}
+
+/* Bloquea el desplazamiento del fondo con el visor abierto */
+body.visor-abierto {
+  overflow: hidden;
+}
+
+@keyframes visor-entrada {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes visor-salida {
+  from { opacity: 1; transform: scale(1); }
+  to { opacity: 0; transform: scale(0.96); }
+}
+
+@keyframes visor-fondo-entrada {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes visor-fondo-salida {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
 /* Detalle plegable: reglas compartidas con .seccion-contenido (más arriba) */
 .linea-tiempo-detalle-interior {
   min-height: 0;
@@ -849,5 +987,10 @@ body.sin-transiciones *::after {
   *::before,
   *::after {
     transition: none !important;
+  }
+
+  .visor-imagen,
+  .visor-imagen::backdrop {
+    animation: none !important;
   }
 }
