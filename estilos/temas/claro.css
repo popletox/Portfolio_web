@@ -1,0 +1,51 @@
+/* Tema Claro: tema por defecto (se aplica también sin data-tema).
+   Cada tema debe definir TODAS estas variables con su propio selector,
+   p. ej. :root[data-tema="oscuro"]. Lista y significado: docs/temas.md */
+:root,
+:root[data-tema="claro"] {
+  color-scheme: light;
+
+  /* Tipografía */
+  --fuente-base: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  /* Fondos y superficies */
+  --color-fondo: #ffffff;
+  --color-fondo-suave: #f2f2f2;
+  --color-fondo-suave-hover: #e6e6e6;
+  --color-panel: #f7f7f7;
+
+  /* Texto */
+  --color-texto: #222222;
+  --color-texto-suave: #555555;
+
+  /* Acento, enlaces y foco */
+  --color-acento: #1a73e8;
+  --color-texto-sobre-acento: #ffffff;
+  --color-enlace: #1a73e8;
+  --color-foco: #1a73e8;
+
+  /* Cabecera: degradado bajo la cabecera, derivado del fondo */
+  --color-degradado-cabecera-inicio: var(--color-fondo);
+  --color-degradado-cabecera-fin: transparent;
+
+  /* Líneas de tiempo */
+  --color-linea-tiempo: #e6e6e6;
+  --color-punto-tiempo: #1a73e8;
+
+  /* Resaltado temporal del proyecto destino */
+  --color-resaltado: rgba(26, 115, 232, 0.15);
+
+  /* Elementos provisionales (sin imagen real) */
+  --color-miniatura-provisional: #4caf50;
+  --color-destacado-provisional: #f28c28;
+
+  /* Visor de imágenes */
+  --color-fondo-visor: rgba(0, 0, 0, 0.8);
+  --color-boton-visor: rgba(0, 0, 0, 0.6);
+  --color-boton-visor-hover: #333333;
+  --color-boton-visor-texto: #ffffff;
+
+  /* Botón-pestaña del panel destacado */
+  --color-boton-panel: #333333;
+  --color-boton-panel-texto: #ffffff;
+}

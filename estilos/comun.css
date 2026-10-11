@@ -1,3 +1,7 @@
+/* Estilos comunes a todos los temas: distribución, tamaños y transiciones.
+   Aquí no hay colores ni fuentes fijos: salen de las variables --color-* y
+   --fuente-* que define cada tema en estilos/temas/ (ver docs/temas.md). */
+
 /* Reset mínimo */
 *,
 *::before,
@@ -17,26 +21,14 @@ img {
   max-width: 100%;
 }
 
-/* Variables (colores provisionales) */
+/* Variables de medidas, duraciones y capas (colores y fuentes: estilos/temas/) */
 :root {
-  --color-fondo: #ffffff;
-  --color-texto: #222222;
-  --color-fondo-suave: #f2f2f2;
-  --color-fondo-hover: #e6e6e6;
-  --color-panel: #f7f7f7;
-  --color-boton: #333333;
-  --color-boton-texto: #ffffff;
-  --color-foco: #1a73e8;
-  --color-destacado: #f28c28;
   --ancho-panel: clamp(220px, 20vw, 360px);
   --duracion-transicion: 300ms;
   --duracion-expansion: 250ms;
   --duracion-fundido: 200ms;
   --espacio: 1.5rem;
-  --color-acento: #1a73e8;
-  --color-resaltado: rgba(26, 115, 232, 0.15);
   --margen-resaltado: 0.5rem;
-  --color-texto-suave: #555555;
   --alto-degradado-cabecera: 2rem;
   --margen-ancla: 9rem;
   --z-cabecera: 5;
@@ -58,9 +50,6 @@ img {
   --tamano-miniatura-max: 3.25rem;
   --hueco-miniaturas: 0.5rem;
   --tamano-miniatura-ampliada: calc((var(--ancho-columna-proyectos) - var(--hueco-miniaturas)) / 2);
-  --color-miniatura-provisional: #4caf50;
-  --color-fondo-visor: rgba(0, 0, 0, 0.8);
-  --color-boton-visor: rgba(0, 0, 0, 0.6);
   --tamano-boton-visor: 2.75rem;
   --ancho-visor: 90vw;
   --alto-visor: 85vh;
@@ -74,7 +63,7 @@ img {
 }
 
 body {
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-family: var(--fuente-base);
   line-height: 1.6;
   color: var(--color-texto);
   background: var(--color-fondo);
@@ -140,7 +129,7 @@ main {
   left: 0;
   right: 0;
   height: var(--alto-degradado-cabecera);
-  background: linear-gradient(to bottom, var(--color-fondo), transparent);
+  background: linear-gradient(to bottom, var(--color-degradado-cabecera-inicio), var(--color-degradado-cabecera-fin));
   pointer-events: none;
 }
 
@@ -211,7 +200,7 @@ main {
 
 .boton-contacto:hover {
   background: var(--color-acento);
-  color: var(--color-fondo);
+  color: var(--color-texto-sobre-acento);
 }
 
 .boton-contacto:focus-visible {
@@ -225,7 +214,7 @@ main {
 }
 
 .seccion h2:hover {
-  background: var(--color-fondo-hover);
+  background: var(--color-fondo-suave-hover);
 }
 
 /* Botón que ocupa todo el encabezado */
@@ -329,7 +318,7 @@ main {
   bottom: calc((var(--desplazamiento-titulo-tiempo) + var(--alto-linea-titulo) / 2) * -1);
   left: calc(var(--ancho-columna-fecha) + var(--hueco-columnas-tiempo) + (var(--ancho-columna-punto) - var(--grosor-linea-tiempo)) / 2);
   width: var(--grosor-linea-tiempo);
-  background: var(--color-fondo-hover);
+  background: var(--color-linea-tiempo);
 }
 
 .linea-tiempo-entrada:last-child::before {
@@ -345,7 +334,7 @@ main {
   width: var(--tamano-punto);
   height: var(--tamano-punto);
   border-radius: 50%;
-  background: var(--color-acento);
+  background: var(--color-punto-tiempo);
 }
 
 /* Fecha: contraída "AAAA – AAAA" en una línea;
@@ -506,12 +495,12 @@ main {
 }
 
 .filtro-proyecto:hover {
-  background: var(--color-fondo-hover);
+  background: var(--color-fondo-suave-hover);
 }
 
 .filtro-proyecto[aria-pressed="true"] {
   background: var(--color-acento);
-  color: var(--color-fondo);
+  color: var(--color-texto-sobre-acento);
 }
 
 .filtro-proyecto:focus-visible {
@@ -711,7 +700,7 @@ button.proyecto-miniatura:focus-visible {
   border: 0;
   border-radius: 50%;
   background: var(--color-boton-visor);
-  color: var(--color-boton-texto);
+  color: var(--color-boton-visor-texto);
   font: inherit;
   font-size: 1.25rem;
   line-height: 1;
@@ -719,7 +708,7 @@ button.proyecto-miniatura:focus-visible {
 }
 
 .visor-imagen-cerrar:hover {
-  background: var(--color-boton);
+  background: var(--color-boton-visor-hover);
 }
 
 .visor-imagen-cerrar:focus-visible {
@@ -801,7 +790,7 @@ body.visor-abierto {
 
 .linea-tiempo-proyectos-lista a,
 .enlace-proyecto {
-  color: var(--color-acento);
+  color: var(--color-enlace);
 }
 
 /* Enlace único al proyecto asociado (Méritos) */
@@ -860,7 +849,7 @@ body.visor-abierto {
 .destacado-imagen {
   width: 100%;
   aspect-ratio: 1 / 1;
-  background: var(--color-destacado);
+  background: var(--color-destacado-provisional);
 }
 
 body.panel-abierto .panel-destacado {
@@ -884,8 +873,8 @@ body.panel-abierto .pagina {
   height: 3.5rem;
   border: 0;
   border-radius: 0.5rem 0 0 0.5rem;
-  background: var(--color-boton);
-  color: var(--color-boton-texto);
+  background: var(--color-boton-panel);
+  color: var(--color-boton-panel-texto);
   font-size: 1.5rem;
   line-height: 1;
   cursor: pointer;
