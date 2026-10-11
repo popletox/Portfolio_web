@@ -18,7 +18,7 @@ En móvil: versión compacta, inicialmente visible, con nombre abreviado (por co
 
 4. Secciones y estado inicial
 
-Cuatro secciones: Experiencia, Estudios, Proyectos y Méritos y reconocimientos. Todas se pueden expandir y contraer de forma independiente; no es necesario cerrar una para abrir otra. Base inicial: Experiencia y Proyectos abiertas; Estudios y Reconocimientos cerradas. Las entradas individuales comienzan contraídas.
+Cuatro secciones, en este orden: Experiencia, Proyectos, Méritos y reconocimientos y Estudios. Todas se pueden expandir y contraer de forma independiente; no es necesario cerrar una para abrir otra. Base inicial: solo Experiencia abierta; Estudios, Proyectos y Reconocimientos cerradas. Las entradas individuales comienzan contraídas.
 
 5. Destacado
 

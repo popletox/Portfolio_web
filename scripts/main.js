@@ -43,3 +43,21 @@
 
   reactivarTransiciones();
 })();
+
+// Secciones plegables: cada encabezado abre o cierra su contenido
+(function () {
+  var botones = document.querySelectorAll('.seccion-alternar');
+
+  Array.prototype.forEach.call(botones, function (boton) {
+    var seccion = boton.closest('.seccion');
+    var contenido = document.getElementById(boton.getAttribute('aria-controls'));
+    if (!seccion || !contenido) return;
+
+    boton.addEventListener('click', function () {
+      var abierta = !seccion.classList.contains('seccion--abierta');
+      seccion.classList.toggle('seccion--abierta', abierta);
+      boton.setAttribute('aria-expanded', String(abierta));
+      contenido.inert = !abierta;
+    });
+  });
+})();

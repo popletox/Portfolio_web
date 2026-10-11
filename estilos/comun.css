@@ -22,6 +22,7 @@ img {
   --color-fondo: #ffffff;
   --color-texto: #222222;
   --color-fondo-suave: #f2f2f2;
+  --color-fondo-hover: #e6e6e6;
   --color-panel: #f7f7f7;
   --color-boton: #333333;
   --color-boton-texto: #ffffff;
@@ -38,6 +39,13 @@ img {
   --ancho-contenido: 72rem;
   --alto-panel-inferior: min(40vh, 18rem);
   --lado-destacado-inferior: 7rem;
+  --ancho-columna-fecha: 4.5rem;
+  --ancho-columna-punto: 1.5rem;
+  --tamano-punto: 0.75rem;
+  --grosor-linea-tiempo: 2px;
+  --alto-linea-titulo: 1.75rem;
+  --separacion-entradas: 2.25rem;
+  --hueco-columnas-tiempo: 0.75rem;
 }
 
 @supports (height: 1dvh) {
@@ -145,13 +153,157 @@ main {
 }
 
 .seccion h2 {
-  padding: 0.5rem 0.75rem;
-  margin-bottom: 1rem;
   background: var(--color-fondo-suave);
+  transition: background-color var(--duracion-transicion) ease;
+}
+
+.seccion h2:hover {
+  background: var(--color-fondo-hover);
+}
+
+/* Botón que ocupa todo el encabezado */
+.seccion-alternar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.seccion-alternar:focus-visible {
+  outline: 3px solid var(--color-foco);
+  outline-offset: 2px;
+}
+
+/* Cerrada: flecha hacia la derecha; abierta: hacia abajo */
+.seccion-flecha {
+  display: inline-block;
+  flex-shrink: 0;
+  line-height: 1;
+  color: var(--color-texto-suave);
+  transition: transform var(--duracion-transicion) ease;
+}
+
+.seccion--abierta .seccion-flecha {
+  transform: rotate(90deg);
+}
+
+/* Contenido plegable: 0fr -> 1fr; visibility con retardo al cerrar */
+.seccion-contenido {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    grid-template-rows var(--duracion-transicion) ease,
+    opacity var(--duracion-transicion) ease,
+    visibility 0s linear var(--duracion-transicion);
+}
+
+.seccion--abierta .seccion-contenido {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  visibility: visible;
+  transition:
+    grid-template-rows var(--duracion-transicion) ease,
+    opacity var(--duracion-transicion) ease,
+    visibility 0s;
+}
+
+.seccion-interior {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.seccion-interior > :first-child {
+  margin-top: 1rem;
 }
 
 .seccion p {
   margin-bottom: 1rem;
+}
+
+/* Línea de tiempo genérica (Experiencia; reutilizable en Estudios y Méritos).
+   Columnas: fecha | punto y línea | cuerpo */
+.linea-tiempo {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.linea-tiempo-entrada {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--ancho-columna-fecha) var(--ancho-columna-punto) minmax(0, 1fr);
+  column-gap: var(--hueco-columnas-tiempo);
+  padding-bottom: var(--separacion-entradas);
+}
+
+.linea-tiempo-entrada:last-child {
+  padding-bottom: 0;
+}
+
+/* Tramo de línea: del centro del punto propio al centro del siguiente */
+.linea-tiempo-entrada::before {
+  content: "";
+  position: absolute;
+  top: calc(var(--alto-linea-titulo) / 2);
+  bottom: calc(var(--alto-linea-titulo) / -2);
+  left: calc(var(--ancho-columna-fecha) + var(--hueco-columnas-tiempo) + (var(--ancho-columna-punto) - var(--grosor-linea-tiempo)) / 2);
+  width: var(--grosor-linea-tiempo);
+  background: var(--color-fondo-hover);
+}
+
+.linea-tiempo-entrada:last-child::before {
+  display: none;
+}
+
+/* Punto, centrado con la primera línea del título y del año */
+.linea-tiempo-entrada::after {
+  content: "";
+  position: absolute;
+  top: calc((var(--alto-linea-titulo) - var(--tamano-punto)) / 2);
+  left: calc(var(--ancho-columna-fecha) + var(--hueco-columnas-tiempo) + (var(--ancho-columna-punto) - var(--tamano-punto)) / 2);
+  width: var(--tamano-punto);
+  height: var(--tamano-punto);
+  border-radius: 50%;
+  background: var(--color-acento);
+}
+
+.linea-tiempo-fecha {
+  grid-column: 1;
+  text-align: right;
+  line-height: var(--alto-linea-titulo);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-texto-suave);
+}
+
+.linea-tiempo-cuerpo {
+  grid-column: 3;
+}
+
+.linea-tiempo-titulo {
+  margin: 0;
+  font-size: 1.125rem;
+  line-height: var(--alto-linea-titulo);
+}
+
+.linea-tiempo .linea-tiempo-subtitulo {
+  margin: 0.15rem 0 0;
+  font-size: 0.95rem;
+  color: var(--color-texto-suave);
+}
+
+/* Reservado para el futuro desplegable de cada entrada (sin implementar) */
+.linea-tiempo-detalle {
+  margin-top: 0.5rem;
 }
 
 .pie {
@@ -340,6 +492,17 @@ body.panel-abierto .boton-destacado-flecha {
   }
 
   .cabecera-subtitulo {
+    font-size: 0.9rem;
+  }
+
+  :root {
+    --ancho-columna-fecha: 2.75rem;
+    --ancho-columna-punto: 1rem;
+    --separacion-entradas: 1.75rem;
+    --hueco-columnas-tiempo: 0.5rem;
+  }
+
+  .linea-tiempo-fecha {
     font-size: 0.9rem;
   }
 }

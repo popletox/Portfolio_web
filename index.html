@@ -26,36 +26,99 @@
         <p>[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
       </section>
 
-      <section class="seccion" id="experiencia">
-        <h2>Experiencia</h2>
-        <p>[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-        <p>[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-        <p>[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-        <p>[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-      </section>
-
-      <section class="seccion" id="estudios">
-        <h2>Estudios</h2>
-        <p>[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-        <p>[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-        <p>[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-        <p>[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+      <section class="seccion seccion--abierta" id="experiencia">
+        <h2>
+          <button class="seccion-alternar" type="button" aria-expanded="true" aria-controls="contenido-experiencia">
+            <span class="seccion-titulo">Experiencia</span>
+            <span class="seccion-flecha" aria-hidden="true">&#8250;</span>
+          </button>
+        </h2>
+        <div class="seccion-contenido" id="contenido-experiencia">
+          <div class="seccion-interior">
+            <!-- Futuro desplegable: añadir div.linea-tiempo-detalle dentro de .linea-tiempo-cuerpo -->
+            <ol class="linea-tiempo">
+              <li class="linea-tiempo-entrada">
+                <time class="linea-tiempo-fecha" datetime="2025">2025</time>
+                <div class="linea-tiempo-cuerpo">
+                  <h3 class="linea-tiempo-titulo">Puesto provisional 1</h3>
+                  <p class="linea-tiempo-subtitulo">Empresa provisional 1</p>
+                </div>
+              </li>
+              <li class="linea-tiempo-entrada">
+                <time class="linea-tiempo-fecha" datetime="2023">2023</time>
+                <div class="linea-tiempo-cuerpo">
+                  <h3 class="linea-tiempo-titulo">Puesto provisional 2</h3>
+                  <p class="linea-tiempo-subtitulo">Empresa provisional 2</p>
+                </div>
+              </li>
+              <li class="linea-tiempo-entrada">
+                <time class="linea-tiempo-fecha" datetime="2021">2021</time>
+                <div class="linea-tiempo-cuerpo">
+                  <h3 class="linea-tiempo-titulo">Puesto provisional 3</h3>
+                  <p class="linea-tiempo-subtitulo">Empresa provisional 3</p>
+                </div>
+              </li>
+              <li class="linea-tiempo-entrada">
+                <time class="linea-tiempo-fecha" datetime="2019">2019</time>
+                <div class="linea-tiempo-cuerpo">
+                  <h3 class="linea-tiempo-titulo">Puesto provisional 4</h3>
+                  <p class="linea-tiempo-subtitulo">Empresa provisional 4</p>
+                </div>
+              </li>
+            </ol>
+          </div>
+        </div>
       </section>
 
       <section class="seccion" id="proyectos">
-        <h2>Proyectos</h2>
-        <p>[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-        <p>[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-        <p>[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-        <p>[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+        <h2>
+          <button class="seccion-alternar" type="button" aria-expanded="false" aria-controls="contenido-proyectos">
+            <span class="seccion-titulo">Proyectos</span>
+            <span class="seccion-flecha" aria-hidden="true">&#8250;</span>
+          </button>
+        </h2>
+        <div class="seccion-contenido" id="contenido-proyectos" inert>
+          <div class="seccion-interior">
+            <p>[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            <p>[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            <p>[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            <p>[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+          </div>
+        </div>
       </section>
 
       <section class="seccion" id="meritos">
-        <h2>Méritos y reconocimientos</h2>
-        <p>[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-        <p>[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-        <p>[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-        <p>[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+        <h2>
+          <button class="seccion-alternar" type="button" aria-expanded="false" aria-controls="contenido-meritos">
+            <span class="seccion-titulo">Méritos y reconocimientos</span>
+            <span class="seccion-flecha" aria-hidden="true">&#8250;</span>
+          </button>
+        </h2>
+        <div class="seccion-contenido" id="contenido-meritos" inert>
+          <div class="seccion-interior">
+            <p>[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            <p>[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            <p>[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            <p>[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="seccion" id="estudios">
+        <h2>
+          <button class="seccion-alternar" type="button" aria-expanded="false" aria-controls="contenido-estudios">
+            <span class="seccion-titulo">Estudios</span>
+            <span class="seccion-flecha" aria-hidden="true">&#8250;</span>
+          </button>
+        </h2>
+        <div class="seccion-contenido" id="contenido-estudios" inert>
+          <div class="seccion-interior">
+            <p>[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            <p>[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            <p>[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            <p>[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+          </div>
+        </div>
       </section>
 
     </main>
