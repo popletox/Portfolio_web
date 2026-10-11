@@ -30,6 +30,11 @@ img {
   --ancho-panel: clamp(220px, 20vw, 360px);
   --duracion-transicion: 300ms;
   --espacio: 1.5rem;
+  --color-acento: #1a73e8;
+  --color-texto-suave: #555555;
+  --alto-degradado-cabecera: 2rem;
+  --margen-ancla: 9rem;
+  --z-cabecera: 5;
 }
 
 body {
@@ -52,6 +57,73 @@ main {
 
 .seccion {
   margin-bottom: calc(var(--espacio) * 2);
+  scroll-margin-top: var(--margen-ancla);
+}
+
+/* Cabecera permanente */
+.cabecera {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-cabecera);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--espacio);
+  padding: var(--espacio) calc(var(--espacio) * 1.5);
+  background: var(--color-fondo);
+}
+
+.cabecera::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: var(--alto-degradado-cabecera);
+  background: linear-gradient(to bottom, var(--color-fondo), transparent);
+  pointer-events: none;
+}
+
+.cabecera-texto {
+  min-width: 0;
+}
+
+.cabecera-nombre {
+  font-size: clamp(1.75rem, 3.5vw, 2.75rem);
+  line-height: 1.15;
+}
+
+.cabecera-subtitulo {
+  margin-top: 0.25rem;
+  color: var(--color-texto-suave);
+}
+
+.cabecera-contacto {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.boton-contacto {
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  background: var(--color-fondo-suave);
+  color: var(--color-texto);
+  text-decoration: none;
+  transition:
+    background-color var(--duracion-transicion) ease,
+    color var(--duracion-transicion) ease;
+}
+
+.boton-contacto:hover {
+  background: var(--color-acento);
+  color: var(--color-fondo);
+}
+
+.boton-contacto:focus-visible {
+  outline: 3px solid var(--color-foco);
+  outline-offset: 2px;
 }
 
 .seccion h2 {
@@ -161,6 +233,21 @@ body.panel-abierto .boton-destacado-flecha {
 
   body.panel-abierto .pagina {
     padding-right: 0;
+  }
+
+  .cabecera {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 1rem var(--espacio);
+  }
+
+  .cabecera-nombre {
+    font-size: 1.5rem;
+  }
+
+  .cabecera-subtitulo {
+    font-size: 0.9rem;
   }
 }
 
