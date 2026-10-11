@@ -12,9 +12,9 @@ Diseño limpio, plano y con espacio libre. Evitar bordes marcados y contenedores
 
 3. Encabezado permanente
 
-En ordenador: nombre completo, subtítulo de perfil (desarrollo de videojuegos / software), enlaces de correo y LinkedIn y acceso a Opciones. Permanece visible al desplazarse. Fondo del tema activo, opaco detrás del nombre, que se desvanece mediante un degradado hacia el contenido: los textos que pasan por debajo dejan de verse sin interferir con el encabezado.
+En ordenador: nombre completo, subtítulo de perfil (desarrollo de videojuegos / software), enlaces de LinkedIn, itch.io y correo como iconos (en todas las pantallas) y acceso a Opciones. Permanece visible al desplazarse. Fondo del tema activo, opaco detrás del nombre, que se desvanece mediante un degradado hacia el contenido: los textos que pasan por debajo dejan de verse sin interferir con el encabezado.
 
-En móvil: versión compacta, inicialmente visible, con nombre abreviado (por concretar) y enlaces accesibles mediante iconos. Puede minimizarse al hacer scroll. Ajustar su altura para dejar espacio útil al contenido.
+En móvil: arriba del todo se ve completa; al bajar se compacta a una línea con el nombre abreviado "Miguel A. Torrijos" y los iconos, y recupera el tamaño al volver arriba. Ajustar su altura para dejar espacio útil al contenido.
 
 4. Secciones y estado inicial
 

@@ -1,6 +1,183 @@
 // Debe coincidir con la media query del panel inferior en estilos/comun.css
 var DISPOSICION_VERTICAL = '(max-width: 768px), (max-aspect-ratio: 3/4)';
 
+// Cabecera compacta en móvil. Histéresis: se compacta al pasar de
+// UMBRAL_COMPACTAR y vuelve al normal solo por debajo de UMBRAL_NORMAL, para
+// que el cambio de altura de la cabecera no provoque un bucle de saltos
+var CABECERA_ESTRECHA = '(max-width: 768px)'; // igual que la media query de la cabecera
+var UMBRAL_COMPACTAR = 48;
+var UMBRAL_NORMAL = 8;
+
+// Ajusta la cabecera al estado que tendrá con el scroll indicado, sin animar.
+// Devuelve true si ha cambiado (para volver a medir). La usa navegarAProyecto.
+var ajustarCabeceraParaScroll = function () { return false; };
+
+(function () {
+  var cabecera = document.querySelector('.cabecera');
+  if (!cabecera) return;
+  var consultaEstrecha = window.matchMedia(CABECERA_ESTRECHA);
+  var movimientoReducido = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var pendiente = false;
+  var MARGEN_TRANSICION = 50; // ms extra para cubrir el final de la transición
+
+  // Altura constante en el flujo: al compactarse, la cabecera recupera con
+  // margin-bottom (--compensacion-cabecera) lo que pierde de alto. Así el
+  // contenido no se mueve, el navegador no reajusta el scroll y no hay bucle.
+  // Durante la transición se recalcula en cada frame con el alto real.
+  var altoNormal = 0;
+  var finCambio = 0; // hasta cuándo no se admite otro cambio de estado
+  var bucle = 0;
+  var remedirPendiente = false;
+  var anchoMedido = window.innerWidth;
+
+  function duracionTransicion() {
+    var valor = getComputedStyle(document.documentElement).getPropertyValue('--duracion-transicion').trim();
+    var numero = parseFloat(valor) || 0;
+    return /ms$/.test(valor) ? numero : numero * 1000;
+  }
+
+  function sinAnimaciones() {
+    return movimientoReducido.matches || document.body.classList.contains('sin-transiciones');
+  }
+
+  function enTransicion() {
+    return Date.now() < finCambio;
+  }
+
+  function compensar() {
+    var valor = consultaEstrecha.matches
+      ? Math.max(0, altoNormal - cabecera.getBoundingClientRect().height)
+      : 0;
+    cabecera.style.setProperty('--compensacion-cabecera', valor + 'px');
+  }
+
+  // Alto de la cabecera normal; si está compacta se mide sin animar y se
+  // restaura en el mismo frame (no llega a pintarse)
+  function medirAltoNormal() {
+    remedirPendiente = false;
+    anchoMedido = window.innerWidth;
+    if (consultaEstrecha.matches) {
+      var compacta = cabecera.classList.contains('cabecera--compacta');
+      cabecera.classList.add('cabecera--instantanea');
+      if (compacta) cabecera.classList.remove('cabecera--compacta');
+      altoNormal = cabecera.getBoundingClientRect().height;
+      if (compacta) cabecera.classList.add('cabecera--compacta');
+      void cabecera.offsetHeight;
+      cabecera.classList.remove('cabecera--instantanea');
+    } else {
+      altoNormal = 0;
+    }
+    compensar();
+  }
+
+  // Ajusta la compensación en cada frame hasta que acaba la transición
+  function seguirTransicion() {
+    cancelAnimationFrame(bucle);
+    function paso() {
+      compensar();
+      if (enTransicion()) {
+        bucle = requestAnimationFrame(paso);
+        return;
+      }
+      bucle = 0;
+      if (remedirPendiente) medirAltoNormal();
+      actualizar(); // el scroll pudo cambiar durante el bloqueo
+    }
+    bucle = requestAnimationFrame(paso);
+  }
+
+  function recalcular() {
+    if (enTransicion()) {
+      remedirPendiente = true;
+      compensar();
+      return;
+    }
+    medirAltoNormal();
+    actualizar();
+  }
+
+  function estadoPara(scroll, actual) {
+    if (!consultaEstrecha.matches) return false;
+    if (scroll > UMBRAL_COMPACTAR) return true;
+    if (scroll < UMBRAL_NORMAL) return false;
+    return actual;
+  }
+
+  // Durante un desplazamiento programado se usa el scroll de destino, para que
+  // la cabecera no se expanda al salir de cerca del inicio
+  var objetivo = null;
+  var finObjetivo = 0;
+
+  function actualizar() {
+    pendiente = false;
+    if (enTransicion()) return; // se reevalúa al terminar la transición
+    var actual = cabecera.classList.contains('cabecera--compacta');
+    var scroll = window.scrollY;
+    if (objetivo !== null) {
+      if (Math.abs(scroll - objetivo) <= 1 || Date.now() > finObjetivo) objetivo = null;
+      else scroll = objetivo;
+    }
+    var nuevo = estadoPara(scroll, actual);
+    if (nuevo === actual) return;
+    cabecera.classList.toggle('cabecera--compacta', nuevo);
+    if (consultaEstrecha.matches && !sinAnimaciones()) {
+      finCambio = Date.now() + duracionTransicion() + MARGEN_TRANSICION;
+      seguirTransicion();
+    }
+    compensar();
+  }
+
+  window.addEventListener('scroll', function () {
+    if (pendiente) return;
+    pendiente = true;
+    requestAnimationFrame(actualizar);
+  }, { passive: true });
+
+  if (consultaEstrecha.addEventListener) {
+    consultaEstrecha.addEventListener('change', recalcular);
+  } else if (consultaEstrecha.addListener) {
+    consultaEstrecha.addListener(recalcular);
+  }
+
+  // Solo si cambia el ancho: en móvil la barra del navegador cambia el alto al hacer scroll
+  var resizePendiente = false;
+  window.addEventListener('resize', function () {
+    if (resizePendiente) return;
+    resizePendiente = true;
+    requestAnimationFrame(function () {
+      resizePendiente = false;
+      if (window.innerWidth !== anchoMedido) recalcular();
+    });
+  });
+
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(recalcular);
+  }
+
+  medirAltoNormal();
+  actualizar();
+
+  ajustarCabeceraParaScroll = function (scroll) {
+    var actual = cabecera.classList.contains('cabecera--compacta');
+    objetivo = scroll;
+    finObjetivo = Date.now() + 1500;
+    var nuevo = estadoPara(scroll, actual);
+    var enCurso = enTransicion();
+    if (nuevo === actual && !enCurso) return false;
+    // Forzado: salta el bloqueo y termina cualquier transición en curso
+    cancelAnimationFrame(bucle);
+    bucle = 0;
+    finCambio = 0;
+    cabecera.classList.add('cabecera--instantanea');
+    cabecera.classList.toggle('cabecera--compacta', nuevo);
+    void cabecera.offsetHeight; // aplica el tamaño final antes de medir
+    cabecera.classList.remove('cabecera--instantanea');
+    if (remedirPendiente) medirAltoNormal();
+    else compensar();
+    return true;
+  };
+})();
+
 // Panel destacado: estado inicial y botón de apertura/cierre
 (function () {
   var cuerpo = document.body;
@@ -277,7 +454,15 @@ function filtroProyectosActivo() {
     return { arriba: arriba, alto: Math.max(0, abajo - arriba) };
   }
 
+  // Si el destino cambia el estado de la cabecera (móvil), se aplica ya sin
+  // animar y se recalcula con su altura final
   function calcularDestino(entrada) {
+    var destino = medirDestino(entrada);
+    if (ajustarCabeceraParaScroll(destino)) destino = medirDestino(entrada);
+    return destino;
+  }
+
+  function medirDestino(entrada) {
     var rect = entrada.getBoundingClientRect();
     var zona = zonaVisible();
     var desplazamiento = rect.height > zona.alto

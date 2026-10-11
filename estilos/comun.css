@@ -40,6 +40,9 @@ img {
   --alto-degradado-cabecera: 2rem;
   --margen-ancla: 9rem;
   --z-cabecera: 5;
+  --tamano-boton-contacto: 2.5rem;
+  --tamano-icono-contacto: 1.25rem;
+  --area-tactil-minima: 2.75rem;
   --ancho-contenido: 72rem;
   --alto-panel-inferior: min(40vh, 18rem);
   --lado-destacado-inferior: 7rem;
@@ -150,6 +153,16 @@ main {
   line-height: 1.15;
 }
 
+/* El nombre corto solo se usa en la cabecera compacta de móvil */
+.cabecera-nombre-completo,
+.cabecera-nombre-corto {
+  display: block;
+}
+
+.cabecera-nombre-corto {
+  display: none;
+}
+
 .cabecera-subtitulo {
   margin-top: 0.25rem;
   color: var(--color-texto-suave);
@@ -162,15 +175,38 @@ main {
   flex-shrink: 0;
 }
 
+/* Botones de contacto: iconos en círculo */
 .boton-contacto {
-  padding: 0.4rem 0.9rem;
-  border-radius: 999px;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--tamano-boton-contacto);
+  height: var(--tamano-boton-contacto);
+  border-radius: 50%;
   background: var(--color-fondo-suave);
   color: var(--color-texto);
   text-decoration: none;
   transition:
     background-color var(--duracion-transicion) ease,
-    color var(--duracion-transicion) ease;
+    color var(--duracion-transicion) ease,
+    width var(--duracion-transicion) ease,
+    height var(--duracion-transicion) ease;
+}
+
+.boton-contacto svg {
+  width: var(--tamano-icono-contacto);
+  height: var(--tamano-icono-contacto);
+  transition:
+    width var(--duracion-transicion) ease,
+    height var(--duracion-transicion) ease;
+}
+
+/* Amplía el área táctil hasta el mínimo aunque el círculo sea menor */
+.boton-contacto::before {
+  content: "";
+  position: absolute;
+  inset: calc((var(--tamano-boton-contacto) - var(--area-tactil-minima)) / 2);
 }
 
 .boton-contacto:hover {
@@ -953,19 +989,105 @@ body.panel-abierto .boton-destacado-flecha {
     padding: var(--espacio);
   }
 
+  /* Rejilla: nombre e iconos en la primera fila, subtítulo debajo */
   .cabecera {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.75rem;
+    --tamano-boton-contacto: 2.75rem;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-rows: auto 1fr;
+    align-items: center;
+    gap: 0 0.75rem;
     padding: 1rem var(--espacio);
+    /* Alto constante en el flujo: el margen (transparente) recupera lo que
+       pierde al compactarse. Lo calcula scripts/main.js en cada frame de la
+       transición, por eso el margen no lleva transition propia */
+    margin-bottom: var(--compensacion-cabecera, 0px);
+    overflow-anchor: none;
+    transition:
+      padding var(--duracion-transicion) ease,
+      grid-template-rows var(--duracion-transicion) ease;
+  }
+
+  .cabecera-texto {
+    display: contents;
   }
 
   .cabecera-nombre {
+    grid-column: 1;
+    grid-row: 1;
+    display: grid;
     font-size: 1.5rem;
+    transition: font-size var(--duracion-transicion) ease;
+  }
+
+  /* Ambos nombres superpuestos en una celda para el fundido cruzado */
+  .cabecera-nombre-completo,
+  .cabecera-nombre-corto {
+    grid-area: 1 / 1;
+    transition: opacity var(--duracion-transicion) ease;
+  }
+
+  .cabecera-nombre-corto {
+    display: block;
+    opacity: 0;
+    white-space: nowrap;
+  }
+
+  .cabecera-contacto {
+    grid-column: 2;
+    grid-row: 1;
+    flex-wrap: nowrap;
+  }
+
+  .cabecera-subtitulo-contenedor {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    min-height: 0;
+    overflow: hidden;
+    transition: opacity var(--duracion-transicion) ease;
   }
 
   .cabecera-subtitulo {
     font-size: 0.9rem;
+  }
+
+  /* Cabecera compacta al bajar: una fila con el nombre corto y los iconos */
+  .cabecera--compacta {
+    --tamano-boton-contacto: 2.25rem;
+    --tamano-icono-contacto: 1.1rem;
+    grid-template-rows: auto 0fr;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+
+  .cabecera--compacta .cabecera-nombre {
+    font-size: 1.15rem;
+  }
+
+  /* El completo sigue en el árbol de accesibilidad (solo opacidad) y en una
+     línea para no dar altura extra */
+  .cabecera--compacta .cabecera-nombre-completo {
+    opacity: 0;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  .cabecera--compacta .cabecera-nombre-corto {
+    opacity: 1;
+  }
+
+  .cabecera--compacta .cabecera-subtitulo-contenedor {
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity var(--duracion-transicion) ease,
+      visibility 0s linear var(--duracion-transicion);
+  }
+
+  /* Sin animar al forzar el estado antes de medir (navegación a proyectos) */
+  .cabecera--instantanea,
+  .cabecera--instantanea * {
+    transition: none !important;
   }
 
   /* La fecha pasa encima del título, en la columna del cuerpo, y siempre
