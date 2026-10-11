@@ -35,6 +35,7 @@ img {
   --alto-degradado-cabecera: 2rem;
   --margen-ancla: 9rem;
   --z-cabecera: 5;
+  --ancho-contenido: 72rem;
 }
 
 body {
@@ -50,9 +51,16 @@ body {
 }
 
 main {
-  max-width: 50rem;
+  max-width: var(--ancho-contenido);
   margin: 0 auto;
-  padding: var(--espacio);
+  /* Mismo padding horizontal que la cabecera para alinear con el nombre */
+  padding: var(--espacio) calc(var(--espacio) * 1.5);
+}
+
+.introduccion {
+  margin-bottom: calc(var(--espacio) * 2);
+  font-size: 1.125rem;
+  color: var(--color-texto-suave);
 }
 
 .seccion {
@@ -233,6 +241,10 @@ body.panel-abierto .boton-destacado-flecha {
 
   body.panel-abierto .pagina {
     padding-right: 0;
+  }
+
+  main {
+    padding: var(--espacio);
   }
 
   .cabecera {
