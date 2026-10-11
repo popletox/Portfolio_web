@@ -50,8 +50,9 @@ img {
   --separacion-entradas: 2.25rem;
   --hueco-columnas-tiempo: 0.75rem;
   --ancho-columna-proyectos: calc(var(--tamano-miniatura-max) * 4 + var(--hueco-miniaturas) * 3);
-  --tamano-miniatura-max: 4rem;
+  --tamano-miniatura-max: 3.25rem;
   --hueco-miniaturas: 0.5rem;
+  --tamano-miniatura-ampliada: calc((var(--ancho-columna-proyectos) - var(--hueco-miniaturas)) / 2);
   --color-miniatura-provisional: #4caf50;
 }
 
@@ -431,16 +432,86 @@ main {
   --ancho-columna-fecha: var(--ancho-columna-proyectos);
 }
 
+/* El cuerpo abarca las dos filas; la segunda (flexible) absorbe la altura
+   del detalle para que la fecha y las miniaturas no se desplacen */
+.linea-tiempo--proyectos .linea-tiempo-entrada {
+  grid-template-rows: auto 1fr;
+}
+
+.linea-tiempo--proyectos .linea-tiempo-cuerpo {
+  grid-row: 1 / span 2;
+}
+
 .linea-tiempo--proyectos .proyecto-miniaturas {
   grid-column: 1;
   grid-row: 2;
+  align-self: start;
+  /* Rejilla fija de 2 columnas: las miniaturas nunca cambian de celda.
+     Se animan las pistas: la 1.ª fila y las columnas pasan del tamaño
+     pequeño al ampliado; las filas extra (implícitas) pasan de 0 al
+     ampliado. Al cerrar, esperan al fundido de las miniaturas extra. */
+  --celda-miniatura: var(--tamano-miniatura-max);
+  --celda-miniatura-abierta: var(--tamano-miniatura-ampliada);
   display: grid;
-  grid-template-columns: repeat(4, var(--tamano-miniatura-max));
+  grid-template-columns: repeat(2, var(--celda-miniatura));
+  grid-template-rows: var(--celda-miniatura);
+  grid-auto-rows: 0;
   justify-content: end;
-  gap: var(--hueco-miniaturas);
+  align-content: start;
+  column-gap: var(--hueco-miniaturas);
+  row-gap: 0;
   margin: 0.5rem 0 0;
   padding: 0;
   list-style: none;
+  transition:
+    grid-template-columns var(--duracion-expansion) ease var(--duracion-fundido),
+    grid-template-rows var(--duracion-expansion) ease var(--duracion-fundido),
+    grid-auto-rows var(--duracion-expansion) ease var(--duracion-fundido),
+    row-gap var(--duracion-expansion) ease var(--duracion-fundido);
+}
+
+.linea-tiempo--proyectos .linea-tiempo-entrada--abierta .proyecto-miniaturas {
+  grid-template-columns: repeat(2, var(--celda-miniatura-abierta));
+  grid-template-rows: var(--celda-miniatura-abierta);
+  grid-auto-rows: var(--celda-miniatura-abierta);
+  row-gap: var(--hueco-miniaturas);
+  transition:
+    grid-template-columns var(--duracion-expansion) ease,
+    grid-template-rows var(--duracion-expansion) ease,
+    grid-auto-rows var(--duracion-expansion) ease,
+    row-gap var(--duracion-expansion) ease;
+}
+
+/* Cada miniatura ocupa su celda; overflow oculto para que una fila de
+   altura 0 no deje ver nada */
+.linea-tiempo--proyectos .proyecto-miniaturas > li {
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* Impar al final (incluida la única): junto a la línea, en la columna 2 */
+.linea-tiempo--proyectos .proyecto-miniaturas > li:last-child:nth-child(odd) {
+  grid-column: 2;
+}
+
+/* Contraído: solo se ven las 2 primeras. Al cerrar: fundido primero y
+   visibility oculta cuando ya se han cerrado las filas */
+.linea-tiempo--proyectos .proyecto-miniaturas > li:nth-child(n+3) {
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity var(--duracion-fundido) ease,
+    visibility 0s linear calc(var(--duracion-fundido) + var(--duracion-expansion));
+}
+
+/* Al abrir: aparecen en su sitio tras la expansión */
+.linea-tiempo--proyectos .linea-tiempo-entrada--abierta .proyecto-miniaturas > li:nth-child(n+3) {
+  opacity: 1;
+  visibility: visible;
+  transition:
+    opacity var(--duracion-fundido) ease var(--duracion-expansion),
+    visibility 0s linear;
 }
 
 .proyecto-miniatura {
@@ -746,11 +817,23 @@ body.panel-abierto .boton-destacado-flecha {
     --ancho-columna-fecha: 0rem;
   }
 
+  .linea-tiempo--proyectos .linea-tiempo-entrada {
+    grid-template-rows: none;
+  }
+
+  .linea-tiempo--proyectos .linea-tiempo-cuerpo {
+    grid-row: 2;
+  }
+
   .linea-tiempo--proyectos .proyecto-miniaturas {
     grid-column: 3;
     grid-row: 3;
-    grid-template-columns: repeat(4, minmax(0, var(--tamano-miniatura-max)));
+    --celda-miniatura-abierta: min(var(--tamano-miniatura-ampliada), 40vw);
     justify-content: start;
+  }
+
+  .linea-tiempo--proyectos .proyecto-miniaturas > li:last-child:nth-child(odd) {
+    grid-column: 1;
   }
 }
 

@@ -42,10 +42,9 @@ Formato de fecha: contraída, «AAAA – AAAA»; expandida, «mes, AAAA – mes,
 
 Una única lista cronológica con filtros por tecnología: Todos, Unity, Unreal, Roblox y las que correspondan al contenido real. El filtro modifica la misma lista y conserva el orden temporal. Evitar subcategorías desplegables. No añadir categorías vacías de herramientas; cuando existan, diferenciar tipo de proyecto y tecnología.
 
-En ordenador: línea temporal a la izquierda, con el ancho justo para las miniaturas, dejando más espacio al texto. A su izquierda se muestran hasta cuatro miniaturas en una fila; a la derecha, nombre, tecnología, resumen breve e icono de desplegar. La fecha es única (año; "mes, año" al expandir, igual que en Méritos) y va en la columna izquierda, sobre las miniaturas. A la derecha van el nombre y la tecnología como subtítulo.
+En ordenador: línea temporal a la izquierda, con el ancho justo para las miniaturas, dejando más espacio al texto. A su izquierda se muestran como máximo dos miniaturas en una fila; a la derecha, nombre, tecnología, resumen breve e icono de desplegar. La fecha es única (año; "mes, año" al expandir, igual que en Méritos) y va en la columna izquierda, sobre las miniaturas. A la derecha van el nombre y la tecnología como subtítulo.
 
-Al expandir: aparece el detalle a la derecha y las imágenes pueden crecer y pasar a una cuadrícula de dos por dos a la izquierda. Limitar el tamaño de las imágenes: no estirarlas ni hacer que dependan de la longitud de la descripción. Admitir menos miniaturas si cuatro resultan demasiado pequeñas.
-
+Al expandir: aparece el detalle a la derecha (descripción, aptitudes clave y, de forma opcional, un enlace a donde esté publicado el proyecto) y las miniaturas crecen y se muestran todas, sin límite, en 2 columnas dentro de la misma columna izquierda, sin que la línea se mueva. Limitar el tamaño de las imágenes: no estirarlas ni hacer que dependan de la longitud de la descripción. Admitir menos miniaturas si cuatro resultan demasiado pequeñas.
 Al pasar el ratón por una miniatura: ampliación superpuesta, sin desplazar la página. En móvil: imágenes debajo del título y ampliación al tocar, con cierre claro. Mantener las proporciones y evitar que la vista ampliada salga de la pantalla.
 
 8. Méritos y reconocimientos
