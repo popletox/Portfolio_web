@@ -1,4 +1,5 @@
-// Contenido: carga datos/contenido.json y monta la introducción y Experiencia.
+// Contenido: carga datos/contenido.json y monta la introducción, Experiencia,
+// Proyectos, Méritos y Estudios.
 // Al terminar (bien o mal) emite 'contenido:listo' o 'contenido:error' en document.
 (function () {
   var RUTA_DATOS = 'datos/contenido.json';
@@ -131,12 +132,40 @@
     return bloque;
   }
 
-  // Entrada de línea de tiempo con fechas de rango (Experiencia, Estudios...)
+  // Fecha simple: corta "AAAA" y larga "mes, AAAA"
+  function crearFechaSimple(fecha) {
+    var contenedor = crear('p', 'linea-tiempo-fecha linea-tiempo-fecha--simple');
+    var corta = crear('span', 'linea-tiempo-fecha-corta');
+    corta.appendChild(crearTime(formatearAnio(fecha), formatearAnio(fecha)));
+    var larga = crear('span', 'linea-tiempo-fecha-larga');
+    larga.appendChild(crearTime(fecha, formatearMesAnio(fecha)));
+    contenedor.appendChild(corta);
+    contenedor.appendChild(larga);
+    return contenedor;
+  }
+
+  // Bloque con h4 y un único enlace (Enlace de proyecto, Proyecto de mérito)
+  function crearBloqueEnlace(titulo, enlace) {
+    var bloque = crear('div', 'linea-tiempo-proyectos');
+    bloque.appendChild(crear('h4', 'linea-tiempo-proyectos-titulo', titulo));
+    var p = crear('p', 'linea-tiempo-enlace-proyecto');
+    p.appendChild(enlace);
+    bloque.appendChild(p);
+    return bloque;
+  }
+
+  // Entrada de línea de tiempo con fechas de rango (Experiencia, Estudios)
   // datos: { idDetalle, titulo, subtitulo, fechaInicio, fechaFin, descripcion, aptitudes, proyectos }
   function crearEntradaRango(datos) {
     var entrada = crear('li', 'linea-tiempo-entrada');
     entrada.appendChild(crearFechaRango(datos.fechaInicio, datos.fechaFin));
+    entrada.appendChild(crearCuerpo(datos));
+    return entrada;
+  }
 
+  // Cuerpo común: h3 con botón, subtítulo y detalle desplegable.
+  // datos.claseSubtitulo y datos.extra (nodo final del detalle) son opcionales.
+  function crearCuerpo(datos) {
     var cuerpo = crear('div', 'linea-tiempo-cuerpo');
 
     var h3 = crear('h3', 'linea-tiempo-titulo');
@@ -151,7 +180,8 @@
     h3.appendChild(boton);
     cuerpo.appendChild(h3);
 
-    cuerpo.appendChild(crear('p', 'linea-tiempo-subtitulo', datos.subtitulo));
+    var claseSubtitulo = 'linea-tiempo-subtitulo' + (datos.claseSubtitulo ? ' ' + datos.claseSubtitulo : '');
+    cuerpo.appendChild(crear('p', claseSubtitulo, datos.subtitulo));
 
     var detalle = crear('div', 'linea-tiempo-detalle');
     detalle.id = datos.idDetalle;
@@ -167,10 +197,97 @@
     if (Array.isArray(datos.proyectos) && datos.proyectos.length) {
       interior.appendChild(crearListaProyectos(datos.proyectos));
     }
+    if (datos.extra) interior.appendChild(datos.extra);
     detalle.appendChild(interior);
     cuerpo.appendChild(detalle);
+    return cuerpo;
+  }
 
-    entrada.appendChild(cuerpo);
+  // ---- Imágenes de proyectos ----
+
+  var ENCUADRES_VALIDOS = ['arriba', 'abajo', 'izquierda', 'derecha'];
+
+  // Rutas relativas o http(s); se rechaza cualquier otro esquema (javascript:, data:...)
+  function esRutaImagenSegura(ruta) {
+    if (typeof ruta !== 'string') return false;
+    var valor = ruta.trim();
+    if (valor === '' || valor.indexOf('//') === 0) return false;
+    if (/^https?:\/\//i.test(valor)) return true;
+    return !/^[a-z][a-z0-9+.\-]*:/i.test(valor);
+  }
+
+  function crearMiniatura(imagen, numero, tituloProyecto) {
+    var li = crear('li');
+    var boton = crear('button', 'proyecto-miniatura');
+    boton.type = 'button';
+    boton.setAttribute('aria-label', 'Ampliar imagen ' + numero + ' de ' + tituloProyecto);
+    // Sin miniatura válida, el botón queda vacío (cuadrado provisional)
+    if (imagen && esRutaImagenSegura(imagen.miniatura)) {
+      var img = document.createElement('img');
+      img.src = imagen.miniatura.trim();
+      img.alt = imagen.alt || '';
+      img.loading = 'lazy';
+      img.decoding = 'async';
+      if (ENCUADRES_VALIDOS.indexOf(imagen.encuadre) !== -1) {
+        img.className = 'encuadre-' + imagen.encuadre;
+      }
+      // El visor lee data-imagen-grande del botón
+      if (esRutaImagenSegura(imagen.grande)) {
+        boton.setAttribute('data-imagen-grande', imagen.grande.trim());
+      }
+      boton.appendChild(img);
+    }
+    li.appendChild(boton);
+    return li;
+  }
+
+  function crearEntradaProyecto(proyecto, indice) {
+    var entrada = crear('li', 'linea-tiempo-entrada');
+    if (proyecto.id) entrada.id = proyecto.id;
+    entrada.appendChild(crearFechaSimple(proyecto.fecha));
+
+    var miniaturas = crear('ul', 'proyecto-miniaturas');
+    (proyecto.imagenes || []).forEach(function (imagen, i) {
+      miniaturas.appendChild(crearMiniatura(imagen, i + 1, proyecto.titulo));
+    });
+    entrada.appendChild(miniaturas);
+
+    var extra = null;
+    if (proyecto.enlace && proyecto.enlace.texto) {
+      extra = crearBloqueEnlace('Enlace',
+        crearEnlace(proyecto.enlace.texto, proyecto.enlace.url, 'enlace-proyecto'));
+    }
+    entrada.appendChild(crearCuerpo({
+      idDetalle: 'detalle-proyecto-' + (indice + 1),
+      titulo: proyecto.titulo,
+      subtitulo: proyecto.categoria,
+      claseSubtitulo: 'proyecto-categoria',
+      descripcion: proyecto.descripcion,
+      aptitudes: proyecto.aptitudes,
+      extra: extra
+    }));
+    return entrada;
+  }
+
+  function crearEntradaMerito(merito, indice, proyectosPorId) {
+    var entrada = crear('li', 'linea-tiempo-entrada');
+    entrada.appendChild(crearFechaSimple(merito.fecha));
+
+    var extra = null;
+    var proyecto = merito.proyecto && proyectosPorId[merito.proyecto];
+    if (proyecto) {
+      var enlace = crear('a', 'enlace-proyecto', 'Ver proyecto: ' + proyecto.titulo);
+      enlace.setAttribute('href', '#' + proyecto.id);
+      enlace.setAttribute('data-proyecto', proyecto.id);
+      extra = crearBloqueEnlace('Proyecto', enlace);
+    }
+    entrada.appendChild(crearCuerpo({
+      idDetalle: 'detalle-meritos-' + (indice + 1),
+      titulo: merito.titulo,
+      subtitulo: merito.entidad,
+      descripcion: merito.descripcion,
+      extra: extra
+    }));
     return entrada;
   }
 
@@ -200,6 +317,45 @@
     lista.replaceChildren.apply(lista, entradas);
   }
 
+  function montarEstudios(estudios) {
+    var lista = document.querySelector('#estudios .linea-tiempo[data-seccion="estudios"]');
+    if (!lista) return;
+    var entradas = ordenarPorFecha(estudios || [], 'fechaInicio').map(function (item, indice) {
+      return crearEntradaRango({
+        idDetalle: 'detalle-estudios-' + (indice + 1),
+        titulo: item.titulo,
+        subtitulo: item.institucion,
+        fechaInicio: item.fechaInicio,
+        fechaFin: item.fechaFin,
+        descripcion: item.descripcion,
+        aptitudes: item.aptitudes,
+        proyectos: item.proyectos
+      });
+    });
+    lista.replaceChildren.apply(lista, entradas);
+  }
+
+  function montarProyectos(proyectos) {
+    var lista = document.querySelector('#proyectos .linea-tiempo[data-seccion="proyectos"]');
+    if (!lista) return;
+    var entradas = ordenarPorFecha(proyectos || [], 'fecha').map(crearEntradaProyecto);
+    lista.replaceChildren.apply(lista, entradas);
+  }
+
+  // Los títulos de proyecto se toman directamente de los datos del JSON
+  function montarMeritos(meritos, proyectos) {
+    var lista = document.querySelector('#meritos .linea-tiempo[data-seccion="meritos"]');
+    if (!lista) return;
+    var proyectosPorId = {};
+    (proyectos || []).forEach(function (proyecto) {
+      if (proyecto && proyecto.id) proyectosPorId[proyecto.id] = proyecto;
+    });
+    var entradas = ordenarPorFecha(meritos || [], 'fecha').map(function (item, indice) {
+      return crearEntradaMerito(item, indice, proyectosPorId);
+    });
+    lista.replaceChildren.apply(lista, entradas);
+  }
+
   function mostrarAviso(contenedor) {
     if (!contenedor || contenedor.querySelector('.aviso-carga')) return;
     contenedor.appendChild(crear('p', 'aviso-carga', TEXTO_AVISO));
@@ -217,12 +373,17 @@
     .then(function (datos) {
       montarIntroduccion(datos.introduccion);
       montarExperiencia(datos.experiencia);
+      montarProyectos(datos.proyectos);
+      montarMeritos(datos.meritos, datos.proyectos);
+      montarEstudios(datos.estudios);
       emitir('contenido:listo', datos);
     })
     .catch(function (error) {
       console.error('Error al cargar el contenido:', error);
       mostrarAviso(document.querySelector('section.introduccion'));
-      mostrarAviso(document.querySelector('#experiencia .seccion-interior'));
+      ['experiencia', 'proyectos', 'meritos', 'estudios'].forEach(function (id) {
+        mostrarAviso(document.querySelector('#' + id + ' .seccion-interior'));
+      });
       emitir('contenido:error', error);
     });
 })();

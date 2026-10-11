@@ -61,7 +61,9 @@ Cada imagen:
 | `alt` | Sí | Descripción de la imagen (accesibilidad). |
 | `miniatura` | No | Ruta a la versión pequeña, p. ej. `"recursos/proyectos/mi-juego-1.jpg"`. Si falta, se muestra el cuadrado provisional. |
 | `grande` | No | Ruta a la versión grande para el visor. Si falta, el visor usa `miniatura`. |
-| `encuadre` | No | `"arriba"`, `"abajo"`, `"izquierda"` o `"derecha"`. Sin él, centrado. |
+| `encuadre` | No | `"arriba"`, `"abajo"`, `"izquierda"` o `"derecha"`. Sin él (o con otro valor), centrado. |
+
+Las rutas de `miniatura` y `grande` deben ser relativas (`recursos/...`) o empezar por `http://` o `https://`. Cualquier otra (`javascript:`, `data:`, `//...`) se ignora: sin `miniatura` válida se ve el cuadrado provisional.
 
 ### Ejemplo mínimo para añadir un proyecto
 
@@ -92,7 +94,7 @@ Copia este bloque dentro del array `"proyectos"`, separado del anterior por una 
 | `descripcion` | Sí | String o array de strings. |
 | `proyecto` | No | `id` de un proyecto. |
 
-**Enlazar un mérito con un proyecto:** pon en `proyecto` exactamente el `id` del proyecto (p. ej. `"proyecto": "mi-juego"`). El JS genera el enlace «Ver proyecto: Mi juego» con el `titulo` de ese proyecto, y al pulsarlo abre la sección Proyectos y lleva a esa entrada. Si el `id` no existe, no se muestra el enlace.
+**Enlazar un mérito con un proyecto:** pon en `proyecto` exactamente el `id` del proyecto (p. ej. `"proyecto": "mi-juego"`). El JS genera el enlace «Ver proyecto: Mi juego» con el `titulo` de ese proyecto (el texto no se escribe en el JSON) y `href="#<id>"`; al pulsarlo abre la sección Proyectos y lleva a esa entrada. Si el `id` no existe, no se muestra el enlace.
 
 ## Errores típicos de JSON
 
