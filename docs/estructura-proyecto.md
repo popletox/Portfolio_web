@@ -1,0 +1,14 @@
+# Estructura del proyecto
+
+Portfolio de una sola página con HTML, CSS y JavaScript, sin frameworks.
+
+| Ruta | Función |
+| --- | --- |
+| `index.html` | Página principal, en la raíz. Define el contenido y la estructura, sin estilos visuales incrustados. |
+| `estilos/` | CSS común: distribución, adaptación a móvil y transiciones. |
+| `estilos/temas/` | Un archivo CSS por tema, incluido el principal. Define colores, tipografías y estilos propios mediante variables compartidas. |
+| `scripts/` | JavaScript para desplegables, filtros, temas y otros comportamientos. |
+| `recursos/` | Imágenes, iconos y otros recursos visuales. |
+| `docs/` | Documentación: este archivo y `diseno-portfolio.md`, con los requisitos de diseño. |
+
+Antes de implementar una tarea, consulta `docs/diseno-portfolio.md` y respeta esta organización. Crea los archivos necesarios y conecta correctamente HTML, CSS y JavaScript.
