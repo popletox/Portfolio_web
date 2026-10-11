@@ -32,7 +32,7 @@ Una misma lógica de navegación; proyectos con mayor presencia visual
 
 6. Experiencia y Estudios
 
-Línea de tiempo vertical sencilla: años o rango de años a la izquierda; punto y línea; información a la derecha. Cada entrada muestra puesto o titulación, empresa o centro y fechas. Al activarla se despliega su explicación y, cuando proceda, enlaces. Estudios reutiliza el mismo patrón con textos más breves.
+Línea de tiempo vertical sencilla: años o rango de años a la izquierda; punto y línea; información a la derecha. Cada entrada muestra puesto o titulación, empresa o centro y fechas. Al activarla se despliega su explicación y, cuando proceda, enlaces. Estudios reutiliza el mismo patrón con textos más breves; su subtítulo indica la institución en lugar de la empresa.
 
 Mostrar una señal persistente de apertura (flecha u otro icono discreto). El cambio de fondo al pasar el ratón puede reforzarla. Permitir abrir y cerrar cada entrada, así como contraer la sección completa. En móvil, compactar la columna temporal conservando las fechas legibles.
 
@@ -50,7 +50,7 @@ Al pasar el ratón por una miniatura: ampliación superpuesta, sin desplazar la 
 
 8. Méritos y reconocimientos
 
-Línea de tiempo ligera, similar a Experiencia: año, nombre del premio y evento o entidad. Asociar cada reconocimiento a un proyecto cuando corresponda mediante un enlace interno visible.
+Línea de tiempo ligera, similar a Experiencia: contraída, muestra el año y el título del premio, sin entidad; expandida, muestra «mes, AAAA» (sin rango), la descripción y un único enlace al proyecto asociado. Asociar cada reconocimiento a un proyecto cuando corresponda mediante un enlace interno visible.
 
 Al activar Ver proyecto: abrir Proyectos si está cerrado, ajustar el filtro si oculta el destino, desplegar la entrada y desplazarse suavemente hasta su inicio. Resaltar brevemente el destino. Dejarlo visible por debajo del encabezado permanente.
 

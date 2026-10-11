@@ -471,11 +471,18 @@ main {
   padding-left: 1.25rem;
 }
 
-.linea-tiempo-proyectos-lista a {
+.linea-tiempo-proyectos-lista a,
+.enlace-proyecto {
   color: var(--color-acento);
 }
 
-.linea-tiempo-proyectos-lista a:focus-visible {
+/* Enlace único al proyecto asociado (Méritos) */
+.linea-tiempo .linea-tiempo-enlace-proyecto {
+  margin: 0.25rem 0 0;
+}
+
+.linea-tiempo-proyectos-lista a:focus-visible,
+.enlace-proyecto:focus-visible {
   outline: 3px solid var(--color-foco);
   outline-offset: 2px;
 }
