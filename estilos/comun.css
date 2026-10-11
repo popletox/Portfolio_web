@@ -39,8 +39,14 @@ img {
   --tamano-icono-contacto: 1.25rem;
   --area-tactil-minima: 2.75rem;
   --ancho-contenido: 72rem;
-  --alto-panel-inferior: min(40vh, 18rem);
-  --lado-destacado-inferior: 7rem;
+  --alto-panel-inferior: min(48vh, 26rem);
+  --lado-destacado-inferior: 5.5rem;
+  /* Carrusel de destacados: margen para que el foco no se recorte, duración
+     del desplazamiento y alto de la fila de puntos (botón + separación) */
+  --margen-foco-destacado: 0.5rem;
+  --duracion-diapositiva: 500ms;
+  --tamano-punto-destacado: 1.5rem;
+  --alto-puntos-destacado: calc(var(--tamano-punto-destacado) + 0.5rem);
   --ancho-columna-fecha: 8.5rem;
   --desplazamiento-titulo-tiempo: 0rem;
   --ancho-columna-punto: 1.5rem;
@@ -929,10 +935,31 @@ body.visor-abierto {
   outline-offset: 2px;
 }
 
+/* Mismo padding horizontal que la cabecera y main: el borde derecho del
+   texto queda alineado con ellos */
 .pie {
-  padding: var(--espacio);
-  text-align: center;
+  padding: 1rem calc(var(--espacio) * 1.5);
+  text-align: right;
   background: var(--color-fondo-suave);
+}
+
+/* Nota "Sobre esta web": pequeña y pegada a la derecha */
+.pie-nota {
+  max-width: 48ch;
+  margin: 0 0 0 auto;
+}
+
+.pie-nota-titulo {
+  margin-bottom: 0.3rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--color-titulo);
+}
+
+.pie-nota p {
+  font-size: 0.75rem;
+  line-height: 1.55;
+  color: var(--color-texto-suave);
 }
 
 /* Panel destacado */
@@ -943,7 +970,8 @@ body.visor-abierto {
   width: var(--ancho-panel);
   height: 100vh;
   height: 100dvh;
-  overflow-y: auto;
+  /* Sin scroll interno: el contenido se ajusta (ver .destacado-descripcion) */
+  overflow: hidden;
   padding: var(--espacio);
   background: var(--color-panel);
   transform: translateX(100%);
@@ -956,14 +984,97 @@ body.visor-abierto {
   flex-direction: column;
 }
 
-/* Lateral: el texto se integra en el flujo del panel y el título sube
-   encima del cuadrado (orden: título, cuadrado, párrafos) */
-.destacado-texto {
-  display: contents;
+/* display: flex/grid del panel anularía el estilo por defecto de [hidden]
+   (contenido.js lo oculta si el JSON no tiene "destacado") */
+.panel-destacado[hidden] {
+  display: none;
 }
 
-.panel-destacado h2 {
-  order: -1;
+/* Carrusel: la ventana recorta y la pista se desplaza en horizontal.
+   El margen negativo con relleno deja sitio al contorno de foco; el hueco
+   entre diapositivas (el doble) impide ver la vecina en ese relleno.
+   Ocupa todo el alto libre del panel: los puntos quedan al fondo */
+.destacado-ventana {
+  flex: 1 1 0;
+  min-height: 0;
+  margin: calc(-1 * var(--margen-foco-destacado));
+  padding: var(--margen-foco-destacado);
+  overflow: hidden;
+}
+
+/* Todas las diapositivas miden lo que la ventana: el panel no salta.
+   --indice-destacado lo pone scripts/main.js */
+.destacado-pista {
+  display: flex;
+  height: 100%;
+  gap: calc(2 * var(--margen-foco-destacado));
+  transform: translateX(calc(var(--indice-destacado, 0) * -1 * (100% + 2 * var(--margen-foco-destacado))));
+  transition: transform var(--duracion-diapositiva) ease;
+}
+
+.destacado-diapositiva {
+  flex: 0 0 100%;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Puntos indicadores, al fondo del panel: el activo, relleno con el
+   acento y algo mayor */
+.destacado-puntos {
+  display: flex;
+  flex-shrink: 0;
+  justify-content: center;
+  gap: 0.25rem;
+  margin-top: 1rem;
+}
+
+.destacado-punto {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--tamano-punto-destacado);
+  height: var(--tamano-punto-destacado);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  cursor: pointer;
+}
+
+.destacado-punto::before {
+  content: "";
+  width: 0.625rem;
+  height: 0.625rem;
+  border: 2px solid var(--color-texto-suave);
+  border-radius: 50%;
+  background: transparent;
+  transition:
+    background-color var(--duracion-fundido) ease,
+    border-color var(--duracion-fundido) ease,
+    transform var(--duracion-fundido) ease;
+}
+
+.destacado-punto:hover::before {
+  border-color: var(--color-acento);
+}
+
+.destacado-punto[aria-current="true"]::before {
+  border-color: var(--color-acento);
+  background: var(--color-acento);
+  transform: scale(1.3);
+}
+
+.destacado-punto:focus-visible {
+  outline: 3px solid var(--color-foco);
+  outline-offset: 0;
+}
+
+/* Contenido de cada diapositiva, en este orden: título, imagen y texto */
+.destacado-titulo {
+  flex-shrink: 0;
   color: var(--color-titulo);
   margin-bottom: 1rem;
 }
@@ -972,10 +1083,102 @@ body.visor-abierto {
   margin-top: 1rem;
 }
 
+/* Texto: ocupa el alto restante de la diapositiva. Si no cabe, encogen solo
+   las descripciones (main.js las recorta con puntos suspensivos); el enlace
+   "Ver proyecto" no encoge y siempre se ve */
+.destacado-texto {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.destacado-descripcion {
+  flex: 0 1 auto;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.destacado-accion {
+  flex-shrink: 0;
+}
+
+.destacado-descripcion--recortada {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: var(--lineas-descripcion, 1);
+  line-clamp: var(--lineas-descripcion, 1);
+}
+
+.destacado-descripcion--oculta {
+  display: none;
+}
+
+/* Imagen: botón que abre el visor, sin estilos por defecto */
 .destacado-imagen {
+  display: block;
+  flex-shrink: 0;
   width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  font: inherit;
+  color: inherit;
+  background: none;
+  cursor: zoom-in;
+  overflow: hidden;
+}
+
+.destacado-imagen:hover {
+  filter: brightness(1.1);
+}
+
+.destacado-imagen:focus-visible {
+  outline: 3px solid var(--color-foco);
+  outline-offset: -3px;
+}
+
+/* Sin ruta de imagen: cuadrado provisional */
+.destacado-imagen--provisional {
   aspect-ratio: 1 / 1;
   background: var(--color-destacado-provisional);
+}
+
+/* Ancho completo y alto según la proporción de la foto (vertical, cuadrada
+   u horizontal). Tope de alto para que una foto muy vertical no ocupe todo
+   el panel y deje sitio al texto: si lo supera, se recorta sin deformarse (cover) */
+.destacado-imagen img {
+  width: 100%;
+  height: auto;
+  max-height: 40vh;
+  object-fit: cover;
+}
+
+/* Enlace plano con flecha, del color de los enlaces de la web */
+.destacado-enlace {
+  font-weight: 600;
+  color: var(--color-enlace);
+  text-decoration: none;
+}
+
+.destacado-enlace:hover {
+  text-decoration: underline;
+}
+
+.destacado-enlace:focus-visible {
+  outline: 3px solid var(--color-foco);
+  outline-offset: 2px;
+}
+
+.destacado-enlace-flecha {
+  display: inline-block;
+  margin-left: 0.35em;
+  transition: transform var(--duracion-fundido) ease;
+}
+
+.destacado-enlace:hover .destacado-enlace-flecha {
+  transform: translateX(0.2em);
 }
 
 body.panel-abierto .panel-destacado {
@@ -1038,28 +1241,67 @@ body.panel-abierto .boton-destacado-flecha {
     bottom: 0;
     width: 100%;
     height: var(--alto-panel-inferior);
-    display: grid;
-    grid-template-columns: var(--lado-destacado-inferior) minmax(0, 1fr);
-    column-gap: var(--espacio);
-    align-items: start;
     transform: translateY(100%);
   }
 
-  /* Cuadrado a la izquierda; bloque de texto a la derecha */
-  .destacado-texto {
-    display: block;
+  /* Cada diapositiva: rejilla imagen | título y texto */
+  .destacado-diapositiva {
+    display: grid;
+    grid-template-columns: var(--lado-destacado-inferior) minmax(0, 1fr);
+    /* 1fr: el sobrante va bajo el texto, no entre título y texto;
+       mínimo 0 para que el texto no desborde la diapositiva */
+    grid-template-rows: auto minmax(0, 1fr);
+    grid-template-areas:
+      "imagen titulo"
+      "imagen texto";
+    column-gap: var(--espacio);
+    align-items: start;
+  }
+
+  .destacado-diapositiva--sin-imagen {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "titulo"
+      "texto";
+  }
+
+  /* Puntos pegados al borde inferior del panel */
+  .destacado-puntos {
+    margin-top: auto;
+    padding-top: calc(var(--alto-puntos-destacado) - var(--tamano-punto-destacado));
+  }
+
+  /* Imagen a la izquierda con ancho fijo; título y texto a la derecha */
+  .destacado-titulo {
+    grid-area: titulo;
+    margin-bottom: 0;
+    font-size: 1.125rem;
   }
 
   .destacado-imagen {
+    grid-area: imagen;
     width: var(--lado-destacado-inferior);
   }
 
-  .panel-destacado h2 {
-    margin-bottom: 0;
+  /* Alto automático con tope: el alto útil del panel (sin su padding
+     ni, si hay varios destacados, la fila de puntos) */
+  .destacado-imagen img {
+    max-height: calc(var(--alto-panel-inferior) - 2 * var(--espacio));
+  }
+
+  .panel-destacado--carrusel .destacado-imagen img {
+    max-height: calc(var(--alto-panel-inferior) - 2 * var(--espacio) - var(--alto-puntos-destacado));
+  }
+
+  /* Estirado al alto de su fila para que encojan las descripciones */
+  .destacado-texto {
+    grid-area: texto;
+    align-self: stretch;
   }
 
   .panel-destacado p {
     margin-top: 0.75rem;
+    font-size: 0.875rem;
   }
 
   body.panel-abierto .panel-destacado {
@@ -1102,6 +1344,10 @@ body.panel-abierto .boton-destacado-flecha {
 @media (max-width: 768px) {
   main {
     padding: var(--espacio);
+  }
+
+  .pie {
+    padding: 1rem var(--espacio);
   }
 
   /* Rejilla normal en tres filas: nombre, subtítulo y botones. Las filas

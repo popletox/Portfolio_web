@@ -1,5 +1,5 @@
 // Contenido: carga datos/contenido.json y monta la introducción, Experiencia,
-// Proyectos, Méritos y Estudios.
+// Proyectos, Méritos, Estudios y el panel Destacado.
 // Al terminar (bien o mal) emite 'contenido:listo' o 'contenido:error' en document.
 (function () {
   var RUTA_DATOS = 'datos/contenido.json';
@@ -390,6 +390,156 @@
     lista.replaceChildren.apply(lista, entradas);
   }
 
+  // ---- Panel Destacado ----
+
+  // Ruta de la imagen: "miniatura" (como en Proyectos) o su alias "src"
+  function rutaImagenDestacado(imagen) {
+    if (esRutaImagenSegura(imagen.miniatura)) return imagen.miniatura.trim();
+    if (esRutaImagenSegura(imagen.src)) return imagen.src.trim();
+    return null;
+  }
+
+  // Botón que abre el visor (main.js escucha button.destacado-imagen).
+  // Sin ruta válida queda vacío: cuadrado provisional que abre el marcador
+  // provisional del visor, igual que las miniaturas de Proyectos
+  function crearImagenDestacado(imagen, titulo) {
+    var boton = crear('button', 'destacado-imagen');
+    boton.type = 'button';
+    var alt = typeof imagen.alt === 'string' ? imagen.alt : '';
+    boton.setAttribute('aria-label', alt ? 'Ampliar imagen: ' + alt : 'Ampliar imagen de ' + titulo);
+    var ruta = rutaImagenDestacado(imagen);
+    if (!ruta) {
+      boton.classList.add('destacado-imagen--provisional');
+      return boton;
+    }
+    var img = document.createElement('img');
+    img.src = ruta;
+    img.alt = alt;
+    img.loading = 'lazy';
+    img.decoding = 'async';
+    if (esRutaImagenSegura(imagen.grande)) {
+      boton.setAttribute('data-imagen-grande', imagen.grande.trim());
+    }
+    boton.appendChild(img);
+    return boton;
+  }
+
+  // "#<id>" de un proyecto existente: enlace interno que gestiona main.js
+  // (navegarAProyecto). http(s): pestaña nueva. Resto: crearEnlace lo valida
+  function crearEnlaceDestacado(enlace, proyectosPorId) {
+    var url = typeof enlace.url === 'string' ? enlace.url.trim() : '';
+    var a = crearEnlace(enlace.texto, url, 'destacado-enlace');
+    var flecha = crear('span', 'destacado-enlace-flecha', '→');
+    flecha.setAttribute('aria-hidden', 'true');
+    a.appendChild(flecha);
+    var id = url.charAt(0) === '#' ? url.slice(1) : '';
+    if (id && proyectosPorId[id]) {
+      a.classList.add('enlace-proyecto');
+      a.setAttribute('data-proyecto', id);
+    } else if (/^https?:/i.test(url)) {
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+    }
+    return a;
+  }
+
+  var TITULO_DESTACADO = 'Proyecto destacado';
+
+  // "destacados" (lista) o, por compatibilidad, el antiguo "destacado" (objeto)
+  function listaDestacados(datos) {
+    var lista = datos.destacados != null ? datos.destacados : datos.destacado;
+    if (lista && typeof lista === 'object' && !Array.isArray(lista)) lista = [lista];
+    if (!Array.isArray(lista)) return [];
+    return lista.filter(function (item) { return item && typeof item === 'object'; });
+  }
+
+  // Diapositiva: título, imagen y texto (descripción y enlace), en ese orden.
+  // Solo la primera empieza visible; main.js actualiza inert y aria-hidden
+  function crearDiapositivaDestacado(destacado, indice, total, proyectosPorId) {
+    var hayImagen = !!(destacado.imagen && typeof destacado.imagen === 'object');
+    var diapositiva = crear('div', 'destacado-diapositiva' + (hayImagen ? '' : ' destacado-diapositiva--sin-imagen'));
+    if (total > 1) {
+      diapositiva.setAttribute('role', 'group');
+      diapositiva.setAttribute('aria-roledescription', 'diapositiva');
+      diapositiva.setAttribute('aria-label', (indice + 1) + ' de ' + total);
+      if (indice > 0) {
+        diapositiva.inert = true;
+        diapositiva.setAttribute('aria-hidden', 'true');
+      }
+    }
+
+    var textoTitulo = typeof destacado.titulo === 'string' && destacado.titulo !== ''
+      ? destacado.titulo
+      : TITULO_DESTACADO;
+    diapositiva.appendChild(crear('h2', 'destacado-titulo', textoTitulo));
+    if (hayImagen) diapositiva.appendChild(crearImagenDestacado(destacado.imagen, textoTitulo));
+
+    var texto = crear('div', 'destacado-texto');
+    crearParrafos(destacado.descripcion, 'destacado-descripcion').forEach(function (p) {
+      texto.appendChild(p);
+    });
+    if (destacado.enlace && destacado.enlace.texto) {
+      var parrafo = crear('p', 'destacado-accion');
+      parrafo.appendChild(crearEnlaceDestacado(destacado.enlace, proyectosPorId));
+      texto.appendChild(parrafo);
+    }
+    if (texto.childNodes.length) diapositiva.appendChild(texto);
+    return diapositiva;
+  }
+
+  // Puntos indicadores: un botón por destacado (main.js gestiona los clics)
+  function crearPuntosDestacado(total) {
+    var grupo = crear('div', 'destacado-puntos');
+    grupo.setAttribute('role', 'group');
+    grupo.setAttribute('aria-label', 'Elegir destacado');
+    for (var i = 0; i < total; i++) {
+      var punto = crear('button', 'destacado-punto');
+      punto.type = 'button';
+      punto.setAttribute('data-indice', String(i));
+      punto.setAttribute('aria-label', 'Ir al destacado ' + (i + 1));
+      if (i === 0) punto.setAttribute('aria-current', 'true');
+      grupo.appendChild(punto);
+    }
+    return grupo;
+  }
+
+  // Carrusel: ventana (recorta) > pista (se desplaza) > diapositivas; debajo,
+  // los puntos si hay más de uno. Sin destacados se oculta el panel
+  // (main.js oculta también su botón). La rotación la gestiona main.js
+  function montarDestacado(destacados, proyectos) {
+    var panel = document.getElementById('panel-destacado');
+    if (!panel) return;
+    panel.replaceChildren();
+
+    var total = destacados.length;
+    if (!total) {
+      panel.hidden = true;
+      return;
+    }
+
+    var proyectosPorId = {};
+    (proyectos || []).forEach(function (proyecto) {
+      if (proyecto && proyecto.id) proyectosPorId[proyecto.id] = proyecto;
+    });
+
+    var ventana = crear('div', 'destacado-ventana');
+    var pista = crear('div', 'destacado-pista');
+    destacados.forEach(function (destacado, indice) {
+      pista.appendChild(crearDiapositivaDestacado(destacado, indice, total, proyectosPorId));
+    });
+    ventana.appendChild(pista);
+    panel.appendChild(ventana);
+
+    var esCarrusel = total > 1;
+    panel.classList.toggle('panel-destacado--carrusel', esCarrusel);
+    if (esCarrusel) {
+      panel.setAttribute('aria-roledescription', 'carrusel');
+      panel.appendChild(crearPuntosDestacado(total));
+    } else {
+      panel.removeAttribute('aria-roledescription');
+    }
+  }
+
   function mostrarAviso(contenedor) {
     if (!contenedor || contenedor.querySelector('.aviso-carga')) return;
     contenedor.appendChild(crear('p', 'aviso-carga', TEXTO_AVISO));
@@ -410,6 +560,7 @@
       montarProyectos(datos.proyectos);
       montarMeritos(datos.meritos, datos.proyectos);
       montarEstudios(datos.estudios);
+      montarDestacado(listaDestacados(datos), datos.proyectos);
       emitir('contenido:listo', datos);
     })
     .catch(function (error) {
@@ -418,6 +569,11 @@
       ['experiencia', 'proyectos', 'meritos', 'estudios'].forEach(function (id) {
         mostrarAviso(document.querySelector('#' + id + ' .seccion-interior'));
       });
+      var panel = document.getElementById('panel-destacado');
+      if (panel && !panel.querySelector('.destacado-titulo')) {
+        panel.replaceChildren(crear('h2', 'destacado-titulo', TITULO_DESTACADO));
+      }
+      mostrarAviso(panel);
       emitir('contenido:error', error);
     });
 })();

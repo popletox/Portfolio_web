@@ -119,19 +119,17 @@
     </main>
 
     <footer class="pie">
-      <p>[Provisional] Miguel Ángel Torrijos González</p>
+      <section class="pie-nota" aria-labelledby="titulo-sobre-web">
+        <h2 id="titulo-sobre-web" class="pie-nota-titulo">Sobre esta web</h2>
+        <p>Este portfolio es también un proyecto de aprendizaje sobre desarrollo con inteligencia artificial. Yo dirijo el diseño y las funciones; el código lo genera una IA bajo mi revisión. Los textos los escribo yo, con posible ayuda de IA para revisarlos.</p>
+      </section>
     </footer>
   </div>
 
-  <aside id="panel-destacado" class="panel-destacado" aria-labelledby="titulo-destacado">
-    <div class="destacado-imagen" role="img" aria-label="Imagen provisional del proyecto destacado"></div>
-    <div class="destacado-texto">
-      <h2 id="titulo-destacado">Proyecto destacado</h2>
-      <p>[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-      <p>[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-      <p>[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-    </div>
-  </aside>
+  <!-- Contenido desde datos/contenido.json ("destacados"): scripts/contenido.js
+       crea una diapositiva por destacado (cada una con su título) y los puntos;
+       scripts/main.js gestiona la rotación -->
+  <aside id="panel-destacado" class="panel-destacado" aria-label="Destacados"></aside>
 
   <button id="boton-destacado" class="boton-destacado" type="button" aria-controls="panel-destacado" aria-expanded="true" aria-label="Cerrar panel destacado">
     <span class="boton-destacado-flecha" aria-hidden="true">&#8250;</span>

@@ -22,7 +22,7 @@ Cuatro secciones, en este orden: Experiencia, Proyectos, Méritos y reconocimien
 
 5. Destacado
 
-Contenido seleccionado por Miguel, independiente del resumen profesional: inicialmente un título, imagen preferiblemente vertical, descripción breve y enlaces. En ordenador: panel lateral derecho abierto al cargar, con cierre y posibilidad de reabrir. Reservar espacio para evitar tapar el contenido.
+Contenido seleccionado por Miguel, independiente del resumen profesional: uno o varios destacados, cada uno con un título, una imagen, una descripción breve y un enlace, en ese orden, definidos en `datos/contenido.json` (clave `destacados`, ver docs/formato-datos.md). Con varios, el panel es un carrusel con puntos indicadores y rotación automática cada 10 segundos (pausada con el ratón encima, el foco dentro, el panel cerrado o la pestaña oculta; sin rotación ni animación con movimiento reducido). La imagen admite cualquier proporción: ancho fijo (todo el panel en ordenador, una columna a la izquierda en móvil), alto automático con un tope y recorte sin deformar. El enlace puede ser interno a un proyecto (abre, centra y resalta, como en Méritos) o externo. En ordenador: panel lateral derecho abierto al cargar, con cierre y posibilidad de reabrir. Reservar espacio para evitar tapar el contenido.
 
 En móvil: sustituir el lateral por un panel horizontal inferior con el mismo contenido, cerrable y reabrible. Pendiente concretar si queda fijo al borde de la pantalla o al final del documento; si es fijo, debe ser compacto y reservar espacio para no ocultar el contenido ni la nota del pie.
 
@@ -56,7 +56,7 @@ Al activar Ver proyecto: abrir Proyectos si está cerrado, desplegar la entrada 
 
 9. Pie: Sobre esta web
 
-Nota breve y visible explicando el proyecto de aprendizaje: Miguel dirige el diseño y las funciones; el código se genera con IA bajo su revisión; los textos son escritos por Miguel, con posible ayuda de IA para revisarlos. La redacción final se añadirá más adelante.
+Nota breve y visible explicando el proyecto de aprendizaje: Miguel dirige el diseño y las funciones; el código se genera con IA bajo su revisión; los textos son escritos por Miguel, con posible ayuda de IA para revisarlos. Hay un texto provisional en el pie de la página, editable en index.html.
 
 # Temas y desarrollo incremental
 

@@ -1,6 +1,29 @@
 {
   "introduccion": "[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
 
+  "destacados": [
+    {
+      "titulo": "Proyecto destacado",
+      "imagen": { "alt": "Imagen provisional del proyecto destacado" },
+      "descripcion": "[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.",
+      "enlace": { "texto": "Ver proyecto", "url": "#proyecto-provisional-1" }
+    },
+    {
+      "titulo": "Noticia provisional",
+      "imagen": { "alt": "Imagen provisional de la noticia" },
+      "descripcion": "[Provisional] Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      "enlace": { "texto": "Ver proyecto relacionado", "url": "#proyecto-provisional-2" }
+    },
+    {
+      "titulo": "Aviso provisional sin imagen",
+      "descripcion": [
+        "[Provisional] Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+        "[Provisional] Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+      ],
+      "enlace": { "texto": "Ver proyecto", "url": "#proyecto-provisional-3" }
+    }
+  ],
+
   "experiencia": [
     {
       "puesto": "Puesto provisional 1",

@@ -1,6 +1,6 @@
 # Formato de datos (`datos/contenido.json`)
 
-El contenido de la introducción y de las secciones Experiencia, Proyectos, Méritos y reconocimientos y Estudios está en `datos/contenido.json`. La web lo carga con `fetch` al iniciarse. Para añadir o cambiar contenido, edita solo ese archivo. La cabecera, el panel Destacado y el pie siguen en `index.html`.
+El contenido de la introducción, de las secciones Experiencia, Proyectos, Méritos y reconocimientos y Estudios, y del panel Destacado está en `datos/contenido.json`. La web lo carga con `fetch` al iniciarse. Para añadir o cambiar contenido, edita solo ese archivo. La cabecera y el pie siguen en `index.html`.
 
 Guarda el archivo en UTF-8 (se pueden usar tildes y eñes sin problema).
 
@@ -9,6 +9,7 @@ Guarda el archivo en UTF-8 (se pueden usar tildes y eñes sin problema).
 ```json
 {
   "introduccion": "...",
+  "destacados": [ ... ],
   "experiencia": [ ... ],
   "proyectos": [ ... ],
   "meritos": [ ... ],
@@ -95,6 +96,57 @@ Copia este bloque dentro del array `"proyectos"`, separado del anterior por una 
 | `proyecto` | No | `id` de un proyecto. |
 
 **Enlazar un mérito con un proyecto:** pon en `proyecto` exactamente el `id` del proyecto (p. ej. `"proyecto": "mi-juego"`). El JS genera el enlace «Ver proyecto: Mi juego» con el `titulo` de ese proyecto (el texto no se escribe en el JSON) y `href="#<id>"`; al pulsarlo abre la sección Proyectos y lleva a esa entrada. Si el `id` no existe, no se muestra el enlace.
+
+## Destacado
+
+Contenido del panel Destacado (lateral derecho en ordenador, panel inferior en móvil). La clave `destacados` es una lista: cada elemento es una diapositiva del panel. Con dos o más, el panel muestra puntos indicadores debajo y pasa al siguiente cada 10 segundos (en bucle, deslizándose en horizontal); la rotación se pausa con el ratón encima o el foco de teclado dentro, con el panel cerrado o con la pestaña oculta, y no existe si el sistema pide movimiento reducido. Con uno solo, no hay puntos ni rotación. Por compatibilidad, también se acepta la clave antigua `destacado` con un único objeto.
+
+Cada diapositiva se muestra en este orden: título, imagen, descripción y enlace.
+
+| Campo | Obligatorio | Descripción |
+| --- | --- | --- |
+| `titulo` | No | Título de la diapositiva. Si falta, se usa «Proyecto destacado». |
+| `imagen` | No | `{ "miniatura", "grande", "alt" }`, como las imágenes de Proyectos (sin `encuadre`). Si falta la clave entera, esa diapositiva no lleva imagen. |
+| `descripcion` | No | String o array de strings. Mejor breve: 1 o 2 frases. |
+| `enlace` | No | `{ "texto": "...", "url": "..." }`. Se muestra con una flecha «→». |
+
+Imagen:
+
+- `miniatura` es la imagen que se ve en el panel. Como aquí no es una miniatura, también se acepta el nombre `src` (si están las dos, se usa `miniatura`). Si no hay ruta válida, se muestra el cuadrado naranja provisional.
+- `grande` (opcional) es la versión para el visor; si falta, el visor usa la del panel.
+- `alt` (obligatorio dentro de `imagen`) describe la imagen.
+- Puede tener cualquier proporción (vertical, cuadrada u horizontal): ocupa el ancho del panel sin deformarse. Si es muy alta, se recorta por arriba y por abajo (máximo 60 % del alto de la ventana en ordenador; el alto del panel en móvil).
+- Al pulsarla se abre en el visor, como las miniaturas de Proyectos (también el cuadrado provisional).
+
+Enlace:
+
+- **A un proyecto de la web:** `"url": "#<id>"` con el `id` del proyecto (p. ej. `"#mi-juego"`). Al pulsarlo abre Proyectos, despliega la entrada, la centra y la resalta, igual que «Ver proyecto» en Méritos. Si el `id` no existe, queda como un enlace normal a `#<id>`.
+- **Externo:** `"url": "https://..."`. Se abre en una pestaña nueva.
+- Se aplican las mismas reglas de URL que en el resto de enlaces (`http:`, `https:`, `mailto:` o `#`).
+
+Si el JSON no tiene destacados (ni `destacados` ni `destacado`, o la lista está vacía), el panel y su botón-pestaña no se muestran y la página ocupa todo el ancho. Si falla la carga del JSON, el panel muestra el título «Proyecto destacado» y el aviso de error.
+
+Ejemplo:
+
+```json
+"destacados": [
+  {
+    "titulo": "Proyecto destacado",
+    "imagen": {
+      "miniatura": "recursos/destacado/mi-juego.jpg",
+      "grande": "recursos/destacado/mi-juego-grande.jpg",
+      "alt": "Portada de Mi juego"
+    },
+    "descripcion": "Juego de plataformas hecho en Unity en 48 horas.",
+    "enlace": { "texto": "Ver proyecto", "url": "#mi-juego" }
+  },
+  {
+    "titulo": "Nueva publicación",
+    "descripcion": "Diapositiva sin imagen: solo título, texto y enlace.",
+    "enlace": { "texto": "Leer más", "url": "https://ejemplo.com" }
+  }
+]
+```
 
 ## Errores típicos de JSON
 

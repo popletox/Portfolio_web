@@ -206,6 +206,8 @@ var ajustarCabeceraParaScroll = function () { return false; };
     cuerpo.classList.toggle('panel-abierto', abierto);
     boton.setAttribute('aria-expanded', String(abierto));
     boton.setAttribute('aria-label', abierto ? 'Cerrar panel destacado' : 'Abrir panel destacado');
+    // El carrusel de destacados pausa o reanuda su rotación
+    document.dispatchEvent(new CustomEvent('destacado:estado', { detail: { abierto: abierto } }));
   }
 
   // Activar transiciones solo después del siguiente pintado
@@ -223,6 +225,15 @@ var ajustarCabeceraParaScroll = function () { return false; };
     aplicarEstado(!cuerpo.classList.contains('panel-abierto'));
   });
 
+  // Sin "destacado" en el JSON, contenido.js oculta el panel: se oculta
+  // también el botón y se libera el espacio reservado
+  var panel = document.getElementById('panel-destacado');
+  document.addEventListener('contenido:listo', function () {
+    if (!panel || !panel.hidden) return;
+    aplicarEstado(false);
+    boton.hidden = true;
+  });
+
   // Al cambiar de disposición se conserva el estado, sin animar el cambio
   function alCambiarDisposicion() {
     cuerpo.classList.add('sin-transiciones');
@@ -237,6 +248,227 @@ var ajustarCabeceraParaScroll = function () { return false; };
 
   // La activación inicial de transiciones la hace el bloque de entradas,
   // cuando el contenido cargado desde JSON ya está montado.
+})();
+
+// Muestra la diapositiva del panel Destacado que contiene el nodo indicado
+// (sin efecto si no hay carrusel). La usa volverAOrigen
+var mostrarDiapositivaDestacado = function () {};
+
+// Carrusel del panel Destacado: rotación automática y puntos indicadores.
+// Se pausa con el ratón encima o el foco de teclado dentro, con el panel
+// cerrado, con la pestaña oculta y con el visor de imágenes abierto. Al
+// reanudar se espera un intervalo completo. Con movimiento reducido no rota
+(function () {
+  var INTERVALO = 10000; // ms entre diapositivas
+  var panel = document.getElementById('panel-destacado');
+  if (!panel) return;
+  var movimientoReducido = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var visor = document.getElementById('visor-imagen');
+
+  var ventana = null;
+  var pista = null;
+  var diapositivas = [];
+  var puntos = [];
+  var actual = 0;
+  var temporizador = 0;
+  var ratonDentro = false;
+  var focoDentro = false;
+
+  // Foco de teclado (no el que deja un clic de ratón en un punto o enlace)
+  function esFocoTeclado(nodo) {
+    try {
+      return !!nodo && nodo.matches(':focus-visible');
+    } catch (error) {
+      return true; // navegador sin :focus-visible: cualquier foco pausa
+    }
+  }
+
+  function irA(indice) {
+    var total = diapositivas.length;
+    if (!total) return;
+    actual = (indice % total + total) % total;
+    pista.style.setProperty('--indice-destacado', String(actual));
+    diapositivas.forEach(function (diapositiva, i) {
+      var visible = i === actual;
+      diapositiva.inert = !visible;
+      if (visible) diapositiva.removeAttribute('aria-hidden');
+      else diapositiva.setAttribute('aria-hidden', 'true');
+    });
+    puntos.forEach(function (punto, i) {
+      if (i === actual) punto.setAttribute('aria-current', 'true');
+      else punto.removeAttribute('aria-current');
+    });
+  }
+
+  function puedeRotar() {
+    return diapositivas.length > 1 &&
+      !panel.hidden &&
+      !movimientoReducido.matches &&
+      !ratonDentro &&
+      !focoDentro &&
+      !document.hidden &&
+      document.body.classList.contains('panel-abierto') &&
+      !(visor && visor.open);
+  }
+
+  // (Re)inicia la cuenta completa si se puede rotar; si no, la detiene
+  function programar() {
+    clearTimeout(temporizador);
+    temporizador = 0;
+    var rotando = puedeRotar();
+    // Mientras rota no se anuncian los cambios; parado, sí (p. ej. al usar los puntos)
+    if (ventana) ventana.setAttribute('aria-live', rotando ? 'off' : 'polite');
+    if (!rotando) return;
+    temporizador = setTimeout(function () {
+      temporizador = 0;
+      if (!puedeRotar()) return;
+      irA(actual + 1);
+      programar();
+    }, INTERVALO);
+  }
+
+  function iniciar() {
+    ventana = panel.querySelector('.destacado-ventana');
+    pista = panel.querySelector('.destacado-pista');
+    diapositivas = pista ? Array.prototype.slice.call(pista.querySelectorAll('.destacado-diapositiva')) : [];
+    puntos = Array.prototype.slice.call(panel.querySelectorAll('.destacado-punto'));
+    if (diapositivas.length < 2) {
+      diapositivas = [];
+      return;
+    }
+    irA(0);
+    programar();
+  }
+
+  mostrarDiapositivaDestacado = function (nodo) {
+    var diapositiva = nodo && nodo.closest && nodo.closest('.destacado-diapositiva');
+    var indice = diapositivas.indexOf(diapositiva);
+    if (indice === -1 || indice === actual) return;
+    irA(indice);
+    programar();
+  };
+
+  panel.addEventListener('click', function (evento) {
+    var punto = evento.target.closest('.destacado-punto');
+    if (!punto || !diapositivas.length) return;
+    irA(parseInt(punto.getAttribute('data-indice'), 10) || 0);
+    programar();
+  });
+
+  // Solo ratón: en pantallas táctiles no hay "salir" y quedaría pausado
+  panel.addEventListener('pointerenter', function (evento) {
+    if (evento.pointerType !== 'mouse') return;
+    ratonDentro = true;
+    programar();
+  });
+  panel.addEventListener('pointerleave', function (evento) {
+    if (evento.pointerType !== 'mouse' || !ratonDentro) return;
+    ratonDentro = false;
+    programar();
+  });
+
+  panel.addEventListener('focusin', function (evento) {
+    var antes = focoDentro;
+    focoDentro = esFocoTeclado(evento.target);
+    if (focoDentro !== antes) programar();
+  });
+  panel.addEventListener('focusout', function (evento) {
+    var destino = evento.relatedTarget;
+    if (destino && panel.contains(destino)) return; // lo resuelve focusin
+    if (!focoDentro) return;
+    focoDentro = false;
+    programar();
+  });
+
+  document.addEventListener('destacado:estado', programar);
+  document.addEventListener('visibilitychange', programar);
+  if (visor) visor.addEventListener('close', programar);
+
+  if (movimientoReducido.addEventListener) {
+    movimientoReducido.addEventListener('change', programar);
+  } else if (movimientoReducido.addListener) {
+    movimientoReducido.addListener(programar);
+  }
+
+  document.addEventListener('contenido:listo', iniciar);
+})();
+
+// Panel Destacado sin scroll interno: si una descripción no cabe en el alto
+// que le deja la diapositiva (CSS la encoge), se recorta a las líneas enteras
+// que caben, con puntos suspensivos. Se recalcula cuando cambia el tamaño del
+// bloque de texto (ventana, imagen cargada, tema) o terminan de cargar fuentes
+(function () {
+  var panel = document.getElementById('panel-destacado');
+  if (!panel) return;
+  var RECORTADA = 'destacado-descripcion--recortada';
+  var OCULTA = 'destacado-descripcion--oculta';
+  var pendiente = 0;
+  var observador = null;
+
+  function altoLinea(parrafo) {
+    var estilo = getComputedStyle(parrafo);
+    var alto = parseFloat(estilo.lineHeight);
+    return alto > 0 ? alto : parseFloat(estilo.fontSize) * 1.2;
+  }
+
+  function ajustar() {
+    pendiente = 0;
+    var parrafos = Array.prototype.slice.call(panel.querySelectorAll('.destacado-descripcion'));
+    // Primero se quitan los recortes y se mide; después se aplica (sin alternar
+    // lecturas y escrituras)
+    parrafos.forEach(function (parrafo) {
+      parrafo.classList.remove(RECORTADA, OCULTA);
+      parrafo.style.removeProperty('--lineas-descripcion');
+    });
+    var medidas = parrafos.map(function (parrafo) {
+      return {
+        visible: parrafo.clientHeight,
+        total: parrafo.scrollHeight,
+        linea: altoLinea(parrafo)
+      };
+    });
+    parrafos.forEach(function (parrafo, i) {
+      var medida = medidas[i];
+      if (medida.total <= medida.visible + 1) return;
+      var lineas = Math.floor((medida.visible + 1) / medida.linea);
+      if (lineas < 1) {
+        parrafo.classList.add(OCULTA);
+      } else {
+        parrafo.style.setProperty('--lineas-descripcion', String(lineas));
+        parrafo.classList.add(RECORTADA);
+      }
+    });
+  }
+
+  function programar() {
+    if (pendiente) return;
+    pendiente = requestAnimationFrame(ajustar);
+  }
+
+  function iniciar() {
+    if (observador) observador.disconnect();
+    if ('ResizeObserver' in window) {
+      observador = new ResizeObserver(programar);
+      panel.querySelectorAll('.destacado-texto').forEach(function (texto) {
+        observador.observe(texto);
+      });
+    }
+    programar();
+  }
+
+  if (!('ResizeObserver' in window)) window.addEventListener('resize', programar);
+  if (document.fonts && document.fonts.addEventListener) {
+    document.fonts.addEventListener('loadingdone', programar);
+  }
+  // Cambio de tema (temas.js cambia data-tema en <html>): puede cambiar la
+  // fuente sin cambiar el tamaño del bloque de texto
+  if ('MutationObserver' in window) {
+    new MutationObserver(programar).observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-tema']
+    });
+  }
+  document.addEventListener('contenido:listo', iniciar);
 })();
 
 // Secciones plegables: abre o cierra una sección (clase, aria-expanded e inert)
@@ -590,6 +822,16 @@ function filtroProyectosActivo() {
     var enlace = localizarEnlace(estado.proyecto, estado.indice);
     var suave = !movimientoReducido.matches;
     var destino = estado.scroll;
+    // El panel Destacado es fijo: se vuelve a la posición guardada y solo se
+    // enfoca el enlace si el panel sigue abierto
+    var enPanel = enlace && enlace.closest('.panel-destacado');
+    if (enPanel) {
+      // Si el enlace está en otra diapositiva, se muestra antes de enfocarlo
+      mostrarDiapositivaDestacado(enlace);
+      window.scrollTo({ top: destino, behavior: suave ? 'smooth' : 'auto' });
+      if (document.body.classList.contains('panel-abierto')) enlace.focus({ preventScroll: true });
+      return;
+    }
     if (enlace && enlace.getClientRects().length && !enlace.closest('[inert]')) {
       var entrada = enlace.closest('.linea-tiempo-entrada');
       var objetivo = entrada && entrada.getBoundingClientRect().height <= zonaVisible().alto ? entrada : enlace;
@@ -633,7 +875,8 @@ function filtroProyectosActivo() {
   });
 })();
 
-// Visor de imágenes: un clic en una miniatura de Proyectos la abre en grande
+// Visor de imágenes: un clic en una miniatura de Proyectos (o en la imagen del
+// panel Destacado) la abre en grande
 (function () {
   var visor = document.getElementById('visor-imagen');
   if (!visor || typeof visor.showModal !== 'function') return;
@@ -682,9 +925,9 @@ function filtroProyectosActivo() {
     visor.addEventListener('animationend', terminarCierre);
   }
 
-  // Delegación: un solo listener para todas las miniaturas
+  // Delegación: un solo listener para todas las miniaturas y la imagen del panel Destacado
   document.addEventListener('click', function (evento) {
-    var miniatura = evento.target.closest('.proyecto-miniatura');
+    var miniatura = evento.target.closest('.proyecto-miniatura, button.destacado-imagen');
     if (miniatura) abrir(miniatura);
   });
 
