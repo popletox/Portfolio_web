@@ -1,0 +1,25 @@
+# Regla general: Git detecta los archivos de texto y los guarda con finales LF
+* text=auto eol=lf
+
+# Código y documentación: siempre texto con LF
+*.html text eol=lf
+*.css  text eol=lf
+*.js   text eol=lf
+*.json text eol=lf
+*.md   text eol=lf
+
+# SVG es XML, así que se trata como texto con LF
+*.svg  text eol=lf
+
+# Imágenes: binarios, sin conversión de finales de línea ni diff de texto
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.webp binary
+*.ico  binary
+
+# Fuentes y documentos: binarios
+*.woff  binary
+*.woff2 binary
+*.pdf   binary
