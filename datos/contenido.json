@@ -1,0 +1,213 @@
+{
+  "introduccion": "[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+
+  "experiencia": [
+    {
+      "puesto": "Puesto provisional 1",
+      "empresa": "Empresa provisional 1",
+      "fechaInicio": "2023-03",
+      "fechaFin": null,
+      "descripcion": "[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      "aptitudes": [
+        "[Provisional] Aptitud provisional A",
+        "[Provisional] Aptitud provisional B",
+        "[Provisional] Aptitud provisional C",
+        "[Provisional] Aptitud provisional D"
+      ],
+      "proyectos": [
+        { "texto": "[Provisional] Proyecto provisional 1A" },
+        { "texto": "[Provisional] Proyecto provisional 1B", "enlace": "#" }
+      ]
+    },
+    {
+      "puesto": "Puesto provisional 2",
+      "empresa": "Empresa provisional 2",
+      "fechaInicio": "2021-10",
+      "fechaFin": "2023-02",
+      "descripcion": "[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      "aptitudes": [
+        "[Provisional] Aptitud provisional A",
+        "[Provisional] Aptitud provisional B",
+        "[Provisional] Aptitud provisional C"
+      ],
+      "proyectos": [
+        { "texto": "[Provisional] Proyecto provisional 2A", "enlace": "#" }
+      ]
+    },
+    {
+      "puesto": "Puesto provisional 3",
+      "empresa": "Empresa provisional 3",
+      "fechaInicio": "2019-04",
+      "fechaFin": "2021-09",
+      "descripcion": "[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      "aptitudes": [
+        "[Provisional] Aptitud provisional A",
+        "[Provisional] Aptitud provisional B",
+        "[Provisional] Aptitud provisional C",
+        "[Provisional] Aptitud provisional D",
+        "[Provisional] Aptitud provisional E"
+      ]
+    },
+    {
+      "puesto": "Puesto provisional 4",
+      "empresa": "Empresa provisional 4",
+      "fechaInicio": "2017-01",
+      "fechaFin": "2019-03",
+      "descripcion": "[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      "aptitudes": [
+        "[Provisional] Aptitud provisional A",
+        "[Provisional] Aptitud provisional B",
+        "[Provisional] Aptitud provisional C"
+      ],
+      "proyectos": [
+        { "texto": "[Provisional] Proyecto provisional 4A" },
+        { "texto": "[Provisional] Proyecto provisional 4B", "enlace": "#" },
+        { "texto": "[Provisional] Proyecto provisional 4C" }
+      ]
+    }
+  ],
+
+  "proyectos": [
+    {
+      "id": "proyecto-provisional-1",
+      "titulo": "Proyecto provisional 1",
+      "categoria": "Unity",
+      "fecha": "2025-03",
+      "descripcion": "[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "aptitudes": [
+        "[Provisional] Aptitud provisional A",
+        "[Provisional] Aptitud provisional B",
+        "[Provisional] Aptitud provisional C"
+      ],
+      "enlace": { "texto": "[Provisional] Ver proyecto publicado", "url": "#" },
+      "imagenes": [
+        { "alt": "[Provisional] Imagen 1 de Proyecto provisional 1" },
+        { "alt": "[Provisional] Imagen 2 de Proyecto provisional 1" },
+        { "alt": "[Provisional] Imagen 3 de Proyecto provisional 1" },
+        { "alt": "[Provisional] Imagen 4 de Proyecto provisional 1" },
+        { "alt": "[Provisional] Imagen 5 de Proyecto provisional 1" },
+        { "alt": "[Provisional] Imagen 6 de Proyecto provisional 1" }
+      ]
+    },
+    {
+      "id": "proyecto-provisional-2",
+      "titulo": "Proyecto provisional 2",
+      "categoria": "Unreal Engine",
+      "fecha": "2024-10",
+      "descripcion": "[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "aptitudes": [
+        "[Provisional] Aptitud provisional A",
+        "[Provisional] Aptitud provisional B",
+        "[Provisional] Aptitud provisional C",
+        "[Provisional] Aptitud provisional D"
+      ],
+      "enlace": { "texto": "[Provisional] Ver proyecto publicado", "url": "#" },
+      "imagenes": [
+        { "alt": "[Provisional] Imagen 1 de Proyecto provisional 2" },
+        { "alt": "[Provisional] Imagen 2 de Proyecto provisional 2" },
+        { "alt": "[Provisional] Imagen 3 de Proyecto provisional 2" }
+      ]
+    },
+    {
+      "id": "proyecto-provisional-3",
+      "titulo": "Proyecto provisional 3",
+      "categoria": "Roblox",
+      "fecha": "2023-06",
+      "descripcion": "[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "aptitudes": [
+        "[Provisional] Aptitud provisional A",
+        "[Provisional] Aptitud provisional B"
+      ],
+      "imagenes": [
+        { "alt": "[Provisional] Imagen 1 de Proyecto provisional 3" },
+        { "alt": "[Provisional] Imagen 2 de Proyecto provisional 3" }
+      ]
+    },
+    {
+      "id": "proyecto-provisional-4",
+      "titulo": "Proyecto provisional 4",
+      "categoria": "Unity",
+      "fecha": "2022-02",
+      "descripcion": "[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "aptitudes": [
+        "[Provisional] Aptitud provisional A",
+        "[Provisional] Aptitud provisional B",
+        "[Provisional] Aptitud provisional C"
+      ],
+      "enlace": { "texto": "[Provisional] Ver proyecto publicado", "url": "#" },
+      "imagenes": [
+        { "alt": "[Provisional] Imagen 1 de Proyecto provisional 4" }
+      ]
+    }
+  ],
+
+  "meritos": [
+    {
+      "titulo": "Premio provisional 1",
+      "entidad": "Evento o institución provisional 1",
+      "fecha": "2024-11",
+      "descripcion": "[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "proyecto": "proyecto-provisional-1"
+    },
+    {
+      "titulo": "Premio provisional 2",
+      "entidad": "Evento o institución provisional 2",
+      "fecha": "2023-05",
+      "descripcion": "[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "proyecto": "proyecto-provisional-2"
+    },
+    {
+      "titulo": "Premio provisional 3",
+      "entidad": "Evento o institución provisional 3",
+      "fecha": "2022-03",
+      "descripcion": "[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "proyecto": "proyecto-provisional-3"
+    }
+  ],
+
+  "estudios": [
+    {
+      "titulo": "Titulación provisional 1",
+      "institucion": "Institución provisional 1",
+      "fechaInicio": "2021-09",
+      "fechaFin": "2023-06",
+      "descripcion": "[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.",
+      "aptitudes": [
+        "[Provisional] Aptitud provisional A",
+        "[Provisional] Aptitud provisional B",
+        "[Provisional] Aptitud provisional C"
+      ],
+      "proyectos": [
+        { "texto": "[Provisional] Proyecto provisional 1A" }
+      ]
+    },
+    {
+      "titulo": "Titulación provisional 2",
+      "institucion": "Institución provisional 2",
+      "fechaInicio": "2019-09",
+      "fechaFin": "2021-06",
+      "descripcion": "[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.",
+      "aptitudes": [
+        "[Provisional] Aptitud provisional A",
+        "[Provisional] Aptitud provisional B",
+        "[Provisional] Aptitud provisional C"
+      ]
+    },
+    {
+      "titulo": "Titulación provisional 3",
+      "institucion": "Institución provisional 3",
+      "fechaInicio": "2017-09",
+      "fechaFin": "2019-06",
+      "descripcion": "[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.",
+      "aptitudes": [
+        "[Provisional] Aptitud provisional A",
+        "[Provisional] Aptitud provisional B",
+        "[Provisional] Aptitud provisional C"
+      ],
+      "proyectos": [
+        { "texto": "[Provisional] Proyecto provisional 3A" },
+        { "texto": "[Provisional] Proyecto provisional 3B" }
+      ]
+    }
+  ]
+}
