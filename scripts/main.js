@@ -64,18 +64,29 @@
 
 // Entradas de línea de tiempo: cada título abre o cierra su detalle
 (function () {
+  function aplicarEstadoEntrada(entrada, abierta) {
+    var boton = entrada.querySelector('.linea-tiempo-alternar');
+    if (!boton) return;
+    var detalle = document.getElementById(boton.getAttribute('aria-controls'));
+    if (!detalle) return;
+    entrada.classList.toggle('linea-tiempo-entrada--abierta', abierta);
+    boton.setAttribute('aria-expanded', String(abierta));
+    detalle.inert = !abierta;
+  }
+
   var botones = document.querySelectorAll('.linea-tiempo-alternar');
 
   Array.prototype.forEach.call(botones, function (boton) {
     var entrada = boton.closest('.linea-tiempo-entrada');
-    var detalle = document.getElementById(boton.getAttribute('aria-controls'));
-    if (!entrada || !detalle) return;
+    if (!entrada) return;
 
     boton.addEventListener('click', function () {
-      var abierta = !entrada.classList.contains('linea-tiempo-entrada--abierta');
-      entrada.classList.toggle('linea-tiempo-entrada--abierta', abierta);
-      boton.setAttribute('aria-expanded', String(abierta));
-      detalle.inert = !abierta;
+      aplicarEstadoEntrada(entrada, !entrada.classList.contains('linea-tiempo-entrada--abierta'));
     });
   });
+
+  // La primera entrada de Experiencia empieza desplegada. Se ejecuta de forma
+  // síncrona, antes de que el doble requestAnimationFrame quite .sin-transiciones.
+  var primera = document.querySelector('#experiencia .linea-tiempo-entrada');
+  if (primera) aplicarEstadoEntrada(primera, true);
 })();
