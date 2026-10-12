@@ -28,9 +28,9 @@ Cada tema es un archivo en `estilos/temas/<id>.css` que define **todas** las var
 | Variable | Uso |
 | --- | --- |
 | `--fuente-base` | Tipografía de toda la página. |
-| `--color-fondo` | Fondo de la página y de la cabecera. |
-| `--color-fondo-suave` | Fondo de títulos de sección, botones de contacto y de Opciones, filtros, hover de entradas y pie. |
-| `--color-fondo-suave-hover` | Hover sobre `--color-fondo-suave` (títulos de sección y filtros) y sobre los temas del bocadillo de Opciones. |
+| `--color-fondo` | Fondo de la página y de la cabecera; píldoras de filtro dentro de Proyectos. |
+| `--color-fondo-suave` | Fondo de títulos de sección (y de la sección entera cuando está abierta), botones de contacto y de Opciones y pie. |
+| `--color-fondo-suave-hover` | Hover sobre `--color-fondo-suave` (títulos de sección, filtros y títulos de entradas) y sobre los temas del bocadillo de Opciones. |
 | `--color-panel` | Fondo del panel destacado. |
 | `--color-texto` | Texto principal. |
 | `--color-texto-suave` | Texto secundario: introducción, subtítulo de la cabecera, flechas, separadores, título del bocadillo de Opciones. |
@@ -39,7 +39,8 @@ Cada tema es un archivo en `estilos/temas/<id>.css` que define **todas** las var
 | `--color-subtitulo` | Subtítulo de las entradas: empresa, institución o tecnología (en Claro, igual que `--color-texto-suave`). |
 | `--color-acento` | Hover de contacto y de Opciones, filtro activo y tema activo en el bocadillo. |
 | `--color-texto-sobre-acento` | Texto o icono sobre `--color-acento`. |
-| `--color-enlace` | Enlaces a proyectos. |
+| `--color-enlace` | Enlaces fuera de las secciones (p. ej. panel destacado). |
+| `--color-enlace-seccion` | Enlaces dentro de las secciones, sobre `--color-fondo-suave` (contraste AA; puede ser `var(--color-enlace)`). |
 | `--color-foco` | Contorno de foco con teclado. |
 | `--color-menu-fondo` | Fondo del bocadillo de Opciones y de su pico. |
 | `--color-sombra` | Sombra del bocadillo de Opciones. |

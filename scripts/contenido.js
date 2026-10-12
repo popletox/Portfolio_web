@@ -174,7 +174,8 @@
     boton.setAttribute('aria-expanded', 'false');
     boton.setAttribute('aria-controls', datos.idDetalle);
     boton.appendChild(crear('span', 'linea-tiempo-texto-titulo', datos.titulo));
-    var flecha = crear('span', 'linea-tiempo-flecha', '›');
+    // Icono vacío: la forma la dibuja el CSS (clip-path)
+    var flecha = crear('span', 'linea-tiempo-flecha');
     flecha.setAttribute('aria-hidden', 'true');
     boton.appendChild(flecha);
     h3.appendChild(boton);

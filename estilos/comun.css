@@ -62,6 +62,15 @@ img {
   --tamano-boton-visor: 2.75rem;
   --ancho-visor: 90vw;
   --alto-visor: 85vh;
+  /* Radios de esquina: estilo "redondeado suave" común a toda la página.
+     Pequeño: botones pequeños, miniaturas, enlaces con foco.
+     Medio: contenedores (menú, encabezados de sección, panel, imágenes) */
+  --radio-pequeno: 8px;
+  --radio-medio: 12px;
+  /* Relleno lateral de las secciones: el del título y el del contenido
+     (así el contenido queda alineado con el texto del título) */
+  --relleno-seccion: 0.75rem;
+  --relleno-inferior-seccion: 1rem;
 }
 
 @supports (height: 1dvh) {
@@ -116,6 +125,20 @@ main {
 .seccion {
   margin-bottom: calc(var(--espacio) * 2);
   scroll-margin-top: var(--margen-ancla);
+  /* Abierta, toda la sección forma una caja con el fondo del título.
+     Los enlaces usan una variante con contraste suficiente sobre ese fondo */
+  --color-enlace: var(--color-enlace-seccion);
+  border-radius: var(--radio-medio);
+  background-color: transparent;
+  /* Al cerrar: el fondo se desvanece mientras se contrae el contenido
+     (tras su fundido); al quedar solo el título no se nota el final */
+  transition: background-color var(--duracion-expansion) ease var(--duracion-fundido);
+}
+
+/* Al abrir: el fondo aparece a la vez que se expande el contenido */
+.seccion--abierta {
+  background-color: var(--color-fondo-suave);
+  transition: background-color var(--duracion-expansion) ease;
 }
 
 /* Cabecera permanente */
@@ -251,7 +274,7 @@ main {
   min-width: 11rem;
   max-width: calc(100vw - 2 * var(--espacio));
   padding: 0.75rem;
-  border-radius: 0.75rem;
+  border-radius: var(--radio-medio);
   background: var(--color-menu-fondo);
   color: var(--color-texto);
   /* drop-shadow (no box-shadow) para que la sombra incluya el pico */
@@ -305,7 +328,7 @@ main {
   min-height: var(--area-tactil-minima);
   padding: 0.4rem 0.75rem;
   border: 0;
-  border-radius: 0.5rem;
+  border-radius: var(--radio-pequeno);
   background: none;
   color: var(--color-texto);
   font: inherit;
@@ -338,9 +361,25 @@ main {
 }
 
 .seccion h2 {
+  border-radius: var(--radio-medio);
   background: var(--color-fondo-suave);
   color: var(--color-titulo);
-  transition: background-color var(--duracion-transicion) ease;
+  /* Al cerrar, las esquinas inferiores se redondean mientras se contrae */
+  transition:
+    background-color var(--duracion-transicion) ease,
+    border-bottom-left-radius var(--duracion-expansion) ease var(--duracion-fundido),
+    border-bottom-right-radius var(--duracion-expansion) ease var(--duracion-fundido);
+}
+
+/* Abierta: el título (mismo fondo que la sección) se integra en la caja;
+   esquinas rectas abajo para que el hover solo resalte su franja */
+.seccion--abierta h2 {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  transition:
+    background-color var(--duracion-transicion) ease,
+    border-bottom-left-radius var(--duracion-expansion) ease,
+    border-bottom-right-radius var(--duracion-expansion) ease;
 }
 
 .seccion h2:hover {
@@ -351,11 +390,14 @@ main {
 .seccion-alternar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
+  /* Flecha pegada al título; el botón sigue ocupando todo el ancho */
+  justify-content: flex-start;
+  gap: 0.45rem;
   width: 100%;
-  padding: 0.5rem 0.75rem;
+  padding: 0.5rem var(--relleno-seccion);
   border: 0;
+  /* Mismas esquinas que el h2 (también abierta): el foco sigue su forma */
+  border-radius: inherit;
   background: none;
   color: inherit;
   font: inherit;
@@ -368,13 +410,29 @@ main {
   outline-offset: 2px;
 }
 
-/* Cerrada: flecha hacia la derecha; abierta: hacia abajo */
+/* Cerrada: flecha hacia la derecha; abierta: hacia abajo.
+   Caja cuadrada con el chevron SVG centrado: gira sobre su centro */
 .seccion-flecha {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
-  line-height: 1;
+  width: 0.8em;
+  height: 0.8em;
   color: var(--color-texto-suave);
+  transform-origin: center;
   transition: transform var(--duracion-transicion) ease;
+}
+
+.seccion-flecha svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .seccion--abierta .seccion-flecha {
@@ -410,6 +468,15 @@ main {
 .seccion-interior {
   min-height: 0;
   overflow: hidden;
+  padding: 0 var(--relleno-seccion);
+}
+
+/* Relleno inferior como hueco dentro del recorte: cerrada (0fr) no ocupa
+   nada; un padding-bottom sí dejaría espacio bajo el título */
+.seccion-interior::after {
+  content: "";
+  display: block;
+  height: var(--relleno-inferior-seccion);
 }
 
 .seccion-interior > :first-child {
@@ -555,13 +622,14 @@ main {
 .linea-tiempo-alternar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
+  /* Icono pegado al título (como en las secciones); el botón sigue ocupando todo el ancho */
+  justify-content: flex-start;
+  gap: 0.45rem;
   width: calc(100% + 1rem);
   margin: 0 -0.5rem;
   padding: 0 0.5rem;
   border: 0;
-  border-radius: 0.25rem;
+  border-radius: var(--radio-pequeno);
   background: none;
   color: inherit;
   font: inherit;
@@ -572,7 +640,7 @@ main {
 }
 
 .linea-tiempo-alternar:hover {
-  background: var(--color-fondo-suave);
+  background: var(--color-fondo-suave-hover);
 }
 
 .linea-tiempo-alternar:focus-visible {
@@ -580,16 +648,24 @@ main {
   outline-offset: 2px;
 }
 
+/* Cerrada: triángulo relleno hacia la derecha; abierta: cuadrado relleno.
+   Mismo número de puntos en ambos clip-path (la punta del triángulo son dos
+   vértices coincidentes) para que la forma se transforme suavemente.
+   Triángulo desplazado a la derecha para centrarlo ópticamente;
+   cuadrado algo menor que la caja para igualar su peso visual. */
 .linea-tiempo-flecha {
   display: inline-block;
   flex-shrink: 0;
-  line-height: 1;
+  width: 0.6em;
+  height: 0.6em;
+  background: currentColor;
   color: var(--color-texto-suave);
-  transition: transform var(--duracion-transicion) ease;
+  clip-path: polygon(22% 10%, 91% 50%, 91% 50%, 22% 90%);
+  transition: clip-path var(--duracion-transicion) ease;
 }
 
 .linea-tiempo-entrada--abierta .linea-tiempo-flecha {
-  transform: rotate(90deg);
+  clip-path: polygon(22% 22%, 78% 22%, 78% 78%, 22% 78%);
 }
 
 .linea-tiempo .linea-tiempo-subtitulo {
@@ -615,8 +691,9 @@ main {
 .filtro-proyecto {
   padding: 0.4rem 0.9rem;
   border: 0;
-  border-radius: 999px;
-  background: var(--color-fondo-suave);
+  border-radius: var(--radio-pequeno);
+  /* Dentro de la caja de la sección (fondo suave): píldora del color de la página */
+  background: var(--color-fondo);
   color: var(--color-texto);
   font: inherit;
   cursor: pointer;
@@ -709,6 +786,7 @@ main {
   min-width: 0;
   min-height: 0;
   overflow: hidden;
+  border-radius: var(--radio-pequeno);
 }
 
 /* Impar al final (incluida la única): junto a la línea, en la columna 2 */
@@ -737,6 +815,7 @@ main {
 
 .proyecto-miniatura {
   aspect-ratio: 1 / 1;
+  border-radius: var(--radio-pequeno);
   background: var(--color-miniatura-provisional);
 }
 
@@ -747,7 +826,7 @@ button.proyecto-miniatura {
   margin: 0;
   padding: 0;
   border: 0;
-  border-radius: 0;
+  border-radius: var(--radio-pequeno);
   font: inherit;
   color: inherit;
   cursor: zoom-in;
@@ -810,11 +889,13 @@ button.proyecto-miniatura:focus-visible {
   max-width: var(--ancho-visor);
   max-height: var(--alto-visor);
   object-fit: contain;
+  border-radius: var(--radio-medio);
 }
 
 .visor-imagen-provisional {
   width: min(var(--alto-visor), var(--ancho-visor));
   aspect-ratio: 1 / 1;
+  border-radius: var(--radio-medio);
   background: var(--color-miniatura-provisional);
 }
 
@@ -931,6 +1012,7 @@ body.visor-abierto {
 
 .linea-tiempo-proyectos-lista a:focus-visible,
 .enlace-proyecto:focus-visible {
+  border-radius: var(--radio-pequeno);
   outline: 3px solid var(--color-foco);
   outline-offset: 2px;
 }
@@ -1122,7 +1204,7 @@ body.visor-abierto {
   margin: 0;
   padding: 0;
   border: 0;
-  border-radius: 0;
+  border-radius: var(--radio-medio);
   font: inherit;
   color: inherit;
   background: none;
@@ -1167,6 +1249,7 @@ body.visor-abierto {
 }
 
 .destacado-enlace:focus-visible {
+  border-radius: var(--radio-pequeno);
   outline: 3px solid var(--color-foco);
   outline-offset: 2px;
 }
@@ -1193,23 +1276,67 @@ body.panel-abierto .pagina {
   padding-right: var(--ancho-panel);
 }
 
-/* Botón-pestaña */
+/* Botón-pestaña.
+   Cerrada: color sólido, pegada al borde de la pantalla.
+   Abierta: ::before superpone un degradado hacia el color del panel y
+   ::after dibuja las dos curvas cóncavas de la unión con el panel (radio
+   inverso). Ambas capas aparecen con un fundido de opacidad y, al ser parte
+   del botón, se desplazan con él */
 .boton-destacado {
   position: fixed;
   top: 50%;
   right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 2rem;
   height: 3.5rem;
+  padding: 0;
   border: 0;
-  border-radius: 0.5rem 0 0 0.5rem;
+  border-radius: var(--radio-medio) 0 0 var(--radio-medio);
   background: var(--color-boton-panel);
   color: var(--color-boton-panel-texto);
-  font-size: 1.5rem;
-  line-height: 1;
   cursor: pointer;
+  overflow: visible;
   transform: translateY(-50%);
   transition: right var(--duracion-transicion) ease;
   z-index: 11;
+}
+
+.boton-destacado::before,
+.boton-destacado::after {
+  content: "";
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--duracion-transicion) ease;
+}
+
+/* Degradado: sólido hasta el 65 % (la flecha ocupa el tramo central y
+   queda siempre sobre el color sólido de la pestaña, con buen contraste en
+   todos los temas) y del 65 % al 100 % hacia el panel */
+.boton-destacado::before {
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(to right, var(--color-boton-panel) 65%, var(--color-panel));
+}
+
+/* Curvas cóncavas: franja del ancho del radio pegada al panel, que sobresale
+   un radio por arriba y por abajo; cada esquina se rellena con el color del
+   panel fuera de un círculo de radio --radio-medio */
+.boton-destacado::after {
+  top: calc(-1 * var(--radio-medio));
+  bottom: calc(-1 * var(--radio-medio));
+  right: 0;
+  width: var(--radio-medio);
+  background:
+    radial-gradient(circle at 0 0, transparent var(--radio-medio), var(--color-panel) calc(var(--radio-medio) + 0.5px)) top / var(--radio-medio) var(--radio-medio) no-repeat,
+    radial-gradient(circle at 0 100%, transparent var(--radio-medio), var(--color-panel) calc(var(--radio-medio) + 0.5px)) bottom / var(--radio-medio) var(--radio-medio) no-repeat;
+}
+
+body.panel-abierto .boton-destacado::before,
+body.panel-abierto .boton-destacado::after {
+  opacity: 1;
 }
 
 .boton-destacado:focus-visible {
@@ -1217,10 +1344,31 @@ body.panel-abierto .pagina {
   outline-offset: 2px;
 }
 
+/* Cerrado: flecha hacia la izquierda; abierto: hacia la derecha.
+   Caja cuadrada con el chevron SVG centrado (como .seccion-flecha):
+   gira sobre su centro. Por encima de la capa del degradado */
 .boton-destacado-flecha {
-  display: inline-block;
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1rem;
+  height: 1rem;
+  transform-origin: center;
   transform: rotate(180deg);
   transition: transform var(--duracion-transicion) ease;
+}
+
+.boton-destacado-flecha svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 body.panel-abierto .boton-destacado {
@@ -1320,7 +1468,7 @@ body.panel-abierto .boton-destacado-flecha {
     left: 50%;
     width: 3.5rem;
     height: 2rem;
-    border-radius: 0.5rem 0.5rem 0 0;
+    border-radius: var(--radio-medio) var(--radio-medio) 0 0;
     transform: translateX(-50%);
     transition: bottom var(--duracion-transicion) ease;
   }
@@ -1328,6 +1476,24 @@ body.panel-abierto .boton-destacado-flecha {
   body.panel-abierto .boton-destacado {
     right: auto;
     bottom: var(--alto-panel-inferior);
+  }
+
+  /* Degradado vertical: del borde superior (exterior) al panel */
+  .boton-destacado::before {
+    background: linear-gradient(to bottom, var(--color-boton-panel) 65%, var(--color-panel));
+  }
+
+  /* Curvas cóncavas a izquierda y derecha de la unión con el panel */
+  .boton-destacado::after {
+    top: auto;
+    bottom: 0;
+    left: calc(-1 * var(--radio-medio));
+    right: calc(-1 * var(--radio-medio));
+    width: auto;
+    height: var(--radio-medio);
+    background:
+      radial-gradient(circle at 0 0, transparent var(--radio-medio), var(--color-panel) calc(var(--radio-medio) + 0.5px)) left / var(--radio-medio) var(--radio-medio) no-repeat,
+      radial-gradient(circle at 100% 0, transparent var(--radio-medio), var(--color-panel) calc(var(--radio-medio) + 0.5px)) right / var(--radio-medio) var(--radio-medio) no-repeat;
   }
 
   /* Cerrado: flecha hacia arriba; abierto: hacia abajo */
@@ -1552,7 +1718,7 @@ body.panel-abierto .boton-destacado-flecha {
 /* Resaltado temporal del proyecto destino de "Ver proyecto".
    El box-shadow extiende el fondo fuera de la entrada sin mover el layout. */
 .entrada-resaltada {
-  border-radius: 0.5rem;
+  border-radius: var(--radio-medio);
   animation: parpadeo-resaltado 600ms ease-in-out 2;
 }
 

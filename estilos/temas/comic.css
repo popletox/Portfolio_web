@@ -24,6 +24,8 @@
   --color-acento: #1a73e8;
   --color-texto-sobre-acento: #ffffff;
   --color-enlace: #1a73e8;
+  /* Sobre el fondo suave de las secciones abiertas: algo más oscuro (AA) */
+  --color-enlace-seccion: #1967d2;
   --color-foco: #1a73e8;
 
   /* Bocadillo de Opciones */
@@ -35,7 +37,7 @@
   --color-degradado-cabecera-fin: transparent;
 
   /* Líneas de tiempo */
-  --color-linea-tiempo: #e6e6e6;
+  --color-linea-tiempo: #d4d4d4;
   --color-punto-tiempo: #1a73e8;
 
   /* Resaltado temporal del proyecto destino */
