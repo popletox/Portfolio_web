@@ -30,66 +30,91 @@
 
   "experiencia": [
     {
-      "puesto": "Puesto provisional 1",
-      "empresa": "Empresa provisional 1",
-      "fechaInicio": "2023-03",
+      "puesto": "Técnico Desarrollo y Soporte de Aplicaciones",
+      "empresa": "Getronics",
+      "fechaInicio": "2026-07",
       "fechaFin": null,
-      "descripcion": "[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      "aptitudes": [
-        "[Provisional] Aptitud provisional A",
-        "[Provisional] Aptitud provisional B",
-        "[Provisional] Aptitud provisional C",
-        "[Provisional] Aptitud provisional D"
+      "descripcion": [
+        "Soporte técnico al Servicio de Investigación de la Universidad Carlos III de Madrid, atendiendo incidencias e implementando ajustes y mejoras en herramientas y aplicaciones existentes.",
+        "Trabajo con multiples entornos. Participo en reuniones con el personal del servicio para analizar necesidades y aportar criterios técnicos sobre posibles soluciones y cambios en los sistemas."
       ],
-      "proyectos": [
-        { "texto": "[Provisional] Proyecto provisional 1A" },
-        { "texto": "[Provisional] Proyecto provisional 1B", "enlace": "#" }
+      "aptitudes": [
+        "Soporte técnico",
+        "Resolución de incidencias",
+        "Automatización de procesos",
+        "Comunicación técnica"
       ]
     },
     {
-      "puesto": "Puesto provisional 2",
-      "empresa": "Empresa provisional 2",
-      "fechaInicio": "2021-10",
-      "fechaFin": "2023-02",
-      "descripcion": "[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      "puesto": "QA Tester de videojuegos (testing funcional)",
+      "empresa": "Universally Speaking",
+      "fechaInicio": "2026-05",
+      "fechaFin": "2026-08",
+      "descripcion": "Pruebas de calidad funcional (QA) para un único proyecto de videojuego, con redacción de informes de errores en inglés y registro y seguimiento de incidencias en una base de datos de bugs.",
       "aptitudes": [
-        "[Provisional] Aptitud provisional A",
-        "[Provisional] Aptitud provisional B",
-        "[Provisional] Aptitud provisional C"
-      ],
-      "proyectos": [
-        { "texto": "[Provisional] Proyecto provisional 2A", "enlace": "#" }
+        "Aseguramiento de la calidad",
+        "Ingles",
+        "Redacción técnica"
       ]
     },
     {
-      "puesto": "Puesto provisional 3",
-      "empresa": "Empresa provisional 3",
-      "fechaInicio": "2019-04",
-      "fechaFin": "2021-09",
-      "descripcion": "[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      "puesto": "Desarrollador jefe de proyectos",
+      "empresa": "Playoffnations",
+      "fechaInicio": "2024-12",
+      "fechaFin": "2025-10",
+      "descripcion": [
+        "Desarrollo y coordinación de proyectos en Roblox y Fortnite, combinando la programación con la gestión del equipo y la toma de decisiones de diseño e implementación.",
+        "Participación en reuniones con clientes, elaboración de documentación de resultados y seguimiento del progreso de los proyectos. Coordinación con los distintos departamentos de la empresa para comunicar avances, resolver necesidades y organizar el trabajo del equipo."
+      ],
       "aptitudes": [
-        "[Provisional] Aptitud provisional A",
-        "[Provisional] Aptitud provisional B",
-        "[Provisional] Aptitud provisional C",
-        "[Provisional] Aptitud provisional D",
-        "[Provisional] Aptitud provisional E"
+        "Liderazgo",
+        "Comunicación técnica",
+        "Redacción técnica",
+        "Gestion de proyectos"
+      ],
+      "proyectos": [
+        { "texto": "[Provisional] Revlon", "enlace": "#" }
       ]
     },
     {
-      "puesto": "Puesto provisional 4",
-      "empresa": "Empresa provisional 4",
-      "fechaInicio": "2017-01",
-      "fechaFin": "2019-03",
-      "descripcion": "[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      "puesto": "Desarrollador de videojuegos",
+      "empresa": "Playoffnations",
+      "fechaInicio": "2023-10",
+      "fechaFin": "2024-12",
+      "descripcion": [
+        "Desarrollo de juegos y experiencias interactivas para marcas en plataformas como Roblox, Fortnite y Rocket League, combinando programación de gameplay e interfaces con diseño de experiencias y elaboración de documentos de diseño de juego (GDD).",
+        "Colaboración directa con el equipo artístico para integrar recursos y resolver necesidades técnicas. Participación en decisiones de diseño e implementación, utilizando Unreal Engine y Roblox para el desarrollo y Holded para la gestión de tareas."
+      ],
       "aptitudes": [
-        "[Provisional] Aptitud provisional A",
-        "[Provisional] Aptitud provisional B",
-        "[Provisional] Aptitud provisional C"
+        "Desarrollo de videojuegos",
+        "Roblox",
+        "Unreal Engine",
+        "Fortnite"
       ],
       "proyectos": [
-        { "texto": "[Provisional] Proyecto provisional 4A" },
-        { "texto": "[Provisional] Proyecto provisional 4B", "enlace": "#" },
-        { "texto": "[Provisional] Proyecto provisional 4C" }
+        { "texto": "[Provisional] Fire Lunar Rush" },
+        { "texto": "[Provisional] Color Switch Race", "enlace": "#" },
+        { "texto": "[Provisional] The Donato's Mind" },
+        { "texto": "[Provisional] Telefonica Town" },
+        { "texto": "[Provisional] McDonald's land Tycoon" },
+        { "texto": "[Provisional] El desafio Pringles" }
+      ]
+    },
+    {
+      "puesto": "Desarrollador de software",
+      "empresa": "Smokey Tauki Games",
+      "fechaInicio": "2022-10",
+      "fechaFin": "2023-07",
+      "descripcion": [
+        "Programador de gameplay en Gloom Reaper, desarrollado en Unreal Engine 5 como proyecto de fin de máster, con especial dedicación al sistema de combate del jugador.",
+        "Participación en pruebas, coordinación del equipo y presentaciones del proyecto, asumiendo de forma rotativa el papel de portavoz. Trabajo con Perforce y Notion para el control de versiones y la organización del desarrollo. El proyecto cuenta con una demo pública en Steam."
+      ],
+      "aptitudes": [
+        "Desarrollo de videojuegos",
+        "Unreal Engine"
+      ],
+      "proyectos": [
+        { "texto": "[Provisional] Gloom Reaper" }
       ]
     }
   ],
