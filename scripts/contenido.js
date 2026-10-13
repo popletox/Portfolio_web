@@ -106,6 +106,7 @@
   function crearAptitudes(aptitudes) {
     var bloque = crear('div', 'linea-tiempo-aptitudes');
     bloque.appendChild(crear('span', 'linea-tiempo-etiqueta', 'Aptitudes clave:'));
+    bloque.appendChild(document.createTextNode(' '));
     var lista = crear('ul', 'lista-en-linea');
     aptitudes.forEach(function (aptitud) {
       lista.appendChild(crear('li', null, aptitud));
