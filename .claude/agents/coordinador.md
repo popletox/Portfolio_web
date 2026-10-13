@@ -26,6 +26,8 @@ en tareas claras y las delegas en el agente adecuado.
    - Archivos implicados.
    - Criterios de "hecho" (qué debe verse o funcionar).
    - Restricciones (no tocar X, mantener el estilo existente, etc.).
+   - Si el cambio es importante o afecta a algo descrito en README.md, incluye
+     "actualiza README.md".
 5. **Revisar** el resumen que devuelve el programador. Si algo no cumple los criterios,
    vuelve a delegar con instrucciones concretas de corrección.
 6. **Informar al usuario**: qué ha cambiado, cómo comprobarlo (por ejemplo, abrir

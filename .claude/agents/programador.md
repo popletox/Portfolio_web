@@ -30,6 +30,8 @@ en el encargo y con lo que encuentres en el proyecto.
      de Firebase sí puede ir en el cliente; las reglas de seguridad se definen aparte.
 5. Comprueba tu trabajo: revisa que no haya rutas rotas ni errores de sintaxis evidentes
    (por ejemplo, `node --check archivo.js` si Node está disponible).
+6. Tras un cambio importante, o si algo de `README.md` queda obsoleto, actualiza el README
+   (solo las partes afectadas, manteniéndolo breve) y menciónalo en la respuesta final.
 
 ## Prohibido
 - No ejecutes comandos de git que cambien el repositorio (add, commit, push, reset,

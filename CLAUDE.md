@@ -15,14 +15,16 @@ Portfolio web tipo currículum, de una sola página, alojado en Firebase Hosting
 - Secciones desplegables para ampliar detalles sin recargar la primera vista.
 
 ## Estructura de archivos
-<!-- Actualizar cuando exista. Ejemplo:
-- public/index.html
-- public/css/styles.css
-- public/js/main.js
-- firebase.json
--->
+Detalle en `docs/estructura-proyecto.md`. Resumen del proyecto para visitantes en `README.md`.
 
 ## Flujo de trabajo con agentes
 - coordinador: habla con el usuario y reparte tareas.
 - programador: edita los archivos.
 - git-gestor: commits y push, solo con aprobación del usuario.
+
+## README
+- `README.md` debe reflejar el estado real del proyecto.
+- Si un cambio es importante (nueva sección o funcionalidad, cambio de stack, hosting,
+  estructura de carpetas o de agentes) o deja obsoleta alguna parte del README, el
+  programador lo actualiza en la misma tarea.
+- Los cambios menores (estilos, textos, correcciones) no lo requieren.
