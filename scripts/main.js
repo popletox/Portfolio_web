@@ -8,10 +8,6 @@ var CABECERA_ESTRECHA = '(max-width: 768px)'; // igual que la media query de la 
 var UMBRAL_COMPACTAR = 48;
 var UMBRAL_NORMAL = 8;
 
-// Ajusta la cabecera al estado que tendrá con el scroll indicado, sin animar.
-// Devuelve true si ha cambiado (para volver a medir). La usa navegarAProyecto.
-var ajustarCabeceraParaScroll = function () { return false; };
-
 (function () {
   var cabecera = document.querySelector('.cabecera');
   if (!cabecera) return;
@@ -115,21 +111,11 @@ var ajustarCabeceraParaScroll = function () { return false; };
     return actual;
   }
 
-  // Durante un desplazamiento programado se usa el scroll de destino, para que
-  // la cabecera no se expanda al salir de cerca del inicio
-  var objetivo = null;
-  var finObjetivo = 0;
-
   function actualizar() {
     pendiente = false;
     if (enTransicion()) return; // se reevalúa al terminar la transición
     var actual = cabecera.classList.contains('cabecera--compacta');
-    var scroll = window.scrollY;
-    if (objetivo !== null) {
-      if (Math.abs(scroll - objetivo) <= 1 || Date.now() > finObjetivo) objetivo = null;
-      else scroll = objetivo;
-    }
-    var nuevo = estadoPara(scroll, actual);
+    var nuevo = estadoPara(window.scrollY, actual);
     if (nuevo === actual) return;
     cabecera.classList.toggle('cabecera--compacta', nuevo);
     if (consultaEstrecha.matches && !sinAnimaciones()) {
@@ -169,29 +155,6 @@ var ajustarCabeceraParaScroll = function () { return false; };
 
   medirAltoNormal();
   actualizar();
-
-  ajustarCabeceraParaScroll = function (scroll) {
-    var actual = cabecera.classList.contains('cabecera--compacta');
-    objetivo = scroll;
-    finObjetivo = Date.now() + 1500;
-    var nuevo = estadoPara(scroll, actual);
-    var enCurso = enTransicion();
-    if (nuevo === actual && !enCurso) return false;
-    // Forzado: salta el bloqueo y termina cualquier transición en curso
-    cancelAnimationFrame(bucle);
-    bucle = 0;
-    finCambio = 0;
-    cancelAnimationFrame(fundido);
-    fundido = 0;
-    cabecera.classList.remove('cabecera--recolocando');
-    cabecera.classList.add('cabecera--instantanea');
-    cabecera.classList.toggle('cabecera--compacta', nuevo);
-    void cabecera.offsetHeight; // aplica el tamaño final antes de medir
-    cabecera.classList.remove('cabecera--instantanea');
-    if (remedirPendiente) medirAltoNormal();
-    else compensar();
-    return true;
-  };
 })();
 
 // Panel destacado: estado inicial y botón de apertura/cierre
@@ -251,7 +214,8 @@ var ajustarCabeceraParaScroll = function () { return false; };
 })();
 
 // Muestra la diapositiva del panel Destacado que contiene el nodo indicado
-// (sin efecto si no hay carrusel). La usa volverAOrigen
+// (sin efecto si no hay carrusel). La usa la ventana de detalle de un
+// proyecto para devolver el foco a un enlace del Destacado
 var mostrarDiapositivaDestacado = function () {};
 
 // Carrusel del panel Destacado: rotación automática y puntos indicadores.
@@ -549,7 +513,6 @@ function aplicarEstadoEntrada(entrada, abierta) {
 // Las bandas por año se vuelven a montar con los proyectos visibles
 // (window.Proyectos.montar, en contenido.js). Con transición: fundido de
 // salida, cambio del contenido, ajuste de la altura y fundido de entrada.
-// opciones.instantaneo: sin transición (layout definitivo al volver).
 var aplicarFiltroProyectos = (function () {
   var movimientoReducido = window.matchMedia('(prefers-reduced-motion: reduce)');
   var generacion = 0; // invalida las fases pendientes de un filtro anterior
@@ -573,7 +536,7 @@ var aplicarFiltroProyectos = (function () {
     return animacion.finished;
   }
 
-  function aplicar(filtro, opciones) {
+  function aplicar(filtro) {
     var seccion = document.getElementById('proyectos');
     if (!seccion || !window.Proyectos) return;
     filtro = filtro || 'todos';
@@ -585,7 +548,7 @@ var aplicarFiltroProyectos = (function () {
     });
 
     var contenedor = seccion.querySelector('.proyectos-bandas');
-    var instantaneo = (opciones && opciones.instantaneo) || movimientoReducido.matches ||
+    var instantaneo = movimientoReducido.matches ||
       document.body.classList.contains('sin-transiciones') || typeof Element.prototype.animate !== 'function';
 
     // Se cancela cualquier fase pendiente de un filtro anterior
@@ -624,219 +587,6 @@ var aplicarFiltroProyectos = (function () {
   });
 
   return aplicar;
-})();
-
-// Filtro activo: el valor del botón con aria-pressed="true" ('todos' si no hay filtros)
-function filtroProyectosActivo() {
-  var activo = document.querySelector('#proyectos .filtro-proyecto[aria-pressed="true"]');
-  return activo ? activo.getAttribute('data-filtro') : 'todos';
-}
-
-// Historial de la ventana de detalle de un proyecto: la asigna el bloque de
-// la ventana (al final). Recibe el estado de un popstate y devuelve true si
-// lo ha gestionado ella (abrir o cerrar la ventana), para que el popstate de
-// los enlaces internos no haga nada más
-var gestionarHistorialDetalle = function () { return false; };
-
-// Enlaces internos a proyectos (tarjetas de Referencias y Destacado): abrir Proyectos, centrar la tarjeta del proyecto y resaltarla
-(function () {
-  var movimientoReducido = window.matchMedia('(prefers-reduced-motion: reduce)');
-  var consultaVertical = window.matchMedia(DISPOSICION_VERTICAL);
-  var MARGEN_ESPERA = 80; // ms extra tras la expansión
-  var MARGEN_SUPERIOR = 16; // px bajo la cabecera si el proyecto no cabe
-  var ESPERA_SCROLL_MAX = 1000; // ms si no hay evento scrollend
-
-  // Duración de --duracion-expansion en ms (acepta "250ms" o "0.25s")
-  function duracionExpansion() {
-    var valor = getComputedStyle(document.documentElement).getPropertyValue('--duracion-expansion').trim();
-    var numero = parseFloat(valor) || 0;
-    return /ms$/.test(valor) ? numero : numero * 1000;
-  }
-
-  function sinAnimaciones() {
-    return movimientoReducido.matches || document.body.classList.contains('sin-transiciones');
-  }
-
-  // Zona visible útil: bajo la cabecera y sobre el panel inferior si está abierto
-  function zonaVisible() {
-    var cabecera = document.querySelector('.cabecera');
-    var arriba = cabecera ? Math.max(0, cabecera.getBoundingClientRect().bottom) : 0;
-    var abajo = window.innerHeight;
-    var panel = document.querySelector('.panel-destacado');
-    if (panel && consultaVertical.matches && document.body.classList.contains('panel-abierto')) {
-      // Alto del panel, no su rect: puede estar aún deslizándose
-      abajo -= panel.offsetHeight;
-    }
-    return { arriba: arriba, alto: Math.max(0, abajo - arriba) };
-  }
-
-  // Si el destino cambia el estado de la cabecera (móvil), se aplica ya sin
-  // animar y se recalcula con su altura final
-  function calcularDestino(entrada) {
-    var destino = medirDestino(entrada);
-    if (ajustarCabeceraParaScroll(destino)) destino = medirDestino(entrada);
-    return destino;
-  }
-
-  function medirDestino(entrada) {
-    var rect = entrada.getBoundingClientRect();
-    var zona = zonaVisible();
-    var desplazamiento = rect.height > zona.alto
-      ? zona.arriba + MARGEN_SUPERIOR
-      : zona.arriba + (zona.alto - rect.height) / 2;
-    var maximo = document.documentElement.scrollHeight - window.innerHeight;
-    var destino = window.scrollY + rect.top - desplazamiento;
-    return Math.round(Math.min(Math.max(destino, 0), Math.max(maximo, 0)));
-  }
-
-  function resaltar(entrada) {
-    entrada.classList.remove('entrada-resaltada');
-    void entrada.offsetWidth; // reinicia la animación si se repite
-    entrada.classList.add('entrada-resaltada');
-  }
-
-  function alTerminarResaltado(evento) {
-    if (evento.animationName !== 'parpadeo-resaltado' && evento.animationName !== 'fundido-resaltado') return;
-    evento.currentTarget.classList.remove('entrada-resaltada');
-  }
-
-  // Resaltar cuando el desplazamiento suave termina (scrollend o tiempo máximo)
-  function resaltarTrasDesplazamiento(entrada, hayDesplazamiento) {
-    if (!hayDesplazamiento) {
-      resaltar(entrada);
-      return;
-    }
-    var hecho = false;
-    function lanzar() {
-      if (hecho) return;
-      hecho = true;
-      window.removeEventListener('scrollend', lanzar);
-      resaltar(entrada);
-    }
-    if ('onscrollend' in window) window.addEventListener('scrollend', lanzar);
-    setTimeout(lanzar, ESPERA_SCROLL_MAX);
-  }
-
-  function irAProyecto(tarjeta) {
-    var espera = false;
-    var seccion = tarjeta.closest('.seccion');
-    if (seccion && !seccion.classList.contains('seccion--abierta')) {
-      aplicarEstadoSeccion(seccion, true);
-      espera = true;
-    }
-
-    // La tarjeta es un botón: recibe el foco sin abrir su ventana
-    tarjeta.focus({ preventScroll: true });
-
-    // Se espera a que la sección termine de abrirse antes de medir
-    var retardo = espera && !sinAnimaciones() ? duracionExpansion() + MARGEN_ESPERA : 0;
-    setTimeout(function () {
-      var destino = calcularDestino(tarjeta);
-      var hayDesplazamiento = Math.abs(destino - window.scrollY) > 1;
-      var suave = !movimientoReducido.matches;
-      window.scrollTo({ top: destino, behavior: suave ? 'smooth' : 'auto' });
-      resaltarTrasDesplazamiento(tarjeta, hayDesplazamiento && suave);
-    }, retardo);
-  }
-
-  // Tarjeta del proyecto con ese id (registrada por contenido.js aunque el
-  // filtro activo la tenga fuera del DOM)
-  function tarjetaProyecto(id) {
-    return id && window.Proyectos ? window.Proyectos.tarjeta(id) : null;
-  }
-
-  // Abre Proyectos, centra y resalta la tarjeta; opcionalmente añade una entrada al historial
-  function navegarAProyecto(id, opciones) {
-    var tarjeta = tarjetaProyecto(id);
-    if (!tarjeta) return false;
-    // Si el filtro activo oculta el destino, volver a "Todos" sin transición:
-    // el layout queda definitivo antes de calcular el centrado
-    var filtro = filtroProyectosActivo();
-    if (!tarjeta.isConnected || (filtro !== 'todos' && tarjeta.getAttribute('data-categoria') !== filtro)) {
-      aplicarFiltroProyectos('todos', { instantaneo: true });
-    }
-    if (opciones && opciones.registrarHistorial && history.pushState) {
-      history.pushState({ tipo: 'proyecto', id: id }, '', '#' + id);
-    }
-    if (!tarjeta.dataset.resaltadoListo) {
-      tarjeta.addEventListener('animationend', alTerminarResaltado);
-      tarjeta.dataset.resaltadoListo = '1';
-    }
-    irAProyecto(tarjeta);
-    return true;
-  }
-
-  var historialDisponible = !!(history.pushState && history.replaceState);
-  // Evita que el navegador restaure el scroll y choque con el nuestro
-  if (historialDisponible && 'scrollRestoration' in history) history.scrollRestoration = 'manual';
-
-  // Identifica un enlace por su data-proyecto y su posición entre los del mismo destino
-  function localizarEnlace(proyecto, indice) {
-    var enlaces = document.querySelectorAll('a.enlace-proyecto[data-proyecto]');
-    var iguales = Array.prototype.filter.call(enlaces, function (e) {
-      return e.getAttribute('data-proyecto') === proyecto;
-    });
-    return iguales[indice] || null;
-  }
-
-  // Volver a la entrada de origen: centra su entrada (o el enlace si no cabe);
-  // si el enlace no está visible, usa la posición guardada
-  function volverAOrigen(estado) {
-    var enlace = localizarEnlace(estado.proyecto, estado.indice);
-    var suave = !movimientoReducido.matches;
-    var destino = estado.scroll;
-    // El panel Destacado es fijo: se vuelve a la posición guardada y solo se
-    // enfoca el enlace si el panel sigue abierto
-    var enPanel = enlace && enlace.closest('.panel-destacado');
-    if (enPanel) {
-      // Si el enlace está en otra diapositiva, se muestra antes de enfocarlo
-      mostrarDiapositivaDestacado(enlace);
-      window.scrollTo({ top: destino, behavior: suave ? 'smooth' : 'auto' });
-      if (document.body.classList.contains('panel-abierto')) enlace.focus({ preventScroll: true });
-      return;
-    }
-    if (enlace && enlace.getClientRects().length && !enlace.closest('[inert]')) {
-      var entrada = enlace.closest('.linea-tiempo-entrada');
-      var objetivo = entrada && entrada.getBoundingClientRect().height <= zonaVisible().alto ? entrada : enlace;
-      destino = calcularDestino(objetivo);
-    }
-    window.scrollTo({ top: destino, behavior: suave ? 'smooth' : 'auto' });
-    if (enlace && !enlace.closest('[inert]')) enlace.focus({ preventScroll: true });
-  }
-
-  document.addEventListener('click', function (evento) {
-    var enlace = evento.target.closest('a.enlace-proyecto[data-proyecto]');
-    if (!enlace) return;
-    var proyecto = enlace.getAttribute('data-proyecto');
-    if (!tarjetaProyecto(proyecto)) return;
-    evento.preventDefault();
-    if (historialDisponible) {
-      var iguales = document.querySelectorAll('a.enlace-proyecto[data-proyecto]');
-      var indice = Array.prototype.filter.call(iguales, function (e) {
-        return e.getAttribute('data-proyecto') === proyecto;
-      }).indexOf(enlace);
-      // Guarda en la entrada actual cómo volver al mérito
-      history.replaceState({ tipo: 'origen', scroll: window.scrollY, proyecto: proyecto, indice: indice }, '', location.href);
-    }
-    navegarAProyecto(proyecto, { registrarHistorial: historialDisponible });
-  });
-
-  window.addEventListener('popstate', function (evento) {
-    var estado = evento.state;
-    if (gestionarHistorialDetalle(estado)) return;
-    if (estado && estado.tipo === 'origen') {
-      volverAOrigen(estado);
-    } else if (estado && estado.tipo === 'proyecto') {
-      navegarAProyecto(estado.id);
-    } else if (location.hash) {
-      navegarAProyecto(decodeURIComponent(location.hash.slice(1)));
-    }
-  });
-
-  // Recarga o enlace directo con #proyecto: navegar cuando el contenido existe
-  document.addEventListener('contenido:listo', function () {
-    if (location.hash) navegarAProyecto(decodeURIComponent(location.hash.slice(1)));
-  });
 })();
 
 // Visor de imágenes: un clic en la imagen del panel Destacado o en una
@@ -919,12 +669,20 @@ var gestionarHistorialDetalle = function () { return false; };
 })();
 
 // Ventana de detalle de un proyecto (<dialog id="detalle-proyecto">): se abre
-// al pulsar una tarjeta de Proyectos o con window.Proyectos.abrirDetalle(id).
-// Se cierra con ✕, Esc, clic fuera o el botón Atrás; el foco vuelve a la
-// tarjeta. Historial: al abrir se añade una entrada propia (misma URL, estado
-// { tipo: 'detalle', id, clave }); cerrar con ✕/Esc/fuera hace history.back()
-// para quitarla y es ese popstate el que cierra la ventana, así no quedan
-// entradas sobrantes. Adelante vuelve a abrirla
+// al pulsar una tarjeta de Proyectos, un enlace "#<id>" de un proyecto
+// (Referencias, Destacado, la propia ventana) o con
+// window.Proyectos.abrirDetalle(id). Se cierra con ✕, Esc, clic fuera o el
+// botón Atrás; el foco vuelve al elemento que la abrió y la página no se mueve.
+// La URL refleja el proyecto abierto ("#<id>"):
+// - Abrir: pushState con "#<id>" y estado { tipo: 'detalle', id, clave }
+//   (entrada propia). Cambiar de proyecto con la ventana abierta: replaceState.
+// - Cerrar con ✕/Esc/fuera una entrada propia: history.back(); es ese popstate
+//   el que cierra la ventana, así no quedan entradas sobrantes.
+// - Entrada no propia (enlace directo, recarga, "#<id>" escrito en la barra):
+//   se abre la ventana sin tocar el historial y cerrar quita el hash con
+//   replaceState (history.back() sacaría al usuario de la web).
+// - popstate/hashchange: URL con "#<id>" de un proyecto, abrir; sin él, cerrar.
+//   El resto de hashes se comportan como siempre
 (function () {
   var dialogo = document.getElementById('detalle-proyecto');
   if (!dialogo || typeof dialogo.showModal !== 'function' || !window.Proyectos) return;
@@ -937,11 +695,15 @@ var gestionarHistorialDetalle = function () { return false; };
   var MARGEN_CIERRE = 100; // ms extra si no llega animationend
 
   var origen = null; // recibe el foco al cerrar
-  var clave = null; // identifica la entrada de historial de la ventana abierta
+  var idAbierto = null; // proyecto que muestra la ventana
+  var clave = null; // identifica la entrada de historial propia de la ventana abierta
   var volviendo = false; // se ha pedido history.back() para cerrar
   var esperaVuelta = 0;
   var esperaCierre = 0;
   var pulsacionFuera = false;
+
+  // Atrás/Adelante no deben mover la página
+  if (historialDisponible && 'scrollRestoration' in history) history.scrollRestoration = 'manual';
 
   function duracionFundido() {
     var valor = getComputedStyle(document.documentElement).getPropertyValue('--duracion-fundido').trim();
@@ -961,6 +723,28 @@ var gestionarHistorialDetalle = function () { return false; };
     return clave !== null && !!estado && estado.tipo === 'detalle' && estado.clave === clave;
   }
 
+  // Id del proyecto de un hash ("#mi-juego"); null si no es un proyecto existente
+  function idDeHash(hash) {
+    var texto = typeof hash === 'string' ? hash.replace(/^#/, '') : '';
+    if (!texto) return null;
+    try {
+      texto = decodeURIComponent(texto);
+    } catch (error) {
+      return null;
+    }
+    return window.Proyectos.tarjeta(texto) ? texto : null;
+  }
+
+  function hashDe(id) {
+    return '#' + encodeURIComponent(id);
+  }
+
+  // Quita de la URL el hash del proyecto sin añadir entradas
+  function quitarHash() {
+    if (!historialDisponible || !idDeHash(location.hash)) return;
+    history.replaceState(null, '', location.pathname + location.search);
+  }
+
   function terminarCierre(evento) {
     if (evento && evento.target !== dialogo) return;
     clearTimeout(esperaCierre);
@@ -971,6 +755,7 @@ var gestionarHistorialDetalle = function () { return false; };
 
   // Cierra la ventana (con fundido) sin tocar el historial
   function ocultar() {
+    idAbierto = null;
     if (!dialogo.open || cerrando()) return;
     if (movimientoReducido.matches) {
       dialogo.close();
@@ -1003,13 +788,15 @@ var gestionarHistorialDetalle = function () { return false; };
       return;
     }
     clave = null;
+    quitarHash();
     ocultar();
   }
 
   // opciones.origen: elemento que recupera el foco al cerrar (por defecto,
-  // el que lo tiene al abrir). opciones.clave (interno): reabrir con
-  // Adelante usando la entrada de historial existente.
-  // Con la ventana ya abierta, cambia su contenido sin añadir otra entrada
+  // el que lo tiene al abrir). opciones.sincronizar (interno): la URL ya es
+  // la del proyecto (Atrás/Adelante, enlace directo, barra de direcciones) y
+  // no se toca el historial. Con la ventana ya abierta, cambia su contenido
+  // y sustituye la entrada en lugar de añadir otra
   function abrir(id, opciones) {
     opciones = opciones || {};
     if (volviendo) return false;
@@ -1026,48 +813,43 @@ var gestionarHistorialDetalle = function () { return false; };
       botonCerrar.focus();
     }
     caja.scrollTop = 0;
+    idAbierto = id;
 
-    if (opciones.clave) {
-      clave = opciones.clave;
-    } else if (historialDisponible) {
-      if (yaAbierta && esEntradaPropia(history.state)) {
-        history.replaceState({ tipo: 'detalle', id: id, clave: clave }, '', location.href);
-      } else {
-        clave = String(Date.now()) + '-' + Math.random().toString(36).slice(2);
-        history.pushState({ tipo: 'detalle', id: id, clave: clave }, '', location.href);
-      }
-    } else {
+    if (!historialDisponible) {
       clave = null;
+    } else if (opciones.sincronizar) {
+      // Entrada creada por un pushState propio (p. ej. al volver con
+      // Adelante) o ajena (enlace directo, barra de direcciones)
+      var estado = history.state;
+      clave = estado && estado.tipo === 'detalle' && estado.clave ? estado.clave : null;
+    } else if (yaAbierta) {
+      history.replaceState(clave ? { tipo: 'detalle', id: id, clave: clave } : history.state, '', hashDe(id));
+    } else {
+      clave = String(Date.now()) + '-' + Math.random().toString(36).slice(2);
+      history.pushState({ tipo: 'detalle', id: id, clave: clave }, '', hashDe(id));
     }
     return true;
   }
 
-  // Lo llama el popstate de los enlaces internos (más arriba)
-  gestionarHistorialDetalle = function (estado) {
+  // Ajusta la ventana a la URL actual (popstate, hashchange y contenido listo).
+  // Un mismo cambio puede llegar por popstate y por hashchange: idempotente
+  function sincronizar() {
     if (volviendo) {
+      // Llega el popstate del history.back() de cerrar()
       volviendo = false;
       clearTimeout(esperaVuelta);
       clave = null;
       ocultar();
-      return true;
+      return;
     }
-    if (abierta()) {
-      // Atrás con la ventana abierta: solo se cierra
-      if (!esEntradaPropia(estado)) {
-        clave = null;
-        ocultar();
-      }
-      return true;
+    var id = idDeHash(location.hash);
+    if (id) {
+      if (!abierta() || id !== idAbierto) abrir(id, { sincronizar: true });
+    } else if (abierta()) {
+      clave = null;
+      ocultar();
     }
-    if (estado && estado.tipo === 'detalle' && typeof estado.id === 'string') {
-      // Adelante hasta una entrada de la ventana: se vuelve a abrir
-      return abrir(estado.id, {
-        clave: estado.clave || null,
-        origen: window.Proyectos.tarjeta(estado.id)
-      });
-    }
-    return false;
-  };
+  }
 
   // Para el resto de la web: abre la ventana de un proyecto por id (true si
   // existe). opciones.origen: elemento al que vuelve el foco al cerrar
@@ -1075,11 +857,35 @@ var gestionarHistorialDetalle = function () { return false; };
     return abrir(id, { origen: opciones && opciones.origen });
   };
 
+  // URL absoluta del proyecto (enlace directo a su ventana); null si no existe
+  window.Proyectos.urlDetalle = function (id) {
+    return window.Proyectos.tarjeta(id) ? location.origin + location.pathname + hashDe(id) : null;
+  };
+
   // Tarjetas de Proyectos (botones): clic, Enter o Espacio
   document.addEventListener('click', function (evento) {
-    var tarjeta = evento.target.closest('button.proyecto-tarjeta');
-    if (!tarjeta || !tarjeta.id) return;
-    abrir(tarjeta.id, { origen: tarjeta });
+    var tarjeta = evento.target.closest('button.proyecto-tarjeta[data-proyecto]');
+    if (!tarjeta) return;
+    abrir(tarjeta.getAttribute('data-proyecto'), { origen: tarjeta });
+  });
+
+  // Enlaces "#<id>" de un proyecto en cualquier parte de la página (también
+  // dentro de la ventana, donde cambian el proyecto mostrado). Con teclas
+  // modificadoras o botón central actúa el navegador (pestaña nueva...).
+  // Dentro de la ventana, los "#..." que no son proyectos no hacen nada
+  document.addEventListener('click', function (evento) {
+    if (evento.defaultPrevented || evento.button !== 0 ||
+      evento.ctrlKey || evento.metaKey || evento.shiftKey || evento.altKey) return;
+    var enlace = evento.target.closest('a[href^="#"]');
+    if (!enlace) return;
+    var dentro = caja.contains(enlace);
+    var id = idDeHash(enlace.getAttribute('href'));
+    if (!id) {
+      if (dentro) evento.preventDefault();
+      return;
+    }
+    evento.preventDefault();
+    abrir(id, dentro ? {} : { origen: enlace });
   });
 
   botonCerrar.addEventListener('click', cerrar);
@@ -1100,33 +906,35 @@ var gestionarHistorialDetalle = function () { return false; };
     cerrar();
   });
 
-  // Enlaces "#..." del proyecto: no cambian la URL con la ventana abierta;
-  // si apuntan a otro proyecto, la ventana muestra ese proyecto
-  caja.addEventListener('click', function (evento) {
-    var enlace = evento.target.closest('a[href^="#"]');
-    if (!enlace) return;
-    evento.preventDefault();
-    var id = decodeURIComponent(enlace.getAttribute('href').slice(1));
-    if (id && window.Proyectos.tarjeta(id)) abrir(id);
-  });
-
   dialogo.addEventListener('close', function () {
     if (dialogo.open) return; // reabierta antes de llegar el evento
     dialogo.classList.remove(CERRANDO);
     document.body.classList.remove('detalle-abierto');
     caja.replaceChildren();
+    idAbierto = null;
     // Cerrada sin pasar por cerrar() (p. ej. un Esc que el navegador no deja
-    // cancelar): se quita igualmente la entrada del historial
-    if (!volviendo && historialDisponible && esEntradaPropia(history.state)) volverAtras();
+    // cancelar): se quita igualmente la entrada del historial o el hash
+    if (!volviendo && historialDisponible) {
+      if (esEntradaPropia(history.state)) volverAtras();
+      else quitarHash();
+    }
     clave = null;
     var destino = origen;
     origen = null;
     if (destino && destino.isConnected && typeof destino.focus === 'function') {
+      // Enlace del Destacado: si el carrusel ha rotado, vuelve a su diapositiva
+      mostrarDiapositivaDestacado(destino);
       destino.focus({ preventScroll: true });
     }
   });
 
-  // Recarga con la ventana abierta: la entrada queda sin ventana; se limpia
+  window.addEventListener('popstate', sincronizar);
+  window.addEventListener('hashchange', sincronizar);
+  // Enlace directo o recarga con "#<id>": abrir cuando el contenido existe
+  document.addEventListener('contenido:listo', sincronizar);
+
+  // Recarga con la ventana abierta: la entrada ya no es propia de esta visita
+  // (se conserva el hash para volver a abrirla)
   if (historialDisponible && history.state && history.state.tipo === 'detalle') {
     history.replaceState(null, '', location.href);
   }

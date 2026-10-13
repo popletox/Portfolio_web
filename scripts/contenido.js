@@ -170,8 +170,8 @@
   }
 
   // Tarjeta: título arriba e imagen (o rectángulo provisional) debajo.
-  // Con enlace válido es un <a>: si apunta a un proyecto usa el enlace
-  // interno de main.js (navegarAProyecto); http(s), pestaña nueva.
+  // Con enlace válido es un <a>: si apunta a un proyecto, main.js abre su
+  // ventana de detalle; http(s), pestaña nueva.
   // Sin enlace es un <div> no interactivo
   function crearTarjetaReferencia(referencia) {
     var url = typeof referencia.enlace === 'string' ? referencia.enlace.trim() : '';
@@ -348,7 +348,9 @@
 
   // Tarjeta de proyecto: nombre (2 líneas) y categoría (1 línea) arriba e
   // imagen cuadrada debajo, con las clases de las tarjetas de Referencias.
-  // Es un botón que abre la ventana de detalle (main.js, por delegación)
+  // Es un botón que abre la ventana de detalle (main.js, por delegación).
+  // El id va en data-proyecto, no en id: así "#<id>" en la URL no desplaza
+  // la página hasta la tarjeta
   function crearTarjetaProyecto(proyecto) {
     var referencia = referenciaDesdeProyecto(proyecto);
     var tarjeta = crear('button', 'referencia-tarjeta proyecto-tarjeta');
@@ -358,7 +360,7 @@
     tarjeta.setAttribute('aria-label', proyecto.categoria
       ? proyecto.titulo + ', ' + proyecto.categoria
       : proyecto.titulo);
-    if (proyecto.id) tarjeta.id = proyecto.id;
+    if (proyecto.id) tarjeta.setAttribute('data-proyecto', proyecto.id);
     if (proyecto.categoria) tarjeta.setAttribute('data-categoria', proyecto.categoria);
     tarjeta.appendChild(crear('span', 'referencia-titulo proyecto-tarjeta-titulo', proyecto.titulo));
     if (proyecto.categoria) {
@@ -583,8 +585,9 @@
 
   // Para main.js (filtros, enlaces internos y ventana de detalle): volver a
   // montar las bandas con un filtro, obtener la tarjeta de un proyecto por id
-  // (aunque el filtro la tenga fuera del DOM) y crear el contenido de su
-  // ventana de detalle (null si el id no existe). main.js añade abrirDetalle
+  // (aunque el filtro la tenga fuera del DOM; sirve para saber si existe) y
+  // crear el contenido de su ventana de detalle (null si el id no existe).
+  // main.js añade abrirDetalle y urlDetalle
   window.Proyectos = {
     montar: montarBandasProyectos,
     tarjeta: function (id) {
@@ -672,8 +675,8 @@
     return boton;
   }
 
-  // "#<id>" de un proyecto existente: enlace interno que gestiona main.js
-  // (navegarAProyecto). http(s): pestaña nueva. Resto: crearEnlace lo valida
+  // "#<id>" de un proyecto existente: enlace interno; main.js abre la ventana
+  // de detalle del proyecto. http(s): pestaña nueva. Resto: crearEnlace lo valida
   function crearEnlaceDestacado(enlace, proyectosPorId) {
     var url = typeof enlace.url === 'string' ? enlace.url.trim() : '';
     var a = crearEnlace(enlace.texto, url, 'destacado-enlace');

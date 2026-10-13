@@ -48,7 +48,6 @@ Cada tema es un archivo en `estilos/temas/<id>.css` que define **todas** las var
 | `--color-degradado-cabecera-fin` | Final del degradado (normalmente `transparent`). |
 | `--color-linea-tiempo` | Línea vertical de las líneas de tiempo y líneas horizontales de año de Proyectos. |
 | `--color-punto-tiempo` | Punto de cada entrada. |
-| `--color-resaltado` | Parpadeo de la tarjeta de proyecto destino de un enlace interno (Referencias, Destacado) (semitransparente). |
 | `--color-miniatura-provisional` | Miniaturas, imagen del visor y tarjetas de Referencias y de Proyectos sin imagen real. |
 | `--color-destacado-provisional` | Cuadrado provisional del panel destacado. |
 | `--color-fondo-visor` | Fondo oscurecido tras la imagen ampliada y tras la ventana de detalle de un proyecto. |

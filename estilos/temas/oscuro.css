@@ -38,9 +38,6 @@
   --color-linea-tiempo: #43484e;
   --color-punto-tiempo: #8ab4f8;
 
-  /* Resaltado temporal del proyecto destino */
-  --color-resaltado: rgba(138, 180, 248, 0.22);
-
   /* Elementos provisionales (sin imagen real) */
   --color-miniatura-provisional: #3f8f43;
   --color-destacado-provisional: #c9741f;

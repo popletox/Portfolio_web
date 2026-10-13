@@ -99,7 +99,7 @@ Copia este bloque dentro del array `"proyectos"`, separado del anterior por una 
 | `descripcion` | Sí | String o array de strings. |
 | `referencias` | No | Array de ids de proyectos o del catálogo `referencias`, como en Experiencia. |
 
-**Enlazar un mérito con un proyecto:** pon el `id` exacto del proyecto en el campo `referencias` del mérito (p. ej. `["mi-juego"]`); no hace falta ninguna entrada en el catálogo. La tarjeta toma el título y la primera imagen del proyecto y, al pulsarla, abre la sección Proyectos, centra la tarjeta del proyecto y la resalta; el botón Atrás vuelve al mérito.
+**Enlazar un mérito con un proyecto:** pon el `id` exacto del proyecto en el campo `referencias` del mérito (p. ej. `["mi-juego"]`); no hace falta ninguna entrada en el catálogo. La tarjeta toma el título y la primera imagen del proyecto y, al pulsarla, abre la ventana de detalle del proyecto sin mover la página; al cerrarla (también con el botón Atrás) se sigue en el mérito.
 
 ## Referencias
 
@@ -109,7 +109,7 @@ Las tarjetas del bloque «Referencias» que aparece en el detalle de Experiencia
 
 - Título: el `titulo` del proyecto.
 - Imagen: siempre la **primera** de `imagenes` (`low`, o `high` si falta `low`), con su `alt` (o el título si no tiene). Si el proyecto no tiene imágenes o la primera no tiene ruta válida, se ve el rectángulo provisional.
-- Enlace: abre Proyectos, centra la tarjeta del proyecto y la resalta (Atrás vuelve al origen).
+- Enlace: abre la ventana de detalle del proyecto (Atrás la cierra y se sigue donde se estaba).
 
 Al cambiar el título o la primera imagen del proyecto, sus tarjetas se actualizan solas. Si además hay una entrada del catálogo con el mismo id, se ignora (aviso en la consola).
 
@@ -167,7 +167,7 @@ Imagen:
 
 Enlace:
 
-- **A un proyecto de la web:** `"url": "#<id>"` con el `id` del proyecto (p. ej. `"#mi-juego"`). Al pulsarlo abre Proyectos, centra la tarjeta del proyecto y la resalta, igual que las tarjetas de Referencias con enlace interno. Si el `id` no existe, queda como un enlace normal a `#<id>`.
+- **A un proyecto de la web:** `"url": "#<id>"` con el `id` del proyecto (p. ej. `"#mi-juego"`). Al pulsarlo abre la ventana de detalle del proyecto, igual que las tarjetas de Referencias con enlace interno. Si el `id` no existe, queda como un enlace normal a `#<id>`.
 - **Externo:** `"url": "https://..."`. Se abre en una pestaña nueva.
 - Se aplican las mismas reglas de URL que en el resto de enlaces (`http:`, `https:`, `mailto:` o `#`).
 

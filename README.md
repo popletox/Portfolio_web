@@ -20,9 +20,9 @@ Flujo: petición → coordinador → programador → revisión → (con permiso)
 
 - Encabezado fijo con nombre, subtítulo, iconos de contacto y botón de Opciones; en móvil se compacta al bajar.
 - Secciones desplegables (Experiencia, Proyectos, Méritos y reconocimientos, Estudios) con líneas de tiempo y entradas que se abren y cierran.
-- Proyectos en bandas por año con tarjetas y filtros por tecnología, generados a partir de los datos. Cada tarjeta abre una ventana de detalle (descripción, aptitudes, enlace e imágenes) que se cierra también con el botón Atrás.
+- Proyectos en bandas por año con tarjetas y filtros por tecnología, generados a partir de los datos. Cada tarjeta abre una ventana de detalle (descripción, aptitudes, enlace e imágenes) que se cierra también con el botón Atrás. Cada proyecto tiene enlace directo (`…/#<id>` abre su ventana).
 - Visor de imágenes para ampliar las imágenes de la ventana de detalle y la del panel Destacado.
-- Referencias en tarjetas (cuadrícula con título e imagen) en el detalle de Experiencia, Estudios y Méritos: las de proyectos toman solas su título y primera imagen; las demás, de un catálogo común del JSON. Las que enlazan a un proyecto lo abren, lo centran y lo resaltan; el botón Atrás vuelve al origen.
+- Referencias en tarjetas (cuadrícula con título e imagen) en el detalle de Experiencia, Estudios y Méritos: las de proyectos toman solas su título y primera imagen; las demás, de un catálogo común del JSON. Las que enlazan a un proyecto (y el enlace interno del Destacado) abren su ventana de detalle sin mover la página.
 - Panel Destacado en forma de carrusel (lateral en ordenador, inferior en móvil), cerrable y reabrible.
 - Temas Claro, Oscuro, Código y Cómic, elegibles en el menú de Opciones y guardados en el navegador.
 - Contenido cargado desde `datos/contenido.json`.
@@ -34,6 +34,7 @@ Flujo: petición → coordinador → programador → revisión → (con permiso)
 - Diseño propio del tema Cómic (ahora es una copia provisional de Claro).
 - Interruptor de "Efectos divertidos" en Opciones y sus animaciones en los títulos.
 - Configuración y publicación en Firebase Hosting.
+- Botón de compartir proyecto en la ventana de detalle (copiar su enlace directo).
 
 ## Tecnologías
 

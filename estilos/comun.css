@@ -28,7 +28,6 @@ img {
   --duracion-expansion: 250ms;
   --duracion-fundido: 200ms;
   --espacio: 1.5rem;
-  --margen-resaltado: 0.5rem;
   --alto-degradado-cabecera: 2rem;
   --margen-ancla: 9rem;
   --z-cabecera: 5;
@@ -1964,65 +1963,6 @@ body.panel-abierto .boton-destacado-flecha {
   .detalle-proyecto-imagenes {
     grid-template-columns: repeat(auto-fill, minmax(min(100%, 6.5rem), 1fr));
     padding-top: 0;
-  }
-}
-
-/* Resaltado temporal del proyecto destino de "Ver proyecto".
-   El box-shadow extiende el fondo fuera de la entrada sin mover el layout. */
-.entrada-resaltada {
-  border-radius: var(--radio-medio);
-  animation: parpadeo-resaltado 600ms ease-in-out 2;
-}
-
-@keyframes parpadeo-resaltado {
-  0%,
-  100% {
-    background-color: transparent;
-    box-shadow: 0 0 0 var(--margen-resaltado) transparent;
-  }
-  50% {
-    background-color: var(--color-resaltado);
-    box-shadow: 0 0 0 var(--margen-resaltado) var(--color-resaltado);
-  }
-}
-
-@keyframes fundido-resaltado {
-  0%,
-  100% {
-    background-color: transparent;
-    box-shadow: 0 0 0 var(--margen-resaltado) transparent;
-  }
-  15%,
-  70% {
-    background-color: var(--color-resaltado);
-    box-shadow: 0 0 0 var(--margen-resaltado) var(--color-resaltado);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .entrada-resaltada {
-    animation: fundido-resaltado 1.2s ease 1;
-  }
-}
-
-/* Tarjeta de proyecto: el parpadeo va en una capa encima (también sobre la
-   imagen) para no quitarle su fondo; la tarjeta recorta el halo */
-.proyecto-tarjeta.entrada-resaltada {
-  animation: none;
-}
-
-.proyecto-tarjeta.entrada-resaltada::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  animation: parpadeo-resaltado 600ms ease-in-out 2;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .proyecto-tarjeta.entrada-resaltada::after {
-    animation: fundido-resaltado 1.2s ease 1;
   }
 }
 
