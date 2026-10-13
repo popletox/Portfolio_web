@@ -275,15 +275,24 @@
     return !/^[a-z][a-z0-9+.\-]*:/i.test(valor);
   }
 
+  // Ruta para la vista pequeña: "low" o, si falta o no es válida, "high"
+  function rutaImagenPequena(imagen) {
+    if (esRutaImagenSegura(imagen.low)) return imagen.low.trim();
+    if (esRutaImagenSegura(imagen.high)) return imagen.high.trim();
+    return null;
+  }
+
   function crearMiniatura(imagen, numero, tituloProyecto) {
     var li = crear('li');
     var boton = crear('button', 'proyecto-miniatura');
     boton.type = 'button';
     boton.setAttribute('aria-label', 'Ampliar imagen ' + numero + ' de ' + tituloProyecto);
-    // Sin miniatura válida, el botón queda vacío (cuadrado provisional)
-    if (imagen && esRutaImagenSegura(imagen.miniatura)) {
+    // Miniatura: "low" o, si falta, "high". Sin ninguna válida, el botón
+    // queda vacío (cuadrado provisional)
+    var rutaMiniatura = imagen ? rutaImagenPequena(imagen) : null;
+    if (rutaMiniatura) {
       var img = document.createElement('img');
-      img.src = imagen.miniatura.trim();
+      img.src = rutaMiniatura;
       img.alt = imagen.alt || '';
       img.loading = 'lazy';
       img.decoding = 'async';
@@ -291,8 +300,8 @@
         img.className = 'encuadre-' + imagen.encuadre;
       }
       // El visor lee data-imagen-grande del botón
-      if (esRutaImagenSegura(imagen.grande)) {
-        boton.setAttribute('data-imagen-grande', imagen.grande.trim());
+      if (esRutaImagenSegura(imagen.high)) {
+        boton.setAttribute('data-imagen-grande', imagen.high.trim());
       }
       boton.appendChild(img);
     }
@@ -437,11 +446,9 @@
 
   // ---- Panel Destacado ----
 
-  // Ruta de la imagen: "miniatura" (como en Proyectos) o su alias "src"
+  // Ruta de la imagen del panel: "low" o, si falta, "high" (como en Proyectos)
   function rutaImagenDestacado(imagen) {
-    if (esRutaImagenSegura(imagen.miniatura)) return imagen.miniatura.trim();
-    if (esRutaImagenSegura(imagen.src)) return imagen.src.trim();
-    return null;
+    return rutaImagenPequena(imagen);
   }
 
   // Botón que abre el visor (main.js escucha button.destacado-imagen).
@@ -462,8 +469,8 @@
     img.alt = alt;
     img.loading = 'lazy';
     img.decoding = 'async';
-    if (esRutaImagenSegura(imagen.grande)) {
-      boton.setAttribute('data-imagen-grande', imagen.grande.trim());
+    if (esRutaImagenSegura(imagen.high)) {
+      boton.setAttribute('data-imagen-grande', imagen.high.trim());
     }
     boton.appendChild(img);
     return boton;

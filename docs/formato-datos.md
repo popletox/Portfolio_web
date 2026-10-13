@@ -61,11 +61,11 @@ Cada imagen:
 | Campo | Obligatorio | Descripción |
 | --- | --- | --- |
 | `alt` | Sí | Descripción de la imagen (accesibilidad). |
-| `miniatura` | No | Ruta a la versión pequeña, p. ej. `"recursos/proyectos/mi-juego-1.jpg"`. Si falta, se muestra el cuadrado provisional. |
-| `grande` | No | Ruta a la versión grande para el visor. Si falta, el visor usa `miniatura`. |
+| `low` | No | Ruta a la versión pequeña, p. ej. `"recursos/proyectos/mi-juego-1.jpg"`. Si falta, la miniatura usa `high`; si tampoco hay `high`, se muestra el cuadrado provisional. Recomendable ponerla para que la página cargue más ligera. |
+| `high` | No | Ruta a la versión grande para el visor. Si falta, el visor usa `low`. Si solo hay `high`, se usa tanto en la miniatura como en el visor. |
 | `encuadre` | No | `"arriba"`, `"abajo"`, `"izquierda"` o `"derecha"`. Sin él (o con otro valor), centrado. |
 
-Las rutas de `miniatura` y `grande` deben ser relativas (`recursos/...`) o empezar por `http://` o `https://`. Cualquier otra (`javascript:`, `data:`, `//...`) se ignora: sin `miniatura` válida se ve el cuadrado provisional.
+Las rutas de `low` y `high` deben ser relativas (`recursos/...`) o empezar por `http://` o `https://`. Cualquier otra (`javascript:`, `data:`, `//...`) se ignora: sin `low` ni `high` válidas se ve el cuadrado provisional.
 
 ### Ejemplo mínimo para añadir un proyecto
 
@@ -81,7 +81,7 @@ Copia este bloque dentro del array `"proyectos"`, separado del anterior por una 
   "aptitudes": ["C#", "Diseño de niveles"],
   "enlace": { "texto": "Jugar en itch.io", "url": "https://popletox.itch.io/" },
   "imagenes": [
-    { "miniatura": "recursos/proyectos/mi-juego-1.jpg", "grande": "recursos/proyectos/mi-juego-1-grande.jpg", "alt": "Captura del menú principal" }
+    { "low": "recursos/proyectos/mi-juego-1.jpg", "high": "recursos/proyectos/mi-juego-1-grande.jpg", "alt": "Captura del menú principal" }
   ]
 }
 ```
@@ -142,14 +142,14 @@ Cada diapositiva se muestra en este orden: título, imagen, descripción y enlac
 | Campo | Obligatorio | Descripción |
 | --- | --- | --- |
 | `titulo` | No | Título de la diapositiva. Si falta, se usa «Proyecto destacado». |
-| `imagen` | No | `{ "miniatura", "grande", "alt" }`, como las imágenes de Proyectos (sin `encuadre`). Si falta la clave entera, esa diapositiva no lleva imagen. |
+| `imagen` | No | `{ "low", "high", "alt" }`, como las imágenes de Proyectos (sin `encuadre`). Si falta la clave entera, esa diapositiva no lleva imagen. |
 | `descripcion` | No | String o array de strings. Mejor breve: 1 o 2 frases. |
 | `enlace` | No | `{ "texto": "...", "url": "..." }`. Se muestra con una flecha «→». |
 
 Imagen:
 
-- `miniatura` es la imagen que se ve en el panel. Como aquí no es una miniatura, también se acepta el nombre `src` (si están las dos, se usa `miniatura`). Si no hay ruta válida, se muestra el cuadrado naranja provisional.
-- `grande` (opcional) es la versión para el visor; si falta, el visor usa la del panel.
+- `low` es la imagen que se ve en el panel. Si falta o no es válida, el panel usa `high`; si tampoco hay `high` válida, se muestra el cuadrado naranja provisional. Recomendable poner `low` para que la página cargue más ligera.
+- `high` (opcional) es la versión para el visor; si falta, el visor usa la del panel.
 - `alt` (obligatorio dentro de `imagen`) describe la imagen.
 - Puede tener cualquier proporción (vertical, cuadrada u horizontal): ocupa el ancho del panel sin deformarse. Si es muy alta, se recorta por arriba y por abajo (máximo 60 % del alto de la ventana en ordenador; el alto del panel en móvil).
 - Al pulsarla se abre en el visor, como las miniaturas de Proyectos (también el cuadrado provisional).
@@ -169,8 +169,8 @@ Ejemplo:
   {
     "titulo": "Proyecto destacado",
     "imagen": {
-      "miniatura": "recursos/destacado/mi-juego.jpg",
-      "grande": "recursos/destacado/mi-juego-grande.jpg",
+      "low": "recursos/destacado/mi-juego.jpg",
+      "high": "recursos/destacado/mi-juego-grande.jpg",
       "alt": "Portada de Mi juego"
     },
     "descripcion": "Juego de plataformas hecho en Unity en 48 horas.",
