@@ -36,7 +36,7 @@
       "fechaFin": null,
       "descripcion": [
         "Soporte técnico al Servicio de Investigación de la Universidad Carlos III de Madrid, atendiendo incidencias e implementando ajustes y mejoras en herramientas y aplicaciones existentes.",
-        "Trabajo con multiples entornos. Participo en reuniones con el personal del servicio para analizar necesidades y aportar criterios técnicos sobre posibles soluciones y cambios en los sistemas."
+        "Trabajo con múltiples entornos. Participo en reuniones con el personal del servicio para analizar necesidades y aportar criterios técnicos sobre posibles soluciones y cambios en los sistemas."
       ],
       "aptitudes": [
         "Soporte técnico",
@@ -53,7 +53,7 @@
       "descripcion": "Pruebas de calidad funcional (QA) para un único proyecto de videojuego, con redacción de informes de errores en inglés y registro y seguimiento de incidencias en una base de datos de bugs.",
       "aptitudes": [
         "Aseguramiento de la calidad",
-        "Ingles",
+        "Inglés",
         "Redacción técnica"
       ]
     },
@@ -70,7 +70,7 @@
         "Liderazgo",
         "Comunicación técnica",
         "Redacción técnica",
-        "Gestion de proyectos"
+        "Gestión de proyectos"
       ],
       "proyectos": [
         { "texto": "[Provisional] Revlon", "enlace": "#" }
@@ -95,9 +95,9 @@
         { "texto": "[Provisional] Fire Lunar Rush" },
         { "texto": "[Provisional] Color Switch Race", "enlace": "#" },
         { "texto": "[Provisional] The Donato's Mind" },
-        { "texto": "[Provisional] Telefonica Town" },
+        { "texto": "[Provisional] Telefónica Town" },
         { "texto": "[Provisional] McDonald's land Tycoon" },
-        { "texto": "[Provisional] El desafio Pringles" }
+        { "texto": "[Provisional] El desafío Pringles" }
       ]
     },
     {
