@@ -30,6 +30,7 @@ Flujo: petición → coordinador → programador → revisión → (con permiso)
 
 ### Pendiente
 
+- Línea de tiempo horizontal (en construcción): ya tiene el bloque (sin título, debajo de Estudios), el contenedor desplazable a todo el ancho y el eje de meses y años; faltan las barras de estudios y experiencias, las tarjetas de proyectos y las estrellas de méritos.
 - Contenido real: los textos de `datos/contenido.json` son provisionales.
 - Diseño propio del tema Cómic (ahora es una copia provisional de Claro).
 - Interruptor de "Efectos divertidos" en Opciones y sus animaciones en los títulos.
@@ -45,7 +46,7 @@ Flujo: petición → coordinador → programador → revisión → (con permiso)
 ```
 index.html        Página principal
 estilos/          CSS común y un archivo por tema en estilos/temas/
-scripts/          JavaScript (contenido, interacción, temas y opciones)
+scripts/          JavaScript (contenido, interacción, línea de tiempo, temas y opciones)
 datos/            Contenido de la web en JSON
 docs/             Documentación del proyecto
 .claude/agents/   Definición de los agentes

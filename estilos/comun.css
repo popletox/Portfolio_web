@@ -91,6 +91,19 @@ img {
      (así el contenido queda alineado con el texto del título) */
   --relleno-seccion: 0.75rem;
   --relleno-inferior-seccion: 1rem;
+  /* Línea de tiempo horizontal: ancho de cada mes (escala fecha -> X; la lee
+     scripts/linea-tiempo.js), alto de la capa del eje, espacio para las
+     barras de periodos (encima) y las tarjetas de proyectos (debajo),
+     margen lateral del contenido desplazable y alto de los degradados con
+     que el fondo gris del bloque entra y sale */
+  --ancho-mes-cronologia: 3rem;
+  --alto-eje-cronologia: 2.75rem;
+  --alto-periodos-cronologia: 6rem;
+  --alto-proyectos-cronologia: 8rem;
+  --margen-cronologia: var(--espacio);
+  --alto-degradado-cronologia: 2rem;
+  /* Hueco con el fondo de página entre la Línea de tiempo y el pie */
+  --separacion-cronologia-pie: 2.75rem;
 }
 
 @supports (height: 1dvh) {
@@ -1330,6 +1343,141 @@ button.proyecto-tarjeta {
   margin-top: auto;
 }
 
+/* Línea de tiempo horizontal (bloque #linea-tiempo, entre main y el pie).
+   Hijo directo de .pagina: ocupa todo su ancho, que ya descuenta el panel
+   Destacado lateral abierto (padding-right animado de .pagina), así que
+   termina en el borde izquierdo del panel. Franja de --color-fondo-suave
+   que entra y sale con un degradado vertical desde --color-fondo */
+.cronologia-bloque {
+  min-width: 0;
+  padding: var(--alto-degradado-cronologia) 0;
+  margin-bottom: var(--separacion-cronologia-pie);
+  background: linear-gradient(
+    to bottom,
+    var(--color-fondo),
+    var(--color-fondo-suave) var(--alto-degradado-cronologia),
+    var(--color-fondo-suave) calc(100% - var(--alto-degradado-cronologia)),
+    var(--color-fondo)
+  );
+}
+
+.cronologia-bloque .aviso-carga {
+  padding: 0 var(--margen-cronologia);
+}
+
+/* Scroll horizontal nativo (rueda vertical sin capturar; Mayús+rueda,
+   trackpad y flechas con el foco dentro). Enfocable con teclado */
+.cronologia {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-texto-suave) transparent;
+}
+
+/* Navegadores sin scrollbar-color (Safari) */
+@supports not (scrollbar-color: auto) {
+  .cronologia::-webkit-scrollbar {
+    height: 0.5rem;
+  }
+
+  .cronologia::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .cronologia::-webkit-scrollbar-thumb {
+    border-radius: var(--radio-pequeno);
+    background: var(--color-texto-suave);
+  }
+}
+
+/* Contorno hacia dentro: el contenedor llega a los bordes del bloque */
+.cronologia:focus-visible {
+  outline: 3px solid var(--color-foco);
+  outline-offset: -3px;
+}
+
+/* Pista: márgenes del contenido desplazable. Los laterales van en la pista
+   y no en .cronologia para que todos los navegadores los incluyan en el
+   área desplazable */
+.cronologia-pista {
+  width: max-content;
+  padding: 0.75rem var(--margen-cronologia);
+}
+
+/* Lienzo: un mes = --ancho-mes-cronologia; --meses-cronologia lo pone el JS.
+   Capas de arriba abajo: periodos (barras de estudios y experiencias),
+   eje (meses y años) y proyectos (tarjetas). Dentro de cada capa, la X de
+   un elemento es calc(var(--ancho-mes-cronologia) * var(--mes)) */
+.cronologia-lienzo {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: calc(var(--ancho-mes-cronologia) * var(--meses-cronologia, 0));
+}
+
+.cronologia-capa {
+  position: relative;
+  flex: none;
+}
+
+/* Alturas provisionales hasta que las capas tengan contenido */
+.cronologia-periodos {
+  min-height: var(--alto-periodos-cronologia);
+}
+
+.cronologia-proyectos {
+  min-height: var(--alto-proyectos-cronologia);
+}
+
+/* Eje: línea horizontal a --y-eje del borde superior de la capa */
+.cronologia-eje {
+  --y-eje: 0.75rem;
+  --alto-marca-mes: 0.6rem;
+  --alto-marca-anio: 1.3rem;
+  height: var(--alto-eje-cronologia);
+}
+
+.cronologia-eje::before {
+  content: "";
+  position: absolute;
+  top: calc(var(--y-eje) - var(--grosor-linea-tiempo) / 2);
+  left: 0;
+  right: 0;
+  height: var(--grosor-linea-tiempo);
+  background: var(--color-texto-suave);
+}
+
+/* Marca de inicio de cada mes, centrada en la línea */
+.cronologia-marca {
+  position: absolute;
+  top: calc(var(--y-eje) - var(--alto-marca-mes) / 2);
+  left: calc(var(--ancho-mes-cronologia) * var(--mes));
+  width: 1px;
+  height: var(--alto-marca-mes);
+  background: var(--color-texto-suave);
+  transform: translateX(-50%);
+}
+
+/* Enero: más gruesa y alta, con el año debajo */
+.cronologia-marca--anio {
+  top: calc(var(--y-eje) - var(--alto-marca-anio) / 2);
+  width: 2px;
+  height: var(--alto-marca-anio);
+  background: var(--color-texto);
+}
+
+.cronologia-anio {
+  position: absolute;
+  top: calc(100% + 0.1rem);
+  left: 50%;
+  font-size: 0.8rem;
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-fecha);
+  white-space: nowrap;
+  transform: translateX(-50%);
+}
+
 /* Oculto a la vista, legible por lector de pantalla */
 .solo-lector {
   position: absolute;
@@ -1979,6 +2127,7 @@ body.panel-abierto .boton-destacado-flecha {
     --ancho-columna-fecha: 0rem;
     --ancho-columna-punto: 1rem;
     --separacion-entradas: 1.75rem;
+    --separacion-cronologia-pie: 2rem;
     --hueco-columnas-tiempo: 0.5rem;
     --alto-linea-fecha-movil: 1.25rem;
     --desplazamiento-titulo-tiempo: var(--alto-linea-fecha-movil);
@@ -2046,6 +2195,9 @@ body.panel-abierto .boton-destacado-flecha {
   :root {
     --margen-detalle: 0.5rem;
     --alto-detalle: 100vh;
+    /* Línea de tiempo horizontal más compacta */
+    --ancho-mes-cronologia: 2.25rem;
+    --margen-cronologia: 1rem;
   }
 
   .detalle-proyecto-caja {

@@ -18,7 +18,7 @@ En móvil: arriba del todo se ve completa; al bajar se compacta a una línea con
 
 4. Secciones y estado inicial
 
-Cuatro secciones, en este orden: Experiencia, Proyectos, Méritos y reconocimientos y Estudios. Todas se pueden expandir y contraer de forma independiente; no es necesario cerrar una para abrir otra. Base inicial: solo Experiencia abierta; Estudios, Proyectos y Reconocimientos cerradas. Las entradas individuales comienzan contraídas, salvo la primera de Experiencia, que se muestra desplegada.
+Cuatro secciones, en este orden: Experiencia, Proyectos, Méritos y reconocimientos y Estudios. Todas se pueden expandir y contraer de forma independiente; no es necesario cerrar una para abrir otra. Base inicial: solo Experiencia abierta; Estudios, Proyectos y Reconocimientos cerradas. Las entradas individuales comienzan contraídas, salvo la primera de Experiencia, que se muestra desplegada. Después de Estudios, y antes del pie, va la Línea de tiempo (apartado 8 bis): un bloque sin título, siempre visible y no plegable.
 
 5. Destacado
 
@@ -55,6 +55,28 @@ Filtros por tecnología: Todos y las categorías del JSON. Los botones se genera
 Línea de tiempo ligera, similar a Experiencia: contraída, muestra el año, el título del premio y, como subtítulo, el evento o la institución que lo concede; expandida, muestra «mes, AAAA» (sin rango), la descripción y, de forma opcional, Referencias en tarjetas, como en Experiencia. Asociar cada reconocimiento a un proyecto cuando corresponda mediante una tarjeta con enlace interno.
 
 Al activar una tarjeta con enlace interno (o el enlace interno del Destacado) se abre la ventana de detalle del proyecto, sin abrir la sección Proyectos ni mover la página. Al cerrarla (✕, Esc, clic fuera o el botón Atrás del navegador) todo sigue como estaba y el foco vuelve a la tarjeta.
+
+8 bis. Línea de tiempo
+
+Línea de tiempo HORIZONTAL que une estudios, experiencias y proyectos, generada a partir de los datos existentes del JSON. Bloque independiente después de Estudios y antes del pie, sin título (solo nombre accesible) y siempre visible (no se pliega). Fondo `--color-fondo-suave` que entra arriba y sale abajo con un degradado vertical ligero desde y hacia `--color-fondo` (alto `--alto-degradado-cronologia`); el contenido va en la zona gris.
+
+Decisiones:
+
+- Ancho: el bloque va desde el borde izquierdo de la ventana hasta el borde izquierdo del panel Destacado si está abierto en el lateral (no pasa por debajo), o hasta el borde derecho de la ventana si está cerrado o en disposición vertical (móvil), aunque el resto del contenido tenga ancho máximo y sin provocar scroll horizontal de la página. Sigue la transición del panel al abrirlo o cerrarlo. Al abrir/cerrar el panel o redimensionar se conserva la posición del scroll (si estaba en el extremo derecho, sigue en él).
+- Desplazamiento: scroll horizontal nativo con barra visible (colores del tema donde se pueda). La rueda vertical no se captura (la página sigue bajando); Mayús+rueda, trackpad y flechas (contenedor enfocable) funcionan de forma nativa. Al cargar empieza en el extremo derecho (lo más reciente).
+- Eje: del primer mes de cualquier fecha (inicio y fin de Experiencia y Estudios, fecha de Proyectos) al mes actual (lo que está en curso llega hasta hoy), con un mes de margen a cada lado. Línea horizontal con una marca fina por mes y una más gruesa y alta en cada enero con el año. Escala lineal: cada mes mide `--ancho-mes-cronologia` (menor en móvil).
+- Estudios (azul, `--color-periodo-estudio`) y experiencias (rojo, `--color-periodo-experiencia`): barras sobre el eje, apiladas en filas si se solapan. Nombre inclinado 45° saliendo del centro de la barra, de 2–3 líneas como máximo; si no cabe, el nombre se ve al pasar el ratón.
+- Proyectos: tarjetas como las de la sección Proyectos bajo la marca de su mes, colocadas automáticamente en filas para que no se pisen, con una línea fina hasta su mes. Al pulsarlas abren la ventana de detalle del proyecto.
+- Méritos: los proyectos con mérito llevan una estrella identificativa (sin acción). Los méritos sin proyecto no aparecen.
+- Móvil: igual, ocupando todo el ancho, con tarjetas más pequeñas.
+- Accesibilidad: el contenedor es una región con nombre («Línea de tiempo visual») y una descripción oculta que explica que es una vista visual de los estudios, experiencias y proyectos, de más antiguo a más reciente, y que todo está detallado en las secciones anteriores. Las marcas del eje son decorativas.
+
+Plan por pasos:
+
+1. Hecho: bloque sin título con degradados, contenedor a todo el ancho (hasta el panel Destacado abierto) con scroll horizontal (scroll inicial a la derecha) y eje de meses y años. DOM por capas (periodos, eje, proyectos) y escala fecha → X reutilizable (`scripts/linea-tiempo.js`).
+2. Pendiente: barras de estudios y experiencias con su nombre a 45°.
+3. Pendiente: tarjetas de proyecto con colocación automática y línea hasta su mes; abren la ventana de detalle.
+4. Pendiente: estrella en proyectos con mérito, ajustes de móvil y pulido.
 
 9. Pie: Sobre esta web
 

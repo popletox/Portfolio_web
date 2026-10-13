@@ -2,6 +2,8 @@
 
 El contenido de la introducción, de las secciones Experiencia, Proyectos, Méritos y reconocimientos y Estudios, y del panel Destacado está en `datos/contenido.json`. La web lo carga con `fetch` al iniciarse. Para añadir o cambiar contenido, edita solo ese archivo. La cabecera y el pie siguen en `index.html`.
 
+La Línea de tiempo (bloque después de Estudios) se genera con los datos existentes (fechas de Experiencia, Estudios y Proyectos; Méritos para marcar proyectos): no tiene campos propios.
+
 Guarda el archivo en UTF-8 (se pueden usar tildes y eñes sin problema).
 
 ## Estructura general

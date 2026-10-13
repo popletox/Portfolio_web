@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="estilos/temas/comic.css">
   <script src="scripts/contenido.js" defer></script>
   <script src="scripts/main.js" defer></script>
+  <script src="scripts/linea-tiempo.js" defer></script>
   <script src="scripts/opciones.js" defer></script>
 </head>
 <body class="sin-transiciones">
@@ -118,6 +119,23 @@
       </section>
 
     </main>
+
+    <!-- Línea de tiempo horizontal: bloque sin título, siempre visible, fuera
+         de main para ocupar todo el ancho de .pagina (que ya reserva el del
+         panel Destacado abierto). Capas de arriba abajo; las monta
+         scripts/linea-tiempo.js -->
+    <div class="cronologia-bloque" id="linea-tiempo">
+      <div class="cronologia" tabindex="0" role="region" aria-label="Línea de tiempo visual" aria-describedby="descripcion-cronologia">
+        <div class="cronologia-pista">
+          <div class="cronologia-lienzo" data-seccion="linea-tiempo">
+            <div class="cronologia-capa cronologia-periodos"></div>
+            <div class="cronologia-capa cronologia-eje" aria-hidden="true"></div>
+            <div class="cronologia-capa cronologia-proyectos"></div>
+          </div>
+        </div>
+      </div>
+      <p class="solo-lector" id="descripcion-cronologia">Línea de tiempo visual con los estudios, experiencias y proyectos ordenados de más antiguo a más reciente. Toda esta información está detallada en las secciones anteriores.</p>
+    </div>
 
     <footer class="pie">
       <section class="pie-nota" aria-labelledby="titulo-sobre-web">

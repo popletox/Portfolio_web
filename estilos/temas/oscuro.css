@@ -38,6 +38,10 @@
   --color-linea-tiempo: #43484e;
   --color-punto-tiempo: #8ab4f8;
 
+  /* Línea de tiempo horizontal: barras de estudios y de experiencias */
+  --color-periodo-estudio: #8ab4f8;
+  --color-periodo-experiencia: #f28b82;
+
   /* Elementos provisionales (sin imagen real) */
   --color-miniatura-provisional: #3f8f43;
   --color-destacado-provisional: #c9741f;
