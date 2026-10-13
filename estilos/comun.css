@@ -73,6 +73,12 @@ img {
   --tamano-boton-visor: 2.75rem;
   --ancho-visor: 90vw;
   --alto-visor: 85vh;
+  /* Ventana de detalle de un proyecto: ancho y alto máximos, separación con
+     los bordes de la pantalla y ancho de la columna de imágenes (ordenador) */
+  --ancho-detalle: 60rem;
+  --alto-detalle: 90vh;
+  --margen-detalle: 1rem;
+  --ancho-imagenes-detalle: 20rem;
   /* Radios de esquina: estilo "redondeado suave" común a toda la página.
      Pequeño: botones pequeños, miniaturas, enlaces con foco.
      Medio: contenedores (menú, encabezados de sección, panel, imágenes) */
@@ -88,6 +94,7 @@ img {
   :root {
     --alto-panel-inferior: min(40dvh, 18rem);
     --alto-visor: 85dvh;
+    --alto-detalle: 90dvh;
   }
 }
 
@@ -729,9 +736,8 @@ main {
   outline-offset: 2px;
 }
 
-/* Miniatura ampliable con el visor (.proyecto-miniatura). Sin uso desde
-   que Proyectos se muestra en bandas: se reutilizará en la ventana modal del
-   proyecto (paso 2) */
+/* Miniatura ampliable con el visor (.proyecto-miniatura), en la ventana de
+   detalle de un proyecto */
 .proyecto-miniatura {
   aspect-ratio: 1 / 1;
   border-radius: var(--radio-pequeno);
@@ -818,7 +824,8 @@ button.proyecto-miniatura:focus-visible {
   background: var(--color-miniatura-provisional);
 }
 
-.visor-imagen-cerrar {
+.visor-imagen-cerrar,
+.detalle-proyecto-cerrar {
   position: absolute;
   top: 0.5rem;
   right: 0.5rem;
@@ -838,17 +845,20 @@ button.proyecto-miniatura:focus-visible {
   cursor: pointer;
 }
 
-.visor-imagen-cerrar:hover {
+.visor-imagen-cerrar:hover,
+.detalle-proyecto-cerrar:hover {
   background: var(--color-boton-visor-hover);
 }
 
-.visor-imagen-cerrar:focus-visible {
+.visor-imagen-cerrar:focus-visible,
+.detalle-proyecto-cerrar:focus-visible {
   outline: 3px solid var(--color-foco);
   outline-offset: 2px;
 }
 
-/* Bloquea el desplazamiento del fondo con el visor abierto */
-body.visor-abierto {
+/* Bloquea el desplazamiento del fondo con el visor o la ventana de detalle abiertos */
+body.visor-abierto,
+body.detalle-abierto {
   overflow: hidden;
 }
 
@@ -870,6 +880,112 @@ body.visor-abierto {
 @keyframes visor-fondo-salida {
   from { opacity: 1; }
   to { opacity: 0; }
+}
+
+/* Ventana de detalle de un proyecto: centrada, con scroll interno en la
+   caja (el dialog no se desplaza: el botón ✕ queda fijo arriba a la
+   derecha). Misma animación y fondo oscurecido que el visor */
+.detalle-proyecto {
+  width: min(var(--ancho-detalle), calc(100vw - 2 * var(--margen-detalle)));
+  max-width: none;
+  max-height: none;
+  margin: auto;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radio-medio);
+  overflow: hidden;
+  background: var(--color-fondo);
+  color: var(--color-texto);
+}
+
+.detalle-proyecto[open] {
+  animation: visor-entrada var(--duracion-fundido) ease;
+}
+
+.detalle-proyecto::backdrop {
+  background: var(--color-fondo-visor);
+  animation: visor-fondo-entrada var(--duracion-fundido) ease;
+}
+
+.detalle-proyecto--cerrando[open] {
+  animation: visor-salida var(--duracion-fundido) ease forwards;
+}
+
+.detalle-proyecto--cerrando::backdrop {
+  animation: visor-fondo-salida var(--duracion-fundido) ease forwards;
+}
+
+.detalle-proyecto-caja {
+  max-height: min(var(--alto-detalle), calc(100vh - 2 * var(--margen-detalle)));
+  max-height: min(var(--alto-detalle), calc(100dvh - 2 * var(--margen-detalle)));
+  padding: calc(var(--espacio) * 1.25);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+/* Texto a la izquierda (más ancho) e imágenes a la derecha, en dos columnas.
+   Las imágenes empiezan bajo el botón ✕ */
+.detalle-proyecto-cuerpo {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) min(var(--ancho-imagenes-detalle), 40%);
+  gap: var(--espacio);
+  align-items: start;
+}
+
+.detalle-proyecto-cuerpo--sin-imagenes {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.detalle-proyecto-titulo {
+  margin: 0;
+  /* Hueco para el botón ✕ */
+  padding-right: calc(var(--tamano-boton-visor) + 0.5rem);
+  font-size: 1.5rem;
+  line-height: 1.3;
+  color: var(--color-titulo);
+}
+
+.detalle-proyecto-cuerpo:not(.detalle-proyecto-cuerpo--sin-imagenes) .detalle-proyecto-titulo {
+  padding-right: 0;
+}
+
+.detalle-proyecto-categoria {
+  margin: 0.25rem 0 0;
+  font-size: 0.95rem;
+  color: var(--color-subtitulo);
+}
+
+.detalle-proyecto-fecha {
+  margin: 0.15rem 0 0;
+  font-size: 0.9rem;
+  color: var(--color-fecha);
+}
+
+.detalle-proyecto-descripcion {
+  margin: 0.75rem 0 0;
+}
+
+.detalle-proyecto-accion {
+  margin: 0.75rem 0 0;
+}
+
+.detalle-proyecto-enlace {
+  color: var(--color-enlace);
+}
+
+.detalle-proyecto-enlace:focus-visible {
+  border-radius: var(--radio-pequeno);
+  outline: 3px solid var(--color-foco);
+  outline-offset: 2px;
+}
+
+.detalle-proyecto-imagenes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+  margin: 0;
+  padding: calc(var(--tamano-boton-visor) + 0.25rem) 0 0;
+  list-style: none;
 }
 
 /* Detalle plegable: reglas compartidas con .seccion-contenido (más arriba) */
@@ -947,20 +1063,24 @@ body.visor-abierto {
   text-decoration: none;
 }
 
-a.referencia-tarjeta {
+a.referencia-tarjeta,
+button.proyecto-tarjeta {
   transition: background-color var(--duracion-fundido) ease;
 }
 
-a.referencia-tarjeta:hover {
+a.referencia-tarjeta:hover,
+button.proyecto-tarjeta:hover {
   background: var(--color-fondo-suave-hover);
 }
 
-a.referencia-tarjeta:hover .referencia-imagen {
+a.referencia-tarjeta:hover .referencia-imagen,
+button.proyecto-tarjeta:hover .referencia-imagen {
   filter: brightness(1.1);
 }
 
 /* Contorno hacia dentro: el detalle recorta lo que sobresale */
-a.referencia-tarjeta:focus-visible {
+a.referencia-tarjeta:focus-visible,
+button.proyecto-tarjeta:focus-visible {
   border-radius: var(--radio-medio);
   outline: 3px solid var(--color-foco);
   outline-offset: -3px;
@@ -1075,6 +1195,16 @@ a.referencia-tarjeta:focus-visible {
   min-width: 0;
 }
 
+/* Botón que abre la ventana de detalle: sin estilos por defecto */
+button.proyecto-tarjeta {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
 /* Nombre hasta 2 líneas (alto automático) y categoría justo debajo */
 .proyecto-tarjeta .proyecto-tarjeta-titulo {
   height: auto;
@@ -1095,12 +1225,6 @@ a.referencia-tarjeta:focus-visible {
 
 .proyecto-tarjeta .referencia-imagen {
   margin-top: auto;
-}
-
-/* Recibe el foco (tabindex -1) al llegar desde un enlace interno */
-.proyecto-tarjeta:focus-visible {
-  outline: 3px solid var(--color-foco);
-  outline-offset: -3px;
 }
 
 /* Oculto a la vista, legible por lector de pantalla */
@@ -1813,6 +1937,34 @@ body.panel-abierto .boton-destacado-flecha {
     padding: 0.1rem 0.5rem 0.4rem;
     font-size: 0.75rem;
   }
+
+  /* Ventana de detalle casi a pantalla completa; una columna con las
+     imágenes debajo del texto (2 o 3 por fila) */
+  :root {
+    --margen-detalle: 0.5rem;
+    --alto-detalle: 100vh;
+  }
+
+  .detalle-proyecto-caja {
+    padding: var(--espacio) 1rem;
+  }
+
+  .detalle-proyecto-cuerpo {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .detalle-proyecto-cuerpo:not(.detalle-proyecto-cuerpo--sin-imagenes) .detalle-proyecto-titulo {
+    padding-right: calc(var(--tamano-boton-visor) + 0.5rem);
+  }
+
+  .detalle-proyecto-titulo {
+    font-size: 1.3rem;
+  }
+
+  .detalle-proyecto-imagenes {
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 6.5rem), 1fr));
+    padding-top: 0;
+  }
 }
 
 /* Resaltado temporal del proyecto destino de "Ver proyecto".
@@ -1906,7 +2058,9 @@ body.sin-transiciones *::after {
   }
 
   .visor-imagen,
-  .visor-imagen::backdrop {
+  .visor-imagen::backdrop,
+  .detalle-proyecto,
+  .detalle-proyecto::backdrop {
     animation: none !important;
   }
 }

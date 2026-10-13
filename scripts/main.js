@@ -632,6 +632,12 @@ function filtroProyectosActivo() {
   return activo ? activo.getAttribute('data-filtro') : 'todos';
 }
 
+// Historial de la ventana de detalle de un proyecto: la asigna el bloque de
+// la ventana (al final). Recibe el estado de un popstate y devuelve true si
+// lo ha gestionado ella (abrir o cerrar la ventana), para que el popstate de
+// los enlaces internos no haga nada más
+var gestionarHistorialDetalle = function () { return false; };
+
 // Enlaces internos a proyectos (tarjetas de Referencias y Destacado): abrir Proyectos, centrar la tarjeta del proyecto y resaltarla
 (function () {
   var movimientoReducido = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -719,7 +725,7 @@ function filtroProyectosActivo() {
       espera = true;
     }
 
-    // tabindex -1: recibe el foco sin entrar en el orden de tabulación
+    // La tarjeta es un botón: recibe el foco sin abrir su ventana
     tarjeta.focus({ preventScroll: true });
 
     // Se espera a que la sección termine de abrirse antes de medir
@@ -817,6 +823,7 @@ function filtroProyectosActivo() {
 
   window.addEventListener('popstate', function (evento) {
     var estado = evento.state;
+    if (gestionarHistorialDetalle(estado)) return;
     if (estado && estado.tipo === 'origen') {
       volverAOrigen(estado);
     } else if (estado && estado.tipo === 'proyecto') {
@@ -832,9 +839,9 @@ function filtroProyectosActivo() {
   });
 })();
 
-// Visor de imágenes: un clic en la imagen del panel Destacado (o en una
-// miniatura .proyecto-miniatura, que se volverá a usar en la ventana modal de
-// Proyectos) la abre en grande
+// Visor de imágenes: un clic en la imagen del panel Destacado o en una
+// miniatura .proyecto-miniatura (ventana de detalle de un proyecto) la abre
+// en grande, por encima de la ventana si está abierta
 (function () {
   var visor = document.getElementById('visor-imagen');
   if (!visor || typeof visor.showModal !== 'function') return;
@@ -909,4 +916,218 @@ function filtroProyectosActivo() {
     if (miniaturaOrigen) miniaturaOrigen.focus();
     miniaturaOrigen = null;
   });
+})();
+
+// Ventana de detalle de un proyecto (<dialog id="detalle-proyecto">): se abre
+// al pulsar una tarjeta de Proyectos o con window.Proyectos.abrirDetalle(id).
+// Se cierra con ✕, Esc, clic fuera o el botón Atrás; el foco vuelve a la
+// tarjeta. Historial: al abrir se añade una entrada propia (misma URL, estado
+// { tipo: 'detalle', id, clave }); cerrar con ✕/Esc/fuera hace history.back()
+// para quitarla y es ese popstate el que cierra la ventana, así no quedan
+// entradas sobrantes. Adelante vuelve a abrirla
+(function () {
+  var dialogo = document.getElementById('detalle-proyecto');
+  if (!dialogo || typeof dialogo.showModal !== 'function' || !window.Proyectos) return;
+  var caja = dialogo.querySelector('.detalle-proyecto-caja');
+  var botonCerrar = dialogo.querySelector('.detalle-proyecto-cerrar');
+  var movimientoReducido = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var historialDisponible = !!(history.pushState && history.replaceState);
+  var CERRANDO = 'detalle-proyecto--cerrando';
+  var ESPERA_HISTORIAL = 500; // ms máximos hasta el popstate de history.back()
+  var MARGEN_CIERRE = 100; // ms extra si no llega animationend
+
+  var origen = null; // recibe el foco al cerrar
+  var clave = null; // identifica la entrada de historial de la ventana abierta
+  var volviendo = false; // se ha pedido history.back() para cerrar
+  var esperaVuelta = 0;
+  var esperaCierre = 0;
+  var pulsacionFuera = false;
+
+  function duracionFundido() {
+    var valor = getComputedStyle(document.documentElement).getPropertyValue('--duracion-fundido').trim();
+    var numero = parseFloat(valor) || 0;
+    return /ms$/.test(valor) ? numero : numero * 1000;
+  }
+
+  function cerrando() {
+    return dialogo.classList.contains(CERRANDO);
+  }
+
+  function abierta() {
+    return dialogo.open && !cerrando();
+  }
+
+  function esEntradaPropia(estado) {
+    return clave !== null && !!estado && estado.tipo === 'detalle' && estado.clave === clave;
+  }
+
+  function terminarCierre(evento) {
+    if (evento && evento.target !== dialogo) return;
+    clearTimeout(esperaCierre);
+    dialogo.removeEventListener('animationend', terminarCierre);
+    dialogo.classList.remove(CERRANDO);
+    if (dialogo.open) dialogo.close();
+  }
+
+  // Cierra la ventana (con fundido) sin tocar el historial
+  function ocultar() {
+    if (!dialogo.open || cerrando()) return;
+    if (movimientoReducido.matches) {
+      dialogo.close();
+      return;
+    }
+    dialogo.classList.add(CERRANDO);
+    dialogo.addEventListener('animationend', terminarCierre);
+    esperaCierre = setTimeout(terminarCierre, duracionFundido() + MARGEN_CIERRE);
+  }
+
+  // Quita la entrada propia del historial; el popstate cierra la ventana.
+  // Si no llegara, se cierra igualmente pasado un momento
+  function volverAtras() {
+    volviendo = true;
+    history.back();
+    clearTimeout(esperaVuelta);
+    esperaVuelta = setTimeout(function () {
+      if (!volviendo) return;
+      volviendo = false;
+      clave = null;
+      ocultar();
+    }, ESPERA_HISTORIAL);
+  }
+
+  // ✕, Esc y clic fuera
+  function cerrar() {
+    if (!abierta() || volviendo) return;
+    if (historialDisponible && esEntradaPropia(history.state)) {
+      volverAtras();
+      return;
+    }
+    clave = null;
+    ocultar();
+  }
+
+  // opciones.origen: elemento que recupera el foco al cerrar (por defecto,
+  // el que lo tiene al abrir). opciones.clave (interno): reabrir con
+  // Adelante usando la entrada de historial existente.
+  // Con la ventana ya abierta, cambia su contenido sin añadir otra entrada
+  function abrir(id, opciones) {
+    opciones = opciones || {};
+    if (volviendo) return false;
+    var cuerpo = window.Proyectos.detalle(id);
+    if (!cuerpo) return false;
+    if (cerrando()) terminarCierre();
+    var yaAbierta = dialogo.open;
+
+    caja.replaceChildren(cuerpo);
+    if (!yaAbierta) {
+      origen = opciones.origen || document.activeElement;
+      document.body.classList.add('detalle-abierto');
+      dialogo.showModal();
+      botonCerrar.focus();
+    }
+    caja.scrollTop = 0;
+
+    if (opciones.clave) {
+      clave = opciones.clave;
+    } else if (historialDisponible) {
+      if (yaAbierta && esEntradaPropia(history.state)) {
+        history.replaceState({ tipo: 'detalle', id: id, clave: clave }, '', location.href);
+      } else {
+        clave = String(Date.now()) + '-' + Math.random().toString(36).slice(2);
+        history.pushState({ tipo: 'detalle', id: id, clave: clave }, '', location.href);
+      }
+    } else {
+      clave = null;
+    }
+    return true;
+  }
+
+  // Lo llama el popstate de los enlaces internos (más arriba)
+  gestionarHistorialDetalle = function (estado) {
+    if (volviendo) {
+      volviendo = false;
+      clearTimeout(esperaVuelta);
+      clave = null;
+      ocultar();
+      return true;
+    }
+    if (abierta()) {
+      // Atrás con la ventana abierta: solo se cierra
+      if (!esEntradaPropia(estado)) {
+        clave = null;
+        ocultar();
+      }
+      return true;
+    }
+    if (estado && estado.tipo === 'detalle' && typeof estado.id === 'string') {
+      // Adelante hasta una entrada de la ventana: se vuelve a abrir
+      return abrir(estado.id, {
+        clave: estado.clave || null,
+        origen: window.Proyectos.tarjeta(estado.id)
+      });
+    }
+    return false;
+  };
+
+  // Para el resto de la web: abre la ventana de un proyecto por id (true si
+  // existe). opciones.origen: elemento al que vuelve el foco al cerrar
+  window.Proyectos.abrirDetalle = function (id, opciones) {
+    return abrir(id, { origen: opciones && opciones.origen });
+  };
+
+  // Tarjetas de Proyectos (botones): clic, Enter o Espacio
+  document.addEventListener('click', function (evento) {
+    var tarjeta = evento.target.closest('button.proyecto-tarjeta');
+    if (!tarjeta || !tarjeta.id) return;
+    abrir(tarjeta.id, { origen: tarjeta });
+  });
+
+  botonCerrar.addEventListener('click', cerrar);
+
+  // Clic fuera: el objetivo es el propio dialog (su contenido lo llena). Solo
+  // si la pulsación también empezó fuera (no al soltar una selección de texto)
+  dialogo.addEventListener('pointerdown', function (evento) {
+    pulsacionFuera = evento.target === dialogo;
+  });
+  dialogo.addEventListener('click', function (evento) {
+    if (evento.target === dialogo && pulsacionFuera) cerrar();
+    pulsacionFuera = false;
+  });
+
+  // Esc: se intercepta para animar la salida y quitar la entrada del historial
+  dialogo.addEventListener('cancel', function (evento) {
+    evento.preventDefault();
+    cerrar();
+  });
+
+  // Enlaces "#..." del proyecto: no cambian la URL con la ventana abierta;
+  // si apuntan a otro proyecto, la ventana muestra ese proyecto
+  caja.addEventListener('click', function (evento) {
+    var enlace = evento.target.closest('a[href^="#"]');
+    if (!enlace) return;
+    evento.preventDefault();
+    var id = decodeURIComponent(enlace.getAttribute('href').slice(1));
+    if (id && window.Proyectos.tarjeta(id)) abrir(id);
+  });
+
+  dialogo.addEventListener('close', function () {
+    if (dialogo.open) return; // reabierta antes de llegar el evento
+    dialogo.classList.remove(CERRANDO);
+    document.body.classList.remove('detalle-abierto');
+    caja.replaceChildren();
+    // Cerrada sin pasar por cerrar() (p. ej. un Esc que el navegador no deja
+    // cancelar): se quita igualmente la entrada del historial
+    if (!volviendo && historialDisponible && esEntradaPropia(history.state)) volverAtras();
+    clave = null;
+    var destino = origen;
+    origen = null;
+    if (destino && destino.isConnected && typeof destino.focus === 'function') {
+      destino.focus({ preventScroll: true });
+    }
+  });
+
+  // Recarga con la ventana abierta: la entrada queda sin ventana; se limpia
+  if (historialDisponible && history.state && history.state.tipo === 'detalle') {
+    history.replaceState(null, '', location.href);
+  }
 })();

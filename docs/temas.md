@@ -28,9 +28,9 @@ Cada tema es un archivo en `estilos/temas/<id>.css` que define **todas** las var
 | Variable | Uso |
 | --- | --- |
 | `--fuente-base` | Tipografía de toda la página. |
-| `--color-fondo` | Fondo de la página y de la cabecera; píldoras de filtro dentro de Proyectos; tarjetas de Referencias y de Proyectos. |
+| `--color-fondo` | Fondo de la página y de la cabecera; píldoras de filtro dentro de Proyectos; tarjetas de Referencias y de Proyectos; ventana de detalle de un proyecto. |
 | `--color-fondo-suave` | Fondo de títulos de sección (y de la sección entera cuando está abierta), botones de contacto y de Opciones y pie. |
-| `--color-fondo-suave-hover` | Hover sobre `--color-fondo-suave` (títulos de sección, filtros, títulos de entradas y tarjetas de Referencias) y sobre los temas del bocadillo de Opciones. |
+| `--color-fondo-suave-hover` | Hover sobre `--color-fondo-suave` (títulos de sección, filtros, títulos de entradas y tarjetas de Referencias y de Proyectos) y sobre los temas del bocadillo de Opciones. |
 | `--color-panel` | Fondo del panel destacado. |
 | `--color-texto` | Texto principal. |
 | `--color-texto-suave` | Texto secundario: introducción, subtítulo de la cabecera, flechas, separadores, título del bocadillo de Opciones. |
@@ -39,7 +39,7 @@ Cada tema es un archivo en `estilos/temas/<id>.css` que define **todas** las var
 | `--color-subtitulo` | Subtítulo de las entradas: empresa o institución, y categoría (tecnología) de las tarjetas de Proyectos (en Claro, igual que `--color-texto-suave`). |
 | `--color-acento` | Hover de contacto y de Opciones, filtro activo y tema activo en el bocadillo. |
 | `--color-texto-sobre-acento` | Texto o icono sobre `--color-acento`. |
-| `--color-enlace` | Enlaces fuera de las secciones (p. ej. panel destacado). |
+| `--color-enlace` | Enlaces fuera de las secciones (p. ej. panel destacado y ventana de detalle de un proyecto). |
 | `--color-enlace-seccion` | Enlaces dentro de las secciones, sobre `--color-fondo-suave` (contraste AA; puede ser `var(--color-enlace)`). |
 | `--color-foco` | Contorno de foco con teclado. |
 | `--color-menu-fondo` | Fondo del bocadillo de Opciones y de su pico. |
@@ -51,9 +51,9 @@ Cada tema es un archivo en `estilos/temas/<id>.css` que define **todas** las var
 | `--color-resaltado` | Parpadeo de la tarjeta de proyecto destino de un enlace interno (Referencias, Destacado) (semitransparente). |
 | `--color-miniatura-provisional` | Miniaturas, imagen del visor y tarjetas de Referencias y de Proyectos sin imagen real. |
 | `--color-destacado-provisional` | Cuadrado provisional del panel destacado. |
-| `--color-fondo-visor` | Fondo oscurecido tras la imagen ampliada. |
-| `--color-boton-visor` | Botón de cerrar del visor. |
-| `--color-boton-visor-hover` | Botón de cerrar del visor al pasar el ratón. |
-| `--color-boton-visor-texto` | Aspa del botón de cerrar del visor. |
+| `--color-fondo-visor` | Fondo oscurecido tras la imagen ampliada y tras la ventana de detalle de un proyecto. |
+| `--color-boton-visor` | Botón de cerrar del visor y de la ventana de detalle. |
+| `--color-boton-visor-hover` | Botón de cerrar del visor y de la ventana de detalle al pasar el ratón. |
+| `--color-boton-visor-texto` | Aspa del botón de cerrar del visor y de la ventana de detalle. |
 | `--color-boton-panel` | Botón-pestaña del panel destacado. |
 | `--color-boton-panel-texto` | Flecha del botón-pestaña. |

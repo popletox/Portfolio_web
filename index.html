@@ -135,6 +135,12 @@
   <button id="boton-destacado" class="boton-destacado" type="button" aria-controls="panel-destacado" aria-expanded="true" aria-label="Cerrar panel destacado">
     <span class="boton-destacado-flecha" aria-hidden="true"><svg viewBox="0 0 16 16" focusable="false"><path d="M5.5 3 10.5 8 5.5 13"/></svg></span>
   </button>
+  <!-- Ventana de detalle de un proyecto: scripts/contenido.js crea el contenido
+       (el título lleva id="detalle-proyecto-titulo") y scripts/main.js la abre -->
+  <dialog class="detalle-proyecto" id="detalle-proyecto" aria-labelledby="detalle-proyecto-titulo">
+    <button class="detalle-proyecto-cerrar" type="button" aria-label="Cerrar proyecto">&#10005;</button>
+    <div class="detalle-proyecto-caja"></div>
+  </dialog>
   <dialog class="visor-imagen" id="visor-imagen" aria-label="Imagen ampliada">
     <div class="visor-imagen-contenido"></div>
     <button class="visor-imagen-cerrar" type="button" aria-label="Cerrar imagen">&#10005;</button>

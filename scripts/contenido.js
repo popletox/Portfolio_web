@@ -307,8 +307,7 @@
     return null;
   }
 
-  // Miniatura ampliable con el visor. Sin uso desde que Proyectos se muestra
-  // en bandas por año: se reutilizará en la ventana modal del proyecto (paso 2)
+  // Miniatura ampliable con el visor (ventana de detalle de un proyecto)
   function crearMiniatura(imagen, numero, tituloProyecto) {
     var li = crear('li');
     var boton = crear('button', 'proyecto-miniatura');
@@ -344,19 +343,23 @@
   // reubicadas en las bandas cada vez que cambia el filtro
   var tarjetasProyectos = [];
   var tarjetasPorId = {};
+  var proyectosPorId = {};
   var contenedorBandas = null;
 
   // Tarjeta de proyecto: nombre (2 líneas) y categoría (1 línea) arriba e
   // imagen cuadrada debajo, con las clases de las tarjetas de Referencias.
-  // De momento no es interactiva (el paso 2 la convertirá en un botón que
-  // abre la ventana modal); tabindex -1 solo para recibir el foco al llegar
-  // desde un enlace interno
+  // Es un botón que abre la ventana de detalle (main.js, por delegación)
   function crearTarjetaProyecto(proyecto) {
     var referencia = referenciaDesdeProyecto(proyecto);
-    var tarjeta = crear('div', 'referencia-tarjeta referencia-tarjeta--sin-enlace proyecto-tarjeta');
+    var tarjeta = crear('button', 'referencia-tarjeta proyecto-tarjeta');
+    tarjeta.type = 'button';
+    tarjeta.setAttribute('aria-haspopup', 'dialog');
+    // Nombre accesible: título y categoría (el alt de la imagen sobraría)
+    tarjeta.setAttribute('aria-label', proyecto.categoria
+      ? proyecto.titulo + ', ' + proyecto.categoria
+      : proyecto.titulo);
     if (proyecto.id) tarjeta.id = proyecto.id;
     if (proyecto.categoria) tarjeta.setAttribute('data-categoria', proyecto.categoria);
-    tarjeta.tabIndex = -1;
     tarjeta.appendChild(crear('span', 'referencia-titulo proyecto-tarjeta-titulo', proyecto.titulo));
     if (proyecto.categoria) {
       tarjeta.appendChild(crear('span', 'proyecto-tarjeta-categoria', proyecto.categoria));
@@ -365,6 +368,78 @@
     var li = crear('li');
     li.appendChild(tarjeta);
     return li;
+  }
+
+  // ---- Proyectos: ventana de detalle ----
+
+  // Id del título del detalle: lo usa aria-labelledby del <dialog> en index.html
+  var ID_TITULO_DETALLE = 'detalle-proyecto-titulo';
+  var TEXTO_EN_CURSO = 'En curso';
+
+  function esFechaValida(fecha) {
+    var partes = /^(\d{4})-(\d{2})$/.exec(String(fecha));
+    return !!partes && parseInt(partes[2], 10) >= 1 && parseInt(partes[2], 10) <= 12;
+  }
+
+  // "mes, AAAA"; en curso: "En curso · desde mes, AAAA" (o solo "En curso")
+  function crearFechaDetalle(proyecto) {
+    var parrafo = crear('p', 'detalle-proyecto-fecha');
+    var fechaValida = esFechaValida(proyecto.fecha);
+    if (proyecto.enCurso === true) {
+      parrafo.appendChild(document.createTextNode(TEXTO_EN_CURSO));
+      if (fechaValida) {
+        parrafo.appendChild(document.createTextNode(' · desde '));
+        parrafo.appendChild(crearTime(proyecto.fecha, formatearMesAnio(proyecto.fecha)));
+      }
+    } else if (fechaValida) {
+      parrafo.appendChild(crearTime(proyecto.fecha, formatearMesAnio(proyecto.fecha)));
+    } else {
+      return null;
+    }
+    return parrafo;
+  }
+
+  // Contenido de la ventana: texto (título, categoría, fecha, descripción,
+  // aptitudes y enlace) y, si hay imágenes, su cuadrícula de miniaturas
+  function crearDetalleProyecto(proyecto) {
+    var imagenes = Array.isArray(proyecto.imagenes) ? proyecto.imagenes : [];
+    var cuerpo = crear('div', 'detalle-proyecto-cuerpo' + (imagenes.length ? '' : ' detalle-proyecto-cuerpo--sin-imagenes'));
+
+    var texto = crear('div', 'detalle-proyecto-texto');
+    var titulo = crear('h2', 'detalle-proyecto-titulo', proyecto.titulo);
+    titulo.id = ID_TITULO_DETALLE;
+    texto.appendChild(titulo);
+    if (proyecto.categoria) texto.appendChild(crear('p', 'detalle-proyecto-categoria', proyecto.categoria));
+    var fecha = crearFechaDetalle(proyecto);
+    if (fecha) texto.appendChild(fecha);
+    crearParrafos(proyecto.descripcion, 'detalle-proyecto-descripcion').forEach(function (p) {
+      texto.appendChild(p);
+    });
+    if (Array.isArray(proyecto.aptitudes) && proyecto.aptitudes.length) {
+      texto.appendChild(crearAptitudes(proyecto.aptitudes));
+    }
+    if (proyecto.enlace && proyecto.enlace.texto) {
+      var url = typeof proyecto.enlace.url === 'string' ? proyecto.enlace.url.trim() : '';
+      var enlace = crearEnlace(proyecto.enlace.texto, url, 'detalle-proyecto-enlace');
+      if (/^https?:/i.test(url)) {
+        enlace.target = '_blank';
+        enlace.rel = 'noopener noreferrer';
+      }
+      var accion = crear('p', 'detalle-proyecto-accion');
+      accion.appendChild(enlace);
+      texto.appendChild(accion);
+    }
+    cuerpo.appendChild(texto);
+
+    if (imagenes.length) {
+      var lista = crear('ul', 'detalle-proyecto-imagenes');
+      lista.setAttribute('aria-label', 'Imágenes del proyecto');
+      imagenes.forEach(function (imagen, i) {
+        lista.appendChild(crearMiniatura(imagen && typeof imagen === 'object' ? imagen : null, i + 1, proyecto.titulo));
+      });
+      cuerpo.appendChild(lista);
+    }
+    return cuerpo;
   }
 
   // Banda: etiqueta (h3) y lista de tarjetas. En el DOM la etiqueta va
@@ -485,6 +560,7 @@
     if (!contenedor) return;
     contenedorBandas = contenedor;
     tarjetasPorId = {};
+    proyectosPorId = {};
     tarjetasProyectos = ordenarPorFecha(proyectos || [], 'fecha').reduce(function (lista, proyecto) {
       if (!proyecto || typeof proyecto !== 'object') return lista;
       var anio = parseInt(formatearAnio(proyecto.fecha), 10);
@@ -494,7 +570,10 @@
         return lista;
       }
       var nodo = crearTarjetaProyecto(proyecto);
-      if (proyecto.id) tarjetasPorId[proyecto.id] = nodo.firstChild;
+      if (proyecto.id) {
+        tarjetasPorId[proyecto.id] = nodo.firstChild;
+        proyectosPorId[proyecto.id] = proyecto;
+      }
       lista.push({ nodo: nodo, categoria: proyecto.categoria, enCurso: enCurso, anio: anio });
       return lista;
     }, []);
@@ -502,14 +581,20 @@
     montarFiltrosProyectos(proyectos, contenedor);
   }
 
-  // Para main.js (filtros y enlaces internos): volver a montar las bandas con
-  // un filtro y obtener la tarjeta de un proyecto por id (aunque el filtro
-  // la tenga fuera del DOM)
+  // Para main.js (filtros, enlaces internos y ventana de detalle): volver a
+  // montar las bandas con un filtro, obtener la tarjeta de un proyecto por id
+  // (aunque el filtro la tenga fuera del DOM) y crear el contenido de su
+  // ventana de detalle (null si el id no existe). main.js añade abrirDetalle
   window.Proyectos = {
     montar: montarBandasProyectos,
     tarjeta: function (id) {
       return typeof id === 'string' && Object.prototype.hasOwnProperty.call(tarjetasPorId, id)
         ? tarjetasPorId[id]
+        : null;
+    },
+    detalle: function (id) {
+      return typeof id === 'string' && Object.prototype.hasOwnProperty.call(proyectosPorId, id)
+        ? crearDetalleProyecto(proyectosPorId[id])
         : null;
     }
   };
