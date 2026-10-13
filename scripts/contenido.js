@@ -117,16 +117,51 @@
 
   // ---- Referencias (catálogo "referencias" del JSON) ----
 
-  // Array de ids -> entradas válidas del catálogo; los ids desconocidos se ignoran
+  // Referencia generada desde un proyecto: título, primera imagen (siempre la
+  // primera; sin ruta válida, rectángulo provisional) y enlace interno
+  function referenciaDesdeProyecto(proyecto) {
+    var primera = Array.isArray(proyecto.imagenes) ? proyecto.imagenes[0] : null;
+    var ruta = primera && typeof primera === 'object' ? rutaImagenPequena(primera) : null;
+    return {
+      titulo: proyecto.titulo,
+      img: ruta,
+      alt: ruta && typeof primera.alt === 'string' && primera.alt !== '' ? primera.alt : proyecto.titulo,
+      enlace: '#' + proyecto.id,
+      idProyecto: proyecto.id
+    };
+  }
+
+  // Array de ids -> referencias listas para pintar. Un id de proyecto de la
+  // sección Proyectos manda sobre el catálogo; una entrada del catálogo con
+  // enlace "#<id-proyecto>" también toma los datos del proyecto. Los ids
+  // desconocidos se ignoran
   function resolverReferencias(ids, contexto) {
     if (!Array.isArray(ids)) return [];
     var catalogo = (contexto && contexto.referencias) || {};
+    var proyectosPorId = (contexto && contexto.proyectosPorId) || {};
     return ids.reduce(function (lista, id) {
-      var entrada = typeof id === 'string' && Object.prototype.hasOwnProperty.call(catalogo, id)
-        ? catalogo[id]
-        : null;
-      if (entrada && typeof entrada.titulo === 'string' && entrada.titulo !== '') {
-        lista.push(entrada);
+      var valido = typeof id === 'string';
+      var proyecto = valido && Object.prototype.hasOwnProperty.call(proyectosPorId, id) ? proyectosPorId[id] : null;
+      var entrada = valido && Object.prototype.hasOwnProperty.call(catalogo, id) ? catalogo[id] : null;
+      if (proyecto && entrada) {
+        console.warn('Entrada del catálogo de referencias innecesaria (ya es un proyecto):', id);
+      }
+      if (!proyecto && entrada && typeof entrada.enlace === 'string') {
+        var enlace = entrada.enlace.trim();
+        var idEnlace = enlace.charAt(0) === '#' ? enlace.slice(1) : '';
+        if (idEnlace && Object.prototype.hasOwnProperty.call(proyectosPorId, idEnlace)) {
+          proyecto = proyectosPorId[idEnlace];
+        }
+      }
+      if (proyecto && typeof proyecto.titulo === 'string' && proyecto.titulo !== '') {
+        lista.push(referenciaDesdeProyecto(proyecto));
+      } else if (!proyecto && entrada && typeof entrada.titulo === 'string' && entrada.titulo !== '') {
+        lista.push({
+          titulo: entrada.titulo,
+          img: esRutaImagenSegura(entrada.img) ? entrada.img.trim() : null,
+          alt: entrada.titulo,
+          enlace: entrada.enlace
+        });
       } else {
         console.warn('Referencia desconocida o sin título:', id);
       }
@@ -135,20 +170,19 @@
   }
 
   // Tarjeta: título arriba e imagen (o rectángulo provisional) debajo.
-  // Con enlace válido es un <a>: "#<id>" de un proyecto existente usa el
-  // enlace interno de main.js (navegarAProyecto); http(s), pestaña nueva.
+  // Con enlace válido es un <a>: si apunta a un proyecto usa el enlace
+  // interno de main.js (navegarAProyecto); http(s), pestaña nueva.
   // Sin enlace es un <div> no interactivo
-  function crearTarjetaReferencia(referencia, proyectosPorId) {
+  function crearTarjetaReferencia(referencia) {
     var url = typeof referencia.enlace === 'string' ? referencia.enlace.trim() : '';
     var tarjeta;
     if (esUrlSegura(url)) {
       tarjeta = crearEnlace(null, url, 'referencia-tarjeta');
       // Nombre accesible solo con el título (el alt de la imagen lo repetiría)
       tarjeta.setAttribute('aria-label', referencia.titulo);
-      var id = url.charAt(0) === '#' ? url.slice(1) : '';
-      if (id && proyectosPorId[id]) {
+      if (referencia.idProyecto) {
         tarjeta.classList.add('enlace-proyecto');
-        tarjeta.setAttribute('data-proyecto', id);
+        tarjeta.setAttribute('data-proyecto', referencia.idProyecto);
       } else if (/^https?:/i.test(url)) {
         tarjeta.target = '_blank';
         tarjeta.rel = 'noopener noreferrer';
@@ -159,10 +193,10 @@
     tarjeta.appendChild(crear('span', 'referencia-titulo', referencia.titulo));
 
     var imagen = crear('span', 'referencia-imagen');
-    if (esRutaImagenSegura(referencia.img)) {
+    if (referencia.img) {
       var img = document.createElement('img');
-      img.src = referencia.img.trim();
-      img.alt = referencia.titulo;
+      img.src = referencia.img;
+      img.alt = referencia.alt;
       img.loading = 'lazy';
       img.decoding = 'async';
       imagen.appendChild(img);
@@ -180,12 +214,11 @@
   function crearReferencias(ids, contexto) {
     var referencias = resolverReferencias(ids, contexto);
     if (!referencias.length) return null;
-    var proyectosPorId = (contexto && contexto.proyectosPorId) || {};
     var bloque = crear('div', 'linea-tiempo-proyectos linea-tiempo-referencias');
     bloque.appendChild(crear('h4', 'linea-tiempo-proyectos-titulo', 'Referencias'));
     var lista = crear('ul', 'referencias-lista');
     referencias.forEach(function (referencia) {
-      lista.appendChild(crearTarjetaReferencia(referencia, proyectosPorId));
+      lista.appendChild(crearTarjetaReferencia(referencia));
     });
     bloque.appendChild(lista);
     return bloque;

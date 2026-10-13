@@ -31,7 +31,7 @@
   "referencias": {
     "proyecto-revlon": { "titulo": "[Provisional] Revlon", "enlace": "#" },
     "proyecto-fire-lunar-rush": { "titulo": "[Provisional] Fire Lunar Rush" },
-    "proyecto-color-switch-race": { "titulo": "[Provisional] Color Switch Race", "enlace": "#proyecto-provisional-1" },
+    "proyecto-color-switch-race": { "titulo": "[Provisional] Color Switch Race" },
     "proyecto-the-donatos-mind": { "titulo": "[Provisional] The Donato's Mind" },
     "proyecto-telefonica-town": { "titulo": "[Provisional] Telefónica Town" },
     "proyecto-mcdonalds-land-tycoon": { "titulo": "[Provisional] McDonald's land Tycoon" },
@@ -39,10 +39,7 @@
     "proyecto-gloom-reaper": { "titulo": "[Provisional] Gloom Reaper" },
     "proyecto-provisional-1a": { "titulo": "[Provisional] Proyecto provisional 1A" },
     "proyecto-provisional-3a": { "titulo": "[Provisional] Proyecto provisional 3A" },
-    "proyecto-provisional-3b": { "titulo": "[Provisional] Proyecto provisional 3B" },
-    "proyecto-provisional-1": { "titulo": "Proyecto provisional 1", "enlace": "#proyecto-provisional-1" },
-    "proyecto-provisional-2": { "titulo": "Proyecto provisional 2", "enlace": "#proyecto-provisional-2" },
-    "proyecto-provisional-3": { "titulo": "Proyecto provisional 3", "enlace": "#proyecto-provisional-3" }
+    "proyecto-provisional-3b": { "titulo": "[Provisional] Proyecto provisional 3B" }
   },
 
   "experiencia": [
@@ -219,7 +216,7 @@
       "entidad": "Evento o institución provisional 2",
       "fecha": "2023-05",
       "descripcion": "[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      "referencias": ["proyecto-provisional-2"]
+      "referencias": ["proyecto-provisional-1"]
     },
     {
       "titulo": "Premio provisional 3",

@@ -37,7 +37,7 @@ Guarda el archivo en UTF-8 (se pueden usar tildes y eñes sin problema).
 | `fechaFin` | Sí | `"AAAA-MM"` o `null` si sigue en curso. |
 | `descripcion` | Sí | String o array de strings. |
 | `aptitudes` | Sí | Array de strings. |
-| `referencias` | No | Array de ids del catálogo `referencias` (ver más abajo), p. ej. `["proyecto-mi-juego"]`. |
+| `referencias` | No | Array de ids de proyectos de la sección Proyectos o del catálogo `referencias` (ver más abajo), p. ej. `["mi-juego", "proyecto-cliente"]`. |
 
 ## Estudios
 
@@ -47,7 +47,7 @@ Igual que Experiencia, cambiando `puesto` por `titulo` y `empresa` por `instituc
 
 | Campo | Obligatorio | Descripción |
 | --- | --- | --- |
-| `id` | Sí | Identificador único en minúsculas y con guiones (`mi-juego-2025`). No lo cambies después: lo usan los enlaces internos (`#<id>`) de Referencias y Destacado. |
+| `id` | Sí | Identificador único en minúsculas y con guiones (`mi-juego-2025`). No lo cambies después: lo usan las Referencias y los enlaces internos (`#<id>`) de Destacado. |
 | `titulo` | Sí | Nombre del proyecto. |
 | `categoria` | Sí | Tecnología (p. ej. `"Unity"`, `"Unreal Engine"`, `"Roblox"`). Genera automáticamente los filtros de Proyectos (un botón por categoría distinta). Escríbela siempre igual, con las mismas mayúsculas y espacios: `"Unity"` y `"unity"` serían dos filtros distintos. |
 | `fecha` | Sí | `"AAAA-MM"`. |
@@ -94,44 +94,52 @@ Copia este bloque dentro del array `"proyectos"`, separado del anterior por una 
 | `entidad` | Sí | Evento o institución (subtítulo). |
 | `fecha` | Sí | `"AAAA-MM"`. |
 | `descripcion` | Sí | String o array de strings. |
-| `referencias` | No | Array de ids del catálogo `referencias`, como en Experiencia. |
+| `referencias` | No | Array de ids de proyectos o del catálogo `referencias`, como en Experiencia. |
 
-**Enlazar un mérito con un proyecto:** crea en el catálogo `referencias` una entrada con `"enlace": "#<id>"` (el `id` exacto del proyecto) y pon el id de esa entrada en el campo `referencias` del mérito. La tarjeta, al pulsarla, abre la sección Proyectos, despliega la entrada, la centra y la resalta; el botón Atrás vuelve al mérito.
+**Enlazar un mérito con un proyecto:** pon el `id` exacto del proyecto en el campo `referencias` del mérito (p. ej. `["mi-juego"]`); no hace falta ninguna entrada en el catálogo. La tarjeta toma el título y la primera imagen del proyecto y, al pulsarla, abre la sección Proyectos, despliega la entrada, la centra y la resalta; el botón Atrás vuelve al mérito.
 
-## Referencias (catálogo)
+## Referencias
 
-Las tarjetas del bloque «Referencias» que aparece en el detalle de Experiencia, Estudios y Méritos salen de un catálogo central: la clave `referencias`, un objeto cuyas claves son ids (minúsculas y guiones, p. ej. `proyecto-mi-juego`) y cuyos valores describen cada tarjeta. Una misma referencia se puede usar en varias entradas.
+Las tarjetas del bloque «Referencias» que aparece en el detalle de Experiencia, Estudios y Méritos se indican con el campo `referencias` de cada entrada: un array de ids, en el orden en que se muestran. Cada id puede ser de dos tipos:
+
+**a) Id de un proyecto de la sección Proyectos** (p. ej. `"mi-juego"`). La tarjeta se genera sola, sin entrada en el catálogo:
+
+- Título: el `titulo` del proyecto.
+- Imagen: siempre la **primera** de `imagenes` (`low`, o `high` si falta `low`), con su `alt` (o el título si no tiene). Si el proyecto no tiene imágenes o la primera no tiene ruta válida, se ve el rectángulo provisional.
+- Enlace: abre Proyectos, despliega la entrada, la centra y la resalta (Atrás vuelve al origen).
+
+Al cambiar el título o la primera imagen del proyecto, sus tarjetas se actualizan solas. Si además hay una entrada del catálogo con el mismo id, se ignora (aviso en la consola).
+
+**b) Id del catálogo `referencias`**, solo para referencias externas o a cosas que no están en Proyectos. El catálogo es un objeto cuyas claves son ids (minúsculas y guiones, p. ej. `proyecto-cliente`) y cuyos valores describen la tarjeta a mano. Una misma referencia se puede usar en varias entradas.
 
 | Campo | Obligatorio | Descripción |
 | --- | --- | --- |
 | `titulo` | Sí | Texto de la tarjeta (se recorta a 2 líneas con «…»). También es el `alt` de la imagen. |
 | `img` | No | Imagen de la tarjeta, relativa (`recursos/...`) o `http(s)://`. Se recorta sin deformarse para llenar el hueco. Sin ella (o con otra ruta), se ve el rectángulo provisional. |
-| `enlace` | No | URL (mismas reglas que el resto de enlaces). Sin `enlace` válido, la tarjeta no es clicable. |
+| `enlace` | No | URL (mismas reglas que el resto de enlaces). `"https://..."` se abre en una pestaña nueva. Sin `enlace` válido, la tarjeta no es clicable. |
 
-Enlace:
+Si el `enlace` de una entrada del catálogo es `"#<id>"` de un proyecto existente, la tarjeta se trata como el tipo a): usa el título y la primera imagen de ese proyecto en lugar de `titulo` e `img`. Mejor usar directamente el id del proyecto.
 
-- **A un proyecto de la web:** `"#<id>"` con el `id` de un proyecto. Abre Proyectos, despliega la entrada, la centra y la resalta (Atrás vuelve al origen). Si el `id` no existe, queda como un enlace normal a `#<id>`.
-- **Externo:** `"https://..."`. Se abre en una pestaña nueva.
-
-En Experiencia, Estudios y Méritos, el campo `referencias` lista los ids en el orden en que se muestran. Los ids que no estén en el catálogo (o sin `titulo`) se ignoran, con un aviso en la consola del navegador. Si no queda ninguno, no se muestra el bloque.
+Los ids que no sean de un proyecto ni estén en el catálogo (o sin `titulo`) se ignoran, con un aviso en la consola del navegador. Si no queda ninguno, no se muestra el bloque.
 
 Ejemplo:
 
 ```json
 "referencias": {
-  "proyecto-mi-juego": {
-    "titulo": "Mi juego",
-    "img": "recursos/referencias/mi-juego.jpg",
-    "enlace": "#mi-juego"
+  "proyecto-cliente": {
+    "titulo": "Experiencia para un cliente",
+    "img": "recursos/referencias/cliente.jpg",
+    "enlace": "https://ejemplo.com"
   },
-  "proyecto-cliente": { "titulo": "Experiencia para un cliente", "enlace": "https://ejemplo.com" },
   "proyecto-interno": { "titulo": "Herramienta interna" }
 }
 ```
 
 ```json
-"referencias": ["proyecto-mi-juego", "proyecto-cliente"]
+"referencias": ["mi-juego", "proyecto-cliente"]
 ```
+
+Aquí `mi-juego` es el `id` de un proyecto (tipo a) y `proyecto-cliente` una entrada del catálogo (tipo b).
 
 ## Destacado
 
