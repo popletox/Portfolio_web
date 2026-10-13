@@ -115,19 +115,77 @@
     return bloque;
   }
 
-  // Lista de { texto, enlace? }; enlace opcional
-  function crearListaProyectos(proyectos) {
-    var bloque = crear('div', 'linea-tiempo-proyectos');
-    bloque.appendChild(crear('h4', 'linea-tiempo-proyectos-titulo', 'Proyectos'));
-    var lista = crear('ul', 'linea-tiempo-proyectos-lista');
-    proyectos.forEach(function (proyecto) {
-      var li = crear('li');
-      if (proyecto.enlace != null) {
-        li.appendChild(crearEnlace(proyecto.texto, proyecto.enlace));
+  // ---- Referencias (catálogo "referencias" del JSON) ----
+
+  // Array de ids -> entradas válidas del catálogo; los ids desconocidos se ignoran
+  function resolverReferencias(ids, contexto) {
+    if (!Array.isArray(ids)) return [];
+    var catalogo = (contexto && contexto.referencias) || {};
+    return ids.reduce(function (lista, id) {
+      var entrada = typeof id === 'string' && Object.prototype.hasOwnProperty.call(catalogo, id)
+        ? catalogo[id]
+        : null;
+      if (entrada && typeof entrada.titulo === 'string' && entrada.titulo !== '') {
+        lista.push(entrada);
       } else {
-        li.textContent = proyecto.texto;
+        console.warn('Referencia desconocida o sin título:', id);
       }
-      lista.appendChild(li);
+      return lista;
+    }, []);
+  }
+
+  // Tarjeta: título arriba e imagen (o rectángulo provisional) debajo.
+  // Con enlace válido es un <a>: "#<id>" de un proyecto existente usa el
+  // enlace interno de main.js (navegarAProyecto); http(s), pestaña nueva.
+  // Sin enlace es un <div> no interactivo
+  function crearTarjetaReferencia(referencia, proyectosPorId) {
+    var url = typeof referencia.enlace === 'string' ? referencia.enlace.trim() : '';
+    var tarjeta;
+    if (esUrlSegura(url)) {
+      tarjeta = crearEnlace(null, url, 'referencia-tarjeta');
+      // Nombre accesible solo con el título (el alt de la imagen lo repetiría)
+      tarjeta.setAttribute('aria-label', referencia.titulo);
+      var id = url.charAt(0) === '#' ? url.slice(1) : '';
+      if (id && proyectosPorId[id]) {
+        tarjeta.classList.add('enlace-proyecto');
+        tarjeta.setAttribute('data-proyecto', id);
+      } else if (/^https?:/i.test(url)) {
+        tarjeta.target = '_blank';
+        tarjeta.rel = 'noopener noreferrer';
+      }
+    } else {
+      tarjeta = crear('div', 'referencia-tarjeta referencia-tarjeta--sin-enlace');
+    }
+    tarjeta.appendChild(crear('span', 'referencia-titulo', referencia.titulo));
+
+    var imagen = crear('span', 'referencia-imagen');
+    if (esRutaImagenSegura(referencia.img)) {
+      var img = document.createElement('img');
+      img.src = referencia.img.trim();
+      img.alt = referencia.titulo;
+      img.loading = 'lazy';
+      img.decoding = 'async';
+      imagen.appendChild(img);
+    } else {
+      imagen.classList.add('referencia-imagen--provisional');
+    }
+    tarjeta.appendChild(imagen);
+
+    var li = crear('li');
+    li.appendChild(tarjeta);
+    return li;
+  }
+
+  // Bloque "Referencias": h4 y cuadrícula de tarjetas (null si no hay ninguna válida)
+  function crearReferencias(ids, contexto) {
+    var referencias = resolverReferencias(ids, contexto);
+    if (!referencias.length) return null;
+    var proyectosPorId = (contexto && contexto.proyectosPorId) || {};
+    var bloque = crear('div', 'linea-tiempo-proyectos linea-tiempo-referencias');
+    bloque.appendChild(crear('h4', 'linea-tiempo-proyectos-titulo', 'Referencias'));
+    var lista = crear('ul', 'referencias-lista');
+    referencias.forEach(function (referencia) {
+      lista.appendChild(crearTarjetaReferencia(referencia, proyectosPorId));
     });
     bloque.appendChild(lista);
     return bloque;
@@ -145,7 +203,7 @@
     return contenedor;
   }
 
-  // Bloque con h4 y un único enlace (Enlace de proyecto, Proyecto de mérito)
+  // Bloque con h4 y un único enlace (Enlace de proyecto)
   function crearBloqueEnlace(titulo, enlace) {
     var bloque = crear('div', 'linea-tiempo-proyectos');
     bloque.appendChild(crear('h4', 'linea-tiempo-proyectos-titulo', titulo));
@@ -156,7 +214,7 @@
   }
 
   // Entrada de línea de tiempo con fechas de rango (Experiencia, Estudios)
-  // datos: { idDetalle, titulo, subtitulo, fechaInicio, fechaFin, descripcion, aptitudes, proyectos }
+  // datos: { idDetalle, titulo, subtitulo, fechaInicio, fechaFin, descripcion, aptitudes, referencias }
   function crearEntradaRango(datos) {
     var entrada = crear('li', 'linea-tiempo-entrada');
     entrada.appendChild(crearFechaRango(datos.fechaInicio, datos.fechaFin));
@@ -165,7 +223,8 @@
   }
 
   // Cuerpo común: h3 con botón, subtítulo y detalle desplegable.
-  // datos.claseSubtitulo y datos.extra (nodo final del detalle) son opcionales.
+  // datos.claseSubtitulo, datos.referencias (bloque de Referencias o null) y
+  // datos.extra (nodo final del detalle) son opcionales.
   function crearCuerpo(datos) {
     var cuerpo = crear('div', 'linea-tiempo-cuerpo');
 
@@ -196,9 +255,7 @@
     if (Array.isArray(datos.aptitudes) && datos.aptitudes.length) {
       interior.appendChild(crearAptitudes(datos.aptitudes));
     }
-    if (Array.isArray(datos.proyectos) && datos.proyectos.length) {
-      interior.appendChild(crearListaProyectos(datos.proyectos));
-    }
+    if (datos.referencias) interior.appendChild(datos.referencias);
     if (datos.extra) interior.appendChild(datos.extra);
     detalle.appendChild(interior);
     cuerpo.appendChild(detalle);
@@ -272,24 +329,15 @@
     return entrada;
   }
 
-  function crearEntradaMerito(merito, indice, proyectosPorId) {
+  function crearEntradaMerito(merito, indice, contexto) {
     var entrada = crear('li', 'linea-tiempo-entrada');
     entrada.appendChild(crearFechaSimple(merito.fecha));
-
-    var extra = null;
-    var proyecto = merito.proyecto && proyectosPorId[merito.proyecto];
-    if (proyecto) {
-      var enlace = crear('a', 'enlace-proyecto', 'Ver proyecto: ' + proyecto.titulo);
-      enlace.setAttribute('href', '#' + proyecto.id);
-      enlace.setAttribute('data-proyecto', proyecto.id);
-      extra = crearBloqueEnlace('Proyecto', enlace);
-    }
     entrada.appendChild(crearCuerpo({
       idDetalle: 'detalle-meritos-' + (indice + 1),
       titulo: merito.titulo,
       subtitulo: merito.entidad,
       descripcion: merito.descripcion,
-      extra: extra
+      referencias: crearReferencias(merito.referencias, contexto)
     }));
     return entrada;
   }
@@ -302,7 +350,7 @@
     seccion.replaceChildren.apply(seccion, crearParrafos(introduccion));
   }
 
-  function montarExperiencia(experiencia) {
+  function montarExperiencia(experiencia, contexto) {
     var lista = document.querySelector('#experiencia .linea-tiempo[data-seccion="experiencia"]');
     if (!lista) return;
     var entradas = ordenarPorFecha(experiencia || [], 'fechaInicio').map(function (item, indice) {
@@ -314,13 +362,13 @@
         fechaFin: item.fechaFin,
         descripcion: item.descripcion,
         aptitudes: item.aptitudes,
-        proyectos: item.proyectos
+        referencias: crearReferencias(item.referencias, contexto)
       });
     });
     lista.replaceChildren.apply(lista, entradas);
   }
 
-  function montarEstudios(estudios) {
+  function montarEstudios(estudios, contexto) {
     var lista = document.querySelector('#estudios .linea-tiempo[data-seccion="estudios"]');
     if (!lista) return;
     var entradas = ordenarPorFecha(estudios || [], 'fechaInicio').map(function (item, indice) {
@@ -332,7 +380,7 @@
         fechaFin: item.fechaFin,
         descripcion: item.descripcion,
         aptitudes: item.aptitudes,
-        proyectos: item.proyectos
+        referencias: crearReferencias(item.referencias, contexto)
       });
     });
     lista.replaceChildren.apply(lista, entradas);
@@ -378,16 +426,11 @@
     lista.parentNode.insertBefore(grupo, lista);
   }
 
-  // Los títulos de proyecto se toman directamente de los datos del JSON
-  function montarMeritos(meritos, proyectos) {
+  function montarMeritos(meritos, contexto) {
     var lista = document.querySelector('#meritos .linea-tiempo[data-seccion="meritos"]');
     if (!lista) return;
-    var proyectosPorId = {};
-    (proyectos || []).forEach(function (proyecto) {
-      if (proyecto && proyecto.id) proyectosPorId[proyecto.id] = proyecto;
-    });
     var entradas = ordenarPorFecha(meritos || [], 'fecha').map(function (item, indice) {
-      return crearEntradaMerito(item, indice, proyectosPorId);
+      return crearEntradaMerito(item, indice, contexto);
     });
     lista.replaceChildren.apply(lista, entradas);
   }
@@ -542,6 +585,17 @@
     }
   }
 
+  // Catálogo de referencias y proyectos por id, para las tarjetas de Referencias
+  function crearContextoReferencias(datos) {
+    var referencias = datos.referencias;
+    if (!referencias || typeof referencias !== 'object' || Array.isArray(referencias)) referencias = {};
+    var proyectosPorId = {};
+    (datos.proyectos || []).forEach(function (proyecto) {
+      if (proyecto && proyecto.id) proyectosPorId[proyecto.id] = proyecto;
+    });
+    return { referencias: referencias, proyectosPorId: proyectosPorId };
+  }
+
   function mostrarAviso(contenedor) {
     if (!contenedor || contenedor.querySelector('.aviso-carga')) return;
     contenedor.appendChild(crear('p', 'aviso-carga', TEXTO_AVISO));
@@ -558,10 +612,11 @@
     })
     .then(function (datos) {
       montarIntroduccion(datos.introduccion);
-      montarExperiencia(datos.experiencia);
+      var contexto = crearContextoReferencias(datos);
+      montarExperiencia(datos.experiencia, contexto);
       montarProyectos(datos.proyectos);
-      montarMeritos(datos.meritos, datos.proyectos);
-      montarEstudios(datos.estudios);
+      montarMeritos(datos.meritos, contexto);
+      montarEstudios(datos.estudios, contexto);
       montarDestacado(listaDestacados(datos), datos.proyectos);
       emitir('contenido:listo', datos);
     })

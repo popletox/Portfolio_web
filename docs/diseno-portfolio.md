@@ -22,7 +22,7 @@ Cuatro secciones, en este orden: Experiencia, Proyectos, Méritos y reconocimien
 
 5. Destacado
 
-Contenido seleccionado por Miguel, independiente del resumen profesional: uno o varios destacados, cada uno con un título, una imagen, una descripción breve y un enlace, en ese orden, definidos en `datos/contenido.json` (clave `destacados`, ver docs/formato-datos.md). Con varios, el panel es un carrusel con puntos indicadores y rotación automática cada 10 segundos (pausada con el ratón encima, el foco dentro, el panel cerrado o la pestaña oculta; sin rotación ni animación con movimiento reducido). La imagen admite cualquier proporción: ancho fijo (todo el panel en ordenador, una columna a la izquierda en móvil), alto automático con un tope y recorte sin deformar. El enlace puede ser interno a un proyecto (abre, centra y resalta, como en Méritos) o externo. En ordenador: panel lateral derecho abierto al cargar, con cierre y posibilidad de reabrir. Reservar espacio para evitar tapar el contenido.
+Contenido seleccionado por Miguel, independiente del resumen profesional: uno o varios destacados, cada uno con un título, una imagen, una descripción breve y un enlace, en ese orden, definidos en `datos/contenido.json` (clave `destacados`, ver docs/formato-datos.md). Con varios, el panel es un carrusel con puntos indicadores y rotación automática cada 10 segundos (pausada con el ratón encima, el foco dentro, el panel cerrado o la pestaña oculta; sin rotación ni animación con movimiento reducido). La imagen admite cualquier proporción: ancho fijo (todo el panel en ordenador, una columna a la izquierda en móvil), alto automático con un tope y recorte sin deformar. El enlace puede ser interno a un proyecto (abre, centra y resalta, como las Referencias) o externo. En ordenador: panel lateral derecho abierto al cargar, con cierre y posibilidad de reabrir. Reservar espacio para evitar tapar el contenido.
 
 En móvil: sustituir el lateral por un panel horizontal inferior con el mismo contenido, cerrable y reabrible. Pendiente concretar si queda fijo al borde de la pantalla o al final del documento; si es fijo, debe ser compacto y reservar espacio para no ocultar el contenido ni la nota del pie.
 
@@ -36,7 +36,7 @@ Línea de tiempo vertical sencilla: años o rango de años a la izquierda; punto
 
 Mostrar una señal persistente de apertura (flecha u otro icono discreto). El cambio de fondo al pasar el ratón puede reforzarla. Permitir abrir y cerrar cada entrada, así como contraer la sección completa. En móvil, compactar la columna temporal conservando las fechas legibles.
 
-Formato de fecha: contraída, «AAAA – AAAA»; expandida, «mes, AAAA – mes, AAAA» (mes en minúscula y en español, p. ej. «marzo, 2023 – junio, 2025»); el cambio entre ambos formatos se hace con un fundido suave. Detalle de cada entrada: descripción, aptitudes clave y, de forma opcional, proyectos.
+Formato de fecha: contraída, «AAAA – AAAA»; expandida, «mes, AAAA – mes, AAAA» (mes en minúscula y en español, p. ej. «marzo, 2023 – junio, 2025»); el cambio entre ambos formatos se hace con un fundido suave. Detalle de cada entrada: descripción, aptitudes clave y, de forma opcional, Referencias: cuadrícula de tarjetas con título de hasta dos líneas arriba (siempre ocupa el alto de dos, para que las tarjetas de una fila midan igual) e imagen cuadrada debajo (recortada, o cuadrado provisional), sin bordes marcados. Salen de un catálogo común del JSON; con enlace, toda la tarjeta es clicable (interno a un proyecto o externo en pestaña nueva); sin enlace, no lo parece.
 
 7. Proyectos: lista y filtros
 
@@ -50,9 +50,9 @@ Las miniaturas son siempre cuadradas y recortan la foto sin deformarla (cover); 
 
 8. Méritos y reconocimientos
 
-Línea de tiempo ligera, similar a Experiencia: contraída, muestra el año, el título del premio y, como subtítulo, el evento o la institución que lo concede; expandida, muestra «mes, AAAA» (sin rango), la descripción y un único enlace al proyecto asociado. Asociar cada reconocimiento a un proyecto cuando corresponda mediante un enlace interno visible.
+Línea de tiempo ligera, similar a Experiencia: contraída, muestra el año, el título del premio y, como subtítulo, el evento o la institución que lo concede; expandida, muestra «mes, AAAA» (sin rango), la descripción y, de forma opcional, Referencias en tarjetas, como en Experiencia. Asociar cada reconocimiento a un proyecto cuando corresponda mediante una tarjeta con enlace interno.
 
-Al activar Ver proyecto: abrir Proyectos si está cerrado, desplegar la entrada y, al terminar las animaciones, desplazarse suavemente hasta dejarla centrada en el área visible entre el encabezado permanente y el panel inferior (o lo más centrada posible; si es más alta que esa área, alineada arriba bajo el encabezado). Resaltar el destino con un parpadeo doble del fondo. El botón Atrás del navegador vuelve al mérito de origen. Si el filtro activo oculta el destino, se vuelve antes a "Todos".
+Al activar una tarjeta con enlace interno (o el enlace interno del Destacado): abrir Proyectos si está cerrado, desplegar la entrada y, al terminar las animaciones, desplazarse suavemente hasta dejarla centrada en el área visible entre el encabezado permanente y el panel inferior (o lo más centrada posible; si es más alta que esa área, alineada arriba bajo el encabezado). Resaltar el destino con un parpadeo doble del fondo. El botón Atrás del navegador vuelve a la entrada de origen. Si el filtro activo oculta el destino, se vuelve antes a "Todos".
 
 9. Pie: Sobre esta web
 

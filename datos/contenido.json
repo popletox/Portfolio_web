@@ -28,6 +28,23 @@
     }
   ],
 
+  "referencias": {
+    "proyecto-revlon": { "titulo": "[Provisional] Revlon", "enlace": "#" },
+    "proyecto-fire-lunar-rush": { "titulo": "[Provisional] Fire Lunar Rush" },
+    "proyecto-color-switch-race": { "titulo": "[Provisional] Color Switch Race", "enlace": "#proyecto-provisional-1" },
+    "proyecto-the-donatos-mind": { "titulo": "[Provisional] The Donato's Mind" },
+    "proyecto-telefonica-town": { "titulo": "[Provisional] Telefónica Town" },
+    "proyecto-mcdonalds-land-tycoon": { "titulo": "[Provisional] McDonald's land Tycoon" },
+    "proyecto-el-desafio-pringles": { "titulo": "[Provisional] El desafío Pringles" },
+    "proyecto-gloom-reaper": { "titulo": "[Provisional] Gloom Reaper" },
+    "proyecto-provisional-1a": { "titulo": "[Provisional] Proyecto provisional 1A" },
+    "proyecto-provisional-3a": { "titulo": "[Provisional] Proyecto provisional 3A" },
+    "proyecto-provisional-3b": { "titulo": "[Provisional] Proyecto provisional 3B" },
+    "proyecto-provisional-1": { "titulo": "Proyecto provisional 1", "enlace": "#proyecto-provisional-1" },
+    "proyecto-provisional-2": { "titulo": "Proyecto provisional 2", "enlace": "#proyecto-provisional-2" },
+    "proyecto-provisional-3": { "titulo": "Proyecto provisional 3", "enlace": "#proyecto-provisional-3" }
+  },
+
   "experiencia": [
     {
       "puesto": "Técnico Desarrollo y Soporte de Aplicaciones",
@@ -72,9 +89,7 @@
         "Redacción técnica",
         "Gestión de proyectos"
       ],
-      "proyectos": [
-        { "texto": "[Provisional] Revlon", "enlace": "#" }
-      ]
+      "referencias": ["proyecto-revlon"]
     },
     {
       "puesto": "Desarrollador de videojuegos",
@@ -91,13 +106,13 @@
         "Unreal Engine",
         "Fortnite"
       ],
-      "proyectos": [
-        { "texto": "[Provisional] Fire Lunar Rush" },
-        { "texto": "[Provisional] Color Switch Race", "enlace": "#" },
-        { "texto": "[Provisional] The Donato's Mind" },
-        { "texto": "[Provisional] Telefónica Town" },
-        { "texto": "[Provisional] McDonald's land Tycoon" },
-        { "texto": "[Provisional] El desafío Pringles" }
+      "referencias": [
+        "proyecto-fire-lunar-rush",
+        "proyecto-color-switch-race",
+        "proyecto-the-donatos-mind",
+        "proyecto-telefonica-town",
+        "proyecto-mcdonalds-land-tycoon",
+        "proyecto-el-desafio-pringles"
       ]
     },
     {
@@ -113,9 +128,7 @@
         "Desarrollo de videojuegos",
         "Unreal Engine"
       ],
-      "proyectos": [
-        { "texto": "[Provisional] Gloom Reaper" }
-      ]
+      "referencias": ["proyecto-gloom-reaper"]
     }
   ],
 
@@ -199,21 +212,21 @@
       "entidad": "Evento o institución provisional 1",
       "fecha": "2024-11",
       "descripcion": "[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      "proyecto": "proyecto-provisional-1"
+      "referencias": ["proyecto-provisional-1"]
     },
     {
       "titulo": "Premio provisional 2",
       "entidad": "Evento o institución provisional 2",
       "fecha": "2023-05",
       "descripcion": "[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      "proyecto": "proyecto-provisional-2"
+      "referencias": ["proyecto-provisional-2"]
     },
     {
       "titulo": "Premio provisional 3",
       "entidad": "Evento o institución provisional 3",
       "fecha": "2022-03",
       "descripcion": "[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      "proyecto": "proyecto-provisional-3"
+      "referencias": ["proyecto-provisional-3"]
     }
   ],
 
@@ -229,9 +242,7 @@
         "[Provisional] Aptitud provisional B",
         "[Provisional] Aptitud provisional C"
       ],
-      "proyectos": [
-        { "texto": "[Provisional] Proyecto provisional 1A" }
-      ]
+      "referencias": ["proyecto-provisional-1a"]
     },
     {
       "titulo": "Titulación provisional 2",
@@ -256,10 +267,7 @@
         "[Provisional] Aptitud provisional B",
         "[Provisional] Aptitud provisional C"
       ],
-      "proyectos": [
-        { "texto": "[Provisional] Proyecto provisional 3A" },
-        { "texto": "[Provisional] Proyecto provisional 3B" }
-      ]
+      "referencias": ["proyecto-provisional-3a", "proyecto-provisional-3b"]
     }
   ]
 }

@@ -28,9 +28,9 @@ Cada tema es un archivo en `estilos/temas/<id>.css` que define **todas** las var
 | Variable | Uso |
 | --- | --- |
 | `--fuente-base` | Tipografía de toda la página. |
-| `--color-fondo` | Fondo de la página y de la cabecera; píldoras de filtro dentro de Proyectos. |
+| `--color-fondo` | Fondo de la página y de la cabecera; píldoras de filtro dentro de Proyectos; tarjetas de Referencias. |
 | `--color-fondo-suave` | Fondo de títulos de sección (y de la sección entera cuando está abierta), botones de contacto y de Opciones y pie. |
-| `--color-fondo-suave-hover` | Hover sobre `--color-fondo-suave` (títulos de sección, filtros y títulos de entradas) y sobre los temas del bocadillo de Opciones. |
+| `--color-fondo-suave-hover` | Hover sobre `--color-fondo-suave` (títulos de sección, filtros, títulos de entradas y tarjetas de Referencias) y sobre los temas del bocadillo de Opciones. |
 | `--color-panel` | Fondo del panel destacado. |
 | `--color-texto` | Texto principal. |
 | `--color-texto-suave` | Texto secundario: introducción, subtítulo de la cabecera, flechas, separadores, título del bocadillo de Opciones. |
@@ -48,8 +48,8 @@ Cada tema es un archivo en `estilos/temas/<id>.css` que define **todas** las var
 | `--color-degradado-cabecera-fin` | Final del degradado (normalmente `transparent`). |
 | `--color-linea-tiempo` | Línea vertical de las líneas de tiempo. |
 | `--color-punto-tiempo` | Punto de cada entrada. |
-| `--color-resaltado` | Parpadeo del proyecto destino de "Ver proyecto" (semitransparente). |
-| `--color-miniatura-provisional` | Miniaturas e imagen del visor sin imagen real. |
+| `--color-resaltado` | Parpadeo del proyecto destino de un enlace interno (Referencias, Destacado) (semitransparente). |
+| `--color-miniatura-provisional` | Miniaturas, imagen del visor y tarjetas de Referencias sin imagen real. |
 | `--color-destacado-provisional` | Cuadrado provisional del panel destacado. |
 | `--color-fondo-visor` | Fondo oscurecido tras la imagen ampliada. |
 | `--color-boton-visor` | Botón de cerrar del visor. |

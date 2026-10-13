@@ -58,6 +58,9 @@ img {
   --ancho-columna-proyectos: calc(var(--tamano-miniatura-max) * 4 + var(--hueco-miniaturas) * 3);
   --tamano-miniatura-max: 3.25rem;
   --hueco-miniaturas: 0.5rem;
+  /* Tarjetas de Referencias: ancho mínimo de columna y separación */
+  --ancho-min-referencia: 8rem;
+  --hueco-referencias: 0.75rem;
   --tamano-miniatura-ampliada: calc((var(--ancho-columna-proyectos) - var(--hueco-miniaturas)) / 2);
   --tamano-boton-visor: 2.75rem;
   --ancho-visor: 90vw;
@@ -1003,26 +1006,95 @@ body.visor-abierto {
   font-size: 1rem;
 }
 
-.linea-tiempo-proyectos-lista {
-  margin: 0.25rem 0 0;
-  padding-left: 1.25rem;
-}
-
-.linea-tiempo-proyectos-lista a,
 .enlace-proyecto {
   color: var(--color-enlace);
 }
 
-/* Enlace único al proyecto asociado (Méritos) */
+/* Enlace único del bloque "Enlace" (Proyectos) */
 .linea-tiempo .linea-tiempo-enlace-proyecto {
   margin: 0.25rem 0 0;
 }
 
-.linea-tiempo-proyectos-lista a:focus-visible,
 .enlace-proyecto:focus-visible {
   border-radius: var(--radio-pequeno);
   outline: 3px solid var(--color-foco);
   outline-offset: 2px;
+}
+
+/* Referencias (Experiencia, Estudios y Méritos): cuadrícula de tarjetas
+   con el título arriba (siempre alto de 2 líneas, para que todas las de
+   una fila midan igual) e imagen cuadrada (1:1) debajo. Con auto-fill sobran columnas vacías en vez de estirarse:
+   cada tarjeta mide como mucho ~2 veces el ancho mínimo (solo si cabe una) */
+.referencias-lista {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--ancho-min-referencia)), 1fr));
+  gap: var(--hueco-referencias);
+  margin: 0.5rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.referencia-tarjeta {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: var(--radio-medio);
+  background: var(--color-fondo);
+  color: var(--color-titulo);
+  text-decoration: none;
+}
+
+a.referencia-tarjeta {
+  transition: background-color var(--duracion-fundido) ease;
+}
+
+a.referencia-tarjeta:hover {
+  background: var(--color-fondo-suave-hover);
+}
+
+a.referencia-tarjeta:hover .referencia-imagen {
+  filter: brightness(1.1);
+}
+
+/* Contorno hacia dentro: el detalle recorta lo que sobresale */
+a.referencia-tarjeta:focus-visible {
+  border-radius: var(--radio-medio);
+  outline: 3px solid var(--color-foco);
+  outline-offset: -3px;
+}
+
+.referencia-titulo {
+  display: -webkit-box;
+  flex: none;
+  /* content-box: el alto fijo cuenta solo el texto (2 líneas) */
+  box-sizing: content-box;
+  height: 2.6em;
+  padding: 0.5rem 0.75rem;
+  overflow: hidden;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.3;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+
+.referencia-imagen {
+  display: block;
+  flex: none;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+}
+
+.referencia-imagen--provisional {
+  background: var(--color-miniatura-provisional);
+}
+
+.referencia-imagen img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 /* Mismo padding horizontal que la cabecera y main: el borde derecho del
@@ -1667,6 +1739,15 @@ body.panel-abierto .boton-destacado-flecha {
     --hueco-columnas-tiempo: 0.5rem;
     --alto-linea-fecha-movil: 1.25rem;
     --desplazamiento-titulo-tiempo: var(--alto-linea-fecha-movil);
+    /* Dos o tres tarjetas de Referencias por fila en un móvil normal */
+    --ancho-min-referencia: 6.5rem;
+    --hueco-referencias: 0.5rem;
+  }
+
+  /* Título más compacto para dejar sitio a la imagen */
+  .referencia-titulo {
+    padding: 0.4rem 0.5rem;
+    font-size: 0.8rem;
   }
 
   .linea-tiempo .linea-tiempo-fecha {

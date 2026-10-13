@@ -22,7 +22,7 @@ Flujo: petición → coordinador → programador → revisión → (con permiso)
 - Secciones desplegables (Experiencia, Proyectos, Méritos y reconocimientos, Estudios) con líneas de tiempo y entradas que se abren y cierran.
 - Filtros de Proyectos por tecnología, generados a partir de los datos.
 - Visor de imágenes para ampliar las miniaturas de los proyectos.
-- Enlaces "Ver proyecto" desde Méritos: abren el proyecto, lo centran y lo resaltan; el botón Atrás vuelve al mérito.
+- Referencias en tarjetas (cuadrícula con título e imagen) en el detalle de Experiencia, Estudios y Méritos, desde un catálogo común del JSON. Las que enlazan a un proyecto lo abren, lo centran y lo resaltan; el botón Atrás vuelve al origen.
 - Panel Destacado en forma de carrusel (lateral en ordenador, inferior en móvil), cerrable y reabrible.
 - Temas Claro, Oscuro, Código y Cómic, elegibles en el menú de Opciones y guardados en el navegador.
 - Contenido cargado desde `datos/contenido.json`.

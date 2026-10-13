@@ -10,6 +10,7 @@ Guarda el archivo en UTF-8 (se pueden usar tildes y eñes sin problema).
 {
   "introduccion": "...",
   "destacados": [ ... ],
+  "referencias": { ... },
   "experiencia": [ ... ],
   "proyectos": [ ... ],
   "meritos": [ ... ],
@@ -36,7 +37,7 @@ Guarda el archivo en UTF-8 (se pueden usar tildes y eñes sin problema).
 | `fechaFin` | Sí | `"AAAA-MM"` o `null` si sigue en curso. |
 | `descripcion` | Sí | String o array de strings. |
 | `aptitudes` | Sí | Array de strings. |
-| `proyectos` | No | Array de `{ "texto", "enlace" }`; `enlace` (URL) es opcional. |
+| `referencias` | No | Array de ids del catálogo `referencias` (ver más abajo), p. ej. `["proyecto-mi-juego"]`. |
 
 ## Estudios
 
@@ -46,7 +47,7 @@ Igual que Experiencia, cambiando `puesto` por `titulo` y `empresa` por `instituc
 
 | Campo | Obligatorio | Descripción |
 | --- | --- | --- |
-| `id` | Sí | Identificador único en minúsculas y con guiones (`mi-juego-2025`). No lo cambies después: lo usan los méritos y los enlaces internos. |
+| `id` | Sí | Identificador único en minúsculas y con guiones (`mi-juego-2025`). No lo cambies después: lo usan los enlaces internos (`#<id>`) de Referencias y Destacado. |
 | `titulo` | Sí | Nombre del proyecto. |
 | `categoria` | Sí | Tecnología (p. ej. `"Unity"`, `"Unreal Engine"`, `"Roblox"`). Genera automáticamente los filtros de Proyectos (un botón por categoría distinta). Escríbela siempre igual, con las mismas mayúsculas y espacios: `"Unity"` y `"unity"` serían dos filtros distintos. |
 | `fecha` | Sí | `"AAAA-MM"`. |
@@ -93,9 +94,44 @@ Copia este bloque dentro del array `"proyectos"`, separado del anterior por una 
 | `entidad` | Sí | Evento o institución (subtítulo). |
 | `fecha` | Sí | `"AAAA-MM"`. |
 | `descripcion` | Sí | String o array de strings. |
-| `proyecto` | No | `id` de un proyecto. |
+| `referencias` | No | Array de ids del catálogo `referencias`, como en Experiencia. |
 
-**Enlazar un mérito con un proyecto:** pon en `proyecto` exactamente el `id` del proyecto (p. ej. `"proyecto": "mi-juego"`). El JS genera el enlace «Ver proyecto: Mi juego» con el `titulo` de ese proyecto (el texto no se escribe en el JSON) y `href="#<id>"`; al pulsarlo abre la sección Proyectos y lleva a esa entrada. Si el `id` no existe, no se muestra el enlace.
+**Enlazar un mérito con un proyecto:** crea en el catálogo `referencias` una entrada con `"enlace": "#<id>"` (el `id` exacto del proyecto) y pon el id de esa entrada en el campo `referencias` del mérito. La tarjeta, al pulsarla, abre la sección Proyectos, despliega la entrada, la centra y la resalta; el botón Atrás vuelve al mérito.
+
+## Referencias (catálogo)
+
+Las tarjetas del bloque «Referencias» que aparece en el detalle de Experiencia, Estudios y Méritos salen de un catálogo central: la clave `referencias`, un objeto cuyas claves son ids (minúsculas y guiones, p. ej. `proyecto-mi-juego`) y cuyos valores describen cada tarjeta. Una misma referencia se puede usar en varias entradas.
+
+| Campo | Obligatorio | Descripción |
+| --- | --- | --- |
+| `titulo` | Sí | Texto de la tarjeta (se recorta a 2 líneas con «…»). También es el `alt` de la imagen. |
+| `img` | No | Imagen de la tarjeta, relativa (`recursos/...`) o `http(s)://`. Se recorta sin deformarse para llenar el hueco. Sin ella (o con otra ruta), se ve el rectángulo provisional. |
+| `enlace` | No | URL (mismas reglas que el resto de enlaces). Sin `enlace` válido, la tarjeta no es clicable. |
+
+Enlace:
+
+- **A un proyecto de la web:** `"#<id>"` con el `id` de un proyecto. Abre Proyectos, despliega la entrada, la centra y la resalta (Atrás vuelve al origen). Si el `id` no existe, queda como un enlace normal a `#<id>`.
+- **Externo:** `"https://..."`. Se abre en una pestaña nueva.
+
+En Experiencia, Estudios y Méritos, el campo `referencias` lista los ids en el orden en que se muestran. Los ids que no estén en el catálogo (o sin `titulo`) se ignoran, con un aviso en la consola del navegador. Si no queda ninguno, no se muestra el bloque.
+
+Ejemplo:
+
+```json
+"referencias": {
+  "proyecto-mi-juego": {
+    "titulo": "Mi juego",
+    "img": "recursos/referencias/mi-juego.jpg",
+    "enlace": "#mi-juego"
+  },
+  "proyecto-cliente": { "titulo": "Experiencia para un cliente", "enlace": "https://ejemplo.com" },
+  "proyecto-interno": { "titulo": "Herramienta interna" }
+}
+```
+
+```json
+"referencias": ["proyecto-mi-juego", "proyecto-cliente"]
+```
 
 ## Destacado
 
@@ -120,7 +156,7 @@ Imagen:
 
 Enlace:
 
-- **A un proyecto de la web:** `"url": "#<id>"` con el `id` del proyecto (p. ej. `"#mi-juego"`). Al pulsarlo abre Proyectos, despliega la entrada, la centra y la resalta, igual que «Ver proyecto» en Méritos. Si el `id` no existe, queda como un enlace normal a `#<id>`.
+- **A un proyecto de la web:** `"url": "#<id>"` con el `id` del proyecto (p. ej. `"#mi-juego"`). Al pulsarlo abre Proyectos, despliega la entrada, la centra y la resalta, igual que las tarjetas de Referencias con enlace interno. Si el `id` no existe, queda como un enlace normal a `#<id>`.
 - **Externo:** `"url": "https://..."`. Se abre en una pestaña nueva.
 - Se aplican las mismas reglas de URL que en el resto de enlaces (`http:`, `https:`, `mailto:` o `#`).
 

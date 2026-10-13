@@ -670,7 +670,7 @@ function filtroProyectosActivo() {
   return activo ? activo.getAttribute('data-filtro') : 'todos';
 }
 
-// Enlaces "Ver proyecto" de Méritos: abrir Proyectos y la entrada, centrarla y resaltarla
+// Enlaces internos a proyectos (tarjetas de Referencias y Destacado): abrir Proyectos y la entrada, centrarla y resaltarla
 (function () {
   var movimientoReducido = window.matchMedia('(prefers-reduced-motion: reduce)');
   var consultaVertical = window.matchMedia(DISPOSICION_VERTICAL);
@@ -816,7 +816,7 @@ function filtroProyectosActivo() {
     return iguales[indice] || null;
   }
 
-  // Volver al mérito de origen: centra su entrada (o el enlace si no cabe);
+  // Volver a la entrada de origen: centra su entrada (o el enlace si no cabe);
   // si el enlace no está visible, usa la posición guardada
   function volverAOrigen(estado) {
     var enlace = localizarEnlace(estado.proyecto, estado.indice);
