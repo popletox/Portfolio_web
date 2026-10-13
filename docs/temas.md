@@ -42,8 +42,8 @@ Cada tema es un archivo en `estilos/temas/<id>.css` que define **todas** las var
 | `--color-enlace` | Enlaces fuera de las secciones (p. ej. panel destacado y ventana de detalle de un proyecto). |
 | `--color-enlace-seccion` | Enlaces dentro de las secciones, sobre `--color-fondo-suave` (contraste AA; puede ser `var(--color-enlace)`). |
 | `--color-foco` | Contorno de foco con teclado. |
-| `--color-menu-fondo` | Fondo del bocadillo de Opciones y de su pico. |
-| `--color-sombra` | Sombra del bocadillo de Opciones. |
+| `--color-menu-fondo` | Fondo del bocadillo de Opciones y del aviso de compartir, y de sus picos. |
+| `--color-sombra` | Sombra del bocadillo de Opciones y del aviso de compartir. |
 | `--color-degradado-cabecera-inicio` | Inicio del degradado bajo la cabecera (normalmente `var(--color-fondo)`). |
 | `--color-degradado-cabecera-fin` | Final del degradado (normalmente `transparent`). |
 | `--color-linea-tiempo` | Línea vertical de las líneas de tiempo y líneas horizontales de año de Proyectos. |
@@ -51,8 +51,8 @@ Cada tema es un archivo en `estilos/temas/<id>.css` que define **todas** las var
 | `--color-miniatura-provisional` | Miniaturas, imagen del visor y tarjetas de Referencias y de Proyectos sin imagen real. |
 | `--color-destacado-provisional` | Cuadrado provisional del panel destacado. |
 | `--color-fondo-visor` | Fondo oscurecido tras la imagen ampliada y tras la ventana de detalle de un proyecto. |
-| `--color-boton-visor` | Botón de cerrar del visor y de la ventana de detalle. |
-| `--color-boton-visor-hover` | Botón de cerrar del visor y de la ventana de detalle al pasar el ratón. |
-| `--color-boton-visor-texto` | Aspa del botón de cerrar del visor y de la ventana de detalle. |
+| `--color-boton-visor` | Botón de cerrar del visor y botones de cerrar y compartir de la ventana de detalle. |
+| `--color-boton-visor-hover` | Los mismos botones al pasar el ratón. |
+| `--color-boton-visor-texto` | Aspa de cerrar e icono de compartir de esos botones. |
 | `--color-boton-panel` | Botón-pestaña del panel destacado. |
 | `--color-boton-panel-texto` | Flecha del botón-pestaña. |

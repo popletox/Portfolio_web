@@ -138,6 +138,12 @@
   <!-- Ventana de detalle de un proyecto: scripts/contenido.js crea el contenido
        (el título lleva id="detalle-proyecto-titulo") y scripts/main.js la abre -->
   <dialog class="detalle-proyecto" id="detalle-proyecto" aria-labelledby="detalle-proyecto-titulo">
+    <!-- Compartir: menú del sistema en táctil; si no, copia el enlace y avisa
+         con el bocadillo (scripts/main.js) -->
+    <button class="detalle-proyecto-compartir" type="button" aria-label="Compartir proyecto" title="Compartir proyecto">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51l6.83 3.98M15.41 6.51l-6.82 3.98"/></svg>
+    </button>
+    <p class="aviso-compartir" role="status" aria-live="polite"></p>
     <button class="detalle-proyecto-cerrar" type="button" aria-label="Cerrar proyecto">&#10005;</button>
     <div class="detalle-proyecto-caja"></div>
   </dialog>

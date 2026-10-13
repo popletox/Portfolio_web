@@ -70,6 +70,10 @@ img {
   --separacion-bandas: 2.25rem;
   --separacion-banda-vacia: 0.5rem;
   --tamano-boton-visor: 2.75rem;
+  /* Separación de los botones redondos (✕, compartir) con el borde */
+  --margen-boton-visor: 0.5rem;
+  /* Tiempo que se ve el aviso "Enlace copiado" antes del fundido */
+  --duracion-aviso-compartir: 2s;
   --ancho-visor: 90vw;
   --alto-visor: 85vh;
   /* Ventana de detalle de un proyecto: ancho y alto máximos, separación con
@@ -824,10 +828,11 @@ button.proyecto-miniatura:focus-visible {
 }
 
 .visor-imagen-cerrar,
-.detalle-proyecto-cerrar {
+.detalle-proyecto-cerrar,
+.detalle-proyecto-compartir {
   position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
+  top: var(--margen-boton-visor);
+  right: var(--margen-boton-visor);
   width: var(--tamano-boton-visor);
   height: var(--tamano-boton-visor);
   display: flex;
@@ -845,14 +850,26 @@ button.proyecto-miniatura:focus-visible {
 }
 
 .visor-imagen-cerrar:hover,
-.detalle-proyecto-cerrar:hover {
+.detalle-proyecto-cerrar:hover,
+.detalle-proyecto-compartir:hover {
   background: var(--color-boton-visor-hover);
 }
 
 .visor-imagen-cerrar:focus-visible,
-.detalle-proyecto-cerrar:focus-visible {
+.detalle-proyecto-cerrar:focus-visible,
+.detalle-proyecto-compartir:focus-visible {
   outline: 3px solid var(--color-foco);
   outline-offset: 2px;
+}
+
+/* Compartir: a la izquierda del ✕ */
+.detalle-proyecto-compartir {
+  right: calc(var(--margen-boton-visor) * 2 + var(--tamano-boton-visor));
+}
+
+.detalle-proyecto-compartir svg {
+  width: var(--tamano-icono-contacto);
+  height: var(--tamano-icono-contacto);
 }
 
 /* Bloquea el desplazamiento del fondo con el visor o la ventana de detalle abiertos */
@@ -882,8 +899,10 @@ body.detalle-abierto {
 }
 
 /* Ventana de detalle de un proyecto: centrada, con scroll interno en la
-   caja (el dialog no se desplaza: el botón ✕ queda fijo arriba a la
-   derecha). Misma animación y fondo oscurecido que el visor */
+   caja (el dialog no se desplaza: los botones ✕ y compartir quedan fijos
+   arriba a la derecha). Misma animación y fondo oscurecido que el visor.
+   overflow visible para que el aviso de compartir pueda salir por arriba;
+   la caja recorta su contenido con las esquinas redondeadas */
 .detalle-proyecto {
   width: min(var(--ancho-detalle), calc(100vw - 2 * var(--margen-detalle)));
   max-width: none;
@@ -892,7 +911,7 @@ body.detalle-abierto {
   padding: 0;
   border: 0;
   border-radius: var(--radio-medio);
-  overflow: hidden;
+  overflow: visible;
   background: var(--color-fondo);
   color: var(--color-texto);
 }
@@ -918,12 +937,67 @@ body.detalle-abierto {
   max-height: min(var(--alto-detalle), calc(100vh - 2 * var(--margen-detalle)));
   max-height: min(var(--alto-detalle), calc(100dvh - 2 * var(--margen-detalle)));
   padding: calc(var(--espacio) * 1.25);
+  border-radius: inherit;
   overflow-y: auto;
   overscroll-behavior: contain;
 }
 
+/* Aviso de compartir ("Enlace copiado"): bocadillo como el de Opciones,
+   encima del botón de compartir con el pico apuntándole, alineado a su
+   borde derecho. Si no cabe por arriba en la pantalla, scripts/main.js
+   añade --abajo y sale debajo (pico hacia arriba). Siempre en el árbol de
+   accesibilidad (role="status"); oculto solo con opacidad, sin capturar
+   clics. Aparece con --visible y desaparece con un fundido */
+.aviso-compartir {
+  position: absolute;
+  bottom: calc(100% - var(--margen-boton-visor) + var(--tamano-flecha-menu));
+  right: calc(var(--margen-boton-visor) * 2 + var(--tamano-boton-visor));
+  z-index: 1;
+  max-width: calc(100vw - 2 * var(--margen-detalle));
+  margin: 0;
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radio-medio);
+  background: var(--color-menu-fondo);
+  color: var(--color-texto);
+  font-size: 0.9rem;
+  white-space: nowrap;
+  filter: drop-shadow(0 0.25rem 0.75rem var(--color-sombra));
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--duracion-fundido) ease;
+}
+
+.aviso-compartir--visible {
+  opacity: 1;
+}
+
+.aviso-compartir--abajo {
+  top: calc(var(--margen-boton-visor) + var(--tamano-boton-visor) + var(--tamano-flecha-menu));
+  bottom: auto;
+}
+
+/* Pico hacia abajo (o hacia arriba con --abajo), centrado con el botón */
+.aviso-compartir::before {
+  content: "";
+  position: absolute;
+  top: 100%;
+  right: calc(var(--tamano-boton-visor) / 2 - var(--tamano-flecha-menu));
+  border: var(--tamano-flecha-menu) solid transparent;
+  border-bottom-width: 0;
+  border-top-color: var(--color-menu-fondo);
+}
+
+.aviso-compartir--abajo::before {
+  top: auto;
+  bottom: 100%;
+  border-top-width: 0;
+  border-bottom-width: var(--tamano-flecha-menu);
+  border-top-color: transparent;
+  border-bottom-color: var(--color-menu-fondo);
+}
+
 /* Texto a la izquierda (más ancho) e imágenes a la derecha, en dos columnas.
-   Las imágenes empiezan bajo el botón ✕ */
+   Las imágenes empiezan bajo los botones compartir y ✕ */
 .detalle-proyecto-cuerpo {
   display: grid;
   grid-template-columns: minmax(0, 1fr) min(var(--ancho-imagenes-detalle), 40%);
@@ -937,8 +1011,8 @@ body.detalle-abierto {
 
 .detalle-proyecto-titulo {
   margin: 0;
-  /* Hueco para el botón ✕ */
-  padding-right: calc(var(--tamano-boton-visor) + 0.5rem);
+  /* Hueco para los botones compartir y ✕ */
+  padding-right: calc(var(--tamano-boton-visor) * 2 + var(--margen-boton-visor) + 0.5rem);
   font-size: 1.5rem;
   line-height: 1.3;
   color: var(--color-titulo);
@@ -1953,7 +2027,7 @@ body.panel-abierto .boton-destacado-flecha {
   }
 
   .detalle-proyecto-cuerpo:not(.detalle-proyecto-cuerpo--sin-imagenes) .detalle-proyecto-titulo {
-    padding-right: calc(var(--tamano-boton-visor) + 0.5rem);
+    padding-right: calc(var(--tamano-boton-visor) * 2 + var(--margen-boton-visor) + 0.5rem);
   }
 
   .detalle-proyecto-titulo {

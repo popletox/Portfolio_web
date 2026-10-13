@@ -683,16 +683,24 @@ var aplicarFiltroProyectos = (function () {
 //   replaceState (history.back() sacaría al usuario de la web).
 // - popstate/hashchange: URL con "#<id>" de un proyecto, abrir; sin él, cerrar.
 //   El resto de hashes se comportan como siempre
+// Botón compartir: en pantallas táctiles con navigator.share abre el menú de
+// compartir del sistema; si no (ordenador), copia el enlace directo y lo avisa
+// con un bocadillo que se quita al cerrar la ventana o cambiar de proyecto
 (function () {
   var dialogo = document.getElementById('detalle-proyecto');
   if (!dialogo || typeof dialogo.showModal !== 'function' || !window.Proyectos) return;
   var caja = dialogo.querySelector('.detalle-proyecto-caja');
   var botonCerrar = dialogo.querySelector('.detalle-proyecto-cerrar');
+  var botonCompartir = dialogo.querySelector('.detalle-proyecto-compartir');
+  var aviso = dialogo.querySelector('.aviso-compartir');
+  var tactil = window.matchMedia('(pointer: coarse)');
   var movimientoReducido = window.matchMedia('(prefers-reduced-motion: reduce)');
   var historialDisponible = !!(history.pushState && history.replaceState);
   var CERRANDO = 'detalle-proyecto--cerrando';
   var ESPERA_HISTORIAL = 500; // ms máximos hasta el popstate de history.back()
   var MARGEN_CIERRE = 100; // ms extra si no llega animationend
+  var AVISO_VISIBLE = 'aviso-compartir--visible';
+  var AVISO_ABAJO = 'aviso-compartir--abajo';
 
   var origen = null; // recibe el foco al cerrar
   var idAbierto = null; // proyecto que muestra la ventana
@@ -701,14 +709,20 @@ var aplicarFiltroProyectos = (function () {
   var esperaVuelta = 0;
   var esperaCierre = 0;
   var pulsacionFuera = false;
+  var esperaAviso = 0; // fin del tiempo visible del aviso de compartir
+  var esperaLimpiarAviso = 0; // fin del fundido del aviso
 
   // Atrás/Adelante no deben mover la página
   if (historialDisponible && 'scrollRestoration' in history) history.scrollRestoration = 'manual';
 
-  function duracionFundido() {
-    var valor = getComputedStyle(document.documentElement).getPropertyValue('--duracion-fundido').trim();
+  function duracion(variable) {
+    var valor = getComputedStyle(document.documentElement).getPropertyValue(variable).trim();
     var numero = parseFloat(valor) || 0;
     return /ms$/.test(valor) ? numero : numero * 1000;
+  }
+
+  function duracionFundido() {
+    return duracion('--duracion-fundido');
   }
 
   function cerrando() {
@@ -753,8 +767,105 @@ var aplicarFiltroProyectos = (function () {
     if (dialogo.open) dialogo.close();
   }
 
+  // Aviso de compartir: quitarlo al instante (sin fundido ni temporizadores)
+  function quitarAviso() {
+    if (!aviso) return;
+    clearTimeout(esperaAviso);
+    clearTimeout(esperaLimpiarAviso);
+    aviso.style.transition = 'none';
+    aviso.classList.remove(AVISO_VISIBLE, AVISO_ABAJO);
+    aviso.textContent = '';
+    void aviso.offsetWidth; // aplica el cambio antes de restaurar la transición
+    aviso.style.transition = '';
+  }
+
+  // Muestra el aviso encima del botón (debajo si no cabe en la pantalla) y
+  // lo desvanece pasado --duracion-aviso-compartir. Otra pulsación reinicia
+  // el temporizador
+  function mostrarAviso(texto) {
+    if (!aviso) return;
+    clearTimeout(esperaAviso);
+    clearTimeout(esperaLimpiarAviso);
+    aviso.textContent = texto;
+    aviso.classList.remove(AVISO_ABAJO);
+    if (aviso.getBoundingClientRect().top < 0) aviso.classList.add(AVISO_ABAJO);
+    aviso.classList.add(AVISO_VISIBLE);
+    esperaAviso = setTimeout(function () {
+      aviso.classList.remove(AVISO_VISIBLE);
+      esperaLimpiarAviso = setTimeout(function () {
+        aviso.textContent = '';
+        aviso.classList.remove(AVISO_ABAJO);
+      }, duracionFundido() + MARGEN_CIERRE);
+    }, duracion('--duracion-aviso-compartir'));
+  }
+
+  // Copia con un textarea temporal (dentro del dialog: fuera está inerte) y
+  // devuelve el foco a donde estaba
+  function copiarRespaldo(texto) {
+    var activo = document.activeElement;
+    var area = document.createElement('textarea');
+    area.value = texto;
+    area.setAttribute('readonly', '');
+    area.setAttribute('aria-hidden', 'true');
+    area.style.position = 'fixed';
+    area.style.top = '0';
+    area.style.left = '0';
+    area.style.opacity = '0';
+    dialogo.appendChild(area);
+    area.select();
+    var copiado = false;
+    try {
+      copiado = document.execCommand('copy');
+    } catch (error) {
+      copiado = false;
+    }
+    dialogo.removeChild(area);
+    if (activo && typeof activo.focus === 'function') activo.focus({ preventScroll: true });
+    return copiado;
+  }
+
+  // Promesa con true si se ha copiado el texto
+  function copiar(texto) {
+    if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+      return navigator.clipboard.writeText(texto).then(
+        function () { return true; },
+        function () { return copiarRespaldo(texto); }
+      );
+    }
+    return Promise.resolve(copiarRespaldo(texto));
+  }
+
+  function copiarYAvisar(url, id) {
+    copiar(url).then(function (copiado) {
+      // La ventana se ha cerrado o ha cambiado de proyecto entretanto
+      if (!abierta() || idAbierto !== id) return;
+      mostrarAviso(copiado ? 'Enlace copiado' : 'No se pudo copiar el enlace');
+    });
+  }
+
+  // Comparte el proyecto abierto en este momento
+  function compartir() {
+    if (!abierta() || !idAbierto) return;
+    var id = idAbierto;
+    var url = window.Proyectos.urlDetalle(id);
+    if (!url) return;
+    var titulo = caja.querySelector('#detalle-proyecto-titulo');
+    var datos = { title: titulo ? titulo.textContent.trim() : document.title, url: url };
+    var menuSistema = typeof navigator.share === 'function' && tactil.matches &&
+      (typeof navigator.canShare !== 'function' || navigator.canShare(datos));
+    if (!menuSistema) {
+      copiarYAvisar(url, id);
+      return;
+    }
+    navigator.share(datos).catch(function (error) {
+      if (error && error.name === 'AbortError') return; // cancelado por el usuario
+      copiarYAvisar(url, id);
+    });
+  }
+
   // Cierra la ventana (con fundido) sin tocar el historial
   function ocultar() {
+    quitarAviso();
     idAbierto = null;
     if (!dialogo.open || cerrando()) return;
     if (movimientoReducido.matches) {
@@ -804,6 +915,7 @@ var aplicarFiltroProyectos = (function () {
     if (!cuerpo) return false;
     if (cerrando()) terminarCierre();
     var yaAbierta = dialogo.open;
+    quitarAviso();
 
     caja.replaceChildren(cuerpo);
     if (!yaAbierta) {
@@ -889,6 +1001,7 @@ var aplicarFiltroProyectos = (function () {
   });
 
   botonCerrar.addEventListener('click', cerrar);
+  if (botonCompartir) botonCompartir.addEventListener('click', compartir);
 
   // Clic fuera: el objetivo es el propio dialog (su contenido lo llena). Solo
   // si la pulsación también empezó fuera (no al soltar una selección de texto)
@@ -911,6 +1024,7 @@ var aplicarFiltroProyectos = (function () {
     dialogo.classList.remove(CERRANDO);
     document.body.classList.remove('detalle-abierto');
     caja.replaceChildren();
+    quitarAviso();
     idAbierto = null;
     // Cerrada sin pasar por cerrar() (p. ej. un Esc que el navegador no deja
     // cancelar): se quita igualmente la entrada del historial o el hash
