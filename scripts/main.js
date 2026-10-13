@@ -546,12 +546,14 @@ function aplicarEstadoEntrada(entrada, abierta) {
 })();
 
 // Filtros de Proyectos: muestra solo la categoría indicada ('todos' muestra todo).
-// Ocultar: fundido y después colapso de altura; al final, hidden.
-// Mostrar: se quita hidden, se abre la altura y después fundido de entrada.
+// Las bandas por año se vuelven a montar con los proyectos visibles
+// (window.Proyectos.montar, en contenido.js). Con transición: fundido de
+// salida, cambio del contenido, ajuste de la altura y fundido de entrada.
 // opciones.instantaneo: sin transición (layout definitivo al volver).
 var aplicarFiltroProyectos = (function () {
   var movimientoReducido = window.matchMedia('(prefers-reduced-motion: reduce)');
   var generacion = 0; // invalida las fases pendientes de un filtro anterior
+  var animaciones = [];
 
   function duracion(variable) {
     var valor = getComputedStyle(document.documentElement).getPropertyValue(variable).trim();
@@ -559,67 +561,21 @@ var aplicarFiltroProyectos = (function () {
     return /ms$/.test(valor) ? numero : numero * 1000;
   }
 
-  function cancelarAnimaciones(entrada) {
-    (entrada._animacionesFiltro || []).forEach(function (animacion) { animacion.cancel(); });
-    entrada._animacionesFiltro = [];
+  function cancelarAnimaciones() {
+    animaciones.forEach(function (animacion) { animacion.cancel(); });
+    animaciones = [];
   }
 
-  function animar(entrada, fotogramas, ms) {
-    var animacion = entrada.animate(fotogramas, { duration: ms, easing: 'ease' });
-    entrada._animacionesFiltro.push(animacion);
+  // fill 'forwards': entre una fase y la siguiente no se ve el estado sin animar
+  function animar(nodo, fotogramas, ms) {
+    var animacion = nodo.animate(fotogramas, { duration: ms, easing: 'ease', fill: 'forwards' });
+    animaciones.push(animacion);
     return animacion.finished;
-  }
-
-  // La línea se corta en el último proyecto visible (según el estado final)
-  function marcarUltimaVisible(entradas, visibles) {
-    var ultima = null;
-    entradas.forEach(function (entrada, i) { if (visibles[i]) ultima = entrada; });
-    entradas.forEach(function (entrada) {
-      entrada.classList.toggle('linea-tiempo-entrada--ultima-visible', entrada === ultima);
-    });
-  }
-
-  function ocultar(entrada, gen) {
-    var alto = entrada.offsetHeight;
-    var relleno = getComputedStyle(entrada).paddingBottom;
-    animar(entrada, [{ opacity: 1 }, { opacity: 0 }], duracion('--duracion-fundido'))
-      .then(function () {
-        if (gen !== generacion) return;
-        return animar(entrada, [
-          { opacity: 0, overflow: 'hidden', boxSizing: 'border-box', height: alto + 'px', paddingBottom: relleno },
-          { opacity: 0, overflow: 'hidden', boxSizing: 'border-box', height: '0px', paddingBottom: '0px' }
-        ], duracion('--duracion-expansion'));
-      })
-      .then(function () {
-        if (gen !== generacion) return;
-        entrada.hidden = true;
-        cancelarAnimaciones(entrada);
-      })
-      .catch(function () { /* cancelada por un filtro posterior */ });
-  }
-
-  function mostrar(entrada, gen) {
-    entrada.hidden = false;
-    var alto = entrada.offsetHeight;
-    var relleno = getComputedStyle(entrada).paddingBottom;
-    animar(entrada, [
-      { opacity: 0, overflow: 'hidden', boxSizing: 'border-box', height: '0px', paddingBottom: '0px' },
-      { opacity: 0, overflow: 'hidden', boxSizing: 'border-box', height: alto + 'px', paddingBottom: relleno }
-    ], duracion('--duracion-expansion'))
-      .then(function () {
-        if (gen !== generacion) return;
-        return animar(entrada, [{ opacity: 0 }, { opacity: 1 }], duracion('--duracion-fundido'));
-      })
-      .then(function () {
-        if (gen !== generacion) return;
-        cancelarAnimaciones(entrada);
-      })
-      .catch(function () { /* cancelada por un filtro posterior */ });
   }
 
   function aplicar(filtro, opciones) {
     var seccion = document.getElementById('proyectos');
-    if (!seccion) return;
+    if (!seccion || !window.Proyectos) return;
     filtro = filtro || 'todos';
     generacion++;
     var gen = generacion;
@@ -628,37 +584,43 @@ var aplicarFiltroProyectos = (function () {
       boton.setAttribute('aria-pressed', String(boton.getAttribute('data-filtro') === filtro));
     });
 
-    var entradas = Array.prototype.slice.call(seccion.querySelectorAll('.linea-tiempo--proyectos > .linea-tiempo-entrada'));
-    var visibles = entradas.map(function (entrada) {
-      return filtro === 'todos' || entrada.getAttribute('data-categoria') === filtro;
-    });
+    var contenedor = seccion.querySelector('.proyectos-bandas');
     var instantaneo = (opciones && opciones.instantaneo) || movimientoReducido.matches ||
       document.body.classList.contains('sin-transiciones') || typeof Element.prototype.animate !== 'function';
 
-    // Antes de medir alturas, para que el relleno inferior medido sea el definitivo
-    marcarUltimaVisible(entradas, visibles);
+    // Se cancela cualquier fase pendiente de un filtro anterior
+    cancelarAnimaciones();
+    if (instantaneo || !contenedor) {
+      window.Proyectos.montar(filtro);
+      return;
+    }
 
-    // Se cancela cualquier fase pendiente; cada entrada parte de su estado actual
-    entradas.forEach(function (entrada, i) {
-      cancelarAnimaciones(entrada);
-      if (instantaneo) {
-        entrada.hidden = !visibles[i];
-      } else if (visibles[i] && entrada.hidden) {
-        mostrar(entrada, gen);
-      } else if (!visibles[i] && !entrada.hidden) {
-        ocultar(entrada, gen);
-      }
-    });
+    animar(contenedor, [{ opacity: 1 }, { opacity: 0 }], duracion('--duracion-fundido'))
+      .then(function () {
+        if (gen !== generacion) return;
+        var altoAntes = contenedor.offsetHeight;
+        window.Proyectos.montar(filtro);
+        var altoDespues = contenedor.offsetHeight;
+        return animar(contenedor, [
+          { opacity: 0, overflow: 'hidden', height: altoAntes + 'px' },
+          { opacity: 0, overflow: 'hidden', height: altoDespues + 'px' }
+        ], duracion('--duracion-expansion'));
+      })
+      .then(function () {
+        if (gen !== generacion) return;
+        return animar(contenedor, [{ opacity: 0 }, { opacity: 1 }], duracion('--duracion-fundido'));
+      })
+      .then(function () {
+        if (gen !== generacion) return;
+        cancelarAnimaciones();
+      })
+      .catch(function () { /* cancelada por un filtro posterior */ });
   }
 
   document.addEventListener('click', function (evento) {
     var boton = evento.target.closest('.filtro-proyecto');
-    if (!boton) return;
+    if (!boton || boton.getAttribute('aria-pressed') === 'true') return;
     aplicar(boton.getAttribute('data-filtro'));
-  });
-
-  document.addEventListener('contenido:listo', function () {
-    aplicar('todos', { instantaneo: true });
   });
 
   return aplicar;
@@ -670,7 +632,7 @@ function filtroProyectosActivo() {
   return activo ? activo.getAttribute('data-filtro') : 'todos';
 }
 
-// Enlaces internos a proyectos (tarjetas de Referencias y Destacado): abrir Proyectos y la entrada, centrarla y resaltarla
+// Enlaces internos a proyectos (tarjetas de Referencias y Destacado): abrir Proyectos, centrar la tarjeta del proyecto y resaltarla
 (function () {
   var movimientoReducido = window.matchMedia('(prefers-reduced-motion: reduce)');
   var consultaVertical = window.matchMedia(DISPOSICION_VERTICAL);
@@ -749,57 +711,52 @@ function filtroProyectosActivo() {
     setTimeout(lanzar, ESPERA_SCROLL_MAX);
   }
 
-  function irAProyecto(entrada) {
+  function irAProyecto(tarjeta) {
     var espera = false;
-    var seccion = entrada.closest('.seccion');
+    var seccion = tarjeta.closest('.seccion');
     if (seccion && !seccion.classList.contains('seccion--abierta')) {
       aplicarEstadoSeccion(seccion, true);
       espera = true;
     }
-    if (!entrada.classList.contains('linea-tiempo-entrada--abierta')) {
-      aplicarEstadoEntrada(entrada, true);
-      espera = true;
-    }
 
-    var boton = entrada.querySelector('.linea-tiempo-alternar');
-    if (boton) boton.focus({ preventScroll: true });
+    // tabindex -1: recibe el foco sin entrar en el orden de tabulación
+    tarjeta.focus({ preventScroll: true });
 
-    // Sección y entrada crecen a la vez (sin retardo al abrir): basta una duración
+    // Se espera a que la sección termine de abrirse antes de medir
     var retardo = espera && !sinAnimaciones() ? duracionExpansion() + MARGEN_ESPERA : 0;
     setTimeout(function () {
-      var destino = calcularDestino(entrada);
+      var destino = calcularDestino(tarjeta);
       var hayDesplazamiento = Math.abs(destino - window.scrollY) > 1;
       var suave = !movimientoReducido.matches;
       window.scrollTo({ top: destino, behavior: suave ? 'smooth' : 'auto' });
-      resaltarTrasDesplazamiento(entrada, hayDesplazamiento && suave);
+      resaltarTrasDesplazamiento(tarjeta, hayDesplazamiento && suave);
     }, retardo);
   }
 
-  function entradaProyecto(id) {
-    var entrada = id ? document.getElementById(id) : null;
-    if (!entrada || !entrada.classList.contains('linea-tiempo-entrada')) return null;
-    if (!entrada.closest('#proyectos')) return null;
-    return entrada;
+  // Tarjeta del proyecto con ese id (registrada por contenido.js aunque el
+  // filtro activo la tenga fuera del DOM)
+  function tarjetaProyecto(id) {
+    return id && window.Proyectos ? window.Proyectos.tarjeta(id) : null;
   }
 
-  // Abre, centra y resalta un proyecto; opcionalmente añade una entrada al historial
+  // Abre Proyectos, centra y resalta la tarjeta; opcionalmente añade una entrada al historial
   function navegarAProyecto(id, opciones) {
-    var entrada = entradaProyecto(id);
-    if (!entrada) return false;
-    // Si el filtro activo oculta (u oculta ya) el destino, volver a "Todos" sin
-    // transición: el layout queda definitivo antes de calcular el centrado
+    var tarjeta = tarjetaProyecto(id);
+    if (!tarjeta) return false;
+    // Si el filtro activo oculta el destino, volver a "Todos" sin transición:
+    // el layout queda definitivo antes de calcular el centrado
     var filtro = filtroProyectosActivo();
-    if (entrada.hidden || (filtro !== 'todos' && entrada.getAttribute('data-categoria') !== filtro)) {
+    if (!tarjeta.isConnected || (filtro !== 'todos' && tarjeta.getAttribute('data-categoria') !== filtro)) {
       aplicarFiltroProyectos('todos', { instantaneo: true });
     }
     if (opciones && opciones.registrarHistorial && history.pushState) {
       history.pushState({ tipo: 'proyecto', id: id }, '', '#' + id);
     }
-    if (!entrada.dataset.resaltadoListo) {
-      entrada.addEventListener('animationend', alTerminarResaltado);
-      entrada.dataset.resaltadoListo = '1';
+    if (!tarjeta.dataset.resaltadoListo) {
+      tarjeta.addEventListener('animationend', alTerminarResaltado);
+      tarjeta.dataset.resaltadoListo = '1';
     }
-    irAProyecto(entrada);
+    irAProyecto(tarjeta);
     return true;
   }
 
@@ -845,7 +802,7 @@ function filtroProyectosActivo() {
     var enlace = evento.target.closest('a.enlace-proyecto[data-proyecto]');
     if (!enlace) return;
     var proyecto = enlace.getAttribute('data-proyecto');
-    if (!entradaProyecto(proyecto)) return;
+    if (!tarjetaProyecto(proyecto)) return;
     evento.preventDefault();
     if (historialDisponible) {
       var iguales = document.querySelectorAll('a.enlace-proyecto[data-proyecto]');
@@ -875,8 +832,9 @@ function filtroProyectosActivo() {
   });
 })();
 
-// Visor de imágenes: un clic en una miniatura de Proyectos (o en la imagen del
-// panel Destacado) la abre en grande
+// Visor de imágenes: un clic en la imagen del panel Destacado (o en una
+// miniatura .proyecto-miniatura, que se volverá a usar en la ventana modal de
+// Proyectos) la abre en grande
 (function () {
   var visor = document.getElementById('visor-imagen');
   if (!visor || typeof visor.showModal !== 'function') return;

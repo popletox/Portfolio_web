@@ -55,13 +55,21 @@ img {
   --alto-linea-titulo: 1.75rem;
   --separacion-entradas: 2.25rem;
   --hueco-columnas-tiempo: 0.75rem;
-  --ancho-columna-proyectos: calc(var(--tamano-miniatura-max) * 4 + var(--hueco-miniaturas) * 3);
-  --tamano-miniatura-max: 3.25rem;
-  --hueco-miniaturas: 0.5rem;
   /* Tarjetas de Referencias: ancho mínimo de columna y separación */
   --ancho-min-referencia: 8rem;
   --hueco-referencias: 0.75rem;
-  --tamano-miniatura-ampliada: calc((var(--ancho-columna-proyectos) - var(--hueco-miniaturas)) / 2);
+  /* Proyectos en bandas por año: ancho mínimo de tarjeta, hueco entre la
+     línea y sus tarjetas (debajo), separación entre el final de una banda y
+     la línea siguiente, y la de la línea tras un año vacío */
+  --ancho-min-proyecto: 10rem;
+  /* Columna fija de las etiquetas de banda (cabe "Actual" también con la
+     monoespaciada del tema Código) y hueco hasta el inicio de la línea.
+     En ch: se resuelve con la fuente de la banda en cada tema */
+  --ancho-etiqueta-banda: 6.5ch;
+  --hueco-etiqueta-banda: 0.75rem;
+  --hueco-tarjetas-linea: 0.5rem;
+  --separacion-bandas: 2.25rem;
+  --separacion-banda-vacia: 0.5rem;
   --tamano-boton-visor: 2.75rem;
   --ancho-visor: 90vw;
   --alto-visor: 85vh;
@@ -685,12 +693,6 @@ main {
   color: var(--color-subtitulo);
 }
 
-/* Línea de tiempo de Proyectos: columna izquierda con el ancho justo para
-   cuatro miniaturas fijas (y la fecha encima); la derecha ocupa el resto. */
-.linea-tiempo--proyectos {
-  --ancho-columna-fecha: var(--ancho-columna-proyectos);
-}
-
 /* Filtros por categoría: píldoras como .boton-contacto; activo en acento */
 .filtros-proyectos {
   display: flex;
@@ -727,103 +729,9 @@ main {
   outline-offset: 2px;
 }
 
-/* display: grid de la entrada anularía el estilo por defecto de [hidden] */
-.linea-tiempo--proyectos .linea-tiempo-entrada[hidden] {
-  display: none;
-}
-
-/* Con filtros, la línea termina en el último proyecto visible */
-.linea-tiempo--proyectos .linea-tiempo-entrada--ultima-visible {
-  padding-bottom: 0;
-}
-
-.linea-tiempo--proyectos .linea-tiempo-entrada--ultima-visible::before {
-  display: none;
-}
-
-/* El cuerpo abarca las dos filas; la segunda (flexible) absorbe la altura
-   del detalle para que la fecha y las miniaturas no se desplacen */
-.linea-tiempo--proyectos .linea-tiempo-entrada {
-  grid-template-rows: auto 1fr;
-}
-
-.linea-tiempo--proyectos .linea-tiempo-cuerpo {
-  grid-row: 1 / span 2;
-}
-
-.linea-tiempo--proyectos .proyecto-miniaturas {
-  grid-column: 1;
-  grid-row: 2;
-  align-self: start;
-  /* Rejilla fija de 2 columnas: las miniaturas nunca cambian de celda.
-     Se animan las pistas: la 1.ª fila y las columnas pasan del tamaño
-     pequeño al ampliado; las filas extra (implícitas) pasan de 0 al
-     ampliado. Al cerrar, esperan al fundido de las miniaturas extra. */
-  --celda-miniatura: var(--tamano-miniatura-max);
-  --celda-miniatura-abierta: var(--tamano-miniatura-ampliada);
-  display: grid;
-  grid-template-columns: repeat(2, var(--celda-miniatura));
-  grid-template-rows: var(--celda-miniatura);
-  grid-auto-rows: 0;
-  justify-content: end;
-  align-content: start;
-  column-gap: var(--hueco-miniaturas);
-  row-gap: 0;
-  margin: 0.5rem 0 0;
-  padding: 0;
-  list-style: none;
-  transition:
-    grid-template-columns var(--duracion-expansion) ease var(--duracion-fundido),
-    grid-template-rows var(--duracion-expansion) ease var(--duracion-fundido),
-    grid-auto-rows var(--duracion-expansion) ease var(--duracion-fundido),
-    row-gap var(--duracion-expansion) ease var(--duracion-fundido);
-}
-
-.linea-tiempo--proyectos .linea-tiempo-entrada--abierta .proyecto-miniaturas {
-  grid-template-columns: repeat(2, var(--celda-miniatura-abierta));
-  grid-template-rows: var(--celda-miniatura-abierta);
-  grid-auto-rows: var(--celda-miniatura-abierta);
-  row-gap: var(--hueco-miniaturas);
-  transition:
-    grid-template-columns var(--duracion-expansion) ease,
-    grid-template-rows var(--duracion-expansion) ease,
-    grid-auto-rows var(--duracion-expansion) ease,
-    row-gap var(--duracion-expansion) ease;
-}
-
-/* Cada miniatura ocupa su celda; overflow oculto para que una fila de
-   altura 0 no deje ver nada */
-.linea-tiempo--proyectos .proyecto-miniaturas > li {
-  min-width: 0;
-  min-height: 0;
-  overflow: hidden;
-  border-radius: var(--radio-pequeno);
-}
-
-/* Impar al final (incluida la única): junto a la línea, en la columna 2 */
-.linea-tiempo--proyectos .proyecto-miniaturas > li:last-child:nth-child(odd) {
-  grid-column: 2;
-}
-
-/* Contraído: solo se ven las 2 primeras. Al cerrar: fundido primero y
-   visibility oculta cuando ya se han cerrado las filas */
-.linea-tiempo--proyectos .proyecto-miniaturas > li:nth-child(n+3) {
-  opacity: 0;
-  visibility: hidden;
-  transition:
-    opacity var(--duracion-fundido) ease,
-    visibility 0s linear calc(var(--duracion-fundido) + var(--duracion-expansion));
-}
-
-/* Al abrir: aparecen en su sitio tras la expansión */
-.linea-tiempo--proyectos .linea-tiempo-entrada--abierta .proyecto-miniaturas > li:nth-child(n+3) {
-  opacity: 1;
-  visibility: visible;
-  transition:
-    opacity var(--duracion-fundido) ease var(--duracion-expansion),
-    visibility 0s linear;
-}
-
+/* Miniatura ampliable con el visor (.proyecto-miniatura). Sin uso desde
+   que Proyectos se muestra en bandas: se reutilizará en la ventana modal del
+   proyecto (paso 2) */
 .proyecto-miniatura {
   aspect-ratio: 1 / 1;
   border-radius: var(--radio-pequeno);
@@ -848,7 +756,7 @@ button.proyecto-miniatura:hover {
   filter: brightness(1.1);
 }
 
-/* Contorno hacia dentro: el li recorta lo que sobresale */
+/* Contorno hacia dentro: el contenedor puede recortar lo que sobresale */
 button.proyecto-miniatura:focus-visible {
   outline: 3px solid var(--color-foco);
   outline-offset: -3px;
@@ -1010,11 +918,6 @@ body.visor-abierto {
   color: var(--color-enlace);
 }
 
-/* Enlace único del bloque "Enlace" (Proyectos) */
-.linea-tiempo .linea-tiempo-enlace-proyecto {
-  margin: 0.25rem 0 0;
-}
-
 .enlace-proyecto:focus-visible {
   border-radius: var(--radio-pequeno);
   outline: 3px solid var(--color-foco);
@@ -1095,6 +998,119 @@ a.referencia-tarjeta:focus-visible {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+/* Proyectos: bandas por año. Cada banda empieza con una línea horizontal
+   con la etiqueta (año o "Actual") a la izquierda, que hace de encabezado,
+   y debajo, muy pegadas, sus tarjetas. Entre el final de una banda y la
+   línea siguiente queda más espacio.
+   Dos columnas: etiqueta (ancho fijo, igual en todas las bandas) y línea +
+   tarjetas. Así todas las líneas empiezan en el mismo punto, llegan al
+   borde derecho y las tarjetas empiezan donde la línea; la columna de las
+   etiquetas queda vacía bajo cada una */
+.proyectos-bandas {
+  display: flex;
+  flex-direction: column;
+}
+
+.proyectos-banda {
+  display: grid;
+  grid-template-columns: var(--ancho-etiqueta-banda) minmax(0, 1fr);
+  column-gap: var(--hueco-etiqueta-banda);
+  margin-top: var(--separacion-bandas);
+}
+
+.proyectos-banda:first-child {
+  margin-top: 0;
+}
+
+/* Año intermedio sin proyectos: solo la línea; la línea siguiente va poco
+   separada de ella */
+.proyectos-banda--vacia + .proyectos-banda {
+  margin-top: var(--separacion-banda-vacia);
+}
+
+/* La etiqueta ocupa las dos columnas y repite las de la banda (inherit
+   hereda los valores ya calculados en px, con la fuente de la banda):
+   texto en la 1.ª y línea en la 2.ª */
+.proyectos-banda-etiqueta {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: inherit;
+  column-gap: inherit;
+  align-items: center;
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.5;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  color: var(--color-fecha);
+}
+
+.proyectos-banda-etiqueta::after {
+  content: "";
+  grid-column: 2;
+  height: var(--grosor-linea-tiempo);
+  background: var(--color-linea-tiempo);
+}
+
+/* Cuadrícula de Referencias con tarjetas algo mayores, en la columna de la
+   línea (empieza donde ella y ocupa solo su ancho) */
+.proyectos-lista {
+  --ancho-min-referencia: var(--ancho-min-proyecto);
+  grid-column: 2;
+  margin: var(--hueco-tarjetas-linea) 0 0;
+}
+
+/* Todas las tarjetas de una fila miden igual: la tarjeta llena su celda y
+   la imagen queda abajo */
+.proyectos-lista > li {
+  display: flex;
+}
+
+.proyecto-tarjeta {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+
+/* Nombre hasta 2 líneas (alto automático) y categoría justo debajo */
+.proyecto-tarjeta .proyecto-tarjeta-titulo {
+  height: auto;
+  padding-bottom: 0;
+}
+
+.proyecto-tarjeta-categoria {
+  display: block;
+  flex: none;
+  padding: 0.1rem 0.75rem 0.5rem;
+  overflow: hidden;
+  font-size: 0.8rem;
+  line-height: 1.3;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--color-subtitulo);
+}
+
+.proyecto-tarjeta .referencia-imagen {
+  margin-top: auto;
+}
+
+/* Recibe el foco (tabindex -1) al llegar desde un enlace interno */
+.proyecto-tarjeta:focus-visible {
+  outline: 3px solid var(--color-foco);
+  outline-offset: -3px;
+}
+
+/* Oculto a la vista, legible por lector de pantalla */
+.solo-lector {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 /* Mismo padding horizontal que la cabecera y main: el borde derecho del
@@ -1779,28 +1795,23 @@ body.panel-abierto .boton-destacado-flecha {
     grid-row: 2;
   }
 
-  /* Proyectos: misma disposición que el resto; miniaturas bajo el cuerpo */
-  .linea-tiempo--proyectos {
-    --ancho-columna-fecha: 0rem;
+  /* Proyectos: dos tarjetas por fila en un móvil normal (desde 360px),
+     también con la columna de etiquetas */
+  :root {
+    --ancho-min-proyecto: 6.5rem;
+    --ancho-etiqueta-banda: 5.5ch;
+    --hueco-etiqueta-banda: 0.5rem;
+    --separacion-bandas: 1.75rem;
+    --separacion-banda-vacia: 0.4rem;
   }
 
-  .linea-tiempo--proyectos .linea-tiempo-entrada {
-    grid-template-rows: none;
+  .proyectos-banda-etiqueta {
+    font-size: 0.85rem;
   }
 
-  .linea-tiempo--proyectos .linea-tiempo-cuerpo {
-    grid-row: 2;
-  }
-
-  .linea-tiempo--proyectos .proyecto-miniaturas {
-    grid-column: 3;
-    grid-row: 3;
-    --celda-miniatura-abierta: min(var(--tamano-miniatura-ampliada), 40vw);
-    justify-content: start;
-  }
-
-  .linea-tiempo--proyectos .proyecto-miniaturas > li:last-child:nth-child(odd) {
-    grid-column: 1;
+  .proyecto-tarjeta-categoria {
+    padding: 0.1rem 0.5rem 0.4rem;
+    font-size: 0.75rem;
   }
 }
 
@@ -1838,6 +1849,27 @@ body.panel-abierto .boton-destacado-flecha {
 
 @media (prefers-reduced-motion: reduce) {
   .entrada-resaltada {
+    animation: fundido-resaltado 1.2s ease 1;
+  }
+}
+
+/* Tarjeta de proyecto: el parpadeo va en una capa encima (también sobre la
+   imagen) para no quitarle su fondo; la tarjeta recorta el halo */
+.proyecto-tarjeta.entrada-resaltada {
+  animation: none;
+}
+
+.proyecto-tarjeta.entrada-resaltada::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  animation: parpadeo-resaltado 600ms ease-in-out 2;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .proyecto-tarjeta.entrada-resaltada::after {
     animation: fundido-resaltado 1.2s ease 1;
   }
 }

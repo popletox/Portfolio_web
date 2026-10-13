@@ -191,23 +191,28 @@
       tarjeta = crear('div', 'referencia-tarjeta referencia-tarjeta--sin-enlace');
     }
     tarjeta.appendChild(crear('span', 'referencia-titulo', referencia.titulo));
+    tarjeta.appendChild(crearImagenTarjeta(referencia.img, referencia.alt));
 
+    var li = crear('li');
+    li.appendChild(tarjeta);
+    return li;
+  }
+
+  // Imagen cuadrada de una tarjeta (Referencias y Proyectos); sin ruta,
+  // rectángulo provisional
+  function crearImagenTarjeta(ruta, alt) {
     var imagen = crear('span', 'referencia-imagen');
-    if (referencia.img) {
+    if (ruta) {
       var img = document.createElement('img');
-      img.src = referencia.img;
-      img.alt = referencia.alt;
+      img.src = ruta;
+      img.alt = alt;
       img.loading = 'lazy';
       img.decoding = 'async';
       imagen.appendChild(img);
     } else {
       imagen.classList.add('referencia-imagen--provisional');
     }
-    tarjeta.appendChild(imagen);
-
-    var li = crear('li');
-    li.appendChild(tarjeta);
-    return li;
+    return imagen;
   }
 
   // Bloque "Referencias": h4 y cuadrícula de tarjetas (null si no hay ninguna válida)
@@ -236,16 +241,6 @@
     return contenedor;
   }
 
-  // Bloque con h4 y un único enlace (Enlace de proyecto)
-  function crearBloqueEnlace(titulo, enlace) {
-    var bloque = crear('div', 'linea-tiempo-proyectos');
-    bloque.appendChild(crear('h4', 'linea-tiempo-proyectos-titulo', titulo));
-    var p = crear('p', 'linea-tiempo-enlace-proyecto');
-    p.appendChild(enlace);
-    bloque.appendChild(p);
-    return bloque;
-  }
-
   // Entrada de línea de tiempo con fechas de rango (Experiencia, Estudios)
   // datos: { idDetalle, titulo, subtitulo, fechaInicio, fechaFin, descripcion, aptitudes, referencias }
   function crearEntradaRango(datos) {
@@ -256,8 +251,7 @@
   }
 
   // Cuerpo común: h3 con botón, subtítulo y detalle desplegable.
-  // datos.claseSubtitulo, datos.referencias (bloque de Referencias o null) y
-  // datos.extra (nodo final del detalle) son opcionales.
+  // datos.referencias (bloque de Referencias o null) es opcional.
   function crearCuerpo(datos) {
     var cuerpo = crear('div', 'linea-tiempo-cuerpo');
 
@@ -274,8 +268,7 @@
     h3.appendChild(boton);
     cuerpo.appendChild(h3);
 
-    var claseSubtitulo = 'linea-tiempo-subtitulo' + (datos.claseSubtitulo ? ' ' + datos.claseSubtitulo : '');
-    cuerpo.appendChild(crear('p', claseSubtitulo, datos.subtitulo));
+    cuerpo.appendChild(crear('p', 'linea-tiempo-subtitulo', datos.subtitulo));
 
     var detalle = crear('div', 'linea-tiempo-detalle');
     detalle.id = datos.idDetalle;
@@ -289,7 +282,6 @@
       interior.appendChild(crearAptitudes(datos.aptitudes));
     }
     if (datos.referencias) interior.appendChild(datos.referencias);
-    if (datos.extra) interior.appendChild(datos.extra);
     detalle.appendChild(interior);
     cuerpo.appendChild(detalle);
     return cuerpo;
@@ -315,6 +307,8 @@
     return null;
   }
 
+  // Miniatura ampliable con el visor. Sin uso desde que Proyectos se muestra
+  // en bandas por año: se reutilizará en la ventana modal del proyecto (paso 2)
   function crearMiniatura(imagen, numero, tituloProyecto) {
     var li = crear('li');
     var boton = crear('button', 'proyecto-miniatura');
@@ -342,33 +336,91 @@
     return li;
   }
 
-  function crearEntradaProyecto(proyecto, indice) {
-    var entrada = crear('li', 'linea-tiempo-entrada');
-    if (proyecto.id) entrada.id = proyecto.id;
-    if (proyecto.categoria) entrada.setAttribute('data-categoria', proyecto.categoria);
-    entrada.appendChild(crearFechaSimple(proyecto.fecha));
+  // ---- Proyectos: bandas por año con tarjetas ----
 
-    var miniaturas = crear('ul', 'proyecto-miniaturas');
-    (proyecto.imagenes || []).forEach(function (imagen, i) {
-      miniaturas.appendChild(crearMiniatura(imagen, i + 1, proyecto.titulo));
-    });
-    entrada.appendChild(miniaturas);
+  var TEXTO_BANDA_ACTUAL = 'Actual';
+  var TEXTO_BANDA_VACIA = ' (sin proyectos)';
+  // Tarjetas creadas una sola vez (ordenadas por fecha descendente) y
+  // reubicadas en las bandas cada vez que cambia el filtro
+  var tarjetasProyectos = [];
+  var tarjetasPorId = {};
+  var contenedorBandas = null;
 
-    var extra = null;
-    if (proyecto.enlace && proyecto.enlace.texto) {
-      extra = crearBloqueEnlace('Enlace',
-        crearEnlace(proyecto.enlace.texto, proyecto.enlace.url, 'enlace-proyecto'));
+  // Tarjeta de proyecto: nombre (2 líneas) y categoría (1 línea) arriba e
+  // imagen cuadrada debajo, con las clases de las tarjetas de Referencias.
+  // De momento no es interactiva (el paso 2 la convertirá en un botón que
+  // abre la ventana modal); tabindex -1 solo para recibir el foco al llegar
+  // desde un enlace interno
+  function crearTarjetaProyecto(proyecto) {
+    var referencia = referenciaDesdeProyecto(proyecto);
+    var tarjeta = crear('div', 'referencia-tarjeta referencia-tarjeta--sin-enlace proyecto-tarjeta');
+    if (proyecto.id) tarjeta.id = proyecto.id;
+    if (proyecto.categoria) tarjeta.setAttribute('data-categoria', proyecto.categoria);
+    tarjeta.tabIndex = -1;
+    tarjeta.appendChild(crear('span', 'referencia-titulo proyecto-tarjeta-titulo', proyecto.titulo));
+    if (proyecto.categoria) {
+      tarjeta.appendChild(crear('span', 'proyecto-tarjeta-categoria', proyecto.categoria));
     }
-    entrada.appendChild(crearCuerpo({
-      idDetalle: 'detalle-proyecto-' + (indice + 1),
-      titulo: proyecto.titulo,
-      subtitulo: proyecto.categoria,
-      claseSubtitulo: 'proyecto-categoria',
-      descripcion: proyecto.descripcion,
-      aptitudes: proyecto.aptitudes,
-      extra: extra
-    }));
-    return entrada;
+    tarjeta.appendChild(crearImagenTarjeta(referencia.img, referencia.alt));
+    var li = crear('li');
+    li.appendChild(tarjeta);
+    return li;
+  }
+
+  // Banda: etiqueta (h3) y lista de tarjetas. En el DOM la etiqueta va
+  // primero (el lector de pantalla la anuncia antes que sus proyectos) y
+  // se ve encima de ellos, como encabezado de la banda
+  function crearBandaProyectos(clave, texto, items) {
+    var banda = crear('div', 'proyectos-banda' + (items.length ? '' : ' proyectos-banda--vacia'));
+    var idEtiqueta = 'banda-proyectos-' + clave;
+    banda.setAttribute('role', 'group');
+    banda.setAttribute('aria-labelledby', idEtiqueta);
+
+    var etiqueta = crear('h3', 'proyectos-banda-etiqueta');
+    etiqueta.id = idEtiqueta;
+    etiqueta.appendChild(clave === 'actual' ? crear('span', null, texto) : crearTime(texto, texto));
+    if (!items.length) etiqueta.appendChild(crear('span', 'solo-lector', TEXTO_BANDA_VACIA));
+    banda.appendChild(etiqueta);
+
+    if (items.length) {
+      var lista = crear('ul', 'referencias-lista proyectos-lista');
+      items.forEach(function (item) { lista.appendChild(item.nodo); });
+      banda.appendChild(lista);
+    }
+    return banda;
+  }
+
+  // (Re)monta las bandas con los proyectos visibles según el filtro
+  // ('todos' o una categoría): "Actual" con los en curso (si hay alguno) y
+  // un año por banda, del más reciente al más antiguo con proyectos; los
+  // años intermedios sin proyectos quedan como banda vacía (solo la línea)
+  function montarBandasProyectos(filtro) {
+    if (!contenedorBandas) return;
+    var visibles = tarjetasProyectos.filter(function (item) {
+      return !filtro || filtro === 'todos' || item.categoria === filtro;
+    });
+    var enCurso = visibles.filter(function (item) { return item.enCurso; });
+    var porAnio = {};
+    var anios = [];
+    visibles.forEach(function (item) {
+      if (item.enCurso) return;
+      if (!porAnio[item.anio]) {
+        porAnio[item.anio] = [];
+        anios.push(item.anio);
+      }
+      porAnio[item.anio].push(item);
+    });
+
+    var bandas = [];
+    if (enCurso.length) bandas.push(crearBandaProyectos('actual', TEXTO_BANDA_ACTUAL, enCurso));
+    if (anios.length) {
+      var masReciente = Math.max.apply(null, anios);
+      var masAntiguo = Math.min.apply(null, anios);
+      for (var anio = masReciente; anio >= masAntiguo; anio--) {
+        bandas.push(crearBandaProyectos(String(anio), String(anio), porAnio[anio] || []));
+      }
+    }
+    contenedorBandas.replaceChildren.apply(contenedorBandas, bandas);
   }
 
   function crearEntradaMerito(merito, indice, contexto) {
@@ -429,12 +481,38 @@
   }
 
   function montarProyectos(proyectos) {
-    var lista = document.querySelector('#proyectos .linea-tiempo[data-seccion="proyectos"]');
-    if (!lista) return;
-    var entradas = ordenarPorFecha(proyectos || [], 'fecha').map(crearEntradaProyecto);
-    lista.replaceChildren.apply(lista, entradas);
-    montarFiltrosProyectos(proyectos, lista);
+    var contenedor = document.querySelector('#proyectos .proyectos-bandas[data-seccion="proyectos"]');
+    if (!contenedor) return;
+    contenedorBandas = contenedor;
+    tarjetasPorId = {};
+    tarjetasProyectos = ordenarPorFecha(proyectos || [], 'fecha').reduce(function (lista, proyecto) {
+      if (!proyecto || typeof proyecto !== 'object') return lista;
+      var anio = parseInt(formatearAnio(proyecto.fecha), 10);
+      var enCurso = proyecto.enCurso === true;
+      if (!enCurso && isNaN(anio)) {
+        console.warn('Proyecto sin fecha válida ("AAAA-MM"), no se muestra:', proyecto.id || proyecto.titulo);
+        return lista;
+      }
+      var nodo = crearTarjetaProyecto(proyecto);
+      if (proyecto.id) tarjetasPorId[proyecto.id] = nodo.firstChild;
+      lista.push({ nodo: nodo, categoria: proyecto.categoria, enCurso: enCurso, anio: anio });
+      return lista;
+    }, []);
+    montarBandasProyectos('todos');
+    montarFiltrosProyectos(proyectos, contenedor);
   }
+
+  // Para main.js (filtros y enlaces internos): volver a montar las bandas con
+  // un filtro y obtener la tarjeta de un proyecto por id (aunque el filtro
+  // la tenga fuera del DOM)
+  window.Proyectos = {
+    montar: montarBandasProyectos,
+    tarjeta: function (id) {
+      return typeof id === 'string' && Object.prototype.hasOwnProperty.call(tarjetasPorId, id)
+        ? tarjetasPorId[id]
+        : null;
+    }
+  };
 
   function crearBotonFiltro(filtro, texto, activo) {
     var boton = crear('button', 'filtro-proyecto', texto);
@@ -486,7 +564,7 @@
 
   // Botón que abre el visor (main.js escucha button.destacado-imagen).
   // Sin ruta válida queda vacío: cuadrado provisional que abre el marcador
-  // provisional del visor, igual que las miniaturas de Proyectos
+  // provisional del visor
   function crearImagenDestacado(imagen, titulo) {
     var boton = crear('button', 'destacado-imagen');
     boton.type = 'button';

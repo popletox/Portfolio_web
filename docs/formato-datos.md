@@ -51,10 +51,13 @@ Igual que Experiencia, cambiando `puesto` por `titulo` y `empresa` por `instituc
 | `titulo` | Sí | Nombre del proyecto. |
 | `categoria` | Sí | Tecnología (p. ej. `"Unity"`, `"Unreal Engine"`, `"Roblox"`). Genera automáticamente los filtros de Proyectos (un botón por categoría distinta). Escríbela siempre igual, con las mismas mayúsculas y espacios: `"Unity"` y `"unity"` serían dos filtros distintos. |
 | `fecha` | Sí | `"AAAA-MM"`. |
+| `enCurso` | No | `true` si el proyecto sigue en desarrollo: se muestra arriba, sobre la línea «Actual», sea cual sea su `fecha`. Sin la clave (o con `false`), va en la banda del año de `fecha`. |
 | `descripcion` | Sí | String o array de strings. |
 | `aptitudes` | Sí | Array de strings. |
 | `enlace` | No | `{ "texto": "...", "url": "..." }`. |
 | `imagenes` | Sí | Array (puede estar vacío `[]`). Ver abajo. |
+
+**Agrupación por año:** la sección muestra los proyectos en bandas horizontales, cada una encabezada por una línea con su etiqueta (año o «Actual») y con sus tarjetas debajo. Primero, los que tienen `"enCurso": true` (banda «Actual», solo si hay alguno); después, una banda por año (el de `fecha`), del más reciente al más antiguo con proyectos. Un año intermedio sin proyectos aparece solo como línea con su año; no se muestran años vacíos por encima del más reciente ni por debajo del más antiguo. Dentro de cada banda, los proyectos van por `fecha` descendente. Con un filtro activo, las bandas se recalculan con los proyectos visibles. Cada tarjeta muestra el título, la categoría y la primera imagen; la descripción, las aptitudes, el enlace y el resto de imágenes se mostrarán en la ventana de detalle del proyecto (pendiente).
 
 Cada imagen:
 
@@ -96,7 +99,7 @@ Copia este bloque dentro del array `"proyectos"`, separado del anterior por una 
 | `descripcion` | Sí | String o array de strings. |
 | `referencias` | No | Array de ids de proyectos o del catálogo `referencias`, como en Experiencia. |
 
-**Enlazar un mérito con un proyecto:** pon el `id` exacto del proyecto en el campo `referencias` del mérito (p. ej. `["mi-juego"]`); no hace falta ninguna entrada en el catálogo. La tarjeta toma el título y la primera imagen del proyecto y, al pulsarla, abre la sección Proyectos, despliega la entrada, la centra y la resalta; el botón Atrás vuelve al mérito.
+**Enlazar un mérito con un proyecto:** pon el `id` exacto del proyecto en el campo `referencias` del mérito (p. ej. `["mi-juego"]`); no hace falta ninguna entrada en el catálogo. La tarjeta toma el título y la primera imagen del proyecto y, al pulsarla, abre la sección Proyectos, centra la tarjeta del proyecto y la resalta; el botón Atrás vuelve al mérito.
 
 ## Referencias
 
@@ -106,7 +109,7 @@ Las tarjetas del bloque «Referencias» que aparece en el detalle de Experiencia
 
 - Título: el `titulo` del proyecto.
 - Imagen: siempre la **primera** de `imagenes` (`low`, o `high` si falta `low`), con su `alt` (o el título si no tiene). Si el proyecto no tiene imágenes o la primera no tiene ruta válida, se ve el rectángulo provisional.
-- Enlace: abre Proyectos, despliega la entrada, la centra y la resalta (Atrás vuelve al origen).
+- Enlace: abre Proyectos, centra la tarjeta del proyecto y la resalta (Atrás vuelve al origen).
 
 Al cambiar el título o la primera imagen del proyecto, sus tarjetas se actualizan solas. Si además hay una entrada del catálogo con el mismo id, se ignora (aviso en la consola).
 
@@ -160,11 +163,11 @@ Imagen:
 - `high` (opcional) es la versión para el visor; si falta, el visor usa la del panel.
 - `alt` (obligatorio dentro de `imagen`) describe la imagen.
 - Puede tener cualquier proporción (vertical, cuadrada u horizontal): ocupa el ancho del panel sin deformarse. Si es muy alta, se recorta por arriba y por abajo (máximo 60 % del alto de la ventana en ordenador; el alto del panel en móvil).
-- Al pulsarla se abre en el visor, como las miniaturas de Proyectos (también el cuadrado provisional).
+- Al pulsarla se abre en el visor de imágenes (también el cuadrado provisional).
 
 Enlace:
 
-- **A un proyecto de la web:** `"url": "#<id>"` con el `id` del proyecto (p. ej. `"#mi-juego"`). Al pulsarlo abre Proyectos, despliega la entrada, la centra y la resalta, igual que las tarjetas de Referencias con enlace interno. Si el `id` no existe, queda como un enlace normal a `#<id>`.
+- **A un proyecto de la web:** `"url": "#<id>"` con el `id` del proyecto (p. ej. `"#mi-juego"`). Al pulsarlo abre Proyectos, centra la tarjeta del proyecto y la resalta, igual que las tarjetas de Referencias con enlace interno. Si el `id` no existe, queda como un enlace normal a `#<id>`.
 - **Externo:** `"url": "https://..."`. Se abre en una pestaña nueva.
 - Se aplican las mismas reglas de URL que en el resto de enlaces (`http:`, `https:`, `mailto:` o `#`).
 
