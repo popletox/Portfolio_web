@@ -135,6 +135,7 @@
       "titulo": "Proyecto provisional 1",
       "categoria": "Unity",
       "fecha": "2025-03",
+      "enCurso":true,
       "descripcion": "[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
       "aptitudes": [
         "[Provisional] Aptitud provisional A",
@@ -216,7 +217,7 @@
       "entidad": "Evento o institución provisional 2",
       "fecha": "2023-05",
       "descripcion": "[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      "referencias": ["proyecto-provisional-1"]
+      "referencias": ["proyecto-provisional-2"]
     },
     {
       "titulo": "Premio provisional 3",
