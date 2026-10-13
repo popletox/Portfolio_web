@@ -1,0 +1,78 @@
+Este repositorio tiene dos partes con licencias distintas: el código, bajo
+licencia MIT, y el contenido personal, con todos los derechos reservados.
+
+1. Código — Licencia MIT
+
+Se aplica a la estructura y el código: index.html (salvo el contenido personal
+indicado en el punto 2), estilos/, scripts/, docs/, .claude/ y demás archivos
+de configuración.
+
+Copyright (c) 2026 Miguel Ángel Torrijos.
+
+Se permite usar, copiar, modificar y distribuir este código libremente, siempre
+que se conserve el aviso de copyright y el de la licencia. Se ofrece sin
+garantía. El texto oficial de la licencia MIT, que es el que tiene validez, está
+en inglés en la sección "1. Code — MIT License" más abajo.
+
+2. Contenido personal — Todos los derechos reservados
+
+Copyright (c) 2026 Miguel Ángel Torrijos. Todos los derechos reservados.
+
+Se aplica a:
+- El contenido de datos/ (incluido datos/contenido.json).
+- Las imágenes y recursos gráficos personales (por ejemplo, la carpeta
+  recursos/ si se añade).
+- Los textos y datos personales de index.html: nombre, subtítulo profesional,
+  enlaces de contacto y la nota "Sobre esta web" del pie.
+
+Este contenido no se puede copiar, modificar, distribuir ni usar sin permiso
+expreso y por escrito del autor. Si reutilizas el código, debes sustituir este
+contenido por el tuyo.
+
+---
+
+This repository has two parts with different licenses: the code, under the MIT
+License, and the personal content, with all rights reserved.
+
+1. Code — MIT License
+
+Applies to the structure and code: index.html (except the personal content
+listed in section 2), estilos/, scripts/, docs/, .claude/ and other
+configuration files.
+
+MIT License
+
+Copyright (c) 2026 Miguel Ángel Torrijos
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+2. Personal content — All rights reserved
+
+Copyright (c) 2026 Miguel Ángel Torrijos. All rights reserved.
+
+Applies to:
+- The content of datos/ (including datos/contenido.json).
+- Personal images and graphic assets (for example, the recursos/ folder if
+  added).
+- The personal texts and data in index.html: name, professional subtitle,
+  contact links and the "Sobre esta web" note in the footer.
+
+This content may not be copied, modified, distributed or used without the
+express written permission of the author. If you reuse the code, you must
+replace this content with your own.

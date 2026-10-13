@@ -65,3 +65,7 @@ El contenido se carga con `fetch` desde `datos/contenido.json`, así que abrir `
 - Extensión **Live Server** de VS Code: clic derecho en `index.html` → "Open with Live Server".
 - `npx serve` en la raíz del proyecto.
 - `python -m http.server` en la raíz del proyecto y abrir `http://localhost:8000`.
+
+## Licencia
+
+El código está bajo licencia MIT; el contenido personal (datos, textos personales e imágenes) tiene todos los derechos reservados. Detalles en [LICENSE](LICENSE).
