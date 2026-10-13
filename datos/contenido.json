@@ -142,7 +142,7 @@
         "[Provisional] Aptitud provisional B",
         "[Provisional] Aptitud provisional C"
       ],
-      "enlace": { "texto": "[Provisional] Ver proyecto publicado", "url": "#" },
+      "enlaces": { "web": "#" },
       "imagenes": [
         { "alt": "[Provisional] Imagen 1 de Proyecto provisional 1" },
         { "alt": "[Provisional] Imagen 2 de Proyecto provisional 1" },
@@ -164,7 +164,7 @@
         "[Provisional] Aptitud provisional C",
         "[Provisional] Aptitud provisional D"
       ],
-      "enlace": { "texto": "[Provisional] Ver proyecto publicado", "url": "#" },
+      "enlaces": { "web": "#" },
       "imagenes": [
         { "alt": "[Provisional] Imagen 1 de Proyecto provisional 2" },
         { "alt": "[Provisional] Imagen 2 de Proyecto provisional 2" },
@@ -197,7 +197,7 @@
         "[Provisional] Aptitud provisional B",
         "[Provisional] Aptitud provisional C"
       ],
-      "enlace": { "texto": "[Provisional] Ver proyecto publicado", "url": "#" },
+      "enlaces": { "web": "#" },
       "imagenes": [
         { "alt": "[Provisional] Imagen 1 de Proyecto provisional 4" }
       ]
