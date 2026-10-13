@@ -112,6 +112,14 @@ main {
   margin-bottom: calc(var(--espacio) * 2);
   font-size: 1.125rem;
   color: var(--color-texto-suave);
+  /* Justificado: las líneas llegan al mismo ancho que las cajas de .seccion */
+  text-align: justify;
+}
+
+/* Hueco entre párrafos (no antes del primero ni tras el último),
+   mismo valor que .seccion p para distinguirlos de un salto de línea */
+.introduccion p + p {
+  margin-top: 1rem;
 }
 
 /* Aviso si falla la carga de datos/contenido.json */
