@@ -20,7 +20,7 @@ Flujo: petición → coordinador → programador → revisión → (con permiso)
 
 - Encabezado fijo con nombre, subtítulo, iconos de contacto y botón de Opciones; en móvil se compacta al bajar.
 - Secciones desplegables (Experiencia, Proyectos, Méritos y reconocimientos, Estudios) con líneas de tiempo y entradas que se abren y cierran.
-- Proyectos en bandas por año con tarjetas y filtros por tecnología, generados a partir de los datos. Cada tarjeta abre una ventana de detalle (descripción, aptitudes, enlace e imágenes) que se cierra también con el botón Atrás. Cada proyecto tiene enlace directo (`…/#<id>` abre su ventana) y un botón de compartir en la ventana (menú de compartir del sistema en móvil; en ordenador copia el enlace y avisa con "Enlace copiado").
+- Proyectos en bandas por año con tarjetas y filtros por tecnología, generados a partir de los datos. Cada tarjeta abre una ventana de detalle (descripción, apartados opcionales como retos o tecnología, aptitudes, enlaces e imágenes) que se cierra también con el botón Atrás. Cada proyecto tiene enlace directo (`…/#<id>` abre su ventana) y un botón de compartir en la ventana (menú de compartir del sistema en móvil; en ordenador copia el enlace y avisa con "Enlace copiado").
 - Visor de imágenes para ampliar las imágenes de la ventana de detalle y la del panel Destacado.
 - Referencias en tarjetas (cuadrícula con título e imagen) en el detalle de Experiencia, Estudios y Méritos: las de proyectos toman solas su título y primera imagen; las demás, de un catálogo común del JSON. Las que enlazan a un proyecto (y el enlace interno del Destacado) abren su ventana de detalle sin mover la página.
 - Panel Destacado en forma de carrusel (lateral en ordenador, inferior en móvil), cerrable y reabrible.

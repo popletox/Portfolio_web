@@ -1038,8 +1038,38 @@ body.detalle-abierto {
   margin: 0.75rem 0 0;
 }
 
+/* Apartados opcionales (Retos, Experiencia personal, Comentarios adicionales) */
+.detalle-proyecto-apartado {
+  margin-top: 0.75rem;
+}
+
+.detalle-proyecto-apartado-titulo {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-titulo);
+}
+
+.detalle-proyecto-parrafo {
+  margin: 0.25rem 0 0;
+}
+
+.detalle-proyecto-parrafo + .detalle-proyecto-parrafo {
+  margin-top: 0.75rem;
+}
+
+/* Enlaces ("Web: …", "Juego: …"), uno por línea */
+.detalle-proyecto-enlaces {
+  margin-top: 0.75rem;
+}
+
 .detalle-proyecto-accion {
-  margin: 0.75rem 0 0;
+  margin: 0.25rem 0 0;
+  overflow-wrap: anywhere;
+}
+
+.detalle-proyecto-accion:first-child {
+  margin-top: 0;
 }
 
 .detalle-proyecto-enlace {

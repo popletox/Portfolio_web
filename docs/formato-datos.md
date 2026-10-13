@@ -22,7 +22,7 @@ Guarda el archivo en UTF-8 (se pueden usar tildes y eñes sin problema).
 
 - **Fechas:** siempre `"AAAA-MM"`, p. ej. `"2023-03"`. El JS genera los textos «2023 – 2025» y «marzo, 2023 – junio, 2025».
 - **Trabajo o estudio en curso:** `"fechaFin": null`. Se mostrará como «actualidad». No uses `"actual"` ni dejes la clave vacía `""`.
-- **Textos de descripción** (`introduccion` y `descripcion`): string para un párrafo, o array de strings para varios párrafos (`["Párrafo 1", "Párrafo 2"]`). Texto plano, sin HTML.
+- **Textos de descripción** (`introduccion`, `descripcion` y, en Proyectos, `retos`, `experienciaPersonal` y `comentarios`): string para un párrafo, o array de strings para varios párrafos (`["Párrafo 1", "Párrafo 2"]`). Texto plano, sin HTML.
 - **Orden:** el JS ordena cada sección por fecha descendente (lo más reciente arriba), así que el orden dentro del archivo no importa. Experiencia y Estudios ordenan por `fechaInicio`, y a igualdad, primero el que tenga `fechaFin: null`; Proyectos y Méritos ordenan por `fecha`.
 - **Campos opcionales:** si no se usan, se omite la clave entera (no hace falta poner `null` ni `[]`).
 - **Enlaces:** solo se aceptan URLs que empiecen por `http:`, `https:`, `mailto:` o `#`. Con cualquier otra (p. ej. `javascript:` o una ruta relativa), el texto se muestra pero sin enlace.
@@ -54,10 +54,16 @@ Igual que Experiencia, cambiando `puesto` por `titulo` y `empresa` por `instituc
 | `enCurso` | No | `true` si el proyecto sigue en desarrollo: se muestra arriba, sobre la línea «Actual», sea cual sea su `fecha`. Sin la clave (o con `false`), va en la banda del año de `fecha`. |
 | `descripcion` | Sí | String o array de strings. |
 | `aptitudes` | Sí | Array de strings. |
-| `enlace` | No | `{ "texto": "...", "url": "..." }`. |
+| `retos` | No | String o array de strings. Apartado «Retos» de la ventana de detalle. |
+| `tecnologia` | No | Array de strings. Se muestra en línea: «Tecnología: Unity · C# · Photon». |
+| `experienciaPersonal` | No | String o array de strings. Apartado «Experiencia personal». |
+| `comentarios` | No | String o array de strings. Apartado «Comentarios adicionales». |
+| `enlaces` | No | Objeto `tipo → url`, p. ej. `{ "web": "https://...", "juego": "https://..." }`. Ver abajo. |
 | `imagenes` | Sí | Array (puede estar vacío `[]`). Ver abajo. |
 
-**Agrupación por año:** la sección muestra los proyectos en bandas horizontales, cada una encabezada por una línea con su etiqueta (año o «Actual») y con sus tarjetas debajo. Primero, los que tienen `"enCurso": true` (banda «Actual», solo si hay alguno); después, una banda por año (el de `fecha`), del más reciente al más antiguo con proyectos. Un año intermedio sin proyectos aparece solo como línea con su año; no se muestran años vacíos por encima del más reciente ni por debajo del más antiguo. Dentro de cada banda, los proyectos van por `fecha` descendente. Con un filtro activo, las bandas se recalculan con los proyectos visibles. Cada tarjeta muestra el título, la categoría y la primera imagen. Al pulsarla se abre la ventana de detalle del proyecto con todos sus campos: título, categoría, fecha («mes, AAAA», o «En curso · desde mes, AAAA» con `enCurso`), descripción, aptitudes, enlace y todas las imágenes, ampliables en el visor.
+**Agrupación por año:** la sección muestra los proyectos en bandas horizontales, cada una encabezada por una línea con su etiqueta (año o «Actual») y con sus tarjetas debajo. Primero, los que tienen `"enCurso": true` (banda «Actual», solo si hay alguno); después, una banda por año (el de `fecha`), del más reciente al más antiguo con proyectos. Un año intermedio sin proyectos aparece solo como línea con su año; no se muestran años vacíos por encima del más reciente ni por debajo del más antiguo. Dentro de cada banda, los proyectos van por `fecha` descendente. Con un filtro activo, las bandas se recalculan con los proyectos visibles. Cada tarjeta muestra el título, la categoría y la primera imagen. Al pulsarla se abre la ventana de detalle del proyecto con todos sus campos: título, categoría, fecha («mes, AAAA», o «En curso · desde mes, AAAA» con `enCurso`), descripción, retos, tecnología, experiencia personal, comentarios adicionales, aptitudes clave y enlaces, en ese orden (los opcionales solo si tienen contenido), y todas las imágenes, ampliables en el visor.
+
+**Enlaces (`enlaces`):** cada clave es un tipo y su valor la URL (mismas reglas que el resto de enlaces). Tipos disponibles, en el orden en que se muestran: `web` («Web») y `juego` («Juego»). Cada uno se ve en su línea como «**Web:** popletox.itch.io/mi-juego»: el texto es la URL sin `https://`/`http://` ni barra final. Los externos se abren en una pestaña nueva; `"#<id>"` de un proyecto abre su ventana. Una URL no válida hace que se ignore ese enlace. Un tipo no previsto se muestra al final con su nombre en mayúscula inicial (p. ej. `"steam"` → «Steam») y avisa en la consola. Para añadir un tipo nuevo, añade una línea al mapa `TIPOS_ENLACE_PROYECTO` de `scripts/contenido.js` (`steam: 'Steam',`).
 
 Cada imagen:
 
@@ -82,7 +88,7 @@ Copia este bloque dentro del array `"proyectos"`, separado del anterior por una 
   "fecha": "2025-09",
   "descripcion": "Breve descripción del proyecto.",
   "aptitudes": ["C#", "Diseño de niveles"],
-  "enlace": { "texto": "Jugar en itch.io", "url": "https://popletox.itch.io/" },
+  "enlaces": { "web": "https://popletox.itch.io/" },
   "imagenes": [
     { "low": "recursos/proyectos/mi-juego-1.jpg", "high": "recursos/proyectos/mi-juego-1-grande.jpg", "alt": "Captura del menú principal" }
   ]

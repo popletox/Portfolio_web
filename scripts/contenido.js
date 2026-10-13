@@ -103,9 +103,11 @@
     return contenedor;
   }
 
-  function crearAptitudes(aptitudes) {
+  // Lista en línea con etiqueta ("Aptitudes clave: a · b"); la etiqueta es
+  // opcional y por defecto "Aptitudes clave:"
+  function crearAptitudes(aptitudes, etiqueta) {
     var bloque = crear('div', 'linea-tiempo-aptitudes');
-    bloque.appendChild(crear('span', 'linea-tiempo-etiqueta', 'Aptitudes clave:'));
+    bloque.appendChild(crear('span', 'linea-tiempo-etiqueta', etiqueta || 'Aptitudes clave:'));
     bloque.appendChild(document.createTextNode(' '));
     var lista = crear('ul', 'lista-en-linea');
     aptitudes.forEach(function (aptitud) {
@@ -401,8 +403,67 @@
     return parrafo;
   }
 
+  // Tipos de "enlaces" de un proyecto y su nombre visible, en el orden en que
+  // se muestran. Para añadir un tipo nuevo, añade aquí una línea:
+  //   tipo: 'Nombre visible',
+  var TIPOS_ENLACE_PROYECTO = {
+    web: 'Web',
+    juego: 'Juego'
+  };
+
+  // URL sin "http(s)://" ni barra final, como texto del enlace
+  function limpiarUrl(url) {
+    return url.replace(/^https?:\/\//i, '').replace(/\/+$/, '') || url;
+  }
+
+  // Apartado opcional con título (h3) y párrafos; null si no hay texto
+  function crearApartadoDetalle(titulo, contenido) {
+    var parrafos = crearParrafos(contenido, 'detalle-proyecto-parrafo');
+    if (!parrafos.length) return null;
+    var apartado = crear('div', 'detalle-proyecto-apartado');
+    apartado.appendChild(crear('h3', 'detalle-proyecto-apartado-titulo', titulo));
+    parrafos.forEach(function (p) { apartado.appendChild(p); });
+    return apartado;
+  }
+
+  // "Web: dominio/ruta", uno por línea: primero los tipos conocidos (en el
+  // orden del mapa) y después los desconocidos. URLs no válidas: se ignoran
+  function crearEnlacesProyecto(enlaces, idProyecto) {
+    if (!enlaces || typeof enlaces !== 'object' || Array.isArray(enlaces)) return null;
+    var conocidos = Object.keys(TIPOS_ENLACE_PROYECTO).filter(function (tipo) {
+      return Object.prototype.hasOwnProperty.call(enlaces, tipo);
+    });
+    var desconocidos = Object.keys(enlaces).filter(function (tipo) {
+      return !Object.prototype.hasOwnProperty.call(TIPOS_ENLACE_PROYECTO, tipo);
+    });
+    var bloque = crear('div', 'detalle-proyecto-enlaces');
+    conocidos.concat(desconocidos).forEach(function (tipo) {
+      var url = typeof enlaces[tipo] === 'string' ? enlaces[tipo].trim() : '';
+      if (!esUrlSegura(url)) return;
+      var nombre = TIPOS_ENLACE_PROYECTO[tipo];
+      if (!Object.prototype.hasOwnProperty.call(TIPOS_ENLACE_PROYECTO, tipo)) {
+        nombre = tipo.charAt(0).toUpperCase() + tipo.slice(1);
+        console.warn('Proyecto "' + idProyecto + '": tipo de enlace desconocido "' + tipo +
+          '". Añádelo a TIPOS_ENLACE_PROYECTO en scripts/contenido.js.');
+      }
+      var enlace = crearEnlace(limpiarUrl(url), url, 'detalle-proyecto-enlace');
+      if (/^https?:/i.test(url)) {
+        enlace.target = '_blank';
+        enlace.rel = 'noopener noreferrer';
+      }
+      var accion = crear('p', 'detalle-proyecto-accion');
+      accion.appendChild(crear('span', 'linea-tiempo-etiqueta', nombre + ':'));
+      accion.appendChild(document.createTextNode(' '));
+      accion.appendChild(enlace);
+      bloque.appendChild(accion);
+    });
+    return bloque.childNodes.length ? bloque : null;
+  }
+
   // Contenido de la ventana: texto (título, categoría, fecha, descripción,
-  // aptitudes y enlace) y, si hay imágenes, su cuadrícula de miniaturas
+  // retos, tecnología, experiencia personal, comentarios, aptitudes y
+  // enlaces; los opcionales solo si tienen contenido) y, si hay imágenes,
+  // su cuadrícula de miniaturas
   function crearDetalleProyecto(proyecto) {
     var imagenes = Array.isArray(proyecto.imagenes) ? proyecto.imagenes : [];
     var cuerpo = crear('div', 'detalle-proyecto-cuerpo' + (imagenes.length ? '' : ' detalle-proyecto-cuerpo--sin-imagenes'));
@@ -417,20 +478,20 @@
     crearParrafos(proyecto.descripcion, 'detalle-proyecto-descripcion').forEach(function (p) {
       texto.appendChild(p);
     });
+    var retos = crearApartadoDetalle('Retos', proyecto.retos);
+    if (retos) texto.appendChild(retos);
+    if (Array.isArray(proyecto.tecnologia) && proyecto.tecnologia.length) {
+      texto.appendChild(crearAptitudes(proyecto.tecnologia, 'Tecnología:'));
+    }
+    var experiencia = crearApartadoDetalle('Experiencia personal', proyecto.experienciaPersonal);
+    if (experiencia) texto.appendChild(experiencia);
+    var comentarios = crearApartadoDetalle('Comentarios adicionales', proyecto.comentarios);
+    if (comentarios) texto.appendChild(comentarios);
     if (Array.isArray(proyecto.aptitudes) && proyecto.aptitudes.length) {
       texto.appendChild(crearAptitudes(proyecto.aptitudes));
     }
-    if (proyecto.enlace && proyecto.enlace.texto) {
-      var url = typeof proyecto.enlace.url === 'string' ? proyecto.enlace.url.trim() : '';
-      var enlace = crearEnlace(proyecto.enlace.texto, url, 'detalle-proyecto-enlace');
-      if (/^https?:/i.test(url)) {
-        enlace.target = '_blank';
-        enlace.rel = 'noopener noreferrer';
-      }
-      var accion = crear('p', 'detalle-proyecto-accion');
-      accion.appendChild(enlace);
-      texto.appendChild(accion);
-    }
+    var enlaces = crearEnlacesProyecto(proyecto.enlaces, proyecto.id);
+    if (enlaces) texto.appendChild(enlaces);
     cuerpo.appendChild(texto);
 
     if (imagenes.length) {
