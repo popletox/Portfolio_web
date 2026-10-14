@@ -99,6 +99,10 @@ img {
   --alto-eje-cronologia: 2.75rem;
   --margen-cronologia: var(--espacio);
   --alto-degradado-cronologia: 2rem;
+  /* Largo, en meses y sin unidad, del degradado con que el eje y las
+     barras de los periodos en curso se desvanecen hacia la derecha tras la
+     marca del mes actual (lo lee también scripts/linea-tiempo.js) */
+  --largo-degradado-cronologia: 2;
   /* Periodos de la Línea de tiempo: grosor de las barras, distancia entre
      filas (barras solapadas), hueco entre barras seguidas de una misma
      fila, largo mínimo de una barra en meses, sin unidad (periodos de un
@@ -1428,8 +1432,9 @@ button.proyecto-tarjeta {
 }
 
 /* Lienzo: cada mes es el punto de su marca y entre marcas hay
-   --ancho-mes-cronologia; --meses-cronologia (ancho en meses, con un mes de
-   margen antes de la primera marca y después de la última) lo pone el JS.
+   --ancho-mes-cronologia; --meses-cronologia (ancho en meses: un mes de
+   margen antes de la primera marca y, tras la última, --mes-final-eje, el
+   degradado del eje más medio mes de margen) los pone el JS.
    Capas de arriba abajo: periodos (barras de estudios y experiencias),
    eje (meses y años) y proyectos (tarjetas). Dentro de cada capa, la X de
    un elemento es calc(var(--ancho-mes-cronologia) * var(--mes)) */
@@ -1525,6 +1530,23 @@ button.proyecto-tarjeta {
   background: var(--color-periodo);
 }
 
+/* En curso: la misma barra sólida (hasta la marca del mes actual, --fin) y,
+   después, un degradado a transparente que acaba
+   --largo-degradado-cronologia meses tras --fin, a la par que el del eje.
+   El ancho va del borde izquierdo de la barra a ese final */
+.cronologia-periodo--en-curso .cronologia-periodo-barra {
+  width: calc(
+    var(--ancho-mes-cronologia) * (var(--fin) + var(--largo-degradado-cronologia) - var(--centro))
+    + var(--largo-barra-periodo) / 2
+  );
+  border-radius: 2px 0 0 2px;
+  background: linear-gradient(
+    to right,
+    var(--color-periodo) var(--largo-barra-periodo),
+    transparent
+  );
+}
+
 /* Línea fina del centro de la barra a la altura de los nombres, con un
    punto del color de la barra donde empieza el nombre */
 .cronologia-periodo-conector {
@@ -1589,7 +1611,9 @@ button.proyecto-tarjeta {
 }
 
 /* Eje: línea horizontal a --y-eje (en .cronologia-lienzo) del borde
-   superior de la capa */
+   superior de la capa. Sólida del borde izquierdo a la última marca
+   (--mes-final-eje, la del mes actual; lo pone el JS) y, desde ahí, se
+   desvanece a lo largo de --largo-degradado-cronologia meses */
 .cronologia-eje {
   --alto-marca-mes: 0.6rem;
   --alto-marca-anio: 1.3rem;
@@ -1601,9 +1625,15 @@ button.proyecto-tarjeta {
   position: absolute;
   top: calc(var(--y-eje) - var(--grosor-linea-tiempo) / 2);
   left: 0;
-  right: 0;
+  width: calc(
+    var(--ancho-mes-cronologia) * (var(--mes-final-eje, 0) + var(--largo-degradado-cronologia))
+  );
   height: var(--grosor-linea-tiempo);
-  background: var(--color-texto-suave);
+  background: linear-gradient(
+    to right,
+    var(--color-texto-suave) calc(var(--ancho-mes-cronologia) * var(--mes-final-eje, 0)),
+    transparent
+  );
 }
 
 /* Marca de cada mes (el mes es este punto), centrada en la línea */

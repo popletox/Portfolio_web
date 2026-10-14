@@ -12,8 +12,12 @@
 //
 // Escala: cada mes es un PUNTO, su marca del eje, y entre dos marcas
 // seguidas hay --ancho-mes-cronologia (estilos/comun.css). La posición 0 es
-// el borde izquierdo del lienzo, un mes de margen antes de la primera marca;
-// mesDeFecha() da la posición (entera) de la marca del mes de una fecha y
+// el borde izquierdo del lienzo, un mes de margen antes de la primera marca.
+// La última marca es la del mes actual (o la de la última fecha, si es
+// posterior): ahí el eje deja de ser sólido y se desvanece hacia la derecha
+// a lo largo de --largo-degradado-cronologia meses; después queda medio mes
+// de margen hasta el borde derecho. Los periodos en curso se prolongan con
+// un degradado del mismo largo desde la marca del mes actual. mesDeFecha() da la posición (entera) de la marca del mes de una fecha y
 // xDeFecha() la convierte a píxeles desde el borde izquierdo del lienzo. En
 // CSS, la misma X es calc(var(--ancho-mes-cronologia) * var(--mes)).
 //
@@ -23,8 +27,10 @@
 // está en él, sigue en él al cambiar de ancho (abrir o cerrar el panel,
 // redimensionar); si no, conserva la posición.
 (function () {
-  var MARGEN_MESES = 1; // espacio, en meses, antes de la primera marca y después de la última
+  var MARGEN_MESES = 1; // espacio, en meses, antes de la primera marca
+  var MARGEN_FINAL_MESES = 0.5; // espacio, en meses, tras el final del degradado del eje
   var LARGO_MIN_MESES = 0.5; // por defecto de --largo-min-periodo-cronologia
+  var LARGO_DEGRADADO_MESES = 2; // por defecto de --largo-degradado-cronologia
   // Filas que puede bajar una tarjeta de proyecto, por debajo de la primera
   // en la que cabe, para que su conector no quede oculto tras otra tarjeta
   var FILAS_EXTRA_CONECTOR = 2;
@@ -51,7 +57,9 @@
   };
 
   // { inicio: mes absoluto de la posición 0 (borde izquierdo, sin marca),
-  //   meses: ancho del lienzo en meses; las marcas van de 1 a meses - 1 }
+  //   ultimo: posición de la última marca (fin del tramo sólido del eje),
+  //   meses: ancho del lienzo en meses (ultimo + degradado + margen final);
+  //   las marcas van de 1 a ultimo }
   var rango = null;
 
   // ---- Fechas y escala ----
@@ -78,7 +86,8 @@
 
   // Del primer mes de cualquier fecha (inicio y fin de Experiencia y
   // Estudios, fecha de Proyectos) al mes actual (o a la última fecha, si es
-  // posterior), con MARGEN_MESES de espacio a cada lado
+  // posterior), con MARGEN_MESES de espacio a la izquierda y, a la derecha,
+  // el degradado del eje (largoDegradado()) más MARGEN_FINAL_MESES
   function calcularRango(datos) {
     var fechas = [];
     ['experiencia', 'estudios'].forEach(function (clave) {
@@ -101,7 +110,12 @@
       if (mes > maximo) maximo = mes;
     });
     var inicio = minimo - MARGEN_MESES;
-    return { inicio: inicio, meses: maximo + MARGEN_MESES - inicio };
+    var ultimo = maximo - inicio;
+    return {
+      inicio: inicio,
+      ultimo: ultimo,
+      meses: ultimo + largoDegradado() + MARGEN_FINAL_MESES
+    };
   }
 
   // Posición (entera) de la marca del mes de la fecha, en meses desde el
@@ -133,6 +147,14 @@
     return mes ? mes + ', ' + partes[0] : partes[0];
   }
 
+  // Largo, en meses, del degradado con que el eje y las barras de los
+  // periodos en curso se desvanecen hacia la derecha, de
+  // --largo-degradado-cronologia (estilos/comun.css)
+  function largoDegradado() {
+    var valor = parseFloat(getComputedStyle(lienzo).getPropertyValue('--largo-degradado-cronologia'));
+    return valor >= 0 ? valor : LARGO_DEGRADADO_MESES;
+  }
+
   // ---- Periodos (estudios y experiencias) ----
 
   // Largo mínimo de una barra, en meses (periodos de un solo mes:
@@ -145,9 +167,11 @@
   // Lista de periodos válidos con su intervalo en el eje: de la marca del mes
   // de fechaInicio a la del mes de fechaFin (en curso, fechaFin null, a la
   // del mes actual). desde/hasta: lo que ocupa la barra a la vista (un
-  // periodo de un solo mes ocupa el largo mínimo, centrado en su marca)
+  // periodo de un solo mes ocupa el largo mínimo, centrado en su marca; uno
+  // en curso, además, su degradado de largoDegradado() meses tras fin)
   function leerPeriodos(datos) {
     var medioMinimo = largoMinimo() / 2;
+    var degradado = largoDegradado();
     var tipos = [
       { clave: 'experiencia', tipo: 'experiencia', nombre: 'puesto', lugar: 'empresa' },
       { clave: 'estudios', tipo: 'estudio', nombre: 'titulo', lugar: 'institucion' }
@@ -171,6 +195,7 @@
           (enCurso ? TEXTO_ACTUALIDAD : formatearMesAnio(item.fechaFin)));
         periodos.push({
           tipo: t.tipo,
+          enCurso: enCurso,
           nombre: nombre,
           // Solo experiencias: la empresa va debajo del puesto
           empresa: t.tipo === 'experiencia' && item.empresa ? String(item.empresa) : '',
@@ -179,7 +204,7 @@
           fin: fin,
           centro: centro,
           desde: Math.min(inicio, centro - medioMinimo),
-          hasta: Math.max(fin, centro + medioMinimo)
+          hasta: Math.max(fin + (enCurso ? degradado : 0), centro + medioMinimo)
         });
       });
     });
@@ -208,8 +233,10 @@
   // Cada periodo: barra en su fila, conector vertical desde el centro de la
   // barra hasta la altura común de los nombres (por encima de la fila más
   // alta) y nombre a 45° desde ese punto (en experiencias, con la empresa
-  // debajo). Posiciones en meses y filas
-  // (variables CSS); las medidas en estilos/comun.css
+  // debajo). Los en curso llevan --en-curso: su barra sigue con un
+  // degradado tras la marca del mes actual (centro, conector y nombre no
+  // cambian). Posiciones en meses y filas (variables CSS); las medidas en
+  // estilos/comun.css
   function montarPeriodos(datos) {
     var periodos = leerPeriodos(datos);
     var filas = asignarFilas(periodos);
@@ -219,6 +246,7 @@
       var centro = periodo.centro;
       if (centro > centroMax) centroMax = centro;
       var grupo = crear('div', 'cronologia-periodo cronologia-periodo--' + periodo.tipo);
+      if (periodo.enCurso) grupo.classList.add('cronologia-periodo--en-curso');
       grupo.title = periodo.detalle;
       grupo.style.setProperty('--inicio', String(periodo.inicio));
       grupo.style.setProperty('--fin', String(periodo.fin));
@@ -459,12 +487,12 @@
     return nodo;
   }
 
-  // Una marca por mes (el mes es el punto de la marca), sin marcas en los
-  // bordes (posiciones 0 y rango.meses); enero, más marcada y con el año
-  // centrado bajo ella
+  // Una marca por mes (el mes es el punto de la marca), de la posición 1 a
+  // rango.ultimo: ninguna en el margen izquierdo ni sobre el degradado
+  // final; enero, más marcada y con el año centrado bajo ella
   function montarEje() {
     var fragmento = document.createDocumentFragment();
-    for (var i = 1; i < rango.meses; i++) {
+    for (var i = 1; i <= rango.ultimo; i++) {
       var absoluto = rango.inicio + i;
       var marca = crear('span', 'cronologia-marca');
       marca.style.setProperty('--mes', String(i));
@@ -480,6 +508,8 @@
   function montar(datos) {
     rango = calcularRango(datos || {});
     lienzo.style.setProperty('--meses-cronologia', String(rango.meses));
+    // Fin del tramo sólido del eje, donde empieza su degradado (comun.css)
+    lienzo.style.setProperty('--mes-final-eje', String(rango.ultimo));
     montarEje();
     montarPeriodos(datos || {});
     montarProyectos(datos || {});
