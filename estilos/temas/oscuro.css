@@ -24,6 +24,8 @@
   --color-texto-sobre-acento: #121314;
   --color-enlace: #8ab4f8;
   --color-enlace-seccion: var(--color-enlace);
+  /* Sobre el fondo del panel destacado (AA) */
+  --color-enlace-panel: var(--color-enlace);
   --color-foco: #8ab4f8;
 
   /* Bocadillo de Opciones */
@@ -57,7 +59,11 @@
   --color-boton-visor-hover: #3a3f44;
   --color-boton-visor-texto: #ffffff;
 
-  /* Botón-pestaña del panel destacado */
-  --color-boton-panel: #3a3f44;
-  --color-boton-panel-texto: #e6e6e6;
+  /* Botón-pestaña del panel destacado (el fondo es --color-panel) */
+  --color-boton-panel-texto: var(--color-texto-suave);
+  --color-borde-boton-panel: #43484e;
+  /* Sombra del panel destacado y su botón hacia la página (elevación).
+     En temas oscuros, más opaca y difusa para que se note */
+  --color-sombra-panel: rgba(0, 0, 0, 0.6);
+  --desenfoque-sombra-panel: 22px;
 }
