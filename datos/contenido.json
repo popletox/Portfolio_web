@@ -29,6 +29,8 @@
   ],
 
   "referencias": {
+    "proyecto-ref-beans-out": {"titulo": "Beans out (TFG)", "enlace": "#proyecto-beans-out"},
+    "proyecto-ref-gloom-reaper": {"titulo": "Gloom Reaper", "enlace": "#proyecto-gloom-reaper"},
     "proyecto-revlon": { "titulo": "[Provisional] Revlon", "enlace": "#" },
     "proyecto-fire-lunar-rush": { "titulo": "[Provisional] Fire Lunar Rush" },
     "proyecto-color-switch-race": { "titulo": "[Provisional] Color Switch Race" },
@@ -36,7 +38,6 @@
     "proyecto-telefonica-town": { "titulo": "[Provisional] Telefónica Town" },
     "proyecto-mcdonalds-land-tycoon": { "titulo": "[Provisional] McDonald's land Tycoon" },
     "proyecto-el-desafio-pringles": { "titulo": "[Provisional] El desafío Pringles" },
-    "proyecto-gloom-reaper": { "titulo": "[Provisional] Gloom Reaper" },
     "proyecto-provisional-1a": { "titulo": "[Provisional] Proyecto provisional 1A" },
     "proyecto-provisional-3a": { "titulo": "[Provisional] Proyecto provisional 3A" },
     "proyecto-provisional-3b": { "titulo": "[Provisional] Proyecto provisional 3B" }
@@ -46,7 +47,7 @@
     {
       "puesto": "Técnico Desarrollo y Soporte de Aplicaciones",
       "empresa": "Getronics",
-      "fechaInicio": "2026-07",
+      "fechaInicio": "2026-09",
       "fechaFin": null,
       "descripcion": [
         "Soporte técnico al Servicio de Investigación de la Universidad Carlos III de Madrid, atendiendo incidencias e implementando ajustes y mejoras en herramientas y aplicaciones existentes.",
@@ -60,10 +61,22 @@
       ]
     },
     {
+      "puesto": "Desarrollador de videojuegos",
+      "empresa": "Hoja Studio",
+      "fechaInicio": "2026-04",
+      "fechaFin": null,
+      "descripcion": "Programador en Hoja Studio, un equipo multidisciplinar de más de diez personas que desarrolla NILSH en régimen de colaboración. Es un juego de acción y aventura con vista cenital, ambientado en un mundo de fantasía donde la naturaleza se está apagando. El proyecto sigue en desarrollo y ampliación continua, y ya tiene página en Steam. Mi trabajo se ha centrado en varios componentes del juego: el sistema de fijación de objetivos (ZTarget) y algunos elementos de combate, las transiciones y la interfaz, y el sistema de inventario y de potenciadores. También colaboro en los procesos de QA y trabajo con perfiles de otras disciplinas.",
+      "aptitudes": [
+        "Desarrollo de videojuegos",
+        "Unity",
+        "Trabajo en equipo"
+      ]
+    },
+    {
       "puesto": "QA Tester de videojuegos (testing funcional)",
       "empresa": "Universally Speaking",
       "fechaInicio": "2026-05",
-      "fechaFin": "2026-08",
+      "fechaFin": "2026-06",
       "descripcion": "Pruebas de calidad funcional (QA) para un único proyecto de videojuego, con redacción de informes de errores en inglés y registro y seguimiento de incidencias en una base de datos de bugs.",
       "aptitudes": [
         "Aseguramiento de la calidad",
@@ -125,11 +138,193 @@
         "Desarrollo de videojuegos",
         "Unreal Engine"
       ],
-      "referencias": ["proyecto-gloom-reaper"]
+      "referencias": ["proyecto-ref-gloom-reaper"]
     }
   ],
 
   "proyectos": [
+    {
+      "id": "proyecto-beans-out",
+      "titulo": "Beans out (TFG)",
+      "categoria": "Unity",
+      "fecha": "2021-06",
+      "descripcion": "Trabajo de Fin de Grado en la Universidad Carlos III de Madrid, calificado con Sobresaliente (9,2). Prototipo de videojuego 2.5D con generación procedural de niveles mediante salas ponderadas por pesos, varios tipos de enemigos con IA y comportamientos diferenciados, y un sistema de spawn que equilibra la dificultad de cada nivel generado.",
+      "aptitudes": [
+        "Documentación técnica"
+      ],
+      "tecnologia": [
+        "Unity",
+        "C#"
+      ],
+      "imagenes": [
+        { "alt": "[Provisional] Imagen 1 de Proyecto provisional 1" },
+        { "alt": "[Provisional] Imagen 2 de Proyecto provisional 1" },
+        { "alt": "[Provisional] Imagen 3 de Proyecto provisional 1" },
+        { "alt": "[Provisional] Imagen 4 de Proyecto provisional 1" }
+      ]
+    },
+    {
+      "id": "proyecto-minimal-space-to-live",
+      "titulo": "Minimal space 2 live",
+      "categoria": "Unity",
+      "fecha": "2022-05",
+      "descripcion": "Desarrollé este juego en solitario para la Newbies Game Jam 2022, que se celebró entre el 18 de abril y el 3 de mayo. Es un puzle casual en 3D en el que hay que colocar todos los muebles de una casa antigua dentro de una vivienda muy pequeña, aprovechando al máximo el espacio. Me encargué de todas las partes del proyecto: el diseño, la programación en Unity, la interfaz y la publicación en itch.io. El juego terminó en quinto puesto en la clasificación general del evento.",
+      "tecnologia": [
+        "Unity",
+        "C#",
+        "Blender"
+      ],
+      "imagenes": [
+        { "alt": "[Provisional] Imagen 1 de Proyecto provisional 1" },
+        { "alt": "[Provisional] Imagen 2 de Proyecto provisional 1" },
+        { "alt": "[Provisional] Imagen 3 de Proyecto provisional 1" },
+        { "alt": "[Provisional] Imagen 4 de Proyecto provisional 1" }
+      ],
+      "enlaces":{
+        "juego":"https://popletox.itch.io/minimalspace2live"
+      }
+    },
+    {
+      "id": "proyecto-the-root",
+      "titulo": "The Root",
+      "categoria": "Unity",
+      "fecha": "2023-02",
+      "descripcion": "Lo desarrollamos en un equipo pequeño durante la Global Game Jam 2023, en la sede de la Universidad Complutense de Madrid. Tuvimos 48 horas y la temática era “Root”. Es un juego arcade en 2D inspirado en Papers, Please, en el que el jugador revisa las peticiones que llegan al servidor de una empresa y decide si aceptarlas o rechazarlas antes de que el sistema colapse. Mi papel en el equipo fue el de programador. El proyecto ganó el premio a la mejor temática en esa sede.",
+      "tecnologia": [
+        "Unity",
+        "C#"
+      ],
+      "imagenes": [
+        { "alt": "[Provisional] Imagen 1 de Proyecto provisional 1" },
+        { "alt": "[Provisional] Imagen 2 de Proyecto provisional 1" },
+        { "alt": "[Provisional] Imagen 3 de Proyecto provisional 1" },
+        { "alt": "[Provisional] Imagen 4 de Proyecto provisional 1" }
+      ],
+      "enlaces":{
+        "juego":"https://popletox.itch.io/the-root"
+      }
+    },
+    {
+      "id": "proyecto-gloom-reaper",
+      "titulo": "Gloom Reaper",
+      "categoria": "Unreal Engine",
+      "fecha": "2023-06",
+      "descripcion": "Gloom Reaper fue mi Trabajo de Fin de Máster en la Universidad Complutense de Madrid. Lo desarrollamos en equipo con el nombre de Smoki Tanuki Games y tiene una demo publicada en Steam. Es un juego de acción y plataformas en 2.5D ambientado en la cultura celtíbera y gallega. La protagonista es una cazadora que usa una guadaña con los poderes de la luz y la oscuridad para enfrentarse a criaturas que cambian de forma y de comportamiento según la zona en la que se encuentren. Dentro del equipo me encargué del sistema de combate: desarrollé todos los ataques del jugador y la lógica que los controla. También colaboré en otras tareas del proyecto.",
+      "aptitudes": [
+        "Comunicación técnica"
+      ],
+      "tecnologia": [
+        "C++",
+        "Blueprints",
+        "Perforce"
+      ],
+      "imagenes": [
+        { "alt": "[Provisional] Imagen 1 de Proyecto provisional 1" },
+        { "alt": "[Provisional] Imagen 2 de Proyecto provisional 1" },
+        { "alt": "[Provisional] Imagen 3 de Proyecto provisional 1" },
+        { "alt": "[Provisional] Imagen 4 de Proyecto provisional 1" }
+      ],
+      "enlaces":{
+        "juego":"https://store.steampowered.com/app/2378410/Gloom_Reaper/"
+      }
+    },
+    {
+      "id": "proyecto-dungeons-staff",
+      "titulo": "Dungeon's Staff",
+      "categoria": "Unreal Engine",
+      "fecha": "2023-06",
+      "descripcion": "Desarrollamos este juego en equipo para la Game Maker’s Toolkit Game Jam 2023, cuya temática era “Roles reversed” (roles invertidos). Siguiendo esa idea, el jugador no controla al héroe. Es Antonio, el encargado de mantenimiento de una mazmorra, y su tarea es dejarla preparada para que lleguen los aventureros: encender las antorchas, limpiar la sangre y regar las plantas. Es un juego de puzle con elementos de ritmo y está publicado en itch.io. Dentro del equipo me encargué de la inteligencia artificial del héroe y del núcleo principal del juego: el temporizador y el sistema de objetivos.",
+      "tecnologia": [
+        "C++",
+        "Blueprints"
+      ],
+      "imagenes": [
+        { "alt": "[Provisional] Imagen 1 de Proyecto provisional 1" },
+        { "alt": "[Provisional] Imagen 2 de Proyecto provisional 1" },
+        { "alt": "[Provisional] Imagen 3 de Proyecto provisional 1" },
+        { "alt": "[Provisional] Imagen 4 de Proyecto provisional 1" }
+      ],
+      "enlaces":{
+        "juego":"https://rocio-benito.itch.io/dungeons-staff"
+      }
+    },
+    {
+      "id": "proyecto-the-endless-fishing-sheep",
+      "titulo": "The Endless Fishing Sheep",
+      "categoria": "Unity",
+      "fecha": "2023-10",
+      "descripcion": "Desarrollamos este juego en equipo para la Madrid In Game Hack Jam 2023, que se celebró del 20 al 22 de octubre con Tetris como temática. Es un arcade de pesca en 2D que incorpora mecánicas de supervivencia inspiradas en Tetris y está publicado en itch.io. Mientras el resto del equipo se ocupaba del arte, el diseño y el sonido, yo me encargué de toda la parte técnica: programé el movimiento, las mecánicas de juego y la coordinación de los patrones de los enemigos.",
+      "tecnologia": [
+        "Unity",
+        "C#"
+      ],
+      "imagenes": [
+        { "alt": "[Provisional] Imagen 1 de Proyecto provisional 1" },
+        { "alt": "[Provisional] Imagen 2 de Proyecto provisional 1" },
+        { "alt": "[Provisional] Imagen 3 de Proyecto provisional 1" },
+        { "alt": "[Provisional] Imagen 4 de Proyecto provisional 1" }
+      ],
+      "enlaces":{
+        "juego":"https://popletox.itch.io/the-endless-fishing-sheep"
+      }
+    },
+    {
+      "id": "proyecto-running-out-of-power",
+      "titulo": "Running Out Of Power",
+      "categoria": "Unity",
+      "fecha": "2025-07",
+      "descripcion": "Desarrollé este juego en solitario para la Kenney Jam 2025, que se celebró del 18 al 20 de julio, y ganó el premio a la mejor ambientación. Es un juego de exploración en 3D con elementos roguelike. El jugador conduce un tren que se ha quedado sin combustible y tiene que adentrarse en el bosque para conseguir carbón, recoger pasajeros y esquivar zombis antes de quedarse sin energía. Los assets procedían de las librerías de Kenney y KayKit que facilitaba la organización, y el logo y las ilustraciones de fondo los hizo Paloma, así que yo me centré en el desarrollo. Las partes más técnicas fueron un sistema de tren que sigue las vías de forma realista sin perder el control propio de un arcade y un mapa que se genera aleatoriamente en cada partida. Se puede jugar en el navegador o descargar para Windows desde itch.io.",
+      "tecnologia": [
+        "Unity",
+        "C#"
+      ],
+      "imagenes": [
+        { "alt": "[Provisional] Imagen 1 de Proyecto provisional 1" },
+        { "alt": "[Provisional] Imagen 2 de Proyecto provisional 1" },
+        { "alt": "[Provisional] Imagen 3 de Proyecto provisional 1" },
+        { "alt": "[Provisional] Imagen 4 de Proyecto provisional 1" }
+      ],
+      "enlaces":{
+        "juego":"https://popletox.itch.io/running-out-of-power"
+      }
+    },
+    {
+      "id": "proyecto-nilsh",
+      "titulo": "NILSH",
+      "categoria": "Unity",
+      "fecha": "2026-05",
+      "enCurso": true,
+      "descripcion": "Proyecto en grupo desarrollado por Hoja Studio, un equipo multidisciplinar de más de diez personas. Sigue en desarrollo y ampliación continua, y ya tiene página en Steam, aunque todavía sin fecha de lanzamiento. Es un juego de acción y aventura con vista cenital, ambientado en un mundo de fantasía donde la naturaleza se está apagando. El jugador explora un mundo interconectado, resuelve puzles de entorno y combate contra criaturas corrompidas. Mi trabajo como programador ha abarcado varios componentes: el sistema de fijación de objetivos (ZTarget) y algunos elementos de combate, las transiciones y la interfaz, y el sistema de inventario y de potenciadores. También he colaborado en los procesos de QA.",
+      "tecnologia": [
+        "Unity",
+        "C#",
+        "Github"
+      ],
+      "imagenes": [
+        { "alt": "[Provisional] Imagen 1 de Proyecto provisional 1" },
+        { "alt": "[Provisional] Imagen 2 de Proyecto provisional 1" },
+        { "alt": "[Provisional] Imagen 3 de Proyecto provisional 1" },
+        { "alt": "[Provisional] Imagen 4 de Proyecto provisional 1" }
+      ],
+      "enlaces":{
+        "juego":"https://store.steampowered.com/app/4916130/NILSH/"
+      }
+    },
+
+    {
+      "id": "proyecto-portfolio-web",
+      "titulo": "Portfolio web",
+      "categoria": "HTML",
+      "fecha": "2026-10",
+      "descripcion": "Portfolio personal publicado en GitHub Pages que desarrollé para aprender a integrar agentes de IA en un proyecto de desarrollo. Yo definí el diseño y las funcionalidades, y el código lo generó Claude Code bajo mi revisión. El trabajo se reparte entre agentes con funciones distintas: uno coordina y planifica, otro programa, otro mantiene la documentación y otro gestiona los commits, siempre con mi aprobación. La web está hecha con HTML, CSS y JavaScript sin frameworks, y su código está disponible en GitHub.",
+      "tecnologia": [
+        "Claude Code",
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ]
+    },
+
     {
       "id": "proyecto-provisional-1",
       "titulo": "Proyecto provisional 1",
@@ -230,42 +425,30 @@
 
   "estudios": [
     {
-      "titulo": "Titulación provisional 1",
-      "institucion": "Institución provisional 1",
-      "fechaInicio": "2021-09",
-      "fechaFin": "2023-06",
-      "descripcion": "[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.",
-      "aptitudes": [
-        "[Provisional] Aptitud provisional A",
-        "[Provisional] Aptitud provisional B",
-        "[Provisional] Aptitud provisional C"
-      ],
-      "referencias": ["proyecto-provisional-1a"]
-    },
-    {
-      "titulo": "Titulación provisional 2",
-      "institucion": "Institución provisional 2",
-      "fechaInicio": "2019-09",
-      "fechaFin": "2021-06",
-      "descripcion": "[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.",
-      "aptitudes": [
-        "[Provisional] Aptitud provisional A",
-        "[Provisional] Aptitud provisional B",
-        "[Provisional] Aptitud provisional C"
-      ]
-    },
-    {
-      "titulo": "Titulación provisional 3",
-      "institucion": "Institución provisional 3",
+      "titulo": "Grado en ingenieria Informatica",
+      "institucion": "Universidad Carlos III Madrid",
       "fechaInicio": "2017-09",
-      "fechaFin": "2019-06",
-      "descripcion": "[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.",
+      "fechaFin": "2021-07",
+      "descripcion": "[Provisional]",
       "aptitudes": [
         "[Provisional] Aptitud provisional A",
         "[Provisional] Aptitud provisional B",
         "[Provisional] Aptitud provisional C"
       ],
-      "referencias": ["proyecto-provisional-3a", "proyecto-provisional-3b"]
+      "referencias": ["proyecto-ref-beans-out"]
+    },
+    {
+      "titulo": "Master en Desarrollo de Videojuegos",
+      "institucion": "Universidad Complutense Madrid",
+      "fechaInicio": "2022-10",
+      "fechaFin": "2023-07",
+      "descripcion": "[Provisional]",
+      "aptitudes": [
+        "[Provisional] Aptitud provisional A",
+        "[Provisional] Aptitud provisional B",
+        "[Provisional] Aptitud provisional C"
+      ],
+      "referencias": ["proyecto-ref-gloom-reaper"]
     }
   ]
 }
