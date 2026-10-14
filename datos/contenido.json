@@ -425,7 +425,7 @@
 
   "estudios": [
     {
-      "titulo": "Grado en ingenieria Informatica",
+      "titulo": "Grado en Ingeniería Informática",
       "institucion": "Universidad Carlos III Madrid",
       "fechaInicio": "2017-09",
       "fechaFin": "2021-07",
@@ -438,7 +438,7 @@
       "referencias": ["proyecto-ref-beans-out"]
     },
     {
-      "titulo": "Master en Desarrollo de Videojuegos",
+      "titulo": "Máster en Desarrollo de Videojuegos",
       "institucion": "Universidad Complutense Madrid",
       "fechaInicio": "2022-10",
       "fechaFin": "2023-07",
