@@ -648,9 +648,11 @@
   // montar las bandas con un filtro, obtener la tarjeta de un proyecto por id
   // (aunque el filtro la tenga fuera del DOM; sirve para saber si existe) y
   // crear el contenido de su ventana de detalle (null si el id no existe).
-  // main.js añade abrirDetalle y urlDetalle
+  // crearTarjeta: <li> con una tarjeta nueva de un proyecto (la usa la Línea
+  // de tiempo, scripts/linea-tiempo.js). main.js añade abrirDetalle y urlDetalle
   window.Proyectos = {
     montar: montarBandasProyectos,
+    crearTarjeta: crearTarjetaProyecto,
     tarjeta: function (id) {
       return typeof id === 'string' && Object.prototype.hasOwnProperty.call(tarjetasPorId, id)
         ? tarjetasPorId[id]

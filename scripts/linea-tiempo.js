@@ -6,7 +6,9 @@
 //   .cronologia-periodos  barras de estudios y experiencias con su nombre a
 //                         45° (decorativo, aria-hidden)
 //   .cronologia-eje       marcas de mes y de año (decorativo, aria-hidden)
-//   .cronologia-proyectos tarjetas de proyectos (pendiente, paso 3)
+//   .cronologia-proyectos tarjetas de proyectos en filas automáticas, con un
+//                         conector hasta la marca de su mes; abren la
+//                         ventana de detalle (interactivas, no aria-hidden)
 //
 // Escala: cada mes es un PUNTO, su marca del eje, y entre dos marcas
 // seguidas hay --ancho-mes-cronologia (estilos/comun.css). La posición 0 es
@@ -23,6 +25,9 @@
 (function () {
   var MARGEN_MESES = 1; // espacio, en meses, antes de la primera marca y después de la última
   var LARGO_MIN_MESES = 0.5; // por defecto de --largo-min-periodo-cronologia
+  // Filas que puede bajar una tarjeta de proyecto, por debajo de la primera
+  // en la que cabe, para que su conector no quede oculto tras otra tarjeta
+  var FILAS_EXTRA_CONECTOR = 2;
   var TEXTO_AVISO = 'No se ha podido cargar el contenido.';
   var TEXTO_ACTUALIDAD = 'actualidad';
   var MESES = [
@@ -231,6 +236,159 @@
     lienzo.style.setProperty('--centro-periodo-max', String(centroMax));
   }
 
+  // ---- Proyectos (tarjetas) ----
+
+  // Tarjetas montadas, por fecha ascendente: { mes, nodo (<li>) }
+  var proyectos = [];
+  // anchoMes() con el que se repartieron las filas por última vez
+  var anchoMesColocado = 0;
+
+  // "Título, categoría, mes AAAA" (en curso: "…, en curso desde mes AAAA")
+  function etiquetaProyecto(proyecto) {
+    var partes = [String(proyecto.titulo || '')];
+    if (proyecto.categoria) partes.push(String(proyecto.categoria));
+    var fecha = formatearMesAnio(proyecto.fecha).replace(', ', ' ');
+    partes.push(proyecto.enCurso === true ? 'en curso desde ' + fecha : fecha);
+    return partes.join(', ');
+  }
+
+  // Una tarjeta por proyecto (todos: los filtros de la sección Proyectos no
+  // cuentan), creada con la función de la sección (window.Proyectos.
+  // crearTarjeta) más la clase --cronologia, en la marca del mes de su
+  // fecha (también los en curso: su mes de inicio). Orden: por fecha
+  // ascendente y, en el mismo mes, el del JSON (también el del Tab). Al
+  // pulsarla, main.js abre la ventana por delegación (button.proyecto-
+  // tarjeta[data-proyecto]) con el foco de vuelta en esta tarjeta
+  function montarProyectos(datos) {
+    proyectos = [];
+    var crearTarjeta = window.Proyectos && window.Proyectos.crearTarjeta;
+    var validos = [];
+    if (typeof crearTarjeta === 'function') {
+      (Array.isArray(datos.proyectos) ? datos.proyectos : []).forEach(function (proyecto, indice) {
+        if (!proyecto || typeof proyecto !== 'object') return;
+        var nombre = proyecto.id || proyecto.titulo;
+        var mes = proyecto.fecha == null ? null : mesDeFecha(proyecto.fecha);
+        if (mes === null) {
+          console.warn('Proyecto sin fecha válida ("AAAA-MM"), no se muestra en la línea de tiempo:', nombre);
+          return;
+        }
+        if (typeof proyecto.id !== 'string' || proyecto.id === '') {
+          console.warn('Proyecto sin id, no se muestra en la línea de tiempo (no podría abrir su detalle):', nombre);
+          return;
+        }
+        validos.push({ proyecto: proyecto, mes: mes, indice: indice });
+      });
+    }
+    validos.sort(function (a, b) {
+      return a.mes - b.mes || a.indice - b.indice;
+    });
+
+    var lista = crear('ul', 'cronologia-proyectos-lista');
+    lista.setAttribute('aria-label', 'Proyectos');
+    validos.forEach(function (item) {
+      var nodo = crearTarjeta(item.proyecto);
+      var tarjeta = nodo.firstChild;
+      nodo.className = 'cronologia-proyecto';
+      nodo.style.setProperty('--mes', String(item.mes));
+      tarjeta.classList.add('proyecto-tarjeta--cronologia');
+      tarjeta.setAttribute('aria-label', etiquetaProyecto(item.proyecto));
+      nodo.insertBefore(crear('span', 'cronologia-proyecto-conector'), tarjeta);
+      lista.appendChild(nodo);
+      proyectos.push({ mes: item.mes, nodo: nodo });
+    });
+    capas.proyectos.replaceChildren(lista);
+    capas.proyectos.hidden = !proyectos.length;
+
+    // Espacio en los bordes del lienzo para media tarjeta (estilos/comun.css)
+    if (proyectos.length) {
+      lienzo.style.setProperty('--mes-proyecto-min', String(proyectos[0].mes));
+      lienzo.style.setProperty('--mes-proyecto-max', String(proyectos[proyectos.length - 1].mes));
+    } else {
+      lienzo.style.removeProperty('--mes-proyecto-min');
+      lienzo.style.removeProperty('--mes-proyecto-max');
+    }
+
+    if (observadorTarjetas) {
+      observadorTarjetas.disconnect();
+      proyectos.forEach(function (item) { observadorTarjetas.observe(item.nodo); });
+    }
+    colocarProyectos();
+  }
+
+  // Filas automáticas con las medidas ya resueltas (ancho por mes, tamaño
+  // de la tarjeta, --hueco-tarjeta-cronologia). Por orden de fecha, cada
+  // tarjeta va a la fila más baja (0 = junto al eje) en la que no se pisa
+  // con otra: dos tarjetas de una fila quedan al menos a un hueco (el
+  // intervalo de cada una se amplía medio hueco por lado). Las del mismo mes
+  // quedan una debajo de otra. Conectores: el de una tarjeta en una fila > 0
+  // cruza las filas de arriba por detrás de sus tarjetas; si en esa fila
+  // quedaría oculto tras una tarjeta de otro mes (o ella taparía el de otra
+  // de otro mes en una fila inferior), se prueba hasta FILAS_EXTRA_CONECTOR
+  // filas más abajo y se usa la primera libre de ambas cosas; si no hay
+  // ninguna, se queda en la primera en la que cabe
+  function colocarProyectos() {
+    if (!proyectos.length) return;
+    var ancho = anchoMes();
+    anchoMesColocado = ancho;
+    var hueco = parseFloat(getComputedStyle(capas.proyectos).columnGap) || 0;
+    var alto = 0;
+    var colocadas = [];
+
+    function cabe(fila, desde, hasta) {
+      return colocadas.every(function (otra) {
+        return otra.fila !== fila || otra.hasta <= desde || hasta <= otra.desde;
+      });
+    }
+    // Ninguna tarjeta de otro mes tapa este conector ni esta tarjeta tapa
+    // el de otra
+    function conectorVisible(fila, mes, x, medio) {
+      return colocadas.every(function (otra) {
+        if (otra.mes === mes || otra.fila === fila) return true;
+        if (otra.fila < fila) return Math.abs(otra.x - x) >= otra.medio;
+        return Math.abs(x - otra.x) >= medio;
+      });
+    }
+
+    proyectos.forEach(function (item) {
+      var caja = item.nodo.getBoundingClientRect();
+      if (caja.height > alto) alto = caja.height;
+      var medio = caja.width / 2;
+      var x = item.mes * ancho;
+      var desde = x - medio - hueco / 2;
+      var hasta = x + medio + hueco / 2;
+      var base = 0;
+      while (!cabe(base, desde, hasta)) base++;
+      var fila = base;
+      for (var f = base; f <= base + FILAS_EXTRA_CONECTOR; f++) {
+        if (cabe(f, desde, hasta) && conectorVisible(f, item.mes, x, medio)) {
+          fila = f;
+          break;
+        }
+      }
+      colocadas.push({ fila: fila, mes: item.mes, x: x, medio: medio, desde: desde, hasta: hasta });
+      item.nodo.style.setProperty('--fila', String(fila));
+    });
+
+    var filas = 1 + Math.max.apply(null, colocadas.map(function (otra) { return otra.fila; }));
+    capas.proyectos.style.setProperty('--filas-proyectos', String(filas));
+    capas.proyectos.style.setProperty('--alto-tarjeta-cronologia', alto + 'px');
+  }
+
+  // Al cambiar el tamaño de una tarjeta (móvil <-> ordenador, tema con otra
+  // fuente) o el ancho por mes: se vuelve a repartir en el frame siguiente
+  // (fuera del callback de ResizeObserver, que no debe cambiar tamaños)
+  var colocacionPendiente = false;
+  function programarColocacion() {
+    if (colocacionPendiente) return;
+    colocacionPendiente = true;
+    requestAnimationFrame(function () {
+      colocacionPendiente = false;
+      colocarProyectos();
+    });
+  }
+
+  var observadorTarjetas = 'ResizeObserver' in window ? new ResizeObserver(programarColocacion) : null;
+
   // ---- Montaje ----
 
   function crear(etiqueta, clase, texto) {
@@ -263,7 +421,7 @@
     lienzo.style.setProperty('--meses-cronologia', String(rango.meses));
     montarEje();
     montarPeriodos(datos || {});
-    // Paso siguiente: capas.proyectos
+    montarProyectos(datos || {});
     ajustar();
     irAlFinal();
   }
@@ -308,11 +466,17 @@
   }, { passive: true });
 
   // El ancho cambia en cada frame mientras .pagina anima su padding-right
-  // al abrir o cerrar el panel Destacado
+  // al abrir o cerrar el panel Destacado. Si además cambia el ancho por mes
+  // (móvil <-> ordenador), se reparten de nuevo las filas de proyectos
+  function alCambiarAncho() {
+    ajustar();
+    if (proyectos.length && anchoMes() !== anchoMesColocado) programarColocacion();
+  }
+
   if ('ResizeObserver' in window) {
-    new ResizeObserver(ajustar).observe(cronologia);
+    new ResizeObserver(alCambiarAncho).observe(cronologia);
   } else {
-    window.addEventListener('resize', ajustar);
+    window.addEventListener('resize', alCambiarAncho);
   }
   document.addEventListener('contenido:listo', function (evento) {
     montar(evento.detail);
@@ -325,6 +489,7 @@
     mesDeFecha: mesDeFecha,
     xDeFecha: xDeFecha,
     anchoMes: anchoMes,
-    ajustar: ajustar
+    ajustar: ajustar,
+    colocarProyectos: colocarProyectos
   };
 })();

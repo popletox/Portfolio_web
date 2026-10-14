@@ -92,13 +92,11 @@ img {
   --relleno-seccion: 0.75rem;
   --relleno-inferior-seccion: 1rem;
   /* Línea de tiempo horizontal: ancho de cada mes (escala fecha -> X; la lee
-     scripts/linea-tiempo.js), alto de la capa del eje, espacio para las
-     tarjetas de proyectos (debajo), margen lateral del contenido
-     desplazable y alto de los degradados con que el fondo gris del bloque
-     entra y sale */
+     scripts/linea-tiempo.js), alto de la capa del eje, margen lateral del
+     contenido desplazable y alto de los degradados con que el fondo gris
+     del bloque entra y sale */
   --ancho-mes-cronologia: 3rem;
   --alto-eje-cronologia: 2.75rem;
-  --alto-proyectos-cronologia: 8rem;
   --margen-cronologia: var(--espacio);
   --alto-degradado-cronologia: 2rem;
   /* Periodos de la Línea de tiempo: grosor de las barras, distancia entre
@@ -113,6 +111,14 @@ img {
   --largo-min-periodo-cronologia: 0.5;
   --ancho-nombre-periodo-cronologia: 11rem;
   --conector-periodo-cronologia: 0.75rem;
+  /* Tarjetas de proyectos de la Línea de tiempo: ancho, separación entre
+     el borde inferior de la capa del eje y la fila 0, separación vertical
+     entre filas y hueco horizontal mínimo entre dos tarjetas de una misma
+     fila (lo lee scripts/linea-tiempo.js) */
+  --ancho-tarjeta-cronologia: 7rem;
+  --separacion-eje-proyectos-cronologia: 0.75rem;
+  --separacion-filas-proyectos-cronologia: 0.75rem;
+  --hueco-tarjeta-cronologia: 0.5rem;
   /* Hueco con el fondo de página entre la Línea de tiempo y el pie */
   --separacion-cronologia-pie: 2.75rem;
 }
@@ -1422,16 +1428,30 @@ button.proyecto-tarjeta {
    eje (meses y años) y proyectos (tarjetas). Dentro de cada capa, la X de
    un elemento es calc(var(--ancho-mes-cronologia) * var(--mes)) */
 .cronologia-lienzo {
+  /* Altura de la línea del eje desde el borde superior de su capa (la
+     usan el eje y los conectores de las tarjetas de proyectos) */
+  --y-eje: 0.75rem;
   position: relative;
   display: flex;
   flex-direction: column;
   width: calc(var(--ancho-mes-cronologia) * var(--meses-cronologia, 0));
-  /* Espacio final para que el nombre del periodo más a la derecha (centro
-     en --centro-periodo-max, lo pone el JS) no se corte: su proyección
-     horizontal máxima es el ancho del nombre * cos 45° */
+  /* Espacio inicial para que la tarjeta de proyecto más a la izquierda
+     (marca en --mes-proyecto-min, lo pone el JS) no se corte: sobresale
+     media tarjeta de su marca */
+  margin-left: max(0px, calc(
+    var(--ancho-tarjeta-cronologia) / 2
+    - var(--ancho-mes-cronologia) * var(--mes-proyecto-min, var(--meses-cronologia, 0))
+  ));
+  /* Espacio final, el mayor de: el que necesita el nombre del periodo más
+     a la derecha (centro en --centro-periodo-max, lo pone el JS; su
+     proyección horizontal máxima es el ancho del nombre * cos 45°) y la
+     media tarjeta de proyecto más a la derecha (--mes-proyecto-max) */
   margin-right: max(0px, calc(
     var(--ancho-mes-cronologia) * (var(--centro-periodo-max, 0) - var(--meses-cronologia, 0))
     + var(--ancho-nombre-periodo-cronologia) * 0.7072
+  ), calc(
+    var(--ancho-mes-cronologia) * (var(--mes-proyecto-max, 0) - var(--meses-cronologia, 0))
+    + var(--ancho-tarjeta-cronologia) / 2
   ));
 }
 
@@ -1562,13 +1582,9 @@ button.proyecto-tarjeta {
   text-overflow: ellipsis;
 }
 
-.cronologia-proyectos {
-  min-height: var(--alto-proyectos-cronologia);
-}
-
-/* Eje: línea horizontal a --y-eje del borde superior de la capa */
+/* Eje: línea horizontal a --y-eje (en .cronologia-lienzo) del borde
+   superior de la capa */
 .cronologia-eje {
-  --y-eje: 0.75rem;
   --alto-marca-mes: 0.6rem;
   --alto-marca-anio: 1.3rem;
   height: var(--alto-eje-cronologia);
@@ -1595,8 +1611,12 @@ button.proyecto-tarjeta {
   transform: translateX(-50%);
 }
 
-/* Enero: más gruesa y alta, con el año debajo centrado en la marca */
+/* Enero: más gruesa y alta, con el año debajo centrado en la marca. Por
+   encima de los conectores de las tarjetas de proyectos (la marca crea su
+   propio contexto de apilamiento con transform): un proyecto de enero no
+   tacha el año, que lleva el fondo del bloque */
 .cronologia-marca--anio {
+  z-index: 1;
   top: calc(var(--y-eje) - var(--alto-marca-anio) / 2);
   width: 2px;
   height: var(--alto-marca-anio);
@@ -1607,12 +1627,81 @@ button.proyecto-tarjeta {
   position: absolute;
   top: calc(100% + 0.1rem);
   left: 50%;
+  padding: 0 0.15rem;
+  background: var(--color-fondo-suave);
   font-size: 0.8rem;
   line-height: 1.2;
   font-variant-numeric: tabular-nums;
   color: var(--color-fecha);
   white-space: nowrap;
   transform: translateX(-50%);
+}
+
+/* Proyectos: una tarjeta por proyecto bajo la marca de su mes, en filas
+   (0 = la más cercana al eje) que reparte el JS para que no se pisen. Cada
+   .cronologia-proyecto lleva --mes y --fila; la capa lleva --filas-proyectos
+   y --alto-tarjeta-cronologia (alto medido de la tarjeta más alta, en px).
+   column-gap no maqueta nada (la capa no es flex ni grid): es la forma de
+   que el JS lea --hueco-tarjeta-cronologia ya resuelto en px */
+.cronologia-proyectos {
+  --paso-fila-proyectos: calc(
+    var(--alto-tarjeta-cronologia, 9rem) + var(--separacion-filas-proyectos-cronologia)
+  );
+  column-gap: var(--hueco-tarjeta-cronologia);
+  height: calc(
+    var(--separacion-eje-proyectos-cronologia)
+    + var(--filas-proyectos, 1) * var(--paso-fila-proyectos)
+    - var(--separacion-filas-proyectos-cronologia)
+  );
+}
+
+.cronologia-proyectos-lista {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Centrada en la marca de su mes */
+.cronologia-proyecto {
+  position: absolute;
+  top: calc(var(--separacion-eje-proyectos-cronologia) + var(--fila, 0) * var(--paso-fila-proyectos));
+  left: calc(var(--ancho-mes-cronologia) * var(--mes) - var(--ancho-tarjeta-cronologia) / 2);
+  display: flex;
+  width: var(--ancho-tarjeta-cronologia);
+}
+
+/* Línea fina de la línea del eje al borde superior de la tarjeta; por
+   detrás de todas las tarjetas (z-index), también al cruzar filas */
+.cronologia-proyecto-conector {
+  position: absolute;
+  z-index: 0;
+  bottom: 100%;
+  left: 50%;
+  width: 1px;
+  height: calc(
+    var(--alto-eje-cronologia) - var(--y-eje)
+    + var(--separacion-eje-proyectos-cronologia)
+    + var(--fila, 0) * var(--paso-fila-proyectos)
+  );
+  background: var(--color-texto-suave);
+  transform: translateX(-50%);
+}
+
+/* Tarjeta de la sección Proyectos, más pequeña; título siempre con el
+   alto de dos líneas para que todas midan igual */
+.proyecto-tarjeta--cronologia {
+  z-index: 1;
+}
+
+.proyecto-tarjeta--cronologia .proyecto-tarjeta-titulo {
+  height: 2.6em;
+  padding: 0.4rem 0.5rem 0;
+  font-size: 0.75rem;
+}
+
+.proyecto-tarjeta--cronologia .proyecto-tarjeta-categoria {
+  padding: 0.05rem 0.5rem 0.4rem;
+  font-size: 0.7rem;
 }
 
 /* Oculto a la vista, legible por lector de pantalla */
@@ -2335,6 +2424,18 @@ body.panel-abierto .boton-destacado-flecha {
     /* Línea de tiempo horizontal más compacta */
     --ancho-mes-cronologia: 2.25rem;
     --margen-cronologia: 1rem;
+    --ancho-tarjeta-cronologia: 5.5rem;
+    --separacion-filas-proyectos-cronologia: 0.5rem;
+  }
+
+  .proyecto-tarjeta--cronologia .proyecto-tarjeta-titulo {
+    padding: 0.3rem 0.4rem 0;
+    font-size: 0.7rem;
+  }
+
+  .proyecto-tarjeta--cronologia .proyecto-tarjeta-categoria {
+    padding: 0.05rem 0.4rem 0.3rem;
+    font-size: 0.65rem;
   }
 
   .detalle-proyecto-caja {
