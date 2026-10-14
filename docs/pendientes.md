@@ -69,6 +69,7 @@ Puntos abiertos del [documento de diseño](diseno-portfolio.md).
 - [ ] **P23 · Decidir**: tema inicial Claro o seguir el del sistema.
 - [ ] **P24 · Decidir**: versión en inglés.
 - [ ] **P25 · Decidir**: alinear la introducción con el borde de las cajas de sección (actual) o con el texto de dentro.
+- [ ] **P43 · Revisar**: los cambios sobre la sombra del Panel destacado y su botón-pestaña se juntaron con la Línea de tiempo durante una fusión automática: sombra animada del panel, botón de color sólido (`--color-panel`) unido al panel como una sola pieza (filo, `drop-shadow` y `clip-path`), variables de tema nuevas (`--color-enlace-panel`, `--color-borde-boton-panel`, `--color-sombra-panel`, `--desenfoque-sombra-panel`; se quita `--color-boton-panel`), `--color-panel` más oscuro en Claro y Cómic y `docs/temas.md` actualizado. Falta probarlos en los 4 temas y en móvil.
 
 ## Publicación e infraestructura
 

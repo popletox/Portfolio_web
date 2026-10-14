@@ -31,7 +31,7 @@ Cada tema es un archivo en `estilos/temas/<id>.css` que define **todas** las var
 | `--color-fondo` | Fondo de la página y de la cabecera; píldoras de filtro dentro de Proyectos; tarjetas de Referencias y de Proyectos; ventana de detalle de un proyecto. |
 | `--color-fondo-suave` | Fondo de títulos de sección (y de la sección entera cuando está abierta), botones de contacto y de Opciones, pie y franja de la Línea de tiempo (entra y sale con un degradado desde y hacia `--color-fondo`); fondo de los años del eje de la Línea de tiempo (tapa los conectores que pasan por debajo). |
 | `--color-fondo-suave-hover` | Hover sobre `--color-fondo-suave` (títulos de sección, filtros, títulos de entradas y tarjetas de Referencias y de Proyectos) y sobre los temas del bocadillo de Opciones. |
-| `--color-panel` | Fondo del panel destacado. |
+| `--color-panel` | Fondo del panel destacado y de su botón-pestaña (forman una sola pieza). Debe distinguirse de `--color-fondo`. |
 | `--color-texto` | Texto principal; marcas de año del eje y nombres de estudios y experiencias de la Línea de tiempo. |
 | `--color-texto-suave` | Texto secundario: introducción, subtítulo de la cabecera, flechas, separadores, título del bocadillo de Opciones; línea, marcas de mes, barra de scroll y conectores de las tarjetas de proyectos de la Línea de tiempo. |
 | `--color-titulo` | Nombre de la cabecera, títulos de sección, de entradas y del panel destacado (en Claro, igual que `--color-texto`). |
@@ -39,8 +39,9 @@ Cada tema es un archivo en `estilos/temas/<id>.css` que define **todas** las var
 | `--color-subtitulo` | Subtítulo de las entradas: empresa o institución, y categoría (tecnología) de las tarjetas de Proyectos (en Claro, igual que `--color-texto-suave`). |
 | `--color-acento` | Hover de contacto y de Opciones, filtro activo y tema activo en el bocadillo. |
 | `--color-texto-sobre-acento` | Texto o icono sobre `--color-acento`. |
-| `--color-enlace` | Enlaces fuera de las secciones (p. ej. panel destacado y ventana de detalle de un proyecto). |
+| `--color-enlace` | Enlaces fuera de las secciones y del panel destacado (p. ej. ventana de detalle de un proyecto). |
 | `--color-enlace-seccion` | Enlaces dentro de las secciones, sobre `--color-fondo-suave` (contraste AA; puede ser `var(--color-enlace)`). |
+| `--color-enlace-panel` | Enlaces del panel destacado, sobre `--color-panel` (contraste AA; puede ser `var(--color-enlace)`). |
 | `--color-foco` | Contorno de foco con teclado. |
 | `--color-menu-fondo` | Fondo del bocadillo de Opciones y del aviso de compartir, y de sus picos. |
 | `--color-sombra` | Sombra del bocadillo de Opciones y del aviso de compartir. |
@@ -58,5 +59,7 @@ Cada tema es un archivo en `estilos/temas/<id>.css` que define **todas** las var
 | `--color-boton-visor` | Botón de cerrar del visor y botones de cerrar y compartir de la ventana de detalle. |
 | `--color-boton-visor-hover` | Los mismos botones al pasar el ratón. |
 | `--color-boton-visor-texto` | Aspa de cerrar e icono de compartir de esos botones. |
-| `--color-boton-panel` | Botón-pestaña del panel destacado. |
-| `--color-boton-panel-texto` | Flecha del botón-pestaña. |
+| `--color-boton-panel-texto` | Flecha del botón-pestaña, sobre `--color-panel` (contraste ≥ 3:1; normalmente `var(--color-texto-suave)`). |
+| `--color-borde-boton-panel` | Filo de 1px del botón-pestaña con el panel cerrado, para distinguirlo de la página. |
+| `--color-sombra-panel` | Sombra del panel destacado (solo abierto) y de su botón-pestaña, proyectada hacia la página para que parezcan por encima. Semitransparente; en temas oscuros, más opaca (p. ej. 0.6) para que se note. |
+| `--desenfoque-sombra-panel` | Desenfoque de esa sombra (p. ej. `16px` en claros, algo más en oscuros). No pasar de unos `40px`: el botón recorta su sombra a `--margen-sombra-panel` (4rem, en `comun.css`). |
