@@ -21,17 +21,19 @@ Detalle en `docs/estructura-proyecto.md`. Resumen del proyecto para visitantes e
 
 ## Flujo de trabajo con agentes
 - coordinador: habla con el usuario y reparte tareas.
-- programador: edita los archivos.
+- programador: edita el código y los datos (no los `.md`).
+- documentador: mantiene la documentación Markdown (README, `docs/` y pendientes).
 - git-gestor: commits y push, solo con aprobación del usuario.
+- Flujo: coordinador → programador → documentador → (con permiso) git-gestor.
 
 ## Pendientes
 - `docs/pendientes.md` es el registro de tareas, revisiones y decisiones pendientes.
-- Cuando una tarea complete o decida un punto, o surja uno nuevo, se actualiza en la misma
-  tarea: marcar hecho con fecha, anotar la decisión o añadir el punto.
+- Cuando una tarea complete o decida un punto, o surja uno nuevo, el documentador lo
+  actualiza en el mismo ciclo: marcar hecho con fecha, anotar la decisión o añadir el punto.
 
 ## README
 - `README.md` debe reflejar el estado real del proyecto.
 - Si un cambio es importante (nueva sección o funcionalidad, cambio de stack, hosting,
   estructura de carpetas o de agentes) o deja obsoleta alguna parte del README, el
-  programador lo actualiza en la misma tarea.
+  documentador lo actualiza en el mismo ciclo.
 - Los cambios menores (estilos, textos, correcciones) no lo requieren.

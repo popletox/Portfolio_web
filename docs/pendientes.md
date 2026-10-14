@@ -59,7 +59,6 @@ Puntos abiertos del [documento de diseño](diseno-portfolio.md).
 - [ ] **P27 · Revisar** (tras publicar): menú de compartir en móvil (requiere HTTPS), Safari, Firefox y lector de pantalla.
 - [ ] **P28 · Hacer**: añadir reglas al [`.gitignore`](../.gitignore) (ahora vacío): `.env`, `node_modules/`, logs y archivos del sistema (`Thumbs.db`, `.DS_Store`).
 - [ ] **P29 · Hacer**: corregir [`docs/estructura-proyecto.md`](estructura-proyecto.md), que menciona la carpeta `recursos/` aunque aún no existe.
-- [ ] **P30 · Decidir**: añadir a [`.claude/agents/programador.md`](../.claude/agents/programador.md) que no cierre procesos que no haya abierto él (al probar en el navegador cerró el Chrome del usuario).
 
 ## Limpieza menor
 
@@ -68,4 +67,5 @@ Puntos abiertos del [documento de diseño](diseno-portfolio.md).
 
 ## Hechos
 
-Ninguno todavía.
+- [x] **P30 · Decidir** (2026-10-14): añadir a [`.claude/agents/programador.md`](../.claude/agents/programador.md) que no cierre procesos que no haya abierto él (al probar en el navegador cerró el Chrome del usuario).
+  - Decisión: norma añadida a `programador.md` (sección Prohibido): cerrar solo el proceso propio y no dejar archivos de prueba en el repositorio.

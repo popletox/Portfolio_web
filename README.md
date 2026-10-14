@@ -11,10 +11,11 @@ El trabajo se reparte entre agentes de Claude Code, definidos en `.claude/agents
 | Agente | Papel |
 | --- | --- |
 | `coordinador` | Habla con el usuario, planifica y reparte las tareas. No edita archivos. |
-| `programador` | Edita los archivos del proyecto (HTML, CSS, JS, datos y documentación). |
+| `programador` | Edita el código y los datos (HTML, CSS, JS y JSON). |
+| `documentador` | Mantiene la documentación: README, documentos de `docs/` y registro de pendientes. |
 | `git-gestor` | Hace los commits (Conventional Commits en español) y el push, solo con aprobación del usuario. |
 
-Flujo: petición → coordinador → programador → revisión → (con permiso) git-gestor.
+Flujo: petición → coordinador → programador → revisión → documentador → (con permiso) git-gestor.
 
 ## Qué tiene la web
 
