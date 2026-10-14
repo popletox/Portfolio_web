@@ -1,0 +1,30 @@
+{
+  "estudios": [
+    {
+      "titulo": "Grado en Ingeniería Informática",
+      "institucion": "Universidad Carlos III Madrid",
+      "fechaInicio": "2017-09",
+      "fechaFin": "2021-07",
+      "descripcion": "[Provisional]",
+      "aptitudes": [
+        "[Provisional] Aptitud provisional A",
+        "[Provisional] Aptitud provisional B",
+        "[Provisional] Aptitud provisional C"
+      ],
+      "referencias": ["proyecto-ref-beans-out"]
+    },
+    {
+      "titulo": "Máster en Desarrollo de Videojuegos",
+      "institucion": "Universidad Complutense Madrid",
+      "fechaInicio": "2022-10",
+      "fechaFin": "2023-07",
+      "descripcion": "[Provisional]",
+      "aptitudes": [
+        "[Provisional] Aptitud provisional A",
+        "[Provisional] Aptitud provisional B",
+        "[Provisional] Aptitud provisional C"
+      ],
+      "referencias": ["proyecto-ref-gloom-reaper"]
+    }
+  ]
+}

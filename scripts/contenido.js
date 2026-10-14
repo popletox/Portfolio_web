@@ -1,8 +1,16 @@
-// Contenido: carga datos/contenido.json y monta la introducción, Experiencia,
-// Proyectos, Méritos, Estudios y el panel Destacado.
+// Contenido: carga en paralelo los JSON de datos/ (RUTAS_DATOS), los fusiona en
+// un solo objeto y monta la introducción, Experiencia, Proyectos, Méritos,
+// Estudios y el panel Destacado.
 // Al terminar (bien o mal) emite 'contenido:listo' o 'contenido:error' en document.
 (function () {
-  var RUTA_DATOS = 'datos/contenido.json';
+  var RUTAS_DATOS = [
+    'datos/datos-genericos.json',
+    'datos/datos-destacados.json',
+    'datos/datos-proyectos.json',
+    'datos/datos-experiencia.json',
+    'datos/datos-meritos.json',
+    'datos/datos-estudios.json'
+  ];
   var TEXTO_ACTUALIDAD = 'actualidad';
   var TEXTO_AVISO = 'No se ha podido cargar el contenido.';
   var MESES = [
@@ -893,11 +901,32 @@
     document.dispatchEvent(new CustomEvent(nombre, { detail: detalle }));
   }
 
-  fetch(RUTA_DATOS)
-    .then(function (respuesta) {
-      if (!respuesta.ok) throw new Error('HTTP ' + respuesta.status + ' al cargar ' + RUTA_DATOS);
+  function cargarJson(ruta) {
+    return fetch(ruta).then(function (respuesta) {
+      if (!respuesta.ok) throw new Error('HTTP ' + respuesta.status + ' al cargar ' + ruta);
       return respuesta.json();
-    })
+    });
+  }
+
+  // Fusiona los objetos de cada archivo en uno; avisa si una clave se repite
+  function fusionarDatos(partes) {
+    var datos = {};
+    var origen = {};
+    partes.forEach(function (parte, i) {
+      Object.keys(parte || {}).forEach(function (clave) {
+        if (Object.prototype.hasOwnProperty.call(origen, clave)) {
+          console.warn('Clave "' + clave + '" repetida en ' + origen[clave] + ' y ' +
+            RUTAS_DATOS[i] + '; se usa la de ' + RUTAS_DATOS[i] + '.');
+        }
+        origen[clave] = RUTAS_DATOS[i];
+      });
+      Object.assign(datos, parte);
+    });
+    return datos;
+  }
+
+  Promise.all(RUTAS_DATOS.map(cargarJson))
+    .then(fusionarDatos)
     .then(function (datos) {
       montarIntroduccion(datos.introduccion);
       var contexto = crearContextoReferencias(datos);

@@ -179,7 +179,7 @@ main {
   margin-top: 1rem;
 }
 
-/* Aviso si falla la carga de datos/contenido.json */
+/* Aviso si falla la carga de los JSON de datos/ */
 .aviso-carga {
   margin: 0;
   font-size: 0.95rem;
