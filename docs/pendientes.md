@@ -41,6 +41,8 @@ Cómo mantenerlo:
 - [ ] **P37 · Hacer**: rediseñar los enlaces de la ventana de detalle de un proyecto. El JSON tendrá más categorías de enlace (steam, github, itch.io y posiblemente más); dejarán de mostrarse como URL de texto y pasarán a ser botones circulares con el logo de su categoría. Los logos serán SVG guardados en `recursos/`.
   - Relacionado con P16 (creación de `recursos/`).
   - Relacionado con P32 (aviso de consola por tipos de enlace desconocidos): conviene revisarlo al ampliar las categorías.
+- [ ] **P44 · Hacer** (añadido 2026-10-14): permitir que los proyectos ofrezcan la descarga de PDFs, mediante un campo opcional en los datos de cada proyecto (`datos/datos-proyectos.json`). De momento solo lo usará un proyecto, pero debe estar disponible como opción general.
+  - Al hacerlo: documentarlo en [`formato-datos.md`](formato-datos.md). Los PDFs irían en `recursos/Documentos/` (ahora hay uno de prueba).
 
 ## Méritos
 
