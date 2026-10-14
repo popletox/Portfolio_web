@@ -30,7 +30,7 @@ Flujo: petición → coordinador → programador → revisión → (con permiso)
 
 ### Pendiente
 
-- Línea de tiempo horizontal (en construcción): ya tiene el bloque (sin título, debajo de Estudios), el contenedor desplazable a todo el ancho y el eje de meses y años; faltan las barras de estudios y experiencias, las tarjetas de proyectos y las estrellas de méritos.
+- Línea de tiempo horizontal (en construcción): ya tiene el bloque (sin título, debajo de Estudios), el contenedor desplazable a todo el ancho, el eje de meses y años y las barras de estudios (azul) y experiencias (rojo), en filas si se solapan y con su nombre a 45°; faltan las tarjetas de proyectos y las estrellas de méritos.
 - Contenido real: los textos de `datos/contenido.json` son provisionales.
 - Diseño propio del tema Cómic (ahora es una copia provisional de Claro).
 - Interruptor de "Efectos divertidos" en Opciones y sus animaciones en los títulos.

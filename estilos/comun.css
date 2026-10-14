@@ -93,15 +93,26 @@ img {
   --relleno-inferior-seccion: 1rem;
   /* Línea de tiempo horizontal: ancho de cada mes (escala fecha -> X; la lee
      scripts/linea-tiempo.js), alto de la capa del eje, espacio para las
-     barras de periodos (encima) y las tarjetas de proyectos (debajo),
-     margen lateral del contenido desplazable y alto de los degradados con
-     que el fondo gris del bloque entra y sale */
+     tarjetas de proyectos (debajo), margen lateral del contenido
+     desplazable y alto de los degradados con que el fondo gris del bloque
+     entra y sale */
   --ancho-mes-cronologia: 3rem;
   --alto-eje-cronologia: 2.75rem;
-  --alto-periodos-cronologia: 6rem;
   --alto-proyectos-cronologia: 8rem;
   --margen-cronologia: var(--espacio);
   --alto-degradado-cronologia: 2rem;
+  /* Periodos de la Línea de tiempo: grosor de las barras, distancia entre
+     filas (barras solapadas), hueco entre barras seguidas de una misma
+     fila, largo mínimo de una barra en meses, sin unidad (periodos de un
+     solo mes; lo lee también scripts/linea-tiempo.js), ancho máximo del
+     nombre a lo largo de la diagonal y alto del conector por encima de la
+     fila más alta */
+  --grosor-periodo-cronologia: 6px;
+  --paso-fila-periodo-cronologia: 0.875rem;
+  --hueco-periodo-cronologia: 4px;
+  --largo-min-periodo-cronologia: 0.5;
+  --ancho-nombre-periodo-cronologia: 11rem;
+  --conector-periodo-cronologia: 0.75rem;
   /* Hueco con el fondo de página entre la Línea de tiempo y el pie */
   --separacion-cronologia-pie: 2.75rem;
 }
@@ -1404,7 +1415,9 @@ button.proyecto-tarjeta {
   padding: 0.75rem var(--margen-cronologia);
 }
 
-/* Lienzo: un mes = --ancho-mes-cronologia; --meses-cronologia lo pone el JS.
+/* Lienzo: cada mes es el punto de su marca y entre marcas hay
+   --ancho-mes-cronologia; --meses-cronologia (ancho en meses, con un mes de
+   margen antes de la primera marca y después de la última) lo pone el JS.
    Capas de arriba abajo: periodos (barras de estudios y experiencias),
    eje (meses y años) y proyectos (tarjetas). Dentro de cada capa, la X de
    un elemento es calc(var(--ancho-mes-cronologia) * var(--mes)) */
@@ -1413,6 +1426,13 @@ button.proyecto-tarjeta {
   display: flex;
   flex-direction: column;
   width: calc(var(--ancho-mes-cronologia) * var(--meses-cronologia, 0));
+  /* Espacio final para que el nombre del periodo más a la derecha (centro
+     en --centro-periodo-max, lo pone el JS) no se corte: su proyección
+     horizontal máxima es el ancho del nombre * cos 45° */
+  margin-right: max(0px, calc(
+    var(--ancho-mes-cronologia) * (var(--centro-periodo-max, 0) - var(--meses-cronologia, 0))
+    + var(--ancho-nombre-periodo-cronologia) * 0.7072
+  ));
 }
 
 .cronologia-capa {
@@ -1420,9 +1440,126 @@ button.proyecto-tarjeta {
   flex: none;
 }
 
-/* Alturas provisionales hasta que las capas tengan contenido */
+/* Periodos (estudios y experiencias). --filas-periodos lo pone el JS; cada
+   .cronologia-periodo lleva --inicio, --fin y --centro (en meses) y --fila
+   (0 = junto al eje). Los nombres arrancan todos a la misma altura
+   (--y-nombre-periodo, desde el borde inferior de la capa), por encima de la
+   fila más alta, y suben a 45°. Alto de la capa: esa altura más la
+   proyección vertical del nombre más grande, (ancho + alto) * sin 45°;
+   el alto máximo es 3 líneas de puesto + 1 de empresa */
 .cronologia-periodos {
-  min-height: var(--alto-periodos-cronologia);
+  --base-periodo: 0.375rem;
+  --tamano-nombre-periodo: 0.8rem;
+  --tamano-empresa-periodo: 0.75rem;
+  --interlinea-nombre-periodo: 1.25;
+  --alto-nombre-periodo: calc(
+    3 * var(--interlinea-nombre-periodo) * var(--tamano-nombre-periodo)
+    + var(--interlinea-nombre-periodo) * var(--tamano-empresa-periodo)
+  );
+  --y-nombre-periodo: calc(
+    var(--base-periodo)
+    + (var(--filas-periodos, 1) - 1) * var(--paso-fila-periodo-cronologia)
+    + var(--grosor-periodo-cronologia)
+    + var(--conector-periodo-cronologia)
+  );
+  height: calc(
+    var(--y-nombre-periodo)
+    + (var(--ancho-nombre-periodo-cronologia) + var(--alto-nombre-periodo)) * 0.7072
+  );
+}
+
+.cronologia-periodo {
+  --y-barra-periodo: calc(var(--base-periodo) + var(--fila, 0) * var(--paso-fila-periodo-cronologia));
+}
+
+.cronologia-periodo--estudio {
+  --color-periodo: var(--color-periodo-estudio);
+}
+
+.cronologia-periodo--experiencia {
+  --color-periodo: var(--color-periodo-experiencia);
+}
+
+/* Barra de la marca del mes de inicio a la del mes de fin, con un hueco
+   mínimo en cada extremo para separar las que se tocan en la misma fila
+   (acaba y empieza en el mismo mes). Nunca más corta que
+   --largo-min-periodo-cronologia (periodos de un solo mes), centrada en
+   --centro */
+.cronologia-periodo-barra {
+  --largo-barra-periodo: max(
+    calc(var(--ancho-mes-cronologia) * var(--largo-min-periodo-cronologia) - var(--hueco-periodo-cronologia)),
+    calc(var(--ancho-mes-cronologia) * (var(--fin) - var(--inicio)) - var(--hueco-periodo-cronologia))
+  );
+  position: absolute;
+  bottom: var(--y-barra-periodo);
+  left: calc(var(--ancho-mes-cronologia) * var(--centro) - var(--largo-barra-periodo) / 2);
+  width: var(--largo-barra-periodo);
+  height: var(--grosor-periodo-cronologia);
+  border-radius: 2px;
+  background: var(--color-periodo);
+}
+
+/* Línea fina del centro de la barra a la altura de los nombres, con un
+   punto del color de la barra donde empieza el nombre */
+.cronologia-periodo-conector {
+  position: absolute;
+  bottom: calc(var(--y-barra-periodo) + var(--grosor-periodo-cronologia) / 2);
+  left: calc(var(--ancho-mes-cronologia) * var(--centro));
+  width: 1px;
+  height: calc(var(--y-nombre-periodo) - var(--y-barra-periodo) - var(--grosor-periodo-cronologia) / 2);
+  background: var(--color-periodo);
+  transform: translateX(-50%);
+}
+
+.cronologia-periodo-conector::after {
+  content: "";
+  position: absolute;
+  top: -2.5px;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--color-periodo);
+  transform: translateX(-50%);
+}
+
+/* Nombre a 45°: el bloque (puesto o titulación y, en experiencias, la
+   empresa debajo) gira sobre su esquina inferior izquierda, que está en el
+   extremo del conector. Puesto en seminegrita, hasta 3 líneas con "…";
+   empresa en una línea con "…". Colores de texto del tema (legibles en los
+   4 temas); el color del periodo va en barra, conector y punto */
+.cronologia-periodo-nombre {
+  position: absolute;
+  bottom: var(--y-nombre-periodo);
+  left: calc(var(--ancho-mes-cronologia) * var(--centro));
+  display: block;
+  width: max-content;
+  max-width: var(--ancho-nombre-periodo-cronologia);
+  padding-left: 0.4rem;
+  line-height: var(--interlinea-nombre-periodo);
+  transform: rotate(-45deg);
+  transform-origin: 0 100%;
+}
+
+.cronologia-periodo-titulo {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
+  font-size: var(--tamano-nombre-periodo);
+  font-weight: 600;
+  color: var(--color-texto);
+  overflow-wrap: break-word;
+}
+
+.cronologia-periodo-empresa {
+  display: block;
+  overflow: hidden;
+  font-size: var(--tamano-empresa-periodo);
+  color: var(--color-texto-suave);
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .cronologia-proyectos {
@@ -1447,7 +1584,7 @@ button.proyecto-tarjeta {
   background: var(--color-texto-suave);
 }
 
-/* Marca de inicio de cada mes, centrada en la línea */
+/* Marca de cada mes (el mes es este punto), centrada en la línea */
 .cronologia-marca {
   position: absolute;
   top: calc(var(--y-eje) - var(--alto-marca-mes) / 2);
@@ -1458,7 +1595,7 @@ button.proyecto-tarjeta {
   transform: translateX(-50%);
 }
 
-/* Enero: más gruesa y alta, con el año debajo */
+/* Enero: más gruesa y alta, con el año debajo centrado en la marca */
 .cronologia-marca--anio {
   top: calc(var(--y-eje) - var(--alto-marca-anio) / 2);
   width: 2px;

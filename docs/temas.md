@@ -32,7 +32,7 @@ Cada tema es un archivo en `estilos/temas/<id>.css` que define **todas** las var
 | `--color-fondo-suave` | Fondo de títulos de sección (y de la sección entera cuando está abierta), botones de contacto y de Opciones, pie y franja de la Línea de tiempo (entra y sale con un degradado desde y hacia `--color-fondo`). |
 | `--color-fondo-suave-hover` | Hover sobre `--color-fondo-suave` (títulos de sección, filtros, títulos de entradas y tarjetas de Referencias y de Proyectos) y sobre los temas del bocadillo de Opciones. |
 | `--color-panel` | Fondo del panel destacado. |
-| `--color-texto` | Texto principal; marcas de año del eje de la Línea de tiempo. |
+| `--color-texto` | Texto principal; marcas de año del eje y nombres de estudios y experiencias de la Línea de tiempo. |
 | `--color-texto-suave` | Texto secundario: introducción, subtítulo de la cabecera, flechas, separadores, título del bocadillo de Opciones; línea, marcas de mes y barra de scroll de la Línea de tiempo. |
 | `--color-titulo` | Nombre de la cabecera, títulos de sección, de entradas y del panel destacado (en Claro, igual que `--color-texto`). |
 | `--color-fecha` | Fechas de las líneas de tiempo y etiquetas de año de Proyectos y años del eje de la Línea de tiempo (en Claro, igual que `--color-texto-suave`). |
@@ -48,8 +48,8 @@ Cada tema es un archivo en `estilos/temas/<id>.css` que define **todas** las var
 | `--color-degradado-cabecera-fin` | Final del degradado (normalmente `transparent`). |
 | `--color-linea-tiempo` | Línea vertical de las líneas de tiempo y líneas horizontales de año de Proyectos. |
 | `--color-punto-tiempo` | Punto de cada entrada. |
-| `--color-periodo-estudio` | Barras de estudios de la Línea de tiempo (azul; más claro en temas oscuros). Preparada para el paso 2, aún sin uso. |
-| `--color-periodo-experiencia` | Barras de experiencias de la Línea de tiempo (rojo; más claro en temas oscuros). Preparada para el paso 2, aún sin uso. |
+| `--color-periodo-estudio` | Barras de estudios de la Línea de tiempo, su conector vertical y el punto donde empieza el nombre (azul; más claro en temas oscuros). El nombre va en `--color-texto`. |
+| `--color-periodo-experiencia` | Barras de experiencias de la Línea de tiempo, su conector vertical y el punto donde empieza el nombre (rojo; más claro en temas oscuros). El nombre va en `--color-texto`. |
 | `--color-miniatura-provisional` | Miniaturas, imagen del visor y tarjetas de Referencias y de Proyectos sin imagen real. |
 | `--color-destacado-provisional` | Cuadrado provisional del panel destacado. |
 | `--color-fondo-visor` | Fondo oscurecido tras la imagen ampliada y tras la ventana de detalle de un proyecto. |
