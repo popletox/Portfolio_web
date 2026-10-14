@@ -14,10 +14,14 @@
         "C#"
       ],
       "imagenes": [
-        { "alt": "[Provisional] Imagen 1 de Proyecto provisional 1" },
-        { "alt": "[Provisional] Imagen 2 de Proyecto provisional 1" },
-        { "alt": "[Provisional] Imagen 3 de Proyecto provisional 1" },
-        { "alt": "[Provisional] Imagen 4 de Proyecto provisional 1" }
+        { "high": "./recursos/Imagenes/BeansOut/Title.png",
+          "alt": "Imagen de la pantalla de titulo." },
+        { "high": "./recursos/Imagenes/BeansOut/IMG-01.png",
+          "alt": "Imagen del combate y los enemigos." },
+        { "high": "recursos/Imagenes/BeansOut/IMG-02.png",
+          "alt": "Imagen del menú de pausa." },
+        { "high": "./recursos/Imagenes/BeansOut/IMG-03.png",
+          "alt": "Imagen de la sala inicial y jefe de las alubias." }
       ]
     },
     {
@@ -76,10 +80,12 @@
         "Perforce"
       ],
       "imagenes": [
-        { "alt": "[Provisional] Imagen 1 de Proyecto provisional 1" },
-        { "alt": "[Provisional] Imagen 2 de Proyecto provisional 1" },
-        { "alt": "[Provisional] Imagen 3 de Proyecto provisional 1" },
-        { "alt": "[Provisional] Imagen 4 de Proyecto provisional 1" }
+        { "high": "./recursos/Imagenes/GloomReaper/Title.png",
+          "alt": "Titulo principal del juego" },
+        { "high": "./recursos/Imagenes/GloomReaper/IMG-01.png",
+          "alt": "Imagen del combate en cuevas" },
+        { "high": "./recursos/Imagenes/GloomReaper/IMG-02.png",
+          "alt": "Imagen del tutorial inicial." }
       ],
       "enlaces":{
         "juego":"https://store.steampowered.com/app/2378410/Gloom_Reaper/"
