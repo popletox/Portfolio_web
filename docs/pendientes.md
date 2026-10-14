@@ -33,7 +33,10 @@ Cómo mantenerlo:
 ## Méritos
 
 - [ ] **P13 · Decidir**: cómo navegar a un mérito (no hay forma desde el paso 3 de Proyectos y la estrella de la línea de tiempo no hace nada propio: abre el proyecto). ¿Ventana propia como los proyectos?
+  - Relacionado con P36: depende del rework de los méritos.
 - [ ] **P35 · Decidir**: mostrar también la estrella de reconocimiento en las tarjetas de la sección Proyectos (ahora solo está en la Línea de tiempo).
+  - Relacionado con P36: depende del rework de los méritos.
+- [ ] **P36 · Decidir**: rework de la sección "Méritos y reconocimientos" y de cómo se muestran los méritos en la web (sección, tarjetas de Referencias, estrellas de la Línea de tiempo). Pendiente de definir el planteamiento.
 
 ## Contenido
 
