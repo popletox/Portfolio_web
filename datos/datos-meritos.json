@@ -4,22 +4,19 @@
       "titulo": "Premio provisional 1",
       "entidad": "Evento o institución provisional 1",
       "fecha": "2024-11",
-      "descripcion": "[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      "referencias": ["proyecto-provisional-1"]
+      "descripcion": "[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
     },
     {
       "titulo": "Premio provisional 2",
       "entidad": "Evento o institución provisional 2",
       "fecha": "2023-05",
-      "descripcion": "[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      "referencias": ["proyecto-provisional-2"]
+      "descripcion": "[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
     },
     {
       "titulo": "Premio provisional 3",
       "entidad": "Evento o institución provisional 3",
       "fecha": "2022-03",
-      "descripcion": "[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      "referencias": ["proyecto-provisional-3"]
+      "descripcion": "[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
     }
   ]
 }

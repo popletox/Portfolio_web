@@ -3,22 +3,19 @@
     {
       "titulo": "Proyecto destacado",
       "imagen": { "alt": "Imagen provisional del proyecto destacado" },
-      "descripcion": "[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.",
-      "enlace": { "texto": "Ver proyecto", "url": "#proyecto-provisional-1" }
+      "descripcion": "[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore."
     },
     {
       "titulo": "Noticia provisional",
       "imagen": { "alt": "Imagen provisional de la noticia" },
-      "descripcion": "[Provisional] Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      "enlace": { "texto": "Ver proyecto relacionado", "url": "#proyecto-provisional-2" }
+      "descripcion": "[Provisional] Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
     },
     {
       "titulo": "Aviso provisional sin imagen",
       "descripcion": [
         "[Provisional] Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
         "[Provisional] Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-      ],
-      "enlace": { "texto": "Ver proyecto", "url": "#proyecto-provisional-3" }
+      ]
     }
   ]
 }
