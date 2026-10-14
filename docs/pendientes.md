@@ -15,12 +15,17 @@ Cómo mantenerlo:
 
 - [ ] **P01 · Decidir**: qué hacer cuando el conector de una tarjeta de proyecto queda tapado por otra tarjeta en proyectos de meses consecutivos.
 - [ ] **P02 · Revisar**: los nombres inclinados de periodos cercanos se pisan (p. ej. "QA Tester…" y "Técnico Desarrollo…"). Revisar con datos reales y, si sigue pasando, separarlos automáticamente.
+  - Decisión: separarlos automáticamente desplazándolos a izquierda y derecha; se hace en P38 (y P39 para 3 o más).
 - [ ] **P03 · Revisar**: espacio vacío encima de los nombres (la altura se calcula para el nombre más largo posible).
 - [ ] **P04 · Decidir**: el primer año no tiene etiqueta si el eje empieza a mitad de año.
 - [ ] **P06 · Decidir**: añadir arrastrar con el ratón o un "slider" visible para desplazar la franja (ahora solo hay scroll nativo).
 - [ ] **P07 · Revisar**: vista de móvil con los datos reales.
 - [ ] **P33 · Hacer**: ajustes de móvil y pulido de la Línea de tiempo.
 - [ ] **P34 · Revisar**: el hueco reservado a la estrella hace que los títulos de las tarjetas con mérito se corten antes (p. ej. en el tema Código "Proyecto provisional 1" se ve como "Proyecto provisional…").
+- [ ] **P38 · Hacer**: cuando una experiencia y un estudio, o dos experiencias, comparten periodo o sus títulos se solapan, desplazar uno a la izquierda de su centro y el otro a la derecha.
+  - Relacionado con P02 (decisión de separarlos automáticamente) y P39 (3 o más).
+- [ ] **P39 · Decidir**: cómo evitar que los textos se pisen si coinciden 3 o más estudios o experiencias (caso poco probable).
+  - Relacionado con P38.
 
 ## Proyectos y ventana de detalle
 
@@ -29,6 +34,9 @@ Cómo mantenerlo:
 - [ ] **P10 · Revisar**: esquinas redondeadas y barra de scroll de la ventana en los 4 temas (tras `overflow: visible`).
 - [ ] **P11 · Revisar**: una banda de año con una sola tarjeta deja mucho espacio; al filtrar se funde todo el bloque, incluidas las tarjetas que siguen visibles.
 - [ ] **P12 · Revisar**: un lector de pantalla puede no anunciar "Enlace copiado" dos veces seguidas.
+- [ ] **P37 · Hacer**: rediseñar los enlaces de la ventana de detalle de un proyecto. El JSON tendrá más categorías de enlace (steam, github, itch.io y posiblemente más); dejarán de mostrarse como URL de texto y pasarán a ser botones circulares con el logo de su categoría. Los logos serán SVG guardados en `recursos/`.
+  - Relacionado con P16 (creación de `recursos/`).
+  - Relacionado con P32 (aviso de consola por tipos de enlace desconocidos): conviene revisarlo al ampliar las categorías.
 
 ## Méritos
 
