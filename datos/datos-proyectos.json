@@ -18,7 +18,7 @@
           "alt": "Imagen de la pantalla de titulo." },
         { "high": "./recursos/Imagenes/BeansOut/IMG-01.png",
           "alt": "Imagen del combate y los enemigos." },
-        { "high": "recursos/Imagenes/BeansOut/IMG-02.png",
+        { "high": "./recursos/Imagenes/BeansOut/IMG-02.png",
           "alt": "Imagen del menú de pausa." },
         { "high": "./recursos/Imagenes/BeansOut/IMG-03.png",
           "alt": "Imagen de la sala inicial y jefe de las alubias." }
@@ -36,10 +36,14 @@
         "Blender"
       ],
       "imagenes": [
-        { "alt": "[Provisional] Imagen 1 de Proyecto provisional 1" },
-        { "alt": "[Provisional] Imagen 2 de Proyecto provisional 1" },
-        { "alt": "[Provisional] Imagen 3 de Proyecto provisional 1" },
-        { "alt": "[Provisional] Imagen 4 de Proyecto provisional 1" }
+        { "high": "./recursos/Imagenes/MinimalSpace2Live/IMG-Title.png",
+          "alt": "Imagen de la pantalla de titulo." },
+        { "high": "./recursos/Imagenes/MinimalSpace2Live/IMG-Menu.png",
+          "alt": "Imagen del menú principal del juego." },
+        { "high": "./recursos/Imagenes/MinimalSpace2Live/IMG-01.png",
+          "alt": "Imagen del modo de juego." },
+        { "high": "./recursos/Imagenes/MinimalSpace2Live/IMG-02.png",
+          "alt": "Imagen de la pantalla de derrota." }
       ],
       "enlaces":{
         "juego":"https://popletox.itch.io/minimalspace2live"
@@ -56,10 +60,14 @@
         "C#"
       ],
       "imagenes": [
-        { "alt": "[Provisional] Imagen 1 de Proyecto provisional 1" },
-        { "alt": "[Provisional] Imagen 2 de Proyecto provisional 1" },
-        { "alt": "[Provisional] Imagen 3 de Proyecto provisional 1" },
-        { "alt": "[Provisional] Imagen 4 de Proyecto provisional 1" }
+        { "high": "./recursos/Imagenes/TheRoot/IMG-Logo.png",
+          "alt": "Imagen del logo del titulo." },
+        { "high": "./recursos/Imagenes/TheRoot/IMG-01.png",
+          "alt": "Imagen del juego." },
+        { "high": "./recursos/Imagenes/TheRoot/IMG-02.png",
+          "alt": "Imagen del juego." },
+        { "high": "./recursos/Imagenes/TheRoot/IMG-03.png",
+          "alt": "Imagen del juego." }
       ],
       "enlaces":{
         "juego":"https://popletox.itch.io/the-root"
@@ -69,7 +77,7 @@
       "id": "proyecto-gloom-reaper",
       "titulo": "Gloom Reaper",
       "categoria": "Unreal Engine",
-      "fecha": "2023-06",
+      "fecha": "2023-07",
       "descripcion": "Gloom Reaper fue mi Trabajo de Fin de Máster en la Universidad Complutense de Madrid. Lo desarrollamos en equipo con el nombre de Smoki Tanuki Games y tiene una demo publicada en Steam. Es un juego de acción y plataformas en 2.5D ambientado en la cultura celtíbera y gallega. La protagonista es una cazadora que usa una guadaña con los poderes de la luz y la oscuridad para enfrentarse a criaturas que cambian de forma y de comportamiento según la zona en la que se encuentren. Dentro del equipo me encargué del sistema de combate: desarrollé todos los ataques del jugador y la lógica que los controla. También colaboré en otras tareas del proyecto.",
       "aptitudes": [
         "Comunicación técnica"
@@ -81,9 +89,9 @@
       ],
       "imagenes": [
         { "high": "./recursos/Imagenes/GloomReaper/Title.png",
-          "alt": "Titulo principal del juego" },
+          "alt": "Titulo principal del juego." },
         { "high": "./recursos/Imagenes/GloomReaper/IMG-01.png",
-          "alt": "Imagen del combate en cuevas" },
+          "alt": "Imagen del combate en cuevas." },
         { "high": "./recursos/Imagenes/GloomReaper/IMG-02.png",
           "alt": "Imagen del tutorial inicial." }
       ],
@@ -102,10 +110,10 @@
         "Blueprints"
       ],
       "imagenes": [
-        { "alt": "[Provisional] Imagen 1 de Proyecto provisional 1" },
-        { "alt": "[Provisional] Imagen 2 de Proyecto provisional 1" },
-        { "alt": "[Provisional] Imagen 3 de Proyecto provisional 1" },
-        { "alt": "[Provisional] Imagen 4 de Proyecto provisional 1" }
+        { "high": "./recursos/Imagenes/DungeonStaff/IMG_Menu.png",
+          "alt": "Titulo del menu principal del juego." },
+        { "high": "./recursos/Imagenes/DungeonStaff/IMG-01.png",
+          "alt": "Imagen del juego." }
       ],
       "enlaces":{
         "juego":"https://rocio-benito.itch.io/dungeons-staff"
@@ -122,10 +130,16 @@
         "C#"
       ],
       "imagenes": [
-        { "alt": "[Provisional] Imagen 1 de Proyecto provisional 1" },
-        { "alt": "[Provisional] Imagen 2 de Proyecto provisional 1" },
-        { "alt": "[Provisional] Imagen 3 de Proyecto provisional 1" },
-        { "alt": "[Provisional] Imagen 4 de Proyecto provisional 1" }
+        { "high": "./recursos/Imagenes/TheEndlessFishingSheep/IMG_Logo.png",
+          "alt": "Titulo principal del juego." },
+        { "high": "./recursos/Imagenes/TheEndlessFishingSheep/IMG_Menu.png",
+          "alt": "Titulo del menu principal del juego." },
+        { "high": "./recursos/Imagenes/TheEndlessFishingSheep/IMG_01.png",
+          "alt": "Imagen del juego." },
+        { "high": "./recursos/Imagenes/TheEndlessFishingSheep/IMG_02.png",
+          "alt": "Imagen del juego." },
+        { "high": "./recursos/Imagenes/TheEndlessFishingSheep/IMG_03.png",
+          "alt": "Imagen del juego." }
       ],
       "enlaces":{
         "juego":"https://popletox.itch.io/the-endless-fishing-sheep"
@@ -142,10 +156,18 @@
         "C#"
       ],
       "imagenes": [
-        { "alt": "[Provisional] Imagen 1 de Proyecto provisional 1" },
-        { "alt": "[Provisional] Imagen 2 de Proyecto provisional 1" },
-        { "alt": "[Provisional] Imagen 3 de Proyecto provisional 1" },
-        { "alt": "[Provisional] Imagen 4 de Proyecto provisional 1" }
+        { "high": "./recursos/Imagenes/RunningOutOfPower/IMG_Logo.png",
+          "alt": "Titulo principal del juego." },
+        { "high": "./recursos/Imagenes/RunningOutOfPower/IMG_Menu.png",
+          "alt": "Titulo del menu principal del juego." },
+        { "high": "./recursos/Imagenes/RunningOutOfPower/IMG_01.png",
+          "alt": "Imagen del juego." },
+        { "high": "./recursos/Imagenes/RunningOutOfPower/IMG_02.png",
+          "alt": "Imagen del juego." },
+        { "high": "./recursos/Imagenes/RunningOutOfPower/IMG_03.png",
+          "alt": "Imagen del juego." },
+        { "high": "./recursos/Imagenes/RunningOutOfPower/IMG_04.png",
+          "alt": "Imagen del juego." }
       ],
       "enlaces":{
         "juego":"https://popletox.itch.io/running-out-of-power"
@@ -164,10 +186,10 @@
         "Github"
       ],
       "imagenes": [
-        { "alt": "[Provisional] Imagen 1 de Proyecto provisional 1" },
-        { "alt": "[Provisional] Imagen 2 de Proyecto provisional 1" },
-        { "alt": "[Provisional] Imagen 3 de Proyecto provisional 1" },
-        { "alt": "[Provisional] Imagen 4 de Proyecto provisional 1" }
+        { "alt": "[Provisional] Imagen 1 de NILSH" },
+        { "alt": "[Provisional] Imagen 2 de NILSH" },
+        { "alt": "[Provisional] Imagen 3 de NILSH" },
+        { "alt": "[Provisional] Imagen 4 de NILSH" }
       ],
       "enlaces":{
         "juego":"https://store.steampowered.com/app/4916130/NILSH/"
@@ -186,94 +208,28 @@
         "CSS",
         "JavaScript"
       ]
-    },
-
-    {
-      "id": "proyecto-provisional-1",
-      "titulo": "Proyecto provisional 1",
-      "categoria": "Unity",
-      "fecha": "2025-03",
-      "enCurso":true,
-      "descripcion": "[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      "aptitudes": [
-        "[Provisional] Aptitud provisional A",
-        "[Provisional] Aptitud provisional B",
-        "[Provisional] Aptitud provisional C"
-      ],
-      "enlaces": { "web": "#" },
-      "imagenes": [
-        { "alt": "[Provisional] Imagen 1 de Proyecto provisional 1" },
-        { "alt": "[Provisional] Imagen 2 de Proyecto provisional 1" },
-        { "alt": "[Provisional] Imagen 3 de Proyecto provisional 1" },
-        { "alt": "[Provisional] Imagen 4 de Proyecto provisional 1" },
-        { "alt": "[Provisional] Imagen 5 de Proyecto provisional 1" },
-        { "alt": "[Provisional] Imagen 6 de Proyecto provisional 1" }
-      ]
-    },
-    {
-      "id": "proyecto-provisional-2",
-      "titulo": "Proyecto provisional 2",
-      "categoria": "Unreal Engine",
-      "fecha": "2024-10",
-      "descripcion": "[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      "aptitudes": [
-        "[Provisional] Aptitud provisional A",
-        "[Provisional] Aptitud provisional B",
-        "[Provisional] Aptitud provisional C",
-        "[Provisional] Aptitud provisional D"
-      ],
-      "enlaces": { "web": "#" },
-      "imagenes": [
-        { "alt": "[Provisional] Imagen 1 de Proyecto provisional 2" },
-        { "alt": "[Provisional] Imagen 2 de Proyecto provisional 2" },
-        { "alt": "[Provisional] Imagen 3 de Proyecto provisional 2" }
-      ]
-    },
-    {
-      "id": "proyecto-provisional-3",
-      "titulo": "Proyecto provisional 3",
-      "categoria": "Roblox",
-      "fecha": "2023-06",
-      "descripcion": "[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      "aptitudes": [
-        "[Provisional] Aptitud provisional A",
-        "[Provisional] Aptitud provisional B"
-      ],
-      "imagenes": [
-        { "alt": "[Provisional] Imagen 1 de Proyecto provisional 3" },
-        { "alt": "[Provisional] Imagen 2 de Proyecto provisional 3" }
-      ]
-    },
-    {
-      "id": "proyecto-provisional-4",
-      "titulo": "Proyecto provisional 4",
-      "categoria": "Unity",
-      "fecha": "2022-02",
-      "descripcion": "[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      "aptitudes": [
-        "[Provisional] Aptitud provisional A",
-        "[Provisional] Aptitud provisional B",
-        "[Provisional] Aptitud provisional C"
-      ],
-      "enlaces": { "web": "#" },
-      "imagenes": [
-        { "alt": "[Provisional] Imagen 1 de Proyecto provisional 4" }
-      ]
     }
   ],
 
+
   "referencias": {
     "proyecto-ref-beans-out": {"titulo": "Beans out (TFG)", "enlace": "#proyecto-beans-out"},
+    "proyecto-ref-minimal-space-to-live": {"titulo": "Minimal space 2 live", "enlace": "#proyecto-minimal-space-to-live"},
+    "proyecto-ref-the-root": {"titulo": "The Root", "enlace": "#proyecto-the-root"},
     "proyecto-ref-gloom-reaper": {"titulo": "Gloom Reaper", "enlace": "#proyecto-gloom-reaper"},
+    "proyecto-ref-dungeons-staff": {"titulo": "Dungeon's Staff", "enlace": "#proyecto-dungeons-staff"},
+    "proyecto-ref-the-endless-fishing-sheep": {"titulo": "The Endless Fishing Sheep", "enlace": "#proyecto-the-endless-fishing-sheep"},
+    "proyecto-ref-running-out-of-power": {"titulo": "Running Out Of Power", "enlace": "#proyecto-running-out-of-power"},
+    "proyecto-ref-nilsh": {"titulo": "NILSH", "enlace": "#proyecto-nilsh"},
+    
+    "proyecto-ref-portfolio-web": {"titulo": "Portfolio web", "enlace": "#proyecto-portfolio-web"},
+
     "proyecto-revlon": { "titulo": "[Provisional] Revlon", "enlace": "#" },
     "proyecto-fire-lunar-rush": { "titulo": "[Provisional] Fire Lunar Rush" },
     "proyecto-color-switch-race": { "titulo": "[Provisional] Color Switch Race" },
     "proyecto-the-donatos-mind": { "titulo": "[Provisional] The Donato's Mind" },
     "proyecto-telefonica-town": { "titulo": "[Provisional] Telefónica Town" },
     "proyecto-mcdonalds-land-tycoon": { "titulo": "[Provisional] McDonald's land Tycoon" },
-    "proyecto-el-desafio-pringles": { "titulo": "[Provisional] El desafío Pringles" },
-    "proyecto-provisional-1a": { "titulo": "[Provisional] Proyecto provisional 1A" },
-    "proyecto-provisional-3a": { "titulo": "[Provisional] Proyecto provisional 3A" },
-    "proyecto-provisional-3b": { "titulo": "[Provisional] Proyecto provisional 3B" }
+    "proyecto-el-desafio-pringles": { "titulo": "[Provisional] El desafío Pringles" }
   }
 }
