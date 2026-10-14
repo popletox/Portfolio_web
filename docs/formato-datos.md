@@ -1,12 +1,32 @@
-# Formato de datos (`datos/contenido.json`)
+# Formato de datos (`datos/*.json`)
 
-El contenido de la introducción, de las secciones Experiencia, Proyectos, Méritos y reconocimientos y Estudios, y del panel Destacado está en `datos/contenido.json`. La web lo carga con `fetch` al iniciarse. Para añadir o cambiar contenido, edita solo ese archivo. La cabecera y el pie siguen en `index.html`.
+El contenido de la introducción, de las secciones Experiencia, Proyectos, Méritos y reconocimientos y Estudios, y del panel Destacado está en varios archivos JSON dentro de `datos/`. La web los carga todos en paralelo con `fetch` al iniciarse y los fusiona en un solo objeto. Para añadir o cambiar contenido, edita solo el archivo de la sección correspondiente. La cabecera y el pie siguen en `index.html`.
 
 La Línea de tiempo (bloque después de Estudios) se genera con los datos existentes (fechas de Experiencia, Estudios y Proyectos; Méritos para marcar proyectos): no tiene campos propios.
 
 Guarda el archivo en UTF-8 (se pueden usar tildes y eñes sin problema).
 
+## Archivos de datos
+
+Cada archivo es un objeto JSON con las claves de primer nivel de su sección; el formato interno de cada sección se describe más abajo.
+
+| Archivo | Claves |
+| --- | --- |
+| `datos-genericos.json` | `introduccion` (y, en el futuro, otras secciones simples como claves nuevas) |
+| `datos-destacados.json` | `destacados` |
+| `datos-proyectos.json` | `proyectos` y `referencias` (las referencias van junto a los proyectos) |
+| `datos-experiencia.json` | `experiencia` |
+| `datos-meritos.json` | `meritos` |
+| `datos-estudios.json` | `estudios` |
+
+- La lista de archivos es `RUTAS_DATOS`, al principio de `scripts/contenido.js`. Para añadir un archivo nuevo, hay que añadir su ruta a esa lista.
+- Una misma clave no debe estar en dos archivos: si pasa, gana la del último de la lista y sale un `console.warn`.
+- Comportamiento «todo o nada»: si falla cualquier archivo (no existe, error HTTP o JSON mal escrito), todas las secciones muestran el aviso de error.
+- Limitación conocida: si un JSON está mal escrito, el error de consola no dice qué archivo es (solo los errores HTTP lo nombran). Ver P40 en [pendientes](pendientes.md).
+
 ## Estructura general
+
+Una vez fusionados los archivos, el contenido equivale a este objeto:
 
 ```json
 {
@@ -212,10 +232,10 @@ Ejemplo:
 - **Sin comentarios:** JSON no admite `//` ni `/* */`.
 - `null`, `true` y `false` van sin comillas.
 
-Para comprobar el archivo en PowerShell, desde la raíz del proyecto:
+Para comprobar los archivos en PowerShell, desde la raíz del proyecto (indica cuál falla):
 
 ```powershell
-Get-Content datos/contenido.json -Raw -Encoding UTF8 | ConvertFrom-Json
+Get-ChildItem datos/*.json | ForEach-Object { Write-Host $_.Name; Get-Content $_.FullName -Raw -Encoding UTF8 | ConvertFrom-Json | Out-Null }
 ```
 
-Si hay un error, indica la línea aproximada. Con Live Server, un JSON inválido hará que las secciones no se carguen; mira la consola del navegador (F12).
+Si hay un error, indica la línea aproximada. Con Live Server, un JSON inválido en cualquiera de los archivos hará que las secciones no se carguen; mira la consola del navegador (F12).

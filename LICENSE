@@ -19,7 +19,7 @@ en inglés en la sección "1. Code — MIT License" más abajo.
 Copyright (c) 2026 Miguel Ángel Torrijos. Todos los derechos reservados.
 
 Se aplica a:
-- El contenido de datos/ (incluido datos/contenido.json).
+- El contenido de datos/ (los archivos JSON de datos).
 - Las imágenes y recursos gráficos personales (por ejemplo, la carpeta
   recursos/ si se añade).
 - Los textos y datos personales de index.html: nombre, subtítulo profesional,
@@ -67,7 +67,7 @@ SOFTWARE.
 Copyright (c) 2026 Miguel Ángel Torrijos. All rights reserved.
 
 Applies to:
-- The content of datos/ (including datos/contenido.json).
+- The content of datos/ (the JSON data files).
 - Personal images and graphic assets (for example, the recursos/ folder if
   added).
 - The personal texts and data in index.html: name, professional subtitle,

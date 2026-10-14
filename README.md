@@ -27,7 +27,7 @@ Flujo: petición → coordinador → programador → revisión → documentador 
 - Línea de tiempo horizontal bajo las secciones, a todo el ancho hasta el panel Destacado, desplazable en horizontal y empezando en lo más reciente. Sobre un eje de meses y años muestra barras de estudios (azul) y experiencias (rojo) con su nombre inclinado, y tarjetas de proyecto en su mes que abren la ventana de detalle; los proyectos con mérito llevan una estrella de reconocimiento.
 - Panel Destacado en forma de carrusel (lateral en ordenador, inferior en móvil), cerrable y reabrible.
 - Temas Claro, Oscuro, Código y Cómic, elegibles en el menú de Opciones y guardados en el navegador.
-- Contenido cargado desde `datos/contenido.json`.
+- Contenido cargado desde varios archivos JSON de `datos/`.
 - Nota "Sobre esta web" en el pie.
 
 ### Pendiente
@@ -54,13 +54,13 @@ Más detalle en:
 
 - [docs/estructura-proyecto.md](docs/estructura-proyecto.md): organización de archivos.
 - [docs/diseno-portfolio.md](docs/diseno-portfolio.md): requisitos de diseño.
-- [docs/formato-datos.md](docs/formato-datos.md): formato de `datos/contenido.json`.
+- [docs/formato-datos.md](docs/formato-datos.md): formato de los archivos JSON de `datos/`.
 - [docs/temas.md](docs/temas.md): variables que define cada tema.
 - [docs/pendientes.md](docs/pendientes.md): tareas, revisiones y decisiones pendientes.
 
 ## Cómo verlo en local
 
-El contenido se carga con `fetch` desde `datos/contenido.json`, así que abrir `index.html` directamente desde el disco no funciona: hace falta un servidor local. Cualquiera de estas opciones vale:
+El contenido se carga con `fetch` desde los archivos JSON de `datos/`, así que abrir `index.html` directamente desde el disco no funciona: hace falta un servidor local. Cualquiera de estas opciones vale:
 
 - Extensión **Live Server** de VS Code: clic derecho en `index.html` → "Open with Live Server".
 - `npx serve` en la raíz del proyecto.

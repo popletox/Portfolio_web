@@ -48,7 +48,7 @@ Cómo mantenerlo:
 
 ## Contenido
 
-- [ ] **P14 · Hacer**: sustituir el contenido "[Provisional]" (58 marcas a 2026-10-14 en [`datos/contenido.json`](../datos/contenido.json)).
+- [ ] **P14 · Hacer**: sustituir el contenido "[Provisional]" (85 marcas a 2026-10-14 en los archivos de [`datos/`](../datos/)).
 - [ ] **P15 · Hacer**: sustituir los enlaces provisionales `#` (p. ej. Revlon en el catálogo `referencias` y `"web": "#"` de los proyectos).
 - [ ] **P16 · Hacer**: crear `recursos/` con las imágenes `low`/`high` de los proyectos y las `img` del catálogo de referencias.
 - [ ] **P17 · Hacer**: crear los proyectos reales (Fire Lunar Rush, Color Switch Race…) y cambiar sus referencias del catálogo por el id del proyecto.
@@ -75,6 +75,7 @@ Puntos abiertos del [documento de diseño](diseno-portfolio.md).
 
 ## Limpieza menor
 
+- [ ] **P40 · Hacer** (no urgente): que el error de un JSON mal escrito en `datos/` diga qué archivo falla (ahora solo los errores HTTP lo nombran).
 - [ ] **P31 · Revisar**: `.proyecto-tarjeta { position: relative }` quizá sobre desde que se quitó el resaltado.
 - [ ] **P32 · Revisar**: el aviso de consola por tipos de enlace desconocidos se repite cada vez que se abre la ventana.
 
