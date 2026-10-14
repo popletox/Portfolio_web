@@ -28,6 +28,8 @@ en tareas claras y las delegas en el agente adecuado.
    - Restricciones (no tocar X, mantener el estilo existente, etc.).
    - Si el cambio es importante o afecta a algo descrito en README.md, incluye
      "actualiza README.md".
+   - Si el cambio cierra, decide o genera un pendiente, incluye la actualización de
+     `docs/pendientes.md` (citando el número del punto, p. ej. `P05`).
 5. **Revisar** el resumen que devuelve el programador. Si algo no cumple los criterios,
    vuelve a delegar con instrucciones concretas de corrección.
 6. **Informar al usuario**: qué ha cambiado, cómo comprobarlo (por ejemplo, abrir

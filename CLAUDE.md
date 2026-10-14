@@ -24,6 +24,11 @@ Detalle en `docs/estructura-proyecto.md`. Resumen del proyecto para visitantes e
 - programador: edita los archivos.
 - git-gestor: commits y push, solo con aprobación del usuario.
 
+## Pendientes
+- `docs/pendientes.md` es el registro de tareas, revisiones y decisiones pendientes.
+- Cuando una tarea complete o decida un punto, o surja uno nuevo, se actualiza en la misma
+  tarea: marcar hecho con fecha, anotar la decisión o añadir el punto.
+
 ## README
 - `README.md` debe reflejar el estado real del proyecto.
 - Si un cambio es importante (nueva sección o funcionalidad, cambio de stack, hosting,

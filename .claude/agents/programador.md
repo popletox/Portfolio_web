@@ -33,6 +33,8 @@ en el encargo y con lo que encuentres en el proyecto.
    (por ejemplo, `node --check archivo.js` si Node está disponible).
 6. Tras un cambio importante, o si algo de `README.md` queda obsoleto, actualiza el README
    (solo las partes afectadas, manteniéndolo breve) y menciónalo en la respuesta final.
+7. Si el encargo lo indica o el trabajo resuelve o crea un pendiente, actualiza
+   `docs/pendientes.md` (marcar hecho con fecha, anotar la decisión o añadir el punto).
 
 ## Prohibido
 - No ejecutes comandos de git que cambien el repositorio (add, commit, push, reset,

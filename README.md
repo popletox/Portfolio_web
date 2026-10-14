@@ -23,6 +23,7 @@ Flujo: petición → coordinador → programador → revisión → (con permiso)
 - Proyectos en bandas por año con tarjetas y filtros por tecnología, generados a partir de los datos. Cada tarjeta abre una ventana de detalle (descripción, apartados opcionales como retos o tecnología, aptitudes, enlaces e imágenes) que se cierra también con el botón Atrás. Cada proyecto tiene enlace directo (`…/#<id>` abre su ventana) y un botón de compartir en la ventana (menú de compartir del sistema en móvil; en ordenador copia el enlace y avisa con "Enlace copiado").
 - Visor de imágenes para ampliar las imágenes de la ventana de detalle y la del panel Destacado.
 - Referencias en tarjetas (cuadrícula con título e imagen) en el detalle de Experiencia, Estudios y Méritos: las de proyectos toman solas su título y primera imagen; las demás, de un catálogo común del JSON. Las que enlazan a un proyecto (y el enlace interno del Destacado) abren su ventana de detalle sin mover la página.
+- Línea de tiempo horizontal bajo las secciones, a todo el ancho hasta el panel Destacado, desplazable en horizontal y empezando en lo más reciente. Sobre un eje de meses y años muestra barras de estudios (azul) y experiencias (rojo) con su nombre inclinado, y tarjetas de proyecto en su mes que abren la ventana de detalle.
 - Panel Destacado en forma de carrusel (lateral en ordenador, inferior en móvil), cerrable y reabrible.
 - Temas Claro, Oscuro, Código y Cómic, elegibles en el menú de Opciones y guardados en el navegador.
 - Contenido cargado desde `datos/contenido.json`.
@@ -30,11 +31,7 @@ Flujo: petición → coordinador → programador → revisión → (con permiso)
 
 ### Pendiente
 
-- Línea de tiempo horizontal (en construcción): ya tiene el bloque (sin título, debajo de Estudios), el contenedor desplazable a todo el ancho, el eje de meses y años y las barras de estudios (azul) y experiencias (rojo), en filas si se solapan y con su nombre a 45°, y las tarjetas de proyectos bajo su mes, en filas automáticas, que abren su ventana de detalle; faltan las estrellas de méritos y los ajustes finales.
-- Contenido real: los textos de `datos/contenido.json` son provisionales.
-- Diseño propio del tema Cómic (ahora es una copia provisional de Claro).
-- Interruptor de "Efectos divertidos" en Opciones y sus animaciones en los títulos.
-- Configuración y publicación en Firebase Hosting.
+Lo que falta por hacer, revisar o decidir está en [docs/pendientes.md](docs/pendientes.md).
 
 ## Tecnologías
 
@@ -58,6 +55,7 @@ Más detalle en:
 - [docs/diseno-portfolio.md](docs/diseno-portfolio.md): requisitos de diseño.
 - [docs/formato-datos.md](docs/formato-datos.md): formato de `datos/contenido.json`.
 - [docs/temas.md](docs/temas.md): variables que define cada tema.
+- [docs/pendientes.md](docs/pendientes.md): tareas, revisiones y decisiones pendientes.
 
 ## Cómo verlo en local
 
