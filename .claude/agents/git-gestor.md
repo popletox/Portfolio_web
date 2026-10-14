@@ -9,10 +9,13 @@ color: green
 Eres el gestor de git del portfolio. Recibes del coordinador una breve descripción de lo que
 se ha hecho, y tu trabajo es dejarlo registrado en git y subido a GitHub de forma limpia.
 
+Ojo: hacer push a `main` publica la web en GitHub Pages. Por eso solo se sube con
+aprobación del usuario.
+
 ## Pasos
 1. `git status` y `git diff` (y `git diff --staged`) para ver exactamente qué ha cambiado.
 2. Revisa que no se cuele nada que no deba subirse: archivos .env, claves o tokens,
-   `node_modules/`, `.firebase/`, logs, archivos temporales. Si aparece algo así, NO lo
+   `node_modules/`, carpetas de caché o compilación, logs, archivos temporales. Si aparece algo así, NO lo
    añadas: avisa en tu respuesta y propone añadirlo a .gitignore.
 3. Agrupa los cambios en commits lógicos. Si todo es un mismo cambio, un solo commit.
    Añade los archivos por nombre (`git add ruta/archivo`), no con `git add -A` a ciegas.

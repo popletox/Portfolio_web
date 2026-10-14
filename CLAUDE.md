@@ -1,10 +1,12 @@
 # Portfolio personal
 
-Portfolio web tipo currículum, de una sola página, alojado en Firebase Hosting.
+Portfolio web tipo currículum, de una sola página, alojado en GitHub Pages.
 
 ## Decisiones del proyecto
 - Stack: HTML, CSS y JavaScript vanilla. Sin frameworks ni bundlers.
-- Hosting: Firebase Hosting (plan gratuito). Firestore solo si se añade algo interactivo.
+- Hosting: GitHub Pages, publicando la rama `main` desde la raíz del repositorio, sin paso
+  de compilación (sitio estático). Cada push a `main` publica la web.
+- Sin base de datos ni backend. Si en el futuro hiciera falta algo interactivo, se valorará aparte.
 - Repositorio en GitHub. Commits con Conventional Commits en español.
 - Idioma de la web: español (por definir si habrá versión en inglés).
 

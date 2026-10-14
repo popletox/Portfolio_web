@@ -4,7 +4,7 @@ Documento base · Miguel Ángel Torrijos · 11/10/2026
 
 1. Objetivo y alcance
 
-Portfolio personal con formato de currículum interactivo y proyecto de aprendizaje de desarrollo con IA. Una sola página con HTML, CSS y JavaScript; sin framework necesario de entrada. Desarrollo previsto en VS Code con Codex y alojamiento previsto en Firebase Hosting. No se necesita una base de datos para las funciones definidas.
+Portfolio personal con formato de currículum interactivo y proyecto de aprendizaje de desarrollo con IA. Una sola página con HTML, CSS y JavaScript; sin framework necesario de entrada. Desarrollo previsto en VS Code con Codex y alojamiento previsto en GitHub Pages. No se necesita una base de datos para las funciones definidas.
 
 2. Dirección visual
 

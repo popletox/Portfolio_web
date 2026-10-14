@@ -39,7 +39,7 @@ Flujo: petición → coordinador → programador → revisión → (con permiso)
 ## Tecnologías
 
 - HTML, CSS y JavaScript vanilla, sin frameworks ni bundlers.
-- Alojamiento previsto en Firebase Hosting (todavía no hay configuración de Firebase en el repositorio).
+- Alojamiento en GitHub Pages (pendiente de activar), publicando la rama `main` sin paso de compilación. URL prevista: https://popletox.github.io/Portfolio_web/
 
 ## Estructura de carpetas
 
