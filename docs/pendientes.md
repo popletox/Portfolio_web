@@ -24,6 +24,10 @@ Cómo mantenerlo:
 - [ ] **P34 · Revisar**: el hueco reservado a la estrella hace que los títulos de las tarjetas con mérito se corten antes (p. ej. en el tema Código "Proyecto provisional 1" se ve como "Proyecto provisional…").
 - [ ] **P38 · Hacer**: cuando una experiencia y un estudio, o dos experiencias, comparten periodo o sus títulos se solapan, desplazar uno a la izquierda de su centro y el otro a la derecha.
   - Relacionado con P02 (decisión de separarlos automáticamente) y P39 (3 o más).
+- [ ] **P41 · Hacer** (no urgente, pospuesto): si algún día hay fechas posteriores al mes actual, el degradado del eje empieza tras la última fecha, pero el de las barras en curso sigue terminando en el mes actual + 2, así que no acabarían a la par.
+  - Decisión (2026-10-14): no tiene sentido mostrar algo que todavía no ha sucedido. Al abordarlo, las fechas posteriores al mes actual se limitarán (se "fijarán") al mes actual en la cronología, de modo que el eje y las barras en curso siempre terminen a la par. Implementación pendiente.
+- [ ] **P42 · Revisar** (no urgente): los nombres a 45° de periodos cercanos se pisan (ahora, "QA Tester…" y "Desarrollador de videojuegos"). Ya pasaba antes del degradado.
+  - Relacionado con P02 y P38.
 - [ ] **P39 · Decidir**: cómo evitar que los textos se pisen si coinciden 3 o más estudios o experiencias (caso poco probable).
   - Relacionado con P38.
 
