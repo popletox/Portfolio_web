@@ -43,6 +43,11 @@
   --color-periodo-estudio: #569cd6;
   --color-periodo-experiencia: #f48771;
 
+  /* Línea de tiempo horizontal: estrella de los proyectos con mérito y su
+     fondo circular */
+  --color-estrella: #e2c08d;
+  --color-fondo-estrella: #33302a;
+
   /* Elementos provisionales (sin imagen real) */
   --color-miniatura-provisional: #3f8f43;
   --color-destacado-provisional: #c9741f;

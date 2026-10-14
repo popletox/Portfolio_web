@@ -17,9 +17,10 @@ Cómo mantenerlo:
 - [ ] **P02 · Revisar**: los nombres inclinados de periodos cercanos se pisan (p. ej. "QA Tester…" y "Técnico Desarrollo…"). Revisar con datos reales y, si sigue pasando, separarlos automáticamente.
 - [ ] **P03 · Revisar**: espacio vacío encima de los nombres (la altura se calcula para el nombre más largo posible).
 - [ ] **P04 · Decidir**: el primer año no tiene etiqueta si el eje empieza a mitad de año.
-- [ ] **P05 · Hacer**: paso 4, estrellas de mérito (sin acción) en los proyectos con mérito y ajustes de móvil.
 - [ ] **P06 · Decidir**: añadir arrastrar con el ratón o un "slider" visible para desplazar la franja (ahora solo hay scroll nativo).
 - [ ] **P07 · Revisar**: vista de móvil con los datos reales.
+- [ ] **P33 · Hacer**: ajustes de móvil y pulido de la Línea de tiempo.
+- [ ] **P34 · Revisar**: el hueco reservado a la estrella hace que los títulos de las tarjetas con mérito se corten antes (p. ej. en el tema Código "Proyecto provisional 1" se ve como "Proyecto provisional…").
 
 ## Proyectos y ventana de detalle
 
@@ -31,7 +32,8 @@ Cómo mantenerlo:
 
 ## Méritos
 
-- [ ] **P13 · Decidir**: cómo navegar a un mérito (no hay forma desde el paso 3 de Proyectos y la estrella de la línea de tiempo no hará nada). ¿Ventana propia como los proyectos?
+- [ ] **P13 · Decidir**: cómo navegar a un mérito (no hay forma desde el paso 3 de Proyectos y la estrella de la línea de tiempo no hace nada propio: abre el proyecto). ¿Ventana propia como los proyectos?
+- [ ] **P35 · Decidir**: mostrar también la estrella de reconocimiento en las tarjetas de la sección Proyectos (ahora solo está en la Línea de tiempo).
 
 ## Contenido
 
@@ -67,5 +69,7 @@ Puntos abiertos del [documento de diseño](diseno-portfolio.md).
 
 ## Hechos
 
+- [x] **P05 · Hacer** (2026-10-14): paso 4 de la Línea de tiempo, estrellas de mérito en los proyectos con mérito.
+  - Nota: estrellas de mérito hechas; los ajustes de móvil y el pulido pasan a P33.
 - [x] **P30 · Decidir** (2026-10-14): añadir a [`.claude/agents/programador.md`](../.claude/agents/programador.md) que no cierre procesos que no haya abierto él (al probar en el navegador cerró el Chrome del usuario).
   - Decisión: norma añadida a `programador.md` (sección Prohibido): cerrar solo el proceso propio y no dejar archivos de prueba en el repositorio.

@@ -133,28 +133,39 @@
     };
   }
 
-  // Array de ids -> referencias listas para pintar. Un id de proyecto de la
-  // sección Proyectos manda sobre el catálogo; una entrada del catálogo con
-  // enlace "#<id-proyecto>" también toma los datos del proyecto. Los ids
-  // desconocidos se ignoran
+  // Proyecto al que lleva un id de referencia (null si ninguno): el propio
+  // id si es de un proyecto de la sección Proyectos (manda sobre el
+  // catálogo) o una entrada del catálogo con enlace "#<id-proyecto>"
+  function proyectoDeReferencia(id, contexto) {
+    if (typeof id !== 'string') return null;
+    var catalogo = (contexto && contexto.referencias) || {};
+    var proyectosPorId = (contexto && contexto.proyectosPorId) || {};
+    if (Object.prototype.hasOwnProperty.call(proyectosPorId, id)) return proyectosPorId[id];
+    var entrada = Object.prototype.hasOwnProperty.call(catalogo, id) ? catalogo[id] : null;
+    if (entrada && typeof entrada.enlace === 'string') {
+      var enlace = entrada.enlace.trim();
+      var idEnlace = enlace.charAt(0) === '#' ? enlace.slice(1) : '';
+      if (idEnlace && Object.prototype.hasOwnProperty.call(proyectosPorId, idEnlace)) {
+        return proyectosPorId[idEnlace];
+      }
+    }
+    return null;
+  }
+
+  // Array de ids -> referencias listas para pintar (proyectoDeReferencia:
+  // las que llevan a un proyecto toman sus datos). Los ids desconocidos se
+  // ignoran
   function resolverReferencias(ids, contexto) {
     if (!Array.isArray(ids)) return [];
     var catalogo = (contexto && contexto.referencias) || {};
     var proyectosPorId = (contexto && contexto.proyectosPorId) || {};
     return ids.reduce(function (lista, id) {
       var valido = typeof id === 'string';
-      var proyecto = valido && Object.prototype.hasOwnProperty.call(proyectosPorId, id) ? proyectosPorId[id] : null;
       var entrada = valido && Object.prototype.hasOwnProperty.call(catalogo, id) ? catalogo[id] : null;
-      if (proyecto && entrada) {
+      if (entrada && valido && Object.prototype.hasOwnProperty.call(proyectosPorId, id)) {
         console.warn('Entrada del catálogo de referencias innecesaria (ya es un proyecto):', id);
       }
-      if (!proyecto && entrada && typeof entrada.enlace === 'string') {
-        var enlace = entrada.enlace.trim();
-        var idEnlace = enlace.charAt(0) === '#' ? enlace.slice(1) : '';
-        if (idEnlace && Object.prototype.hasOwnProperty.call(proyectosPorId, idEnlace)) {
-          proyecto = proyectosPorId[idEnlace];
-        }
-      }
+      var proyecto = proyectoDeReferencia(id, contexto);
       if (proyecto && typeof proyecto.titulo === 'string' && proyecto.titulo !== '') {
         lista.push(referenciaDesdeProyecto(proyecto));
       } else if (!proyecto && entrada && typeof entrada.titulo === 'string' && entrada.titulo !== '') {
@@ -648,11 +659,17 @@
   // montar las bandas con un filtro, obtener la tarjeta de un proyecto por id
   // (aunque el filtro la tenga fuera del DOM; sirve para saber si existe) y
   // crear el contenido de su ventana de detalle (null si el id no existe).
-  // crearTarjeta: <li> con una tarjeta nueva de un proyecto (la usa la Línea
-  // de tiempo, scripts/linea-tiempo.js). main.js añade abrirDetalle y urlDetalle
+  // crearTarjeta: <li> con una tarjeta nueva de un proyecto e
+  // idProyectoDeReferencia: id del proyecto al que lleva un id de referencia
+  // de los datos cargados, o null (los usa la Línea de tiempo, scripts/
+  // linea-tiempo.js). main.js añade abrirDetalle y urlDetalle
   window.Proyectos = {
     montar: montarBandasProyectos,
     crearTarjeta: crearTarjetaProyecto,
+    idProyectoDeReferencia: function (id) {
+      var proyecto = proyectoDeReferencia(id, contextoReferencias);
+      return proyecto ? proyecto.id : null;
+    },
     tarjeta: function (id) {
       return typeof id === 'string' && Object.prototype.hasOwnProperty.call(tarjetasPorId, id)
         ? tarjetasPorId[id]
@@ -854,7 +871,9 @@
     }
   }
 
-  // Catálogo de referencias y proyectos por id, para las tarjetas de Referencias
+  // Catálogo de referencias y proyectos por id, para las tarjetas de
+  // Referencias (el de los datos cargados queda en contextoReferencias)
+  var contextoReferencias = null;
   function crearContextoReferencias(datos) {
     var referencias = datos.referencias;
     if (!referencias || typeof referencias !== 'object' || Array.isArray(referencias)) referencias = {};
@@ -882,6 +901,7 @@
     .then(function (datos) {
       montarIntroduccion(datos.introduccion);
       var contexto = crearContextoReferencias(datos);
+      contextoReferencias = contexto;
       montarExperiencia(datos.experiencia, contexto);
       montarProyectos(datos.proyectos);
       montarMeritos(datos.meritos, contexto);

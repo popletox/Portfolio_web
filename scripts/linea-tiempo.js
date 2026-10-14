@@ -30,6 +30,11 @@
   var FILAS_EXTRA_CONECTOR = 2;
   var TEXTO_AVISO = 'No se ha podido cargar el contenido.';
   var TEXTO_ACTUALIDAD = 'actualidad';
+  var TEXTO_RECONOCIMIENTO = 'Reconocimiento: ';
+  var SVG_NS = 'http://www.w3.org/2000/svg';
+  // Estrella de cinco puntas en una caja de 24 x 24
+  var RUTA_ESTRELLA = 'M12 2.5l2.94 5.96 6.58.96-4.76 4.64 1.12 6.55L12 17.52l-5.88 3.09 ' +
+    '1.12-6.55-4.76-4.64 6.58-.96z';
   var MESES = [
     'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
     'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
@@ -252,15 +257,62 @@
     return partes.join(', ');
   }
 
+  // Méritos por proyecto: { idProyecto: [títulos] }. Un mérito cuenta para
+  // cada proyecto al que lleva alguna de sus referencias (id del proyecto o
+  // entrada del catálogo con enlace "#<id>": window.Proyectos.
+  // idProyectoDeReferencia). Los méritos sin proyecto no cuentan
+  function meritosPorProyecto(datos) {
+    var mapa = {};
+    var idDeReferencia = window.Proyectos && window.Proyectos.idProyectoDeReferencia;
+    if (typeof idDeReferencia !== 'function') return mapa;
+    (Array.isArray(datos.meritos) ? datos.meritos : []).forEach(function (merito) {
+      if (!merito || typeof merito !== 'object' || !Array.isArray(merito.referencias)) return;
+      var titulo = String(merito.titulo || '');
+      if (!titulo) return;
+      merito.referencias.forEach(function (referencia) {
+        var id = idDeReferencia(referencia);
+        if (!id) return;
+        if (!Object.prototype.hasOwnProperty.call(mapa, id)) mapa[id] = [];
+        if (mapa[id].indexOf(titulo) === -1) mapa[id].push(titulo);
+      });
+    });
+    return mapa;
+  }
+
+  // Estrella decorativa (sin acción) en la esquina de la tarjeta, con los
+  // méritos en el tooltip. Va dentro del botón: pulsarla abre la ventana
+  function crearEstrella(titulos) {
+    var estrella = crear('span', 'cronologia-estrella');
+    estrella.title = TEXTO_RECONOCIMIENTO + titulos.join(' · ');
+    estrella.setAttribute('aria-hidden', 'true');
+    var svg = document.createElementNS(SVG_NS, 'svg');
+    svg.setAttribute('viewBox', '0 0 24 24');
+    svg.setAttribute('focusable', 'false');
+    var ruta = document.createElementNS(SVG_NS, 'path');
+    ruta.setAttribute('d', RUTA_ESTRELLA);
+    svg.appendChild(ruta);
+    estrella.appendChild(svg);
+    return estrella;
+  }
+
+  // Lo que se añade al aria-label de una tarjeta con méritos
+  function etiquetaMeritos(titulos) {
+    return titulos.length === 1
+      ? ', con reconocimiento: ' + titulos[0]
+      : ', con ' + titulos.length + ' reconocimientos: ' + titulos.join(', ');
+  }
+
   // Una tarjeta por proyecto (todos: los filtros de la sección Proyectos no
   // cuentan), creada con la función de la sección (window.Proyectos.
   // crearTarjeta) más la clase --cronologia, en la marca del mes de su
   // fecha (también los en curso: su mes de inicio). Orden: por fecha
   // ascendente y, en el mismo mes, el del JSON (también el del Tab). Al
   // pulsarla, main.js abre la ventana por delegación (button.proyecto-
-  // tarjeta[data-proyecto]) con el foco de vuelta en esta tarjeta
+  // tarjeta[data-proyecto]) con el foco de vuelta en esta tarjeta. Los
+  // proyectos con algún mérito llevan una estrella (crearEstrella)
   function montarProyectos(datos) {
     proyectos = [];
+    var meritos = meritosPorProyecto(datos);
     var crearTarjeta = window.Proyectos && window.Proyectos.crearTarjeta;
     var validos = [];
     if (typeof crearTarjeta === 'function') {
@@ -291,7 +343,16 @@
       nodo.className = 'cronologia-proyecto';
       nodo.style.setProperty('--mes', String(item.mes));
       tarjeta.classList.add('proyecto-tarjeta--cronologia');
-      tarjeta.setAttribute('aria-label', etiquetaProyecto(item.proyecto));
+      var etiqueta = etiquetaProyecto(item.proyecto);
+      var titulos = Object.prototype.hasOwnProperty.call(meritos, item.proyecto.id)
+        ? meritos[item.proyecto.id]
+        : null;
+      if (titulos) {
+        tarjeta.classList.add('proyecto-tarjeta--merito');
+        tarjeta.appendChild(crearEstrella(titulos));
+        etiqueta += etiquetaMeritos(titulos);
+      }
+      tarjeta.setAttribute('aria-label', etiqueta);
       nodo.insertBefore(crear('span', 'cronologia-proyecto-conector'), tarjeta);
       lista.appendChild(nodo);
       proyectos.push({ mes: item.mes, nodo: nodo });

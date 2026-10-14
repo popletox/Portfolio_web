@@ -107,7 +107,7 @@ Copia este bloque dentro del array `"proyectos"`, separado del anterior por una 
 | `descripcion` | Sí | String o array de strings. |
 | `referencias` | No | Array de ids de proyectos o del catálogo `referencias`, como en Experiencia. |
 
-**Enlazar un mérito con un proyecto:** pon el `id` exacto del proyecto en el campo `referencias` del mérito (p. ej. `["mi-juego"]`); no hace falta ninguna entrada en el catálogo. La tarjeta toma el título y la primera imagen del proyecto y, al pulsarla, abre la ventana de detalle del proyecto sin mover la página; al cerrarla (también con el botón Atrás) se sigue en el mérito.
+**Enlazar un mérito con un proyecto:** pon el `id` exacto del proyecto en el campo `referencias` del mérito (p. ej. `["mi-juego"]`); no hace falta ninguna entrada en el catálogo. La tarjeta toma el título y la primera imagen del proyecto y, al pulsarla, abre la ventana de detalle del proyecto sin mover la página; al cerrarla (también con el botón Atrás) se sigue en el mérito. Además, citar un proyecto en `referencias` (por id, o con una entrada del catálogo cuyo `enlace` sea `#<id>`) hace que su tarjeta de la Línea de tiempo lleve una estrella de reconocimiento.
 
 ## Referencias
 

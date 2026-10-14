@@ -119,6 +119,12 @@ img {
   --separacion-eje-proyectos-cronologia: 0.75rem;
   --separacion-filas-proyectos-cronologia: 0.75rem;
   --hueco-tarjeta-cronologia: 0.5rem;
+  /* Estrella de los proyectos con mérito: diámetro de la insignia y cuánto
+     sobresale de la esquina superior derecha de la tarjeta (menos que
+     --hueco-tarjeta-cronologia y --separacion-filas-proyectos-cronologia,
+     para no tocar otra tarjeta) */
+  --tamano-estrella-cronologia: 1.375rem;
+  --salida-estrella-cronologia: 0.4rem;
   /* Hueco con el fondo de página entre la Línea de tiempo y el pie */
   --separacion-cronologia-pie: 2.75rem;
 }
@@ -1704,6 +1710,46 @@ button.proyecto-tarjeta {
   font-size: 0.7rem;
 }
 
+/* Proyectos con mérito: la tarjeta deja sobresalir la estrella (la imagen
+   recorta ella misma sus esquinas inferiores) y el título le deja sitio
+   (mismo alto: no cambia el tamaño de la tarjeta ni las filas) */
+.proyecto-tarjeta--merito {
+  overflow: visible;
+}
+
+.proyecto-tarjeta--merito .referencia-imagen {
+  overflow: hidden;
+  border-radius: 0 0 var(--radio-medio) var(--radio-medio);
+}
+
+.proyecto-tarjeta--cronologia.proyecto-tarjeta--merito .proyecto-tarjeta-titulo {
+  padding-right: calc(var(--tamano-estrella-cronologia) - var(--salida-estrella-cronologia));
+}
+
+/* Insignia decorativa, sin acción: es parte del botón, así que pulsarla
+   abre la ventana como el resto de la tarjeta; title con los méritos */
+.cronologia-estrella {
+  position: absolute;
+  top: calc(-1 * var(--salida-estrella-cronologia));
+  right: calc(-1 * var(--salida-estrella-cronologia));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--tamano-estrella-cronologia);
+  height: var(--tamano-estrella-cronologia);
+  border-radius: 50%;
+  background: var(--color-fondo-estrella);
+  box-shadow: 0 1px 3px var(--color-sombra);
+  color: var(--color-estrella);
+}
+
+.cronologia-estrella svg {
+  display: block;
+  width: 72%;
+  height: 72%;
+  fill: currentColor;
+}
+
 /* Oculto a la vista, legible por lector de pantalla */
 .solo-lector {
   position: absolute;
@@ -2426,6 +2472,8 @@ body.panel-abierto .boton-destacado-flecha {
     --margen-cronologia: 1rem;
     --ancho-tarjeta-cronologia: 5.5rem;
     --separacion-filas-proyectos-cronologia: 0.5rem;
+    --tamano-estrella-cronologia: 1.125rem;
+    --salida-estrella-cronologia: 0.35rem;
   }
 
   .proyecto-tarjeta--cronologia .proyecto-tarjeta-titulo {
