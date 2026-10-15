@@ -1547,9 +1547,9 @@ button.proyecto-tarjeta {
 }
 
 /* Lienzo: cada mes es el punto de su marca y entre marcas hay
-   --ancho-mes-cronologia; --meses-cronologia (ancho en meses: un mes de
-   margen antes de la primera marca y, tras la última, --mes-final-eje, el
-   degradado del eje más medio mes de margen) los pone el JS.
+   --ancho-mes-cronologia; --meses-cronologia (ancho en meses: antes de la
+   primera marca, --mes-inicial-eje, y tras la última, --mes-final-eje, el
+   degradado del eje más medio mes de margen a cada lado) lo pone el JS.
    Capas de arriba abajo: periodos (barras de estudios y experiencias),
    eje (meses y años) y proyectos (tarjetas). Dentro de cada capa, la X de
    un elemento es calc(var(--ancho-mes-cronologia) * var(--mes)) */
@@ -1726,9 +1726,10 @@ button.proyecto-tarjeta {
 }
 
 /* Eje: línea horizontal a --y-eje (en .cronologia-lienzo) del borde
-   superior de la capa. Sólida del borde izquierdo a la última marca
-   (--mes-final-eje, la del mes actual; lo pone el JS) y, desde ahí, se
-   desvanece a lo largo de --largo-degradado-cronologia meses */
+   superior de la capa. Sólida de la primera marca (--mes-inicial-eje, enero
+   del primer año con datos) a la última (--mes-final-eje, la del mes
+   actual); las dos las pone el JS. Antes de la primera aparece y tras la
+   última se desvanece, a lo largo de --largo-degradado-cronologia meses */
 .cronologia-eje {
   --alto-marca-mes: 0.6rem;
   --alto-marca-anio: 1.3rem;
@@ -1746,6 +1747,10 @@ button.proyecto-tarjeta {
   height: var(--grosor-linea-tiempo);
   background: linear-gradient(
     to right,
+    transparent calc(
+      var(--ancho-mes-cronologia) * (var(--mes-inicial-eje, 0) - var(--largo-degradado-cronologia))
+    ),
+    var(--color-texto-suave) calc(var(--ancho-mes-cronologia) * var(--mes-inicial-eje, 0)),
     var(--color-texto-suave) calc(var(--ancho-mes-cronologia) * var(--mes-final-eje, 0)),
     transparent
   );
