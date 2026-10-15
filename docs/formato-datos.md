@@ -63,7 +63,12 @@ Una vez fusionados los archivos, el contenido equivale a este objeto:
 
 ## Estudios
 
-Igual que Experiencia, cambiando `puesto` por `titulo` y `empresa` por `institucion`.
+Igual que Experiencia, cambiando `puesto` por `titulo` y `empresa` por `institucion`, con dos diferencias:
+
+- `tecnologia` (opcional): array de strings. Se muestra en línea antes de las habilidades personales: «Tecnología: Java · Python». La ventana de detalle de Proyectos tiene el mismo campo.
+- `aptitudes` puede ser un array vacío `[]` (de momento lo está en todos los estudios; ver P46).
+
+Las habilidades personales (campo `aptitudes`, etiqueta «Habilidades personales:») se muestran igual en Experiencia, Estudios y Proyectos. En el detalle de Estudios se omite el título «Referencias» sobre las tarjetas; Experiencia y Méritos lo conservan.
 
 ## Proyectos
 
@@ -83,7 +88,7 @@ Igual que Experiencia, cambiando `puesto` por `titulo` y `empresa` por `instituc
 | `enlaces` | No | Objeto `tipo → url`, p. ej. `{ "web": "https://...", "juego": "https://..." }`. Ver abajo. |
 | `imagenes` | Sí | Array (puede estar vacío `[]`). Ver abajo. |
 
-**Agrupación por año:** la sección muestra los proyectos en bandas horizontales, cada una encabezada por una línea con su etiqueta (año o «Actual») y con sus tarjetas debajo. Primero, los que tienen `"enCurso": true` (banda «Actual», solo si hay alguno); después, una banda por año (el de `fecha`), del más reciente al más antiguo con proyectos. Un año intermedio sin proyectos aparece solo como línea con su año; no se muestran años vacíos por encima del más reciente ni por debajo del más antiguo. Dentro de cada banda, los proyectos van por `fecha` descendente. Con un filtro activo, las bandas se recalculan con los proyectos visibles. Cada tarjeta muestra el título, la categoría y la primera imagen. Al pulsarla se abre la ventana de detalle del proyecto con todos sus campos: título, categoría, fecha («mes, AAAA», o «En curso · desde mes, AAAA» con `enCurso`), descripción, retos, tecnología, experiencia personal, comentarios adicionales, aptitudes clave y enlaces, en ese orden (los opcionales solo si tienen contenido), y todas las imágenes, ampliables en el visor.
+**Agrupación por año:** la sección muestra los proyectos en bandas horizontales, cada una encabezada por una línea con su etiqueta (año o «Actual») y con sus tarjetas debajo. Primero, los que tienen `"enCurso": true` (banda «Actual», solo si hay alguno); después, una banda por año (el de `fecha`), del más reciente al más antiguo con proyectos. Un año intermedio sin proyectos aparece solo como línea con su año; no se muestran años vacíos por encima del más reciente ni por debajo del más antiguo. Dentro de cada banda, los proyectos van por `fecha` descendente. Con un filtro activo, las bandas se recalculan con los proyectos visibles. Cada tarjeta muestra el título, la categoría y la primera imagen. Al pulsarla se abre la ventana de detalle del proyecto con todos sus campos: título, categoría, fecha («mes, AAAA», o «En curso · desde mes, AAAA» con `enCurso`), descripción, retos, tecnología, experiencia personal, comentarios adicionales, habilidades personales y enlaces, en ese orden (los opcionales solo si tienen contenido), y todas las imágenes, ampliables en el visor.
 
 **Enlaces (`enlaces`):** cada clave es un tipo y su valor la URL (mismas reglas que el resto de enlaces). Tipos disponibles, en el orden en que se muestran: `web` («Web») y `juego` («Juego»). Cada uno se ve en su línea como «**Web:** popletox.itch.io/mi-juego»: el texto es la URL sin `https://`/`http://` ni barra final. Los externos se abren en una pestaña nueva; `"#<id>"` de un proyecto abre su ventana. Una URL no válida hace que se ignore ese enlace. Un tipo no previsto se muestra al final con su nombre en mayúscula inicial (p. ej. `"steam"` → «Steam») y avisa en la consola. Para añadir un tipo nuevo, añade una línea al mapa `TIPOS_ENLACE_PROYECTO` de `scripts/contenido.js` (`steam: 'Steam',`).
 

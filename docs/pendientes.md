@@ -63,6 +63,8 @@ Cómo mantenerlo:
 - [ ] **P45 · Decidir** (añadido 2026-10-15): especificaciones de las imágenes de `recursos/Imagenes/`. Convertirlas a WebP y fijar un tamaño máximo por imagen (peso en KB y/o resolución en píxeles, por decidir). Ahora son 31 PNG y algunos pasan de 2 MB (p. ej. `recursos/Imagenes/DungeonStaff/IMG-01.png`, 2,7 MB).
   - Estado: pendiente de decidir y aplicar. La conversión se pospone porque se siguen preparando las imágenes.
   - Relacionado con P16 (creación de `recursos/`).
+- [ ] **P46 · Hacer** (añadido 2026-10-15): rellenar `aptitudes` (habilidades personales) en `datos/datos-estudios.json` y confirmar los valores provisionales de `tecnologia` (Grado: Java, Python, C++, Linux; Máster: Unity, Unreal Engine, Perforce, Jira).
+  - Decidido 2026-10-15: la etiqueta de aptitudes pasa a «Habilidades personales:» (el campo JSON sigue siendo `aptitudes`) y el título «Referencias» se quita solo en Estudios.
 
 ## Diseño
 
