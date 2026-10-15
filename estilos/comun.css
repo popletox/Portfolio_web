@@ -1798,22 +1798,18 @@ button.proyecto-tarjeta {
   transform: translateX(-50%);
 }
 
-/* Proyectos: una tarjeta por proyecto bajo la marca de su mes, en filas
-   (0 = la más cercana al eje) que reparte el JS para que no se pisen. Cada
-   .cronologia-proyecto lleva --mes y --fila; la capa lleva --filas-proyectos
-   y --alto-tarjeta-cronologia (alto medido de la tarjeta más alta, en px).
-   column-gap no maqueta nada (la capa no es flex ni grid): es la forma de
-   que el JS lea --hueco-tarjeta-cronologia ya resuelto en px */
+/* Proyectos: una tarjeta por proyecto bajo la marca de su mes, a la
+   altura que calcula el JS para que no se pisen (las compactas son más
+   bajas: no hay filas fijas). Cada .cronologia-proyecto lleva --mes y
+   --y-proyecto (px desde la primera posición bajo el eje); la capa lleva
+   --alto-proyectos (px hasta el borde inferior de la tarjeta más baja).
+   column-gap y row-gap no maquetan nada (la capa no es flex ni grid): son
+   la forma de que el JS lea --hueco-tarjeta-cronologia y
+   --separacion-filas-proyectos-cronologia ya resueltos en px */
 .cronologia-proyectos {
-  --paso-fila-proyectos: calc(
-    var(--alto-tarjeta-cronologia, 9rem) + var(--separacion-filas-proyectos-cronologia)
-  );
   column-gap: var(--hueco-tarjeta-cronologia);
-  height: calc(
-    var(--separacion-eje-proyectos-cronologia)
-    + var(--filas-proyectos, 1) * var(--paso-fila-proyectos)
-    - var(--separacion-filas-proyectos-cronologia)
-  );
+  row-gap: var(--separacion-filas-proyectos-cronologia);
+  height: calc(var(--separacion-eje-proyectos-cronologia) + var(--alto-proyectos, 9rem));
 }
 
 .cronologia-proyectos-lista {
@@ -1825,14 +1821,18 @@ button.proyecto-tarjeta {
 /* Centrada en la marca de su mes */
 .cronologia-proyecto {
   position: absolute;
-  top: calc(var(--separacion-eje-proyectos-cronologia) + var(--fila, 0) * var(--paso-fila-proyectos));
+  top: calc(var(--separacion-eje-proyectos-cronologia) + var(--y-proyecto, 0px));
   left: calc(var(--ancho-mes-cronologia) * var(--mes) - var(--ancho-tarjeta-cronologia) / 2);
   display: flex;
   width: var(--ancho-tarjeta-cronologia);
 }
 
 /* Línea fina de la línea del eje al borde superior de la tarjeta; por
-   detrás de todas las tarjetas (z-index), también al cruzar filas */
+   detrás de todas las tarjetas (z-index), también al cruzar filas. Una
+   sola por mes: solo la lleva la tarjeta más alejada del eje; las demás
+   del mes (--atravesada, scripts/linea-tiempo.js) no tienen la suya y la
+   del mes pasa por detrás de ellas (dos líneas superpuestas se verían de
+   otro color por el suavizado de bordes) */
 .cronologia-proyecto-conector {
   position: absolute;
   z-index: 0;
@@ -1842,10 +1842,14 @@ button.proyecto-tarjeta {
   height: calc(
     var(--alto-eje-cronologia) - var(--y-eje)
     + var(--separacion-eje-proyectos-cronologia)
-    + var(--fila, 0) * var(--paso-fila-proyectos)
+    + var(--y-proyecto, 0px)
   );
   background: var(--color-texto-suave);
   transform: translateX(-50%);
+}
+
+.cronologia-proyecto--atravesada > .cronologia-proyecto-conector {
+  display: none;
 }
 
 /* Halos arriba (::before) y abajo (::after) de cada tarjeta: degradado
@@ -1861,7 +1865,9 @@ button.proyecto-tarjeta {
    el hueco entre la curva y el borde recto, por el que si no reaparecería
    un conector ajeno. El degradado visible (fuera de la tarjeta) sigue
    midiendo --alto-halo-tarjeta-cronologia. La ranura del superior ocupa
-   todo su alto, también la parte interior.
+   todo su alto, también la parte interior. El inferior lleva la misma
+   ranura en las tarjetas --atravesada, para que la línea de su mes llegue
+   nítida a la tarjeta de debajo.
    Sin capturar clics ni el hover de la tarjeta */
 .cronologia-proyecto::before,
 .cronologia-proyecto::after {
@@ -1877,6 +1883,10 @@ button.proyecto-tarjeta {
 .cronologia-proyecto::before {
   bottom: calc(100% - var(--radio-medio));
   background: linear-gradient(to top, var(--color-fondo-suave) var(--radio-medio), transparent);
+}
+
+.cronologia-proyecto::before,
+.cronologia-proyecto--atravesada::after {
   -webkit-mask-image: linear-gradient(
     to right,
     #000 calc(50% - var(--ranura-halo-tarjeta-cronologia) / 2),
@@ -1915,6 +1925,13 @@ button.proyecto-tarjeta {
 .proyecto-tarjeta--cronologia .proyecto-tarjeta-categoria {
   padding: 0.05rem 0.5rem 0.4rem;
   font-size: 0.7rem;
+}
+
+/* Tarjeta compacta: 2.º y siguientes proyectos de un mes con 3 o más
+   (scripts/linea-tiempo.js). Sin imagen (el JS no la deja; esto es por si
+   acaso): solo el título (alto de dos líneas) y la categoría */
+.proyecto-tarjeta--compacta .referencia-imagen {
+  display: none;
 }
 
 /* Proyectos con mérito: la tarjeta deja sobresalir la estrella (la imagen

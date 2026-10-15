@@ -7,8 +7,10 @@
 //                         45° (decorativo, aria-hidden)
 //   .cronologia-eje       marcas de mes y de año (decorativo, aria-hidden)
 //   .cronologia-proyectos tarjetas de proyectos en filas automáticas, con un
-//                         conector hasta la marca de su mes; abren la
-//                         ventana de detalle (interactivas, no aria-hidden)
+//                         solo conector por mes, de la marca de su mes a la
+//                         tarjeta más alejada del eje (pasa por detrás de
+//                         las demás de ese mes); abren la ventana de detalle
+//                         (interactivas, no aria-hidden)
 //
 // Escala: cada mes es un PUNTO, su marca del eje, y entre dos marcas
 // seguidas hay --ancho-mes-cronologia (estilos/comun.css). La posición 0 es
@@ -37,9 +39,12 @@
   var MARGEN_EXTREMO_MESES = 0.5;
   var LARGO_MIN_MESES = 0.5; // por defecto de --largo-min-periodo-cronologia
   var LARGO_DEGRADADO_MESES = 2; // por defecto de --largo-degradado-cronologia
-  // Filas que puede bajar una tarjeta de proyecto, por debajo de la primera
-  // en la que cabe, para que su conector no quede oculto tras otra tarjeta
+  // Huecos que puede bajar una tarjeta de proyecto, por debajo del primero
+  // en el que cabe, para que su conector no quede oculto tras otra tarjeta
   var FILAS_EXTRA_CONECTOR = 2;
+  // Proyectos en un mismo mes a partir de los cuales todos los de ese mes
+  // usan la tarjeta compacta (sin imagen)
+  var MIN_PROYECTOS_COMPACTAS = 3;
   var TEXTO_AVISO = 'No se ha podido cargar el contenido.';
   var TEXTO_ACTUALIDAD = 'actualidad';
   var TEXTO_RECONOCIMIENTO = 'Reconocimiento: ';
@@ -349,7 +354,10 @@
   // ascendente y, en el mismo mes, el del JSON (también el del Tab). Al
   // pulsarla, main.js abre la ventana por delegación (button.proyecto-
   // tarjeta[data-proyecto]) con el foco de vuelta en esta tarjeta. Los
-  // proyectos con algún mérito llevan una estrella (crearEstrella)
+  // proyectos con algún mérito llevan una estrella (crearEstrella). En un
+  // mes con MIN_PROYECTOS_COMPACTAS o más proyectos, todos llevan la
+  // tarjeta compacta (--compacta: sin imagen, solo título y categoría; mismo botón y
+  // aria-label)
   function montarProyectos(datos) {
     proyectos = [];
     var meritos = meritosPorProyecto(datos);
@@ -374,6 +382,11 @@
     validos.sort(function (a, b) {
       return a.mes - b.mes || a.indice - b.indice;
     });
+    // Proyectos por mes
+    var porMes = {};
+    validos.forEach(function (item) {
+      porMes[item.mes] = (porMes[item.mes] || 0) + 1;
+    });
 
     var lista = crear('ul', 'cronologia-proyectos-lista');
     lista.setAttribute('aria-label', 'Proyectos');
@@ -383,6 +396,12 @@
       nodo.className = 'cronologia-proyecto';
       nodo.style.setProperty('--mes', String(item.mes));
       tarjeta.classList.add('proyecto-tarjeta--cronologia');
+      if (porMes[item.mes] >= MIN_PROYECTOS_COMPACTAS) {
+        // Sin imagen: se quita (así tampoco se descarga)
+        tarjeta.classList.add('proyecto-tarjeta--compacta');
+        var imagen = tarjeta.querySelector('.referencia-imagen');
+        if (imagen) tarjeta.removeChild(imagen);
+      }
       var etiqueta = etiquetaProyecto(item.proyecto);
       var titulos = Object.prototype.hasOwnProperty.call(meritos, item.proyecto.id)
         ? meritos[item.proyecto.id]
@@ -416,63 +435,95 @@
     colocarProyectos();
   }
 
-  // Filas automáticas con las medidas ya resueltas (ancho por mes, tamaño
-  // de la tarjeta, --hueco-tarjeta-cronologia). Por orden de fecha, cada
-  // tarjeta va a la fila más baja (0 = junto al eje) en la que no se pisa
-  // con otra: dos tarjetas de una fila quedan al menos a un hueco (el
-  // intervalo de cada una se amplía medio hueco por lado). Las del mismo mes
-  // quedan una debajo de otra. Conectores: el de una tarjeta en una fila > 0
-  // cruza las filas de arriba por detrás de sus tarjetas; si en esa fila
-  // quedaría oculto tras una tarjeta de otro mes (o ella taparía el de otra
-  // de otro mes en una fila inferior), se prueba hasta FILAS_EXTRA_CONECTOR
-  // filas más abajo y se usa la primera libre de ambas cosas; si no hay
-  // ninguna, se queda en la primera en la que cabe
+  // Colocación automática con las medidas ya resueltas (ancho por mes,
+  // ancho y alto de cada tarjeta, --hueco-tarjeta-cronologia en horizontal
+  // y --separacion-filas-proyectos-cronologia en vertical). Las tarjetas no
+  // miden todas lo mismo (las compactas son más bajas), así que no hay
+  // filas fijas: cada una tiene su altura (y, en px desde la primera
+  // posición bajo el eje). Por orden de fecha, cada tarjeta va al hueco más
+  // alto (y = 0 junto al eje, o justo bajo otra tarjeta, a una separación)
+  // en el que no se pisa con otra: dos tarjetas que se solapan en
+  // horizontal (el intervalo de cada una se amplía medio hueco por lado)
+  // quedan al menos a una separación en vertical. Las del mismo mes quedan
+  // una debajo de otra. Conectores: uno por mes, el de su tarjeta más
+  // alejada del eje (las demás del mes llevan la clase
+  // cronologia-proyecto--atravesada: sin conector propio y con una ranura
+  // en el halo inferior por la que pasa el del mes). El conector de una
+  // tarjeta que no está en y = 0 cruza por detrás de las de encima;
+  // si en ese hueco quedaría oculto tras una tarjeta de otro mes (o ella
+  // taparía el de otra de otro mes más abajo), se prueban hasta
+  // FILAS_EXTRA_CONECTOR huecos más abajo y se usa el primero libre de ambas
+  // cosas; si no hay ninguno, se queda en el primero en el que cabe
   function colocarProyectos() {
     if (!proyectos.length) return;
     var ancho = anchoMes();
     anchoMesColocado = ancho;
-    var hueco = parseFloat(getComputedStyle(capas.proyectos).columnGap) || 0;
-    var alto = 0;
+    var estilo = getComputedStyle(capas.proyectos);
+    var hueco = parseFloat(estilo.columnGap) || 0;
+    var separacion = parseFloat(estilo.rowGap) || 0;
     var colocadas = [];
 
-    function cabe(fila, desde, hasta) {
+    // Ninguna tarjeta que se solape en horizontal ocupa [y, y + alto] (con
+    // la separación vertical)
+    function cabe(y, alto, desde, hasta) {
       return colocadas.every(function (otra) {
-        return otra.fila !== fila || otra.hasta <= desde || hasta <= otra.desde;
+        if (otra.hasta <= desde || hasta <= otra.desde) return true;
+        return otra.y + otra.alto + separacion <= y + 0.5 ||
+          y + alto + separacion <= otra.y + 0.5;
       });
     }
-    // Ninguna tarjeta de otro mes tapa este conector ni esta tarjeta tapa
-    // el de otra
-    function conectorVisible(fila, mes, x, medio) {
+    // Ninguna tarjeta de otro mes tapa este conector (las de encima) ni esta
+    // tarjeta tapa el de otra (las de debajo)
+    function conectorVisible(y, mes, x, medio) {
       return colocadas.every(function (otra) {
-        if (otra.mes === mes || otra.fila === fila) return true;
-        if (otra.fila < fila) return Math.abs(otra.x - x) >= otra.medio;
+        if (otra.mes === mes || Math.abs(otra.y - y) < 0.5) return true;
+        if (otra.y < y) return Math.abs(otra.x - x) >= otra.medio;
         return Math.abs(x - otra.x) >= medio;
       });
     }
 
+    var fondo = 0; // borde inferior de la tarjeta más baja
+    var extremos = {}; // por mes: { y, nodo } de su tarjeta más alejada
     proyectos.forEach(function (item) {
       var caja = item.nodo.getBoundingClientRect();
-      if (caja.height > alto) alto = caja.height;
+      var alto = caja.height;
       var medio = caja.width / 2;
       var x = item.mes * ancho;
       var desde = x - medio - hueco / 2;
       var hasta = x + medio + hueco / 2;
-      var base = 0;
-      while (!cabe(base, desde, hasta)) base++;
-      var fila = base;
-      for (var f = base; f <= base + FILAS_EXTRA_CONECTOR; f++) {
-        if (cabe(f, desde, hasta) && conectorVisible(f, item.mes, x, medio)) {
-          fila = f;
+      // Huecos posibles: junto al eje y bajo cada tarjeta, de arriba abajo
+      var posiciones = [0];
+      colocadas.forEach(function (otra) {
+        posiciones.push(otra.y + otra.alto + separacion);
+      });
+      posiciones.sort(function (a, b) { return a - b; });
+      var libres = posiciones.filter(function (y, i) {
+        return (i === 0 || y - posiciones[i - 1] >= 0.5) && cabe(y, alto, desde, hasta);
+      });
+      // Siempre hay uno: el que queda bajo la tarjeta más baja
+      var y = libres[0];
+      for (var f = 0; f < libres.length && f <= FILAS_EXTRA_CONECTOR; f++) {
+        if (conectorVisible(libres[f], item.mes, x, medio)) {
+          y = libres[f];
           break;
         }
       }
-      colocadas.push({ fila: fila, mes: item.mes, x: x, medio: medio, desde: desde, hasta: hasta });
-      item.nodo.style.setProperty('--fila', String(fila));
+      colocadas.push({ y: y, alto: alto, mes: item.mes, x: x, medio: medio, desde: desde, hasta: hasta });
+      item.nodo.style.setProperty('--y-proyecto', y + 'px');
+      if (y + alto > fondo) fondo = y + alto;
+      // Tarjeta más alejada del eje de cada mes (la que lleva el conector).
+      // La comprobación de conectores vale igual con uno solo por mes: cada
+      // tarjeta comprueba el tramo de 0 a su y, y el de la más alejada
+      // cubre toda la línea del mes
+      if (!extremos[item.mes] || y > extremos[item.mes].y) {
+        extremos[item.mes] = { y: y, nodo: item.nodo };
+      }
+    });
+    proyectos.forEach(function (item) {
+      item.nodo.classList.toggle('cronologia-proyecto--atravesada', extremos[item.mes].nodo !== item.nodo);
     });
 
-    var filas = 1 + Math.max.apply(null, colocadas.map(function (otra) { return otra.fila; }));
-    capas.proyectos.style.setProperty('--filas-proyectos', String(filas));
-    capas.proyectos.style.setProperty('--alto-tarjeta-cronologia', alto + 'px');
+    capas.proyectos.style.setProperty('--alto-proyectos', fondo + 'px');
   }
 
   // Al cambiar el tamaño de una tarjeta (móvil <-> ordenador, tema con otra
