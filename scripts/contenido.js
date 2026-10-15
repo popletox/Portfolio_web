@@ -456,6 +456,7 @@
     { tipo: 'steam', nombre: 'Steam', clase: 'steam', icono: './recursos/Iconos/steam-icon.svg' },
     { tipo: 'linkedin', nombre: 'LinkedIn', clase: 'linkedin', icono: './recursos/Iconos/linkedin-icon.svg' },
     { tipo: 'instagram', nombre: 'Instagram', clase: 'instagram', icono: './recursos/Iconos/instagram-icon.svg' },
+    { tipo: 'youtube', nombre: 'YouTube', clase: 'youtube', icono: null },
     { tipo: 'pdf-download', nombre: 'Descargar PDF', clase: 'pdf', icono: null, descarga: true }
   ];
   var TIPO_ENLACE_GENERICO = 'web-generico';

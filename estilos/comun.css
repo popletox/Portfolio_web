@@ -1221,6 +1221,11 @@ body.detalle-abierto {
   mask-image: url("../recursos/Iconos/github-icon.svg");
 }
 
+.detalle-proyecto-boton-icono--youtube .icono-mascara {
+  -webkit-mask-image: url("../recursos/Iconos/youtube-icon.svg");
+  mask-image: url("../recursos/Iconos/youtube-icon.svg");
+}
+
 .detalle-proyecto-boton-icono--pdf .icono-mascara {
   -webkit-mask-image: url("../recursos/Iconos/download-pdf-icon.svg");
   mask-image: url("../recursos/Iconos/download-pdf-icon.svg");
