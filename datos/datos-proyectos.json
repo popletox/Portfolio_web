@@ -226,10 +226,24 @@
         "Github"
       ],
       "imagenes": [
-        { "alt": "[Provisional] Imagen 1 de NILSH" },
-        { "alt": "[Provisional] Imagen 2 de NILSH" },
-        { "alt": "[Provisional] Imagen 3 de NILSH" },
-        { "alt": "[Provisional] Imagen 4 de NILSH" }
+        { "low": "./recursos/Imagenes/Unity/NILSH/IMG-Title_low.webp",
+          "high": "./recursos/Imagenes/Unity/NILSH/IMG-Title_high.webp",
+          "alt": "Titulo principal del juego." },
+        { "low": "./recursos/Imagenes/Unity/NILSH/IMG-01_low.webp",
+          "high": "./recursos/Imagenes/Unity/NILSH/IMG-01_high.webp",
+          "alt": "Imagen del juego." },
+        { "low": "./recursos/Imagenes/Unity/NILSH/IMG-02_low.webp",
+          "high": "./recursos/Imagenes/Unity/NILSH/IMG-02_high.webp",
+          "alt": "Imagen del juego." },
+        { "low": "./recursos/Imagenes/Unity/NILSH/IMG-03_low.webp",
+          "high": "./recursos/Imagenes/Unity/NILSH/IMG-03_high.webp",
+          "alt": "Imagen del juego." },
+        { "low": "./recursos/Imagenes/Unity/NILSH/IMG-04_low.webp",
+          "high": "./recursos/Imagenes/Unity/NILSH/IMG-04_high.webp",
+          "alt": "Imagen del juego." },
+        { "low": "./recursos/Imagenes/Unity/NILSH/IMG-05_low.webp",
+          "high": "./recursos/Imagenes/Unity/NILSH/IMG-05_high.webp",
+          "alt": "Imagen del juego." }
       ],
       "enlaces":{
         "steam": { "url": "https://store.steampowered.com/app/4916130/NILSH/" },
@@ -257,6 +271,8 @@
       }
     },
 
+
+
     {
       "id": "proyecto-american-crew-style-hunt",
       "titulo": "American Crew: Style Hunt",
@@ -267,12 +283,16 @@
         "Unreal Engine"
       ],
       "imagenes": [
-        { "low": "./recursos/Imagenes/Fortnite/RevlonStyleHunt/IMG_Main_low.webp",
-          "high": "./recursos/Imagenes/Fortnite/RevlonStyleHunt/IMG_Main_high.webp",
-          "alt": "Imagen promocional del juego" }
+        { "low": "./recursos/Imagenes/Fortnite/RevlonStyleHunt/IMG-Main_low.webp",
+          "high": "./recursos/Imagenes/Fortnite/RevlonStyleHunt/IMG-Main_high.webp",
+          "alt": "Imagen promocional del juego." },
+        { "low": "./recursos/Imagenes/Fortnite/RevlonStyleHunt/IMG-01_low.webp",
+          "high": "./recursos/Imagenes/Fortnite/RevlonStyleHunt/IMG-01_high.webp",
+          "alt": "Imagen promocional del juego." }
       ],
       "enlaces": {
         "linkedin": { "url": "https://lnkd.in/p/e9z7cPz7" },
+        "youtube": { "url": "https://www.youtube.com/watch?v=JniCnanzGYA" },
         "web-generico": [{ "texto": "Fortnite", "url": "https://www.fortnite.com/@playoffnations/6127-7612-8506?lang=es-ES" }]
       }
     }
