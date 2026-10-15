@@ -10,8 +10,8 @@
         "Durante mi etapa en la universidad, participé en la Hackathon IV, organizada por BEST UC3M con la colaboración de Iberinform e IBM. Además, formé parte de un equipo universitario de voleibol.",
         "Lo que más me llevo de esta etapa, casi por encima de todos los conocimientos, es el crecimiento personal que experimenté. Fue una etapa de descubrir cosas nuevas, aprender y conocer gente. Todo ello me convirtió en la persona que soy hoy y forjó muchas de mis mejores aptitudes."
       ],
-      "tecnologia": ["Java", "Python", "C++", "Linux"],
-      "aptitudes": [],
+      "tecnologia": ["Java", "Python", "C", "C++", "SQL", "HTML", "CSS", "JavaScript", "GitHub", "Linux"],
+      "aptitudes": ["Comunicación eficaz", "Resolución de problemas", "Planificación"],
       "referencias": ["proyecto-ref-beans-out"]
     },
     {
@@ -24,7 +24,7 @@
         "En este periodo, aprendí de numerosos profesionales de la industria a manejar herramientas como Unity o Unreal Engine y a gestionar proyectos con Perforce o Jira. Durante el curso, desarrollé un proyecto de fin de máster junto a un equipo multidisciplinar que abarcaba concept art, escultura, producción, diseño y audio. Este proyecto me enseñó mucho sobre cómo comunicarme y trabajar de forma eficaz con personas de distintos ámbitos, algo que después me ha aportado mucho en mi experiencia laboral."
       ],
       "tecnologia": ["Unity", "Unreal Engine", "Perforce", "Jira"],
-      "aptitudes": [],
+      "aptitudes": ["Comunicación eficaz", "Resolución de problemas", "Planificación", "Gestión de equipos"],
       "referencias": ["proyecto-ref-gloom-reaper"]
     }
   ]
