@@ -140,6 +140,15 @@ img {
   --separacion-eje-proyectos-cronologia: 0.75rem;
   --separacion-filas-proyectos-cronologia: 0.75rem;
   --hueco-tarjeta-cronologia: 0.5rem;
+  /* Halos de las tarjetas de proyectos de la Línea de tiempo: alto del
+     degradado (del fondo de la franja a transparente) que difumina los
+     conectores que pasan por detrás de una tarjeta, arriba y abajo (no más
+     de la mitad de --separacion-filas-proyectos-cronologia, para que los
+     de dos filas seguidas no se pisen; la parte que entra por debajo de la
+     tarjeta, --radio-medio, no cuenta), y ancho de la ranura central del
+     halo superior por la que llega nítido el conector propio */
+  --alto-halo-tarjeta-cronologia: 0.375rem;
+  --ranura-halo-tarjeta-cronologia: 5px;
   /* Estrella de los proyectos con mérito: diámetro de la insignia y cuánto
      sobresale de la esquina superior derecha de la tarjeta (menos que
      --hueco-tarjeta-cronologia y --separacion-filas-proyectos-cronologia,
@@ -1829,10 +1838,62 @@ button.proyecto-tarjeta {
   transform: translateX(-50%);
 }
 
-/* Tarjeta de la sección Proyectos, más pequeña; título siempre con el
-   alto de dos líneas para que todas midan igual */
-.proyecto-tarjeta--cronologia {
+/* Halos arriba (::before) y abajo (::after) de cada tarjeta: degradado
+   del fondo de la franja a transparente, alejándose de la tarjeta. Van por
+   encima de los conectores y por debajo de todas las tarjetas (y de sus
+   estrellas), así que un conector de otro mes que pasa por detrás de una
+   tarjeta se desvanece antes de tocarla y reaparece poco a poco al otro
+   lado, en vez de cortarse de golpe. El superior deja una ranura
+   transparente en el centro para el conector propio, que llega nítido; los
+   de otros meses pasan a un mes (--ancho-mes-cronologia) o más del centro.
+   Cada halo se mete además --radio-medio por dentro de la tarjeta, en color
+   sólido: por debajo de ella solo asoma en las esquinas redondeadas y tapa
+   el hueco entre la curva y el borde recto, por el que si no reaparecería
+   un conector ajeno. El degradado visible (fuera de la tarjeta) sigue
+   midiendo --alto-halo-tarjeta-cronologia. La ranura del superior ocupa
+   todo su alto, también la parte interior.
+   Sin capturar clics ni el hover de la tarjeta */
+.cronologia-proyecto::before,
+.cronologia-proyecto::after {
+  content: "";
+  position: absolute;
   z-index: 1;
+  left: 0;
+  width: 100%;
+  height: calc(var(--alto-halo-tarjeta-cronologia) + var(--radio-medio));
+  pointer-events: none;
+}
+
+.cronologia-proyecto::before {
+  bottom: calc(100% - var(--radio-medio));
+  background: linear-gradient(to top, var(--color-fondo-suave) var(--radio-medio), transparent);
+  -webkit-mask-image: linear-gradient(
+    to right,
+    #000 calc(50% - var(--ranura-halo-tarjeta-cronologia) / 2),
+    transparent calc(50% - var(--ranura-halo-tarjeta-cronologia) / 2),
+    transparent calc(50% + var(--ranura-halo-tarjeta-cronologia) / 2),
+    #000 calc(50% + var(--ranura-halo-tarjeta-cronologia) / 2)
+  );
+  mask-image: linear-gradient(
+    to right,
+    #000 calc(50% - var(--ranura-halo-tarjeta-cronologia) / 2),
+    transparent calc(50% - var(--ranura-halo-tarjeta-cronologia) / 2),
+    transparent calc(50% + var(--ranura-halo-tarjeta-cronologia) / 2),
+    #000 calc(50% + var(--ranura-halo-tarjeta-cronologia) / 2)
+  );
+}
+
+.cronologia-proyecto::after {
+  top: calc(100% - var(--radio-medio));
+  background: linear-gradient(to bottom, var(--color-fondo-suave) var(--radio-medio), transparent);
+}
+
+/* Tarjeta de la sección Proyectos, más pequeña; título siempre con el
+   alto de dos líneas para que todas midan igual. Por encima de los halos
+   de todas las tarjetas (z-index 1): el halo inferior de una tarjeta no
+   tapa la estrella que sobresale de la de la fila de abajo */
+.proyecto-tarjeta--cronologia {
+  z-index: 2;
 }
 
 .proyecto-tarjeta--cronologia .proyecto-tarjeta-titulo {
@@ -2628,6 +2689,7 @@ body.panel-abierto .boton-destacado-flecha {
     --margen-cronologia: 1rem;
     --ancho-tarjeta-cronologia: 5.5rem;
     --separacion-filas-proyectos-cronologia: 0.5rem;
+    --alto-halo-tarjeta-cronologia: 0.25rem;
     --tamano-estrella-cronologia: 1.125rem;
     --salida-estrella-cronologia: 0.35rem;
   }
