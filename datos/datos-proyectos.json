@@ -14,13 +14,17 @@
         "C#"
       ],
       "imagenes": [
-        { "high": "./recursos/Imagenes/Unity/BeansOut/Title.png",
+        { "low": "./recursos/Imagenes/Unity/BeansOut/IMG-Title_low.webp",
+          "high": "./recursos/Imagenes/Unity/BeansOut/IMG-Title_high.webp",
           "alt": "Imagen de la pantalla de titulo." },
-        { "high": "./recursos/Imagenes/Unity/BeansOut/IMG-01.png",
+        { "low": "./recursos/Imagenes/Unity/BeansOut/IMG-01_low.webp",
+          "high": "./recursos/Imagenes/Unity/BeansOut/IMG-01_high.webp",
           "alt": "Imagen del combate y los enemigos." },
-        { "high": "./recursos/Imagenes/Unity/BeansOut/IMG-02.png",
+        { "low": "./recursos/Imagenes/Unity/BeansOut/IMG-02_low.webp",
+          "high": "./recursos/Imagenes/Unity/BeansOut/IMG-02_high.webp",
           "alt": "Imagen del menú de pausa." },
-        { "high": "./recursos/Imagenes/Unity/BeansOut/IMG-03.png",
+        { "low": "./recursos/Imagenes/Unity/BeansOut/IMG-03_low.webp",
+          "high": "./recursos/Imagenes/Unity/BeansOut/IMG-03_high.webp",
           "alt": "Imagen de la sala inicial y jefe de las alubias." }
       ],
       "enlaces":{
@@ -39,13 +43,17 @@
         "Blender"
       ],
       "imagenes": [
-        { "high": "./recursos/Imagenes/Unity/MinimalSpace2Live/IMG-Title.png",
-          "alt": "Imagen de la pantalla de titulo." },
-        { "high": "./recursos/Imagenes/Unity/MinimalSpace2Live/IMG-Menu.png",
+        { "low": "./recursos/Imagenes/Unity/MinimalSpace2Live/IMG-Title_low.webp",
+          "high": "./recursos/Imagenes/Unity/MinimalSpace2Live/IMG-Title_high.webp",
+          "alt": "Imagen del titulo del juego." },
+        { "low": "./recursos/Imagenes/Unity/MinimalSpace2Live/IMG-Menu_low.webp",
+          "high": "./recursos/Imagenes/Unity/MinimalSpace2Live/IMG-Menu_high.webp",
           "alt": "Imagen del menú principal del juego." },
-        { "high": "./recursos/Imagenes/Unity/MinimalSpace2Live/IMG-01.png",
+        { "low": "./recursos/Imagenes/Unity/MinimalSpace2Live/IMG-01_low.webp",
+          "high": "./recursos/Imagenes/Unity/MinimalSpace2Live/IMG-01_high.webp",
           "alt": "Imagen del modo de juego." },
-        { "high": "./recursos/Imagenes/Unity/MinimalSpace2Live/IMG-02.png",
+        { "low": "./recursos/Imagenes/Unity/MinimalSpace2Live/IMG-02_low.webp",
+          "high": "./recursos/Imagenes/Unity/MinimalSpace2Live/IMG-02_high.webp",
           "alt": "Imagen de la pantalla de derrota." }
       ],
       "enlaces":{
@@ -63,13 +71,17 @@
         "C#"
       ],
       "imagenes": [
-        { "high": "./recursos/Imagenes/Unity/TheRoot/IMG-Logo.png",
+        { "low": "./recursos/Imagenes/Unity/TheRoot/IMG-Logo_low.webp",
+          "high": "./recursos/Imagenes/Unity/TheRoot/IMG-Logo_high.webp",
           "alt": "Imagen del logo del titulo." },
-        { "high": "./recursos/Imagenes/Unity/TheRoot/IMG-01.png",
+        { "low": "./recursos/Imagenes/Unity/TheRoot/IMG-01_low.webp",
+          "high": "./recursos/Imagenes/Unity/TheRoot/IMG-01_high.webp",
           "alt": "Imagen del juego." },
-        { "high": "./recursos/Imagenes/Unity/TheRoot/IMG-02.png",
+        { "low": "./recursos/Imagenes/Unity/TheRoot/IMG-02_low.webp",
+          "high": "./recursos/Imagenes/Unity/TheRoot/IMG-02_high.webp",
           "alt": "Imagen del juego." },
-        { "high": "./recursos/Imagenes/Unity/TheRoot/IMG-03.png",
+        { "low": "./recursos/Imagenes/Unity/TheRoot/IMG-03_low.webp",
+          "high": "./recursos/Imagenes/Unity/TheRoot/IMG-03_high.webp",
           "alt": "Imagen del juego." }
       ],
       "enlaces":{
@@ -91,12 +103,18 @@
         "Perforce"
       ],
       "imagenes": [
-        { "high": "./recursos/Imagenes/UnrealEngine/GloomReaper/Title.png",
-          "alt": "Titulo principal del juego." },
-        { "high": "./recursos/Imagenes/UnrealEngine/GloomReaper/IMG-01.png",
+        { "low": "./recursos/Imagenes/UnrealEngine/GloomReaper/IMG-Title-low.webp",
+          "high": "./recursos/Imagenes/UnrealEngine/GloomReaper/IMG-Title_high.webp",
+          "alt": "Logo principal del juego." },
+        { "low": "./recursos/Imagenes/UnrealEngine/GloomReaper/IMG-01_low.webp",
+          "high": "./recursos/Imagenes/UnrealEngine/GloomReaper/IMG-01_high.webp",
           "alt": "Imagen del combate en cuevas." },
-        { "high": "./recursos/Imagenes/UnrealEngine/GloomReaper/IMG-02.png",
-          "alt": "Imagen del tutorial inicial." }
+        { "low": "./recursos/Imagenes/UnrealEngine/GloomReaper/IMG-02_low.webp",
+          "high": "./recursos/Imagenes/UnrealEngine/GloomReaper/IMG-02_high.webp",
+          "alt": "Imagen del tutorial inicial." },
+        { "low": "./recursos/Imagenes/UnrealEngine/GloomReaper/IMG-03_low.webp",
+          "high": "./recursos/Imagenes/UnrealEngine/GloomReaper/IMG-03_high.webp",
+          "alt": "Imagen promocional del juego" }
       ],
       "enlaces":{
         "linkedin": { "url": "https://www.linkedin.com/company/smokitanuki/home/" },
@@ -115,9 +133,14 @@
         "Blueprints"
       ],
       "imagenes": [
-        { "high": "./recursos/Imagenes/UnrealEngine/DungeonStaff/IMG_Menu.png",
+        { "low": "./recursos/Imagenes/UnrealEngine/DungeonStaff/IMG_Logo_low.webp",
+          "high": "./recursos/Imagenes/UnrealEngine/DungeonStaff/IMG_Logo_high.webp",
+          "alt": "Personaje principal del juego." },
+        { "low": "./recursos/Imagenes/UnrealEngine/DungeonStaff/IMG_Menu_low.webp",
+          "high": "./recursos/Imagenes/UnrealEngine/DungeonStaff/IMG_Menu_high.webp",
           "alt": "Titulo del menu principal del juego." },
-        { "high": "./recursos/Imagenes/UnrealEngine/DungeonStaff/IMG-01.png",
+        { "low": "./recursos/Imagenes/UnrealEngine/DungeonStaff/IMG-01_low.webp",
+          "high": "./recursos/Imagenes/UnrealEngine/DungeonStaff/IMG-01_high.webp",
           "alt": "Imagen del juego." }
       ],
       "enlaces":{
@@ -135,15 +158,20 @@
         "C#"
       ],
       "imagenes": [
-        { "high": "./recursos/Imagenes/Unity/TheEndlessFishingSheep/IMG_Logo.png",
+        { "low": "./recursos/Imagenes/Unity/TheEndlessFishingSheep/IMG_Logo_low.webp",
+          "high": "./recursos/Imagenes/Unity/TheEndlessFishingSheep/IMG_Logo_high.webp",
           "alt": "Titulo principal del juego." },
-        { "high": "./recursos/Imagenes/Unity/TheEndlessFishingSheep/IMG_Menu.png",
+        { "low": "./recursos/Imagenes/Unity/TheEndlessFishingSheep/IMG_Menu_low.webp",
+          "high": "./recursos/Imagenes/Unity/TheEndlessFishingSheep/IMG_Menu_high.webp",
           "alt": "Titulo del menu principal del juego." },
-        { "high": "./recursos/Imagenes/Unity/TheEndlessFishingSheep/IMG_01.png",
+        { "low": "./recursos/Imagenes/Unity/TheEndlessFishingSheep/IMG_01_low.webp",
+          "high": "./recursos/Imagenes/Unity/TheEndlessFishingSheep/IMG_01_high.webp",
           "alt": "Imagen del juego." },
-        { "high": "./recursos/Imagenes/Unity/TheEndlessFishingSheep/IMG_02.png",
+        { "low": "./recursos/Imagenes/Unity/TheEndlessFishingSheep/IMG_02_low.webp",
+          "high": "./recursos/Imagenes/Unity/TheEndlessFishingSheep/IMG_02_high.webp",
           "alt": "Imagen del juego." },
-        { "high": "./recursos/Imagenes/Unity/TheEndlessFishingSheep/IMG_03.png",
+        { "low": "./recursos/Imagenes/Unity/TheEndlessFishingSheep/IMG_03_low.webp",
+          "high": "./recursos/Imagenes/Unity/TheEndlessFishingSheep/IMG_03_high.webp",
           "alt": "Imagen del juego." }
       ],
       "enlaces":{
@@ -161,17 +189,23 @@
         "C#"
       ],
       "imagenes": [
-        { "high": "./recursos/Imagenes/Unity/RunningOutOfPower/IMG_Logo.png",
+        { "low": "./recursos/Imagenes/Unity/RunningOutOfPower/IMG_Logo_low.webp",
+          "high": "./recursos/Imagenes/Unity/RunningOutOfPower/IMG_Logo_high.webp",
           "alt": "Titulo principal del juego." },
-        { "high": "./recursos/Imagenes/Unity/RunningOutOfPower/IMG_Menu.png",
+        { "low": "./recursos/Imagenes/Unity/RunningOutOfPower/IMG_Menu_low.webp",
+          "high": "./recursos/Imagenes/Unity/RunningOutOfPower/IMG_Menu_high.webp",
           "alt": "Titulo del menu principal del juego." },
-        { "high": "./recursos/Imagenes/Unity/RunningOutOfPower/IMG_01.png",
+        { "low": "./recursos/Imagenes/Unity/RunningOutOfPower/IMG_01_low.webp",
+          "high": "./recursos/Imagenes/Unity/RunningOutOfPower/IMG_01_high.webp",
           "alt": "Imagen del juego." },
-        { "high": "./recursos/Imagenes/Unity/RunningOutOfPower/IMG_02.png",
+        { "low": "./recursos/Imagenes/Unity/RunningOutOfPower/IMG_02_low.webp",
+          "high": "./recursos/Imagenes/Unity/RunningOutOfPower/IMG_02_high.webp",
           "alt": "Imagen del juego." },
-        { "high": "./recursos/Imagenes/Unity/RunningOutOfPower/IMG_03.png",
+        { "low": "./recursos/Imagenes/Unity/RunningOutOfPower/IMG_03_low.webp",
+          "high": "./recursos/Imagenes/Unity/RunningOutOfPower/IMG_03_high.webp",
           "alt": "Imagen del juego." },
-        { "high": "./recursos/Imagenes/Unity/RunningOutOfPower/IMG_04.png",
+        { "low": "./recursos/Imagenes/Unity/RunningOutOfPower/IMG_04_low.webp",
+          "high": "./recursos/Imagenes/Unity/RunningOutOfPower/IMG_04_high.webp",
           "alt": "Imagen del juego." }
       ],
       "enlaces":{
@@ -232,7 +266,12 @@
       "tecnologia": [
         "Unreal Engine"
       ],
-      "enalces": {
+      "imagenes": [
+        { "low": "./recursos/Imagenes/Fortnite/RevlonStyleHunt/IMG_Main_low.webp",
+          "high": "./recursos/Imagenes/Fortnite/RevlonStyleHunt/IMG_Main_high.webp",
+          "alt": "Imagen promocional del juego" }
+      ],
+      "enlaces": {
         "linkedin": { "url": "https://lnkd.in/p/e9z7cPz7" },
         "web-generico": [{ "texto": "Fortnite", "url": "https://www.fortnite.com/@playoffnations/6127-7612-8506?lang=es-ES" }]
       }
