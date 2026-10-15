@@ -99,7 +99,9 @@
           "alt": "Imagen del tutorial inicial." }
       ],
       "enlaces":{
-        "steam": { "url": "https://store.steampowered.com/app/2378410/Gloom_Reaper/" }
+        "linkedin": { "url": "https://www.linkedin.com/company/smokitanuki/home/" },
+        "steam": { "url": "https://store.steampowered.com/app/2378410/Gloom_Reaper/" },
+        "instagram": { "url": "https://store.steampowered.com/app/2378410/Gloom_Reaper/" }
       }
     },
     {
@@ -173,7 +175,8 @@
           "alt": "Imagen del juego." }
       ],
       "enlaces":{
-        "itch.io": { "url": "https://popletox.itch.io/running-out-of-power" }
+        "itch.io": { "url": "https://popletox.itch.io/running-out-of-power" },
+        "linkedin": { "url": "https://lnkd.in/p/eJZ5c7Jv" }
       }
     },
     {
