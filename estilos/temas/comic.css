@@ -12,6 +12,10 @@
   --color-fondo-suave: #f2f2f2;
   --color-fondo-suave-hover: #e6e6e6;
   --color-panel: #e8e8e8;
+  /* Región de enlaces del detalle de proyecto (el panel usa --color-fondo)
+     y fondo de sus botones al pasar el ratón */
+  --color-fondo-enlaces: #e3e7ed;
+  --color-boton-enlaces-hover: #d3d9e1;
 
   /* Texto */
   --color-texto: #222222;

@@ -22,7 +22,10 @@
           "alt": "Imagen del menú de pausa." },
         { "high": "./recursos/Imagenes/BeansOut/IMG-03.png",
           "alt": "Imagen de la sala inicial y jefe de las alubias." }
-      ]
+      ],
+      "enlaces":{
+        "pdf-download": { "url": "./recursos/Documentos/videojuego_procedural_unity_tfg.pdf" }
+      }
     },
     {
       "id": "proyecto-minimal-space-to-live",
@@ -46,7 +49,7 @@
           "alt": "Imagen de la pantalla de derrota." }
       ],
       "enlaces":{
-        "juego":"https://popletox.itch.io/minimalspace2live"
+        "itch.io": { "url": "https://popletox.itch.io/minimalspace2live" }
       }
     },
     {
@@ -70,7 +73,7 @@
           "alt": "Imagen del juego." }
       ],
       "enlaces":{
-        "juego":"https://popletox.itch.io/the-root"
+        "itch.io": { "url": "https://popletox.itch.io/the-root" }
       }
     },
     {
@@ -96,7 +99,7 @@
           "alt": "Imagen del tutorial inicial." }
       ],
       "enlaces":{
-        "juego":"https://store.steampowered.com/app/2378410/Gloom_Reaper/"
+        "steam": { "url": "https://store.steampowered.com/app/2378410/Gloom_Reaper/" }
       }
     },
     {
@@ -116,7 +119,7 @@
           "alt": "Imagen del juego." }
       ],
       "enlaces":{
-        "juego":"https://rocio-benito.itch.io/dungeons-staff"
+        "itch.io": { "url": "https://rocio-benito.itch.io/dungeons-staff" }
       }
     },
     {
@@ -142,7 +145,7 @@
           "alt": "Imagen del juego." }
       ],
       "enlaces":{
-        "juego":"https://popletox.itch.io/the-endless-fishing-sheep"
+        "itch.io": { "url": "https://popletox.itch.io/the-endless-fishing-sheep" }
       }
     },
     {
@@ -170,7 +173,7 @@
           "alt": "Imagen del juego." }
       ],
       "enlaces":{
-        "juego":"https://popletox.itch.io/running-out-of-power"
+        "itch.io": { "url": "https://popletox.itch.io/running-out-of-power" }
       }
     },
     {
@@ -192,7 +195,7 @@
         { "alt": "[Provisional] Imagen 4 de NILSH" }
       ],
       "enlaces":{
-        "juego":"https://store.steampowered.com/app/4916130/NILSH/"
+        "steam": { "url": "https://store.steampowered.com/app/4916130/NILSH/" }
       }
     },
 

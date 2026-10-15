@@ -1102,26 +1102,90 @@ body.detalle-abierto {
   margin-top: 0.75rem;
 }
 
-/* Enlaces ("Web: …", "Juego: …"), uno por línea */
+/* Enlaces: región con fondo propio del tema (el detalle usa --color-fondo)
+   y borde sutil, con una fila de botones centrada que pasa a la línea
+   siguiente si no cabe. Primero los redondos de icono y después los de
+   texto ("web-generico") */
 .detalle-proyecto-enlaces {
-  margin-top: 0.75rem;
+  margin-top: var(--espacio);
+  padding: 0.75rem;
+  border: 1px solid var(--color-borde-boton-panel);
+  border-radius: var(--radio-medio);
+  background: var(--color-fondo-enlaces);
 }
 
-.detalle-proyecto-accion {
-  margin: 0.25rem 0 0;
-  overflow-wrap: anywhere;
+.detalle-proyecto-enlaces-fila {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
 }
 
-.detalle-proyecto-accion:first-child {
-  margin-top: 0;
+/* Botón redondo con solo el icono; fondo del color de la página, como las
+   píldoras de filtro dentro de una caja suave */
+.detalle-proyecto-boton-icono {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--area-tactil-minima);
+  height: var(--area-tactil-minima);
+  border-radius: 50%;
+  background: var(--color-fondo);
+  color: var(--color-texto);
+  transition: background-color var(--duracion-transicion) ease;
 }
 
-.detalle-proyecto-enlace {
-  color: var(--color-enlace);
+.detalle-proyecto-icono {
+  display: block;
+  width: 1.5rem;
+  height: 1.5rem;
 }
 
-.detalle-proyecto-enlace:focus-visible {
+/* Iconos monocromo: el SVG hace de máscara y se pinta con el color de texto
+   del tema (negro en claro, claro en oscuro…) */
+.detalle-proyecto-icono-mascara {
+  background-color: currentColor;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+}
+
+.detalle-proyecto-boton-icono--github .detalle-proyecto-icono-mascara {
+  -webkit-mask-image: url("../recursos/Iconos/github-icon.svg");
+  mask-image: url("../recursos/Iconos/github-icon.svg");
+}
+
+.detalle-proyecto-boton-icono--pdf .detalle-proyecto-icono-mascara {
+  -webkit-mask-image: url("../recursos/Iconos/download-pdf-icon.svg");
+  mask-image: url("../recursos/Iconos/download-pdf-icon.svg");
+}
+
+/* Botón de texto: rectangular con esquinas redondeadas, como .filtro-proyecto */
+.detalle-proyecto-boton-texto {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--area-tactil-minima);
+  padding: 0.4rem 0.9rem;
   border-radius: var(--radio-pequeno);
+  background: var(--color-fondo);
+  color: var(--color-texto);
+  text-decoration: none;
+  overflow-wrap: anywhere;
+  transition: background-color var(--duracion-transicion) ease;
+}
+
+.detalle-proyecto-boton-icono:hover,
+.detalle-proyecto-boton-texto:hover {
+  background: var(--color-boton-enlaces-hover);
+}
+
+.detalle-proyecto-boton-icono:focus-visible,
+.detalle-proyecto-boton-texto:focus-visible {
   outline: 3px solid var(--color-foco);
   outline-offset: 2px;
 }

@@ -429,14 +429,6 @@
     return parrafo;
   }
 
-  // Tipos de "enlaces" de un proyecto y su nombre visible, en el orden en que
-  // se muestran. Para añadir un tipo nuevo, añade aquí una línea:
-  //   tipo: 'Nombre visible',
-  var TIPOS_ENLACE_PROYECTO = {
-    web: 'Web',
-    juego: 'Juego'
-  };
-
   // URL sin "http(s)://" ni barra final, como texto del enlace
   function limpiarUrl(url) {
     return url.replace(/^https?:\/\//i, '').replace(/\/+$/, '') || url;
@@ -452,38 +444,105 @@
     return apartado;
   }
 
-  // "Web: dominio/ruta", uno por línea: primero los tipos conocidos (en el
-  // orden del mapa) y después los desconocidos. URLs no válidas: se ignoran
+  // Botones de icono de "enlaces", en el orden en que se muestran (después
+  // van los de "web-generico"). nombre: aria-label y title; icono: ruta del
+  // SVG (con colores de marca, como <img>) o null si es monocromo (el icono
+  // lo pinta una máscara CSS en .detalle-proyecto-boton-icono--<clase>);
+  // descarga: añade el atributo download. Para añadir un tipo nuevo, añade
+  // aquí una entrada y, si es monocromo, su máscara en estilos/comun.css
+  var TIPOS_ENLACE_PROYECTO = [
+    { tipo: 'github', nombre: 'GitHub', clase: 'github', icono: null },
+    { tipo: 'itch.io', nombre: 'itch.io', clase: 'itch-io', icono: './recursos/Iconos/itch-io-icon.svg' },
+    { tipo: 'steam', nombre: 'Steam', clase: 'steam', icono: './recursos/Iconos/steam-icon.svg' },
+    { tipo: 'linkedin', nombre: 'LinkedIn', clase: 'linkedin', icono: './recursos/Iconos/linkedin-icon.svg' },
+    { tipo: 'pdf-download', nombre: 'Descargar PDF', clase: 'pdf', icono: null, descarga: true }
+  ];
+  var TIPO_ENLACE_GENERICO = 'web-generico';
+
+  // Como esUrlSegura, pero admite también rutas relativas ("./…" o "../…"),
+  // p. ej. un PDF del propio repositorio
+  function esUrlEnlaceSegura(url) {
+    if (typeof url !== 'string') return false;
+    return esUrlSegura(url) || /^\.{1,2}\//.test(url.trim());
+  }
+
+  // URL de una entrada { url: "…" }; '' si no es válida (con aviso)
+  function urlEntradaEnlace(entrada, tipo, idProyecto) {
+    var url = entrada && typeof entrada === 'object' && typeof entrada.url === 'string'
+      ? entrada.url.trim() : '';
+    if (!esUrlEnlaceSegura(url)) {
+      console.warn('Proyecto "' + idProyecto + '": enlace "' + tipo + '" sin url válida; se ignora.');
+      return '';
+    }
+    return url;
+  }
+
+  // Enlace a otra página: en pestaña nueva
+  function abrirEnPestanaNueva(enlace, url) {
+    if (/^https?:/i.test(url)) {
+      enlace.target = '_blank';
+      enlace.rel = 'noopener noreferrer';
+    }
+  }
+
+  // Región de enlaces del detalle: fila de botones redondos de icono (en el
+  // orden de TIPOS_ENLACE_PROYECTO) y después los botones de texto de
+  // "web-generico" (objeto o array de { texto, url }). Claves desconocidas y
+  // entradas sin url válida: se ignoran con aviso. null si no queda ninguno
   function crearEnlacesProyecto(enlaces, idProyecto) {
     if (!enlaces || typeof enlaces !== 'object' || Array.isArray(enlaces)) return null;
-    var conocidos = Object.keys(TIPOS_ENLACE_PROYECTO).filter(function (tipo) {
-      return Object.prototype.hasOwnProperty.call(enlaces, tipo);
-    });
-    var desconocidos = Object.keys(enlaces).filter(function (tipo) {
-      return !Object.prototype.hasOwnProperty.call(TIPOS_ENLACE_PROYECTO, tipo);
-    });
-    var bloque = crear('div', 'detalle-proyecto-enlaces');
-    conocidos.concat(desconocidos).forEach(function (tipo) {
-      var url = typeof enlaces[tipo] === 'string' ? enlaces[tipo].trim() : '';
-      if (!esUrlSegura(url)) return;
-      var nombre = TIPOS_ENLACE_PROYECTO[tipo];
-      if (!Object.prototype.hasOwnProperty.call(TIPOS_ENLACE_PROYECTO, tipo)) {
-        nombre = tipo.charAt(0).toUpperCase() + tipo.slice(1);
+    var tiposConocidos = TIPOS_ENLACE_PROYECTO.map(function (t) { return t.tipo; });
+    Object.keys(enlaces).forEach(function (tipo) {
+      if (tipo !== TIPO_ENLACE_GENERICO && tiposConocidos.indexOf(tipo) === -1) {
         console.warn('Proyecto "' + idProyecto + '": tipo de enlace desconocido "' + tipo +
           '". Añádelo a TIPOS_ENLACE_PROYECTO en scripts/contenido.js.');
       }
-      var enlace = crearEnlace(limpiarUrl(url), url, 'detalle-proyecto-enlace');
-      if (/^https?:/i.test(url)) {
-        enlace.target = '_blank';
-        enlace.rel = 'noopener noreferrer';
-      }
-      var accion = crear('p', 'detalle-proyecto-accion');
-      accion.appendChild(crear('span', 'linea-tiempo-etiqueta', nombre + ':'));
-      accion.appendChild(document.createTextNode(' '));
-      accion.appendChild(enlace);
-      bloque.appendChild(accion);
     });
-    return bloque.childNodes.length ? bloque : null;
+
+    var fila = crear('div', 'detalle-proyecto-enlaces-fila');
+    TIPOS_ENLACE_PROYECTO.forEach(function (t) {
+      if (!Object.prototype.hasOwnProperty.call(enlaces, t.tipo)) return;
+      var url = urlEntradaEnlace(enlaces[t.tipo], t.tipo, idProyecto);
+      if (!url) return;
+      var boton = crear('a', 'detalle-proyecto-boton-icono detalle-proyecto-boton-icono--' + t.clase);
+      boton.setAttribute('href', url);
+      boton.setAttribute('aria-label', t.nombre);
+      boton.title = t.nombre;
+      if (t.descarga) boton.setAttribute('download', '');
+      abrirEnPestanaNueva(boton, url);
+      if (t.icono) {
+        var img = crear('img', 'detalle-proyecto-icono');
+        img.src = t.icono;
+        img.alt = '';
+        img.width = 24;
+        img.height = 24;
+        boton.appendChild(img);
+      } else {
+        var mascara = crear('span', 'detalle-proyecto-icono detalle-proyecto-icono-mascara');
+        mascara.setAttribute('aria-hidden', 'true');
+        boton.appendChild(mascara);
+      }
+      fila.appendChild(boton);
+    });
+
+    var genericos = enlaces[TIPO_ENLACE_GENERICO];
+    if (genericos != null) {
+      (Array.isArray(genericos) ? genericos : [genericos]).forEach(function (entrada) {
+        var url = urlEntradaEnlace(entrada, TIPO_ENLACE_GENERICO, idProyecto);
+        if (!url) return;
+        var texto = typeof entrada.texto === 'string' && entrada.texto.trim()
+          ? entrada.texto.trim() : limpiarUrl(url);
+        var boton = crear('a', 'detalle-proyecto-boton-texto', texto);
+        boton.setAttribute('href', url);
+        abrirEnPestanaNueva(boton, url);
+        fila.appendChild(boton);
+      });
+    }
+
+    if (!fila.childNodes.length) return null;
+    var region = crear('div', 'detalle-proyecto-enlaces');
+    region.appendChild(fila);
+    return region;
   }
 
   // Contenido de la ventana: texto (título, categoría, fecha, descripción,
