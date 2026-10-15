@@ -111,11 +111,11 @@
     return contenedor;
   }
 
-  // Lista en línea con etiqueta ("Aptitudes clave: a · b"); la etiqueta es
-  // opcional y por defecto "Aptitudes clave:"
+  // Lista en línea con etiqueta ("Habilidades personales: a · b"); la
+  // etiqueta es opcional y por defecto "Habilidades personales:"
   function crearAptitudes(aptitudes, etiqueta) {
     var bloque = crear('div', 'linea-tiempo-aptitudes');
-    bloque.appendChild(crear('span', 'linea-tiempo-etiqueta', etiqueta || 'Aptitudes clave:'));
+    bloque.appendChild(crear('span', 'linea-tiempo-etiqueta', etiqueta || 'Habilidades personales:'));
     bloque.appendChild(document.createTextNode(' '));
     var lista = crear('ul', 'lista-en-linea');
     aptitudes.forEach(function (aptitud) {
@@ -236,12 +236,15 @@
     return imagen;
   }
 
-  // Bloque "Referencias": h4 y cuadrícula de tarjetas (null si no hay ninguna válida)
-  function crearReferencias(ids, contexto) {
+  // Bloque "Referencias": h4 y cuadrícula de tarjetas (null si no hay ninguna válida).
+  // sinTitulo (opcional): true para omitir el h4 (se usa en Estudios)
+  function crearReferencias(ids, contexto, sinTitulo) {
     var referencias = resolverReferencias(ids, contexto);
     if (!referencias.length) return null;
     var bloque = crear('div', 'linea-tiempo-proyectos linea-tiempo-referencias');
-    bloque.appendChild(crear('h4', 'linea-tiempo-proyectos-titulo', 'Referencias'));
+    if (!sinTitulo) {
+      bloque.appendChild(crear('h4', 'linea-tiempo-proyectos-titulo', 'Referencias'));
+    }
     var lista = crear('ul', 'referencias-lista');
     referencias.forEach(function (referencia) {
       lista.appendChild(crearTarjetaReferencia(referencia));
@@ -263,7 +266,7 @@
   }
 
   // Entrada de línea de tiempo con fechas de rango (Experiencia, Estudios)
-  // datos: { idDetalle, titulo, subtitulo, fechaInicio, fechaFin, descripcion, aptitudes, referencias }
+  // datos: { idDetalle, titulo, subtitulo, fechaInicio, fechaFin, descripcion, tecnologia, aptitudes, referencias }
   function crearEntradaRango(datos) {
     var entrada = crear('li', 'linea-tiempo-entrada');
     entrada.appendChild(crearFechaRango(datos.fechaInicio, datos.fechaFin));
@@ -272,7 +275,8 @@
   }
 
   // Cuerpo común: h3 con botón, subtítulo y detalle desplegable.
-  // datos.referencias (bloque de Referencias o null) es opcional.
+  // datos.tecnologia (array de textos) y datos.referencias (bloque de
+  // Referencias o null) son opcionales.
   function crearCuerpo(datos) {
     var cuerpo = crear('div', 'linea-tiempo-cuerpo');
 
@@ -299,6 +303,9 @@
     crearParrafos(datos.descripcion, 'linea-tiempo-descripcion').forEach(function (p) {
       interior.appendChild(p);
     });
+    if (Array.isArray(datos.tecnologia) && datos.tecnologia.length) {
+      interior.appendChild(crearAptitudes(datos.tecnologia, 'Tecnología:'));
+    }
     if (Array.isArray(datos.aptitudes) && datos.aptitudes.length) {
       interior.appendChild(crearAptitudes(datos.aptitudes));
     }
@@ -630,8 +637,9 @@
         fechaInicio: item.fechaInicio,
         fechaFin: item.fechaFin,
         descripcion: item.descripcion,
+        tecnologia: item.tecnologia,
         aptitudes: item.aptitudes,
-        referencias: crearReferencias(item.referencias, contexto)
+        referencias: crearReferencias(item.referencias, contexto, true)
       });
     });
     lista.replaceChildren.apply(lista, entradas);

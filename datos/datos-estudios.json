@@ -5,12 +5,13 @@
       "institucion": "Universidad Carlos III Madrid",
       "fechaInicio": "2017-09",
       "fechaFin": "2021-07",
-      "descripcion": "[Provisional]",
-      "aptitudes": [
-        "[Provisional] Aptitud provisional A",
-        "[Provisional] Aptitud provisional B",
-        "[Provisional] Aptitud provisional C"
+      "descripcion": [
+        "Durante mis cuatro años de carrera en Ingeniería Informática, aprendí y trabajé con múltiples herramientas, lenguajes de programación como Java, Python y C++, y sistemas operativos como Linux. Conocí a muchas personas que me acompañaron y me enseñaron durante toda esta etapa, entre las cuales se encuentran algunos de mis mejores amigos. Trabajé tanto en grupo como en solitario, y aprendí a gestionar el estrés, los plazos de entrega y los conflictos entre compañeros.",
+        "Durante mi etapa en la universidad, participé en la Hackathon IV, organizada por BEST UC3M con la colaboración de Iberinform e IBM. Además, formé parte de un equipo universitario de voleibol.",
+        "Lo que más me llevo de esta etapa, casi por encima de todos los conocimientos, es el crecimiento personal que experimenté. Fue una etapa de descubrir cosas nuevas, aprender y conocer gente. Todo ello me convirtió en la persona que soy hoy y forjó muchas de mis mejores aptitudes."
       ],
+      "tecnologia": ["Java", "Python", "C++", "Linux"],
+      "aptitudes": [],
       "referencias": ["proyecto-ref-beans-out"]
     },
     {
@@ -18,12 +19,12 @@
       "institucion": "Universidad Complutense Madrid",
       "fechaInicio": "2022-10",
       "fechaFin": "2023-07",
-      "descripcion": "[Provisional]",
-      "aptitudes": [
-        "[Provisional] Aptitud provisional A",
-        "[Provisional] Aptitud provisional B",
-        "[Provisional] Aptitud provisional C"
+      "descripcion": [
+        "Tras terminar mis estudios universitarios, quise profundizar en un sector que siempre me ha apasionado: el mundo de los videojuegos. Eso me llevó a continuar mi formación con el Máster en Desarrollo de Videojuegos de la Universidad Complutense de Madrid. Este curso de un año fue suficiente para abrirme los ojos a un mundo del que solo había arañado la superficie.",
+        "En este periodo, aprendí de numerosos profesionales de la industria a manejar herramientas como Unity o Unreal Engine y a gestionar proyectos con Perforce o Jira. Durante el curso, desarrollé un proyecto de fin de máster junto a un equipo multidisciplinar que abarcaba concept art, escultura, producción, diseño y audio. Este proyecto me enseñó mucho sobre cómo comunicarme y trabajar de forma eficaz con personas de distintos ámbitos, algo que después me ha aportado mucho en mi experiencia laboral."
       ],
+      "tecnologia": ["Unity", "Unreal Engine", "Perforce", "Jira"],
+      "aptitudes": [],
       "referencias": ["proyecto-ref-gloom-reaper"]
     }
   ]
