@@ -116,7 +116,7 @@ Cada imagen:
 | Campo | Obligatorio | Descripción |
 | --- | --- | --- |
 | `alt` | Sí | Descripción de la imagen (accesibilidad). |
-| `low` | No | Ruta a la versión pequeña, p. ej. `"recursos/Imagenes/Unity/MiJuego/IMG-01.png"`. Si falta, la miniatura usa `high`; si tampoco hay `high`, se muestra el cuadrado provisional. Recomendable ponerla para que la página cargue más ligera. |
+| `low` | No | Ruta a la versión pequeña, p. ej. `"recursos/Imagenes/Unity/MiJuego/IMG-01_low.webp"`. Si falta, la miniatura usa `high`; si tampoco hay `high`, se muestra el cuadrado provisional. Recomendable ponerla para que la página cargue más ligera. |
 | `high` | No | Ruta a la versión grande para el visor. Si falta, el visor usa `low`. Si solo hay `high`, se usa tanto en la miniatura como en el visor. |
 | `encuadre` | No | `"arriba"`, `"abajo"`, `"izquierda"` o `"derecha"`. Sin él (o con otro valor), centrado. |
 
@@ -136,7 +136,7 @@ Copia este bloque dentro del array `"proyectos"`, separado del anterior por una 
   "aptitudes": ["C#", "Diseño de niveles"],
   "enlaces": { "itch.io": { "url": "https://popletox.itch.io/" } },
   "imagenes": [
-    { "low": "recursos/Imagenes/Unity/MiJuego/IMG-01-pequena.png", "high": "recursos/Imagenes/Unity/MiJuego/IMG-01.png", "alt": "Captura del menú principal" }
+    { "low": "recursos/Imagenes/Unity/MiJuego/IMG-01_low.webp", "high": "recursos/Imagenes/Unity/MiJuego/IMG-01_high.webp", "alt": "Captura del menú principal" }
   ]
 }
 ```

@@ -50,11 +50,12 @@ Cómo mantenerlo:
 - [ ] **P14 · Hacer**: sustituir el contenido "[Provisional]" (85 marcas a 2026-10-14 en los archivos de [`datos/`](../datos/)).
 - [ ] **P15 · Hacer**: sustituir los enlaces provisionales `#` (p. ej. Revlon en el catálogo `referencias` y `"web": "#"` de los proyectos).
 - [ ] **P16 · Hacer**: crear `recursos/` con las imágenes `low`/`high` de los proyectos y las `img` del catálogo de referencias.
+  - Avance 2026-10-15: las imágenes de proyectos ya están en `recursos/Imagenes/<Motor>/<Proyecto>/` (WebP `_low`/`_high`, incluido `Fortnite/RevlonStyleHunt/`). Falta lo definitivo de proyectos y las `img` de referencias.
 - [ ] **P17 · Hacer**: crear los proyectos reales (Fire Lunar Rush, Color Switch Race…) y cambiar sus referencias del catálogo por el id del proyecto.
 - [ ] **P18 · Revisar**: "Proyecto provisional 1" tiene `enCurso: true` puesto para pruebas.
 - [ ] **P19 · Decidir**: si un `\n` dentro de un texto debe crear un salto de línea (ahora se ignora; hay uno sobrante en la introducción).
-- [ ] **P45 · Decidir** (añadido 2026-10-15): especificaciones de las imágenes de `recursos/Imagenes/`. Convertirlas a WebP y fijar un tamaño máximo por imagen (peso en KB y/o resolución en píxeles, por decidir). Ahora son 28 PNG y algunos pasan de 2 MB (p. ej. `recursos/Imagenes/UnrealEngine/DungeonStaff/IMG-01.png`, 2,7 MB).
-  - Estado: pendiente de decidir y aplicar. La conversión se pospone porque se siguen preparando las imágenes.
+- [ ] **P45 · Decidir** (añadido 2026-10-15): fijar un tamaño máximo por imagen de `recursos/Imagenes/` (peso en KB y/o resolución en píxeles, por decidir).
+  - Hecho 2026-10-15: todas las imágenes de proyectos están convertidas a WebP con dos versiones, `_low` y `_high` (ya no queda ningún PNG). Solo queda abierto el tamaño máximo.
   - Relacionado con P16 (creación de `recursos/`).
 - [ ] **P46 · Hacer** (añadido 2026-10-15): rellenar `aptitudes` (habilidades personales) en `datos/datos-estudios.json` y confirmar los valores provisionales de `tecnologia` (Grado: Java, Python, C++, Linux; Máster: Unity, Unreal Engine, Perforce, Jira).
   - Decidido 2026-10-15: la etiqueta de aptitudes pasa a «Habilidades personales:» (el campo JSON sigue siendo `aptitudes`) y el título «Referencias» se quita solo en Estudios.
