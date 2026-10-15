@@ -98,12 +98,13 @@ Las habilidades personales (campo `aptitudes`, etiqueta «Habilidades personales
   "itch.io":      { "url": "https://..." },
   "steam":        { "url": "https://..." },
   "linkedin":     { "url": "https://..." },
+  "instagram":    { "url": "https://..." },
   "pdf-download": { "url": "./recursos/Documentos/archivo.pdf" },
   "web-generico": [ { "texto": "Ver demo", "url": "https://..." } ]
 }
 ```
 
-- **Tipos con icono** (`github`, `itch.io`, `steam`, `linkedin`, `pdf-download`): un único `{ "url": "..." }` cada uno. Se muestran en ese orden, como botón redondo solo con el icono. `pdf-download` se descarga (atributo `download`) en lugar de abrirse.
+- **Tipos con icono** (`github`, `itch.io`, `steam`, `linkedin`, `instagram`, `pdf-download`): un único `{ "url": "..." }` cada uno. Se muestran en ese orden, como botón redondo solo con el icono. `pdf-download` se descarga (atributo `download`) en lugar de abrirse.
 - **`web-generico`:** array de `{ "texto": "...", "url": "..." }` (también vale un único objeto en lugar del array). Cada entrada es un botón rectangular con el texto; puede haber varios por proyecto y van al final. Sin `texto`, se muestra la URL sin `https://`/`http://`.
 - **URLs válidas:** `http:`, `https:`, `mailto:`, `#…` o rutas relativas que empiecen por `./` o `../` (p. ej. un PDF de `recursos/Documentos/`). Los enlaces `http(s)` se abren en una pestaña nueva; `"#<id>"` de un proyecto abre su ventana.
 - **Se ignora (con `console.warn`):** una clave desconocida o una entrada sin URL válida. Si no queda ningún enlace válido, no se muestra la región de enlaces.
