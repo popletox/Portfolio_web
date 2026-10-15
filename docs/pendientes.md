@@ -60,6 +60,9 @@ Cómo mantenerlo:
 - [ ] **P17 · Hacer**: crear los proyectos reales (Fire Lunar Rush, Color Switch Race…) y cambiar sus referencias del catálogo por el id del proyecto.
 - [ ] **P18 · Revisar**: "Proyecto provisional 1" tiene `enCurso: true` puesto para pruebas.
 - [ ] **P19 · Decidir**: si un `\n` dentro de un texto debe crear un salto de línea (ahora se ignora; hay uno sobrante en la introducción).
+- [ ] **P45 · Decidir** (añadido 2026-10-15): especificaciones de las imágenes de `recursos/Imagenes/`. Convertirlas a WebP y fijar un tamaño máximo por imagen (peso en KB y/o resolución en píxeles, por decidir). Ahora son 31 PNG y algunos pasan de 2 MB (p. ej. `recursos/Imagenes/DungeonStaff/IMG-01.png`, 2,7 MB).
+  - Estado: pendiente de decidir y aplicar. La conversión se pospone porque se siguen preparando las imágenes.
+  - Relacionado con P16 (creación de `recursos/`).
 
 ## Diseño
 
