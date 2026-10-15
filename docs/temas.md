@@ -32,6 +32,8 @@ Cada tema es un archivo en `estilos/temas/<id>.css` que define **todas** las var
 | `--color-fondo-suave` | Fondo de títulos de sección (y de la sección entera cuando está abierta), botones de contacto y de Opciones, pie y franja de la Línea de tiempo (entra y sale con un degradado desde y hacia `--color-fondo`); fondo de los años del eje de la Línea de tiempo (tapa los conectores que pasan por debajo). |
 | `--color-fondo-suave-hover` | Hover sobre `--color-fondo-suave` (títulos de sección, filtros, títulos de entradas y tarjetas de Referencias y de Proyectos) y sobre los temas del bocadillo de Opciones. |
 | `--color-panel` | Fondo del panel destacado y de su botón-pestaña (forman una sola pieza). Debe distinguirse de `--color-fondo`. |
+| `--color-fondo-enlaces` | Fondo de la región de enlaces del detalle de proyecto. Debe distinguirse de `--color-fondo`. Claro `#e3e7ed`, Oscuro `#2b2f33`, Código `#333337`, Cómic `#e3e7ed` (copia de Claro). |
+| `--color-boton-enlaces-hover` | Fondo de los botones de esa región al pasar el ratón. Claro `#d3d9e1`, Oscuro `#3a3f44`, Código `#3c3c3c`, Cómic `#d3d9e1` (copia de Claro). |
 | `--color-texto` | Texto principal; marcas de año del eje y nombres de estudios y experiencias de la Línea de tiempo. |
 | `--color-texto-suave` | Texto secundario: introducción, subtítulo de la cabecera, flechas, separadores, título del bocadillo de Opciones; línea, marcas de mes, barra de scroll y conectores de las tarjetas de proyectos de la Línea de tiempo. |
 | `--color-titulo` | Nombre de la cabecera, títulos de sección, de entradas y del panel destacado (en Claro, igual que `--color-texto`). |
@@ -39,7 +41,7 @@ Cada tema es un archivo en `estilos/temas/<id>.css` que define **todas** las var
 | `--color-subtitulo` | Subtítulo de las entradas: empresa o institución, y categoría (tecnología) de las tarjetas de Proyectos (en Claro, igual que `--color-texto-suave`). |
 | `--color-acento` | Hover de contacto y de Opciones, filtro activo y tema activo en el bocadillo. |
 | `--color-texto-sobre-acento` | Texto o icono sobre `--color-acento`. |
-| `--color-enlace` | Enlaces fuera de las secciones y del panel destacado (p. ej. ventana de detalle de un proyecto). |
+| `--color-enlace` | Enlaces fuera de las secciones y del panel destacado (p. ej. enlaces internos de la ventana de detalle de un proyecto). |
 | `--color-enlace-seccion` | Enlaces dentro de las secciones, sobre `--color-fondo-suave` (contraste AA; puede ser `var(--color-enlace)`). |
 | `--color-enlace-panel` | Enlaces del panel destacado, sobre `--color-panel` (contraste AA; puede ser `var(--color-enlace)`). |
 | `--color-foco` | Contorno de foco con teclado. |

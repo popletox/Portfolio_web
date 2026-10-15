@@ -47,7 +47,7 @@ Una vez fusionados los archivos, el contenido equivale a este objeto:
 - **Textos de descripción** (`introduccion`, `descripcion` y, en Proyectos, `retos`, `experienciaPersonal` y `comentarios`): string para un párrafo, o array de strings para varios párrafos (`["Párrafo 1", "Párrafo 2"]`). Texto plano, sin HTML.
 - **Orden:** el JS ordena cada sección por fecha descendente (lo más reciente arriba), así que el orden dentro del archivo no importa. Experiencia y Estudios ordenan por `fechaInicio`, y a igualdad, primero el que tenga `fechaFin: null`; Proyectos y Méritos ordenan por `fecha`.
 - **Campos opcionales:** si no se usan, se omite la clave entera (no hace falta poner `null` ni `[]`).
-- **Enlaces:** solo se aceptan URLs que empiecen por `http:`, `https:`, `mailto:` o `#`. Con cualquier otra (p. ej. `javascript:` o una ruta relativa), el texto se muestra pero sin enlace.
+- **Enlaces:** solo se aceptan URLs que empiecen por `http:`, `https:`, `mailto:` o `#`. Con cualquier otra (p. ej. `javascript:` o una ruta relativa), el texto se muestra pero sin enlace. Excepción: los `enlaces` de Proyectos también admiten rutas relativas que empiecen por `./` o `../`.
 
 ## Experiencia
 
@@ -85,12 +85,30 @@ Las habilidades personales (campo `aptitudes`, etiqueta «Habilidades personales
 | `tecnologia` | No | Array de strings. Se muestra en línea: «Tecnología: Unity · C# · Photon». |
 | `experienciaPersonal` | No | String o array de strings. Apartado «Experiencia personal». |
 | `comentarios` | No | String o array de strings. Apartado «Comentarios adicionales». |
-| `enlaces` | No | Objeto `tipo → url`, p. ej. `{ "web": "https://...", "juego": "https://..." }`. Ver abajo. |
+| `enlaces` | No | Objeto `tipo → { "url": "..." }` (y `web-generico`, array de botones con texto), p. ej. `{ "github": { "url": "https://..." } }`. Ver abajo. |
 | `imagenes` | Sí | Array (puede estar vacío `[]`). Ver abajo. |
 
 **Agrupación por año:** la sección muestra los proyectos en bandas horizontales, cada una encabezada por una línea con su etiqueta (año o «Actual») y con sus tarjetas debajo. Primero, los que tienen `"enCurso": true` (banda «Actual», solo si hay alguno); después, una banda por año (el de `fecha`), del más reciente al más antiguo con proyectos. Un año intermedio sin proyectos aparece solo como línea con su año; no se muestran años vacíos por encima del más reciente ni por debajo del más antiguo. Dentro de cada banda, los proyectos van por `fecha` descendente. Con un filtro activo, las bandas se recalculan con los proyectos visibles. Cada tarjeta muestra el título, la categoría y la primera imagen. Al pulsarla se abre la ventana de detalle del proyecto con todos sus campos: título, categoría, fecha («mes, AAAA», o «En curso · desde mes, AAAA» con `enCurso`), descripción, retos, tecnología, experiencia personal, comentarios adicionales, habilidades personales y enlaces, en ese orden (los opcionales solo si tienen contenido), y todas las imágenes, ampliables en el visor.
 
-**Enlaces (`enlaces`):** cada clave es un tipo y su valor la URL (mismas reglas que el resto de enlaces). Tipos disponibles, en el orden en que se muestran: `web` («Web») y `juego` («Juego»). Cada uno se ve en su línea como «**Web:** popletox.itch.io/mi-juego»: el texto es la URL sin `https://`/`http://` ni barra final. Los externos se abren en una pestaña nueva; `"#<id>"` de un proyecto abre su ventana. Una URL no válida hace que se ignore ese enlace. Un tipo no previsto se muestra al final con su nombre en mayúscula inicial (p. ej. `"steam"` → «Steam») y avisa en la consola. Para añadir un tipo nuevo, añade una línea al mapa `TIPOS_ENLACE_PROYECTO` de `scripts/contenido.js` (`steam: 'Steam',`).
+**Enlaces (`enlaces`):** objeto con claves opcionales; en la ventana de detalle se ven como botones (ver [`diseno-portfolio.md`](diseno-portfolio.md)).
+
+```json
+"enlaces": {
+  "github":       { "url": "https://..." },
+  "itch.io":      { "url": "https://..." },
+  "steam":        { "url": "https://..." },
+  "linkedin":     { "url": "https://..." },
+  "pdf-download": { "url": "./recursos/Documentos/archivo.pdf" },
+  "web-generico": [ { "texto": "Ver demo", "url": "https://..." } ]
+}
+```
+
+- **Tipos con icono** (`github`, `itch.io`, `steam`, `linkedin`, `pdf-download`): un único `{ "url": "..." }` cada uno. Se muestran en ese orden, como botón redondo solo con el icono. `pdf-download` se descarga (atributo `download`) en lugar de abrirse.
+- **`web-generico`:** array de `{ "texto": "...", "url": "..." }` (también vale un único objeto en lugar del array). Cada entrada es un botón rectangular con el texto; puede haber varios por proyecto y van al final. Sin `texto`, se muestra la URL sin `https://`/`http://`.
+- **URLs válidas:** `http:`, `https:`, `mailto:`, `#…` o rutas relativas que empiecen por `./` o `../` (p. ej. un PDF de `recursos/Documentos/`). Los enlaces `http(s)` se abren en una pestaña nueva; `"#<id>"` de un proyecto abre su ventana.
+- **Se ignora (con `console.warn`):** una clave desconocida o una entrada sin URL válida. Si no queda ningún enlace válido, no se muestra la región de enlaces.
+- Los tipos antiguos `web` y `juego` ya no existen (los datos se migraron a `itch.io` y `steam`).
+- **Añadir un tipo nuevo:** añade una entrada `{ tipo, nombre, clase, icono, descarga }` al array ordenado `TIPOS_ENLACE_PROYECTO` de `scripts/contenido.js`, el SVG en `recursos/Iconos/` y, si el icono es monocromo, su regla de máscara en `estilos/comun.css`.
 
 Cada imagen:
 
@@ -115,7 +133,7 @@ Copia este bloque dentro del array `"proyectos"`, separado del anterior por una 
   "fecha": "2025-09",
   "descripcion": "Breve descripción del proyecto.",
   "aptitudes": ["C#", "Diseño de niveles"],
-  "enlaces": { "web": "https://popletox.itch.io/" },
+  "enlaces": { "itch.io": { "url": "https://popletox.itch.io/" } },
   "imagenes": [
     { "low": "recursos/proyectos/mi-juego-1.jpg", "high": "recursos/proyectos/mi-juego-1-grande.jpg", "alt": "Captura del menú principal" }
   ]

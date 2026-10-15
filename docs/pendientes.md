@@ -41,8 +41,7 @@ Cómo mantenerlo:
 - [ ] **P37 · Hacer**: rediseñar los enlaces de la ventana de detalle de un proyecto. El JSON tendrá más categorías de enlace (steam, github, itch.io y posiblemente más); dejarán de mostrarse como URL de texto y pasarán a ser botones circulares con el logo de su categoría. Los logos serán SVG guardados en `recursos/`.
   - Relacionado con P16 (creación de `recursos/`).
   - Relacionado con P32 (aviso de consola por tipos de enlace desconocidos): conviene revisarlo al ampliar las categorías.
-- [ ] **P44 · Hacer** (añadido 2026-10-14): permitir que los proyectos ofrezcan la descarga de PDFs, mediante un campo opcional en los datos de cada proyecto (`datos/datos-proyectos.json`). De momento solo lo usará un proyecto, pero debe estar disponible como opción general.
-  - Al hacerlo: documentarlo en [`formato-datos.md`](formato-datos.md). Los PDFs irían en `recursos/Documentos/` (ahora hay uno de prueba).
+  - Avance 2026-10-15: hecho en la ventana de detalle de proyectos (región de enlaces con botones de icono, iconos en `recursos/Iconos/`). Falta actualizar los iconos de la cabecera.
 
 ## Méritos
 
@@ -71,6 +70,7 @@ Cómo mantenerlo:
 Puntos abiertos del [documento de diseño](diseno-portfolio.md).
 
 - [ ] **P20 · Hacer**: diseño propio del tema Cómic (ahora es una copia de Claro).
+  - Al hacerlo, revisar `--color-fondo-enlaces` y `--color-boton-enlaces-hover`.
 - [ ] **P21 · Hacer**: "Efectos divertidos" (interruptor en Opciones y animaciones de los títulos).
 - [ ] **P22 · Decidir**: panel Destacado en móvil fijo abajo o al final del documento.
 - [ ] **P23 · Decidir**: tema inicial Claro o seguir el del sistema.
@@ -93,6 +93,12 @@ Puntos abiertos del [documento de diseño](diseno-portfolio.md).
 
 ## Hechos
 
+- [x] **P47 · Revisar** (2026-10-15): contraste de la región de enlaces del detalle de proyecto en el tema Código.
+  - Nota: resuelto con la variable de tema nueva `--color-fondo-enlaces` (más `--color-boton-enlaces-hover`), en los cuatro temas.
+- [x] **P48 · Revisar** (2026-10-15): región de enlaces en el tema Cómic.
+  - Nota: comprobado en el navegador, se ve bien. Cómic usa los valores de Claro; el ajuste propio queda en P20.
+- [x] **P44 · Hacer** (2026-10-15): descarga de PDFs en los proyectos.
+  - Nota: resuelto con la clave `pdf-download` de `enlaces` (botón con icono y atributo `download`); el PDF del TFG se asignó a Beans out (`recursos/Documentos/videojuego_procedural_unity_tfg.pdf`). Documentado en [`formato-datos.md`](formato-datos.md).
 - [x] **P05 · Hacer** (2026-10-14): paso 4 de la Línea de tiempo, estrellas de mérito en los proyectos con mérito.
   - Nota: estrellas de mérito hechas; los ajustes de móvil y el pulido pasan a P33.
 - [x] **P30 · Decidir** (2026-10-14): añadir a [`.claude/agents/programador.md`](../.claude/agents/programador.md) que no cierre procesos que no haya abierto él (al probar en el navegador cerró el Chrome del usuario).
