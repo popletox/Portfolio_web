@@ -14,13 +14,13 @@
         "C#"
       ],
       "imagenes": [
-        { "high": "./recursos/Imagenes/BeansOut/Title.png",
+        { "high": "./recursos/Imagenes/Unity/BeansOut/Title.png",
           "alt": "Imagen de la pantalla de titulo." },
-        { "high": "./recursos/Imagenes/BeansOut/IMG-01.png",
+        { "high": "./recursos/Imagenes/Unity/BeansOut/IMG-01.png",
           "alt": "Imagen del combate y los enemigos." },
-        { "high": "./recursos/Imagenes/BeansOut/IMG-02.png",
+        { "high": "./recursos/Imagenes/Unity/BeansOut/IMG-02.png",
           "alt": "Imagen del menú de pausa." },
-        { "high": "./recursos/Imagenes/BeansOut/IMG-03.png",
+        { "high": "./recursos/Imagenes/Unity/BeansOut/IMG-03.png",
           "alt": "Imagen de la sala inicial y jefe de las alubias." }
       ],
       "enlaces":{
@@ -39,13 +39,13 @@
         "Blender"
       ],
       "imagenes": [
-        { "high": "./recursos/Imagenes/MinimalSpace2Live/IMG-Title.png",
+        { "high": "./recursos/Imagenes/Unity/MinimalSpace2Live/IMG-Title.png",
           "alt": "Imagen de la pantalla de titulo." },
-        { "high": "./recursos/Imagenes/MinimalSpace2Live/IMG-Menu.png",
+        { "high": "./recursos/Imagenes/Unity/MinimalSpace2Live/IMG-Menu.png",
           "alt": "Imagen del menú principal del juego." },
-        { "high": "./recursos/Imagenes/MinimalSpace2Live/IMG-01.png",
+        { "high": "./recursos/Imagenes/Unity/MinimalSpace2Live/IMG-01.png",
           "alt": "Imagen del modo de juego." },
-        { "high": "./recursos/Imagenes/MinimalSpace2Live/IMG-02.png",
+        { "high": "./recursos/Imagenes/Unity/MinimalSpace2Live/IMG-02.png",
           "alt": "Imagen de la pantalla de derrota." }
       ],
       "enlaces":{
@@ -63,13 +63,13 @@
         "C#"
       ],
       "imagenes": [
-        { "high": "./recursos/Imagenes/TheRoot/IMG-Logo.png",
+        { "high": "./recursos/Imagenes/Unity/TheRoot/IMG-Logo.png",
           "alt": "Imagen del logo del titulo." },
-        { "high": "./recursos/Imagenes/TheRoot/IMG-01.png",
+        { "high": "./recursos/Imagenes/Unity/TheRoot/IMG-01.png",
           "alt": "Imagen del juego." },
-        { "high": "./recursos/Imagenes/TheRoot/IMG-02.png",
+        { "high": "./recursos/Imagenes/Unity/TheRoot/IMG-02.png",
           "alt": "Imagen del juego." },
-        { "high": "./recursos/Imagenes/TheRoot/IMG-03.png",
+        { "high": "./recursos/Imagenes/Unity/TheRoot/IMG-03.png",
           "alt": "Imagen del juego." }
       ],
       "enlaces":{
@@ -91,17 +91,17 @@
         "Perforce"
       ],
       "imagenes": [
-        { "high": "./recursos/Imagenes/GloomReaper/Title.png",
+        { "high": "./recursos/Imagenes/UnrealEngine/GloomReaper/Title.png",
           "alt": "Titulo principal del juego." },
-        { "high": "./recursos/Imagenes/GloomReaper/IMG-01.png",
+        { "high": "./recursos/Imagenes/UnrealEngine/GloomReaper/IMG-01.png",
           "alt": "Imagen del combate en cuevas." },
-        { "high": "./recursos/Imagenes/GloomReaper/IMG-02.png",
+        { "high": "./recursos/Imagenes/UnrealEngine/GloomReaper/IMG-02.png",
           "alt": "Imagen del tutorial inicial." }
       ],
       "enlaces":{
         "linkedin": { "url": "https://www.linkedin.com/company/smokitanuki/home/" },
         "steam": { "url": "https://store.steampowered.com/app/2378410/Gloom_Reaper/" },
-        "instagram": { "url": "https://store.steampowered.com/app/2378410/Gloom_Reaper/" }
+        "instagram": { "url": "https://www.instagram.com/smokitanukigames/" }
       }
     },
     {
@@ -115,9 +115,9 @@
         "Blueprints"
       ],
       "imagenes": [
-        { "high": "./recursos/Imagenes/DungeonStaff/IMG_Menu.png",
+        { "high": "./recursos/Imagenes/UnrealEngine/DungeonStaff/IMG_Menu.png",
           "alt": "Titulo del menu principal del juego." },
-        { "high": "./recursos/Imagenes/DungeonStaff/IMG-01.png",
+        { "high": "./recursos/Imagenes/UnrealEngine/DungeonStaff/IMG-01.png",
           "alt": "Imagen del juego." }
       ],
       "enlaces":{
@@ -135,15 +135,15 @@
         "C#"
       ],
       "imagenes": [
-        { "high": "./recursos/Imagenes/TheEndlessFishingSheep/IMG_Logo.png",
+        { "high": "./recursos/Imagenes/Unity/TheEndlessFishingSheep/IMG_Logo.png",
           "alt": "Titulo principal del juego." },
-        { "high": "./recursos/Imagenes/TheEndlessFishingSheep/IMG_Menu.png",
+        { "high": "./recursos/Imagenes/Unity/TheEndlessFishingSheep/IMG_Menu.png",
           "alt": "Titulo del menu principal del juego." },
-        { "high": "./recursos/Imagenes/TheEndlessFishingSheep/IMG_01.png",
+        { "high": "./recursos/Imagenes/Unity/TheEndlessFishingSheep/IMG_01.png",
           "alt": "Imagen del juego." },
-        { "high": "./recursos/Imagenes/TheEndlessFishingSheep/IMG_02.png",
+        { "high": "./recursos/Imagenes/Unity/TheEndlessFishingSheep/IMG_02.png",
           "alt": "Imagen del juego." },
-        { "high": "./recursos/Imagenes/TheEndlessFishingSheep/IMG_03.png",
+        { "high": "./recursos/Imagenes/Unity/TheEndlessFishingSheep/IMG_03.png",
           "alt": "Imagen del juego." }
       ],
       "enlaces":{
@@ -161,17 +161,17 @@
         "C#"
       ],
       "imagenes": [
-        { "high": "./recursos/Imagenes/RunningOutOfPower/IMG_Logo.png",
+        { "high": "./recursos/Imagenes/Unity/RunningOutOfPower/IMG_Logo.png",
           "alt": "Titulo principal del juego." },
-        { "high": "./recursos/Imagenes/RunningOutOfPower/IMG_Menu.png",
+        { "high": "./recursos/Imagenes/Unity/RunningOutOfPower/IMG_Menu.png",
           "alt": "Titulo del menu principal del juego." },
-        { "high": "./recursos/Imagenes/RunningOutOfPower/IMG_01.png",
+        { "high": "./recursos/Imagenes/Unity/RunningOutOfPower/IMG_01.png",
           "alt": "Imagen del juego." },
-        { "high": "./recursos/Imagenes/RunningOutOfPower/IMG_02.png",
+        { "high": "./recursos/Imagenes/Unity/RunningOutOfPower/IMG_02.png",
           "alt": "Imagen del juego." },
-        { "high": "./recursos/Imagenes/RunningOutOfPower/IMG_03.png",
+        { "high": "./recursos/Imagenes/Unity/RunningOutOfPower/IMG_03.png",
           "alt": "Imagen del juego." },
-        { "high": "./recursos/Imagenes/RunningOutOfPower/IMG_04.png",
+        { "high": "./recursos/Imagenes/Unity/RunningOutOfPower/IMG_04.png",
           "alt": "Imagen del juego." }
       ],
       "enlaces":{
@@ -198,7 +198,10 @@
         { "alt": "[Provisional] Imagen 4 de NILSH" }
       ],
       "enlaces":{
-        "steam": { "url": "https://store.steampowered.com/app/4916130/NILSH/" }
+        "steam": { "url": "https://store.steampowered.com/app/4916130/NILSH/" },
+        "linkedin": { "url": "https://lnkd.in/p/e-aDfKcD" },
+        "instagram": { "url": "https://www.instagram.com/nilshgame/" },
+        "web-generico": [{ "texto": "Web NILSH", "url": "https://nilsh.games/" }]
       }
     },
 
@@ -213,8 +216,29 @@
         "HTML",
         "CSS",
         "JavaScript"
-      ]
+      ],
+      "enalces": {
+        "linkedin": { "url": "[TODO] enlace publicacion de linkedin" },
+        "web-generico": [{ "texto": "Ver Web", "url": "[TODO]" }]
+      }
+    },
+
+    {
+      "id": "proyecto-american-crew-style-hunt",
+      "titulo": "American Crew: Style Hunt",
+      "categoria": "Fortnite",
+      "fecha": "2025-09",
+      "descripcion": "",
+      "tecnologia": [
+        "Unreal Engine"
+      ],
+      "enalces": {
+        "linkedin": { "url": "https://lnkd.in/p/e9z7cPz7" },
+        "web-generico": [{ "texto": "Fortnite", "url": "https://www.fortnite.com/@playoffnations/6127-7612-8506?lang=es-ES" }]
+      }
     }
+
+
   ],
 
 
@@ -230,12 +254,13 @@
     
     "proyecto-ref-portfolio-web": {"titulo": "Portfolio web", "enlace": "#proyecto-portfolio-web"},
 
-    "proyecto-revlon": { "titulo": "[Provisional] Revlon", "enlace": "#" },
-    "proyecto-fire-lunar-rush": { "titulo": "[Provisional] Fire Lunar Rush" },
-    "proyecto-color-switch-race": { "titulo": "[Provisional] Color Switch Race" },
-    "proyecto-the-donatos-mind": { "titulo": "[Provisional] The Donato's Mind" },
-    "proyecto-telefonica-town": { "titulo": "[Provisional] Telefónica Town" },
-    "proyecto-mcdonalds-land-tycoon": { "titulo": "[Provisional] McDonald's land Tycoon" },
-    "proyecto-el-desafio-pringles": { "titulo": "[Provisional] El desafío Pringles" }
+    "proyecto-ref-american-crew-style-hunt": { "titulo": "American Crew: Style Hunt", "enlace": "#proyecto-american-crew-style-hunt" },
+    "proyecto-ref-fire-lunar-rush": { "titulo": "[Provisional] Fire Lunar Rush" },
+    "proyecto-ref-color-switch-race": { "titulo": "[Provisional] Color Switch Race" },
+    "proyecto-ref-the-donatos-mind": { "titulo": "[Provisional] The Donato's Mind" },
+    "proyecto-ref-telefonica-town": { "titulo": "[Provisional] Telefónica Town" },
+    "proyecto-ref-mcdonalds-land-tycoon": { "titulo": "[Provisional] McDonald's Land Tycoon" },
+    "proyecto-ref-mansion-krave": { "titulo": "[Provisional] La Mansion Krave" },
+    "proyecto-ref-el-desafio-pringles": { "titulo": "[Provisional] El desafío Pringles" }
   }
 }
