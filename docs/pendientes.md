@@ -38,10 +38,6 @@ Cómo mantenerlo:
 - [ ] **P10 · Revisar**: esquinas redondeadas y barra de scroll de la ventana en los 4 temas (tras `overflow: visible`).
 - [ ] **P11 · Revisar**: una banda de año con una sola tarjeta deja mucho espacio; al filtrar se funde todo el bloque, incluidas las tarjetas que siguen visibles.
 - [ ] **P12 · Revisar**: un lector de pantalla puede no anunciar "Enlace copiado" dos veces seguidas.
-- [ ] **P37 · Hacer**: rediseñar los enlaces de la ventana de detalle de un proyecto. El JSON tendrá más categorías de enlace (steam, github, itch.io y posiblemente más); dejarán de mostrarse como URL de texto y pasarán a ser botones circulares con el logo de su categoría. Los logos serán SVG guardados en `recursos/`.
-  - Relacionado con P16 (creación de `recursos/`).
-  - Relacionado con P32 (aviso de consola por tipos de enlace desconocidos): conviene revisarlo al ampliar las categorías.
-  - Avance 2026-10-15: hecho en la ventana de detalle de proyectos (región de enlaces con botones de icono, iconos en `recursos/Iconos/`). Falta actualizar los iconos de la cabecera.
 
 ## Méritos
 
@@ -77,6 +73,7 @@ Puntos abiertos del [documento de diseño](diseno-portfolio.md).
 - [ ] **P24 · Decidir**: versión en inglés.
 - [ ] **P25 · Decidir**: alinear la introducción con el borde de las cajas de sección (actual) o con el texto de dentro.
 - [ ] **P43 · Revisar**: los cambios sobre la sombra del Panel destacado y su botón-pestaña se juntaron con la Línea de tiempo durante una fusión automática: sombra animada del panel, botón de color sólido (`--color-panel`) unido al panel como una sola pieza (filo, `drop-shadow` y `clip-path`), variables de tema nuevas (`--color-enlace-panel`, `--color-borde-boton-panel`, `--color-sombra-panel`, `--desenfoque-sombra-panel`; se quita `--color-boton-panel`), `--color-panel` más oscuro en Claro y Cómic y `docs/temas.md` actualizado. Falta probarlos en los 4 temas y en móvil.
+- [ ] **P49 · Hacer** (añadido 2026-10-15): añadir iconos SVG a los botones de tema (Claro, Oscuro, Código, Cómic) del menú Opciones, que ahora no tienen SVG. Petición del usuario.
 
 ## Publicación e infraestructura
 
@@ -93,6 +90,12 @@ Puntos abiertos del [documento de diseño](diseno-portfolio.md).
 
 ## Hechos
 
+- [x] **P50 · Decidir** (2026-10-15): hover de los iconos de marca en la cabecera. En los temas Claro y Cómic el fondo de acento (`#1a73e8`) casi se confundía con el azul del logo de LinkedIn (`#0077B7`).
+  - Nota: resuelto usando `--color-boton-enlaces-hover` como fondo al pasar el ratón (y con Opciones abierto) en los botones de la cabecera; el icono conserva `--color-texto`.
+- [x] **P37 · Hacer** (2026-10-15): rediseñar los enlaces de la ventana de detalle de un proyecto. El JSON tendrá más categorías de enlace (steam, github, itch.io y posiblemente más); dejarán de mostrarse como URL de texto y pasarán a ser botones circulares con el logo de su categoría. Los logos serán SVG guardados en `recursos/`.
+  - Relacionado con P16 (creación de `recursos/`).
+  - Relacionado con P32 (aviso de consola por tipos de enlace desconocidos): conviene revisarlo al ampliar las categorías.
+  - Nota: hecho en la ventana de detalle, la cabecera y el visor (iconos en `recursos/Iconos/`, máscara CSS `.icono-mascara` para los monocromo). Ver [`diseno-portfolio.md`](diseno-portfolio.md).
 - [x] **P47 · Revisar** (2026-10-15): contraste de la región de enlaces del detalle de proyecto en el tema Código.
   - Nota: resuelto con la variable de tema nueva `--color-fondo-enlaces` (más `--color-boton-enlaces-hover`), en los cuatro temas.
 - [x] **P48 · Revisar** (2026-10-15): región de enlaces en el tema Cómic.

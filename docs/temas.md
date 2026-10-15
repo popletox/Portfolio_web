@@ -33,7 +33,7 @@ Cada tema es un archivo en `estilos/temas/<id>.css` que define **todas** las var
 | `--color-fondo-suave-hover` | Hover sobre `--color-fondo-suave` (títulos de sección, filtros, títulos de entradas y tarjetas de Referencias y de Proyectos) y sobre los temas del bocadillo de Opciones. |
 | `--color-panel` | Fondo del panel destacado y de su botón-pestaña (forman una sola pieza). Debe distinguirse de `--color-fondo`. |
 | `--color-fondo-enlaces` | Fondo de la región de enlaces del detalle de proyecto. Debe distinguirse de `--color-fondo`. Claro `#e3e7ed`, Oscuro `#2b2f33`, Código `#333337`, Cómic `#e3e7ed` (copia de Claro). |
-| `--color-boton-enlaces-hover` | Fondo de los botones de esa región al pasar el ratón. Claro `#d3d9e1`, Oscuro `#3a3f44`, Código `#3c3c3c`, Cómic `#d3d9e1` (copia de Claro). |
+| `--color-boton-enlaces-hover` | Fondo al pasar el ratón de todos los botones redondos de icono (cabecera, región de enlaces, Compartir y Cerrar del detalle y Cerrar del visor), a través de `--boton-redondo-fondo-hover`. Claro `#d3d9e1`, Oscuro `#3a3f44`, Código `#3c3c3c`, Cómic `#d3d9e1` (copia de Claro). |
 | `--color-texto` | Texto principal; marcas de año del eje y nombres de estudios y experiencias de la Línea de tiempo. |
 | `--color-texto-suave` | Texto secundario: introducción, subtítulo de la cabecera, flechas, separadores, título del bocadillo de Opciones; línea, marcas de mes, barra de scroll y conectores de las tarjetas de proyectos de la Línea de tiempo. |
 | `--color-titulo` | Nombre de la cabecera, títulos de sección, de entradas y del panel destacado (en Claro, igual que `--color-texto`). |
@@ -58,10 +58,11 @@ Cada tema es un archivo en `estilos/temas/<id>.css` que define **todas** las var
 | `--color-miniatura-provisional` | Miniaturas, imagen del visor y tarjetas de Referencias y de Proyectos sin imagen real. |
 | `--color-destacado-provisional` | Cuadrado provisional del panel destacado. |
 | `--color-fondo-visor` | Fondo oscurecido tras la imagen ampliada y tras la ventana de detalle de un proyecto. |
-| `--color-boton-visor` | Botón de cerrar del visor y botones de cerrar y compartir de la ventana de detalle. |
-| `--color-boton-visor-hover` | Los mismos botones al pasar el ratón. |
-| `--color-boton-visor-texto` | Aspa de cerrar e icono de compartir de esos botones. |
 | `--color-boton-panel-texto` | Flecha del botón-pestaña, sobre `--color-panel` (contraste ≥ 3:1; normalmente `var(--color-texto-suave)`). |
 | `--color-borde-boton-panel` | Filo de 1px del botón-pestaña con el panel cerrado, para distinguirlo de la página. |
 | `--color-sombra-panel` | Sombra del panel destacado (solo abierto) y de su botón-pestaña, proyectada hacia la página para que parezcan por encima. Semitransparente; en temas oscuros, más opaca (p. ej. 0.6) para que se note. |
 | `--desenfoque-sombra-panel` | Desenfoque de esa sombra (p. ej. `16px` en claros, algo más en oscuros). No pasar de unos `40px`: el botón recorta su sombra a `--margen-sombra-panel` (4rem, en `comun.css`). |
+
+## Botones redondos de icono
+
+Los temas no definen colores propios para los botones redondos (cabecera, enlaces del detalle, Compartir y Cerrar del detalle, Cerrar del visor): todos usan el patrón común de `:root` en `estilos/comun.css`, con variables sin prefijo `--color-` a propósito para que no sean variables de tema: `--boton-redondo-fondo` (= `--color-fondo-suave`), `--boton-redondo-fondo-hover` (= `--color-boton-enlaces-hover`) y `--boton-redondo-icono` (= `--color-texto`). Así siguen el tema, sin acento al pasar el ratón. Los antiguos `--color-boton-visor`, `--color-boton-visor-hover` y `--color-boton-visor-texto` se han eliminado. `--color-fondo-visor` se mantiene (fondo oscurecido tras el visor y la ventana de detalle). Detalle y modo de añadir un botón nuevo en [`diseno-portfolio.md`](diseno-portfolio.md).
