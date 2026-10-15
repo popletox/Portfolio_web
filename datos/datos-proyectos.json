@@ -249,6 +249,7 @@
         "steam": { "url": "https://store.steampowered.com/app/4916130/NILSH/" },
         "linkedin": { "url": "https://lnkd.in/p/e-aDfKcD" },
         "instagram": { "url": "https://www.instagram.com/nilshgame/" },
+        "youtube": { "url": "https://www.youtube.com/@HojaStudioGames" },
         "web-generico": [{ "texto": "Web NILSH", "url": "https://nilsh.games/" }]
       }
     },
@@ -270,8 +271,6 @@
         "web-generico": [{ "texto": "Ver Web", "url": "[TODO]" }]
       }
     },
-
-
 
     {
       "id": "proyecto-american-crew-style-hunt",
@@ -295,6 +294,232 @@
         "youtube": { "url": "https://www.youtube.com/watch?v=JniCnanzGYA" },
         "web-generico": [{ "texto": "Fortnite", "url": "https://www.fortnite.com/@playoffnations/6127-7612-8506?lang=es-ES" }]
       }
+    },
+    {
+      "id": "proyecto-fire-lunar-rush",
+      "titulo": "Fire Lunar Rush",
+      "categoria": "Roblox",
+      "fecha": "2024-09",
+      "descripcion": "",
+      "tecnologia": [
+        "Roblox"
+      ],
+      "imagenes": [
+        { "low": "./recursos/Imagenes/Roblox/FireLunarRush/IMG_Title_low.webp",
+          "high": "./recursos/Imagenes/Roblox/FireLunarRush/IMG_Title_high.webp",
+          "alt": "Titulo del juego." },
+        { "low": "./recursos/Imagenes/Roblox/FireLunarRush/IMG_01_low.webp",
+          "high": "./recursos/Imagenes/Roblox/FireLunarRush/IMG_01_high.webp",
+          "alt": "Imagen del juego." },
+        { "low": "./recursos/Imagenes/Roblox/FireLunarRush/IMG_02_low.webp",
+          "high": "./recursos/Imagenes/Roblox/FireLunarRush/IMG_02_high.webp",
+          "alt": "Imagen del juego." },
+        { "low": "./recursos/Imagenes/Roblox/FireLunarRush/IMG_03_low.webp",
+          "high": "./recursos/Imagenes/Roblox/FireLunarRush/IMG_03_high.webp",
+          "alt": "Imagen del juego." },
+        { "low": "./recursos/Imagenes/Roblox/FireLunarRush/IMG_04_low.webp",
+          "high": "./recursos/Imagenes/Roblox/FireLunarRush/IMG_04_high.webp",
+          "alt": "Imagen del juego." }
+      ],
+      "enlaces": {
+        "web-generico": [{ "texto": "Roblox", "url": "https://www.roblox.com/es/games/118764833081993/Fire-Lunar-Rush-Pets" }]
+      }
+    },
+    {
+      "id": "proyecto-color-switch-race",
+      "titulo": "Color Switch Race",
+      "categoria": "Roblox",
+      "fecha": "2024-05",
+      "descripcion": "",
+      "tecnologia": [
+        "Roblox"
+      ],
+      "imagenes": [
+        { "low": "./recursos/Imagenes/Roblox/ColorSwitchRace/IMG_Title_low.webp",
+          "high": "./recursos/Imagenes/Roblox/ColorSwitchRace/IMG_Title_high.webp",
+          "alt": "Titulo del juego." },
+        { "low": "./recursos/Imagenes/Roblox/ColorSwitchRace/IMG_01_low.webp",
+          "high": "./recursos/Imagenes/Roblox/ColorSwitchRace/IMG_01_high.webp",
+          "alt": "Imagen del juego." },
+        { "low": "./recursos/Imagenes/Roblox/ColorSwitchRace/IMG_02_low.webp",
+          "high": "./recursos/Imagenes/Roblox/ColorSwitchRace/IMG_02_high.webp",
+          "alt": "Imagen del juego." },
+        { "low": "./recursos/Imagenes/Roblox/ColorSwitchRace/IMG_03_low.webp",
+          "high": "./recursos/Imagenes/Roblox/ColorSwitchRace/IMG_03_high.webp",
+          "alt": "Imagen del juego." },
+        { "low": "./recursos/Imagenes/Roblox/ColorSwitchRace/IMG_04_low.webp",
+          "high": "./recursos/Imagenes/Roblox/ColorSwitchRace/IMG_04_high.webp",
+          "alt": "Imagen del juego." }
+      ],
+      "enlaces": {
+        "web-generico": [{ "texto": "Roblox", "url": "https://www.roblox.com/es/games/17677614650/Color-Switch-Race" }]
+      }
+    },
+    {
+      "id": "proyecto-easy-obby-incremental",
+      "titulo": "Easy Obby Incremental",
+      "categoria": "Roblox",
+      "fecha": "2024-06",
+      "descripcion": "",
+      "tecnologia": [
+        "Roblox"
+      ],
+      "imagenes": [
+        { "low": "./recursos/Imagenes/Roblox/EasyObbyIncremental/IMG_Title_low.webp",
+          "high": "./recursos/Imagenes/Roblox/EasyObbyIncremental/IMG_Title_high.webp",
+          "alt": "Titulo del juego." },
+        { "low": "./recursos/Imagenes/Roblox/EasyObbyIncremental/IMG_01_low.webp",
+          "high": "./recursos/Imagenes/Roblox/EasyObbyIncremental/IMG_01_high.webp",
+          "alt": "Imagen del juego." },
+        { "low": "./recursos/Imagenes/Roblox/EasyObbyIncremental/IMG_02_low.webp",
+          "high": "./recursos/Imagenes/Roblox/EasyObbyIncremental/IMG_02_high.webp",
+          "alt": "Imagen del juego." },
+        { "low": "./recursos/Imagenes/Roblox/EasyObbyIncremental/IMG_03_low.webp",
+          "high": "./recursos/Imagenes/Roblox/EasyObbyIncremental/IMG_03_high.webp",
+          "alt": "Imagen del juego." }
+      ],
+      "enlaces": {
+        "web-generico": [{ "texto": "Roblox", "url": "https://www.roblox.com/es/games/18216284194/Easy-Obby-Incremental" }]
+      }
+    },
+    {
+      "id": "proyecto-telefonica-town",
+      "titulo": "Telefónica Town",
+      "categoria": "Roblox",
+      "fecha": "2024-03",
+      "descripcion": "",
+      "tecnologia": [
+        "Roblox"
+      ],
+      "imagenes": [
+        { "low": "./recursos/Imagenes/Roblox/TelefonicaTown/IMG_Title_low.webp",
+          "high": "./recursos/Imagenes/Roblox/TelefonicaTown/IMG_Title_high.webp",
+          "alt": "Titulo del juego." },
+        { "low": "./recursos/Imagenes/Roblox/TelefonicaTown/IMG_01_low.webp",
+          "high": "./recursos/Imagenes/Roblox/TelefonicaTown/IMG_01_high.webp",
+          "alt": "Imagen promocional del juego." },
+        { "low": "./recursos/Imagenes/Roblox/TelefonicaTown/IMG_02_low.webp",
+          "high": "./recursos/Imagenes/Roblox/TelefonicaTown/IMG_02_high.webp",
+          "alt": "Imagen promocional del juego." },
+        { "low": "./recursos/Imagenes/Roblox/TelefonicaTown/IMG_03_low.webp",
+          "high": "./recursos/Imagenes/Roblox/TelefonicaTown/IMG_03_high.webp",
+          "alt": "Imagen promocional del juego." }
+      ],
+      "enlaces": {
+        "youtube": { "url": "https://www.youtube.com/watch?v=I6FcOHWSTeE" },
+        "web-generico": [
+          { "texto": "Noticia", "url": "https://marketing4ecommerce.net/telefonica-lanza-su-propia-ciudad-en-el-metaverso-de-roblox-telefonica-town/" },
+          { "texto": "Caso de éxito", "url": "https://playoffnations.com/blog/entrada/telefonica-town-100-anos/" },
+          { "texto": "Roblox", "url": "https://www.roblox.com/es/games/16635532769/Telefonica-Town" }
+        ]
+      }
+    },
+    {
+      "id": "proyecto-the-donatos-mind",
+      "titulo": "The Donato's Mind",
+      "categoria": "Roblox",
+      "fecha": "2024-03",
+      "descripcion": "",
+      "tecnologia": [
+        "Roblox"
+      ],
+      "imagenes": [
+        { "low": "./recursos/Imagenes/Roblox/TheDonatosMind/IMG_Title_low.webp",
+          "high": "./recursos/Imagenes/Roblox/TheDonatosMind/IMG_Title_high.webp",
+          "alt": "Titulo del juego." }
+      ],
+      "enlaces": {
+        "youtube": { "url": "https://www.youtube.com/watch?v=MqLG8157VD8&t=1s" },
+        "web-generico": [{ "texto": "Caso de éxito", "url": "https://playoffnations.com/blog/entrada/donato-alpina-roblox/" }]
+      }
+    },
+    {
+      "id": "proyecto-mcdonalds-land-tycoon",
+      "titulo": "McDonald's Land Tycoon",
+      "categoria": "Roblox",
+      "fecha": "2024-03",
+      "descripcion": "",
+      "tecnologia": [
+        "Roblox"
+      ],
+      "imagenes": [
+        { "low": "./recursos/Imagenes/Roblox/McDonaldsLandTycoon/IMG_Title_low.webp",
+          "high": "./recursos/Imagenes/Roblox/McDonaldsLandTycoon/IMG_Title_high.webp",
+          "alt": "Titulo del juego." },
+        { "low": "./recursos/Imagenes/Roblox/McDonaldsLandTycoon/IMG_01_low.webp",
+          "high": "./recursos/Imagenes/Roblox/McDonaldsLandTycoon/IMG_01_high.webp",
+          "alt": "Imagen promocional del juego." },
+        { "low": "./recursos/Imagenes/Roblox/McDonaldsLandTycoon/IMG_02_low.webp",
+          "high": "./recursos/Imagenes/Roblox/McDonaldsLandTycoon/IMG_02_high.webp",
+          "alt": "Imagen promocional del juego." },
+        { "low": "./recursos/Imagenes/Roblox/McDonaldsLandTycoon/IMG_03_low.webp",
+          "high": "./recursos/Imagenes/Roblox/McDonaldsLandTycoon/IMG_03_high.webp",
+          "alt": "Imagen promocional del juego." }
+      ],
+      "enlaces": {
+        "linkedin": { "url": "https://lnkd.in/p/eRauANra" },
+        "youtube": { "url": "https://www.youtube.com/watch?v=GiBnRBHZSpQ" },
+        "web-generico": [
+          { "texto": "Caso de éxito", "url": "https://playoffnations.com/blog/entrada/mcdonalds-tycoon/" },
+          { "texto": "Roblox", "url": "https://www.roblox.com/es/games/16731040063/McDonald-s-Land-Tycoon" }
+        ]
+      }
+    },
+    {
+      "id": "proyecto-mansion-krave",
+      "titulo": "La Mansion Krave",
+      "categoria": "Fortnite",
+      "fecha": "2024-02",
+      "descripcion": "",
+      "tecnologia": [
+        "Unreal Engine"
+      ],
+      "imagenes": [
+        { "low": "./recursos/Imagenes/Fortnite/LaMansionKrave/IMG_Title_low.webp",
+          "high": "./recursos/Imagenes/Fortnite/LaMansionKrave/IMG_Title_high.webp",
+          "alt": "Titulo del juego." },
+        { "low": "./recursos/Imagenes/Fortnite/LaMansionKrave/IMG_01_low.webp",
+          "high": "./recursos/Imagenes/Fortnite/LaMansionKrave/IMG_01_high.webp",
+          "alt": "Imagen promocional del juego." }
+      ],
+      "enlaces": {
+        "youtube": { "url": "https://www.youtube.com/watch?v=EzMOL73iglw" },
+        "web-generico": [
+          { "texto": "Caso de éxito", "url": "https://playoffnations.com/blog/entrada/mansion-krave-proyecto/" },
+          { "texto": "Fortnite", "url": "https://www.fortnite.com/@playoffnations/9538-0637-6659?lang=es-ES" }
+        ]
+      }
+    },
+    {
+      "id": "proyecto-el-desafio-pringles",
+      "titulo": "El desafío Pringles",
+      "categoria": "Rocket League",
+      "fecha": "2023-11",
+      "descripcion": "",
+      "tecnologia": [
+        "Unreal Engine"
+      ],
+      "imagenes": [
+        { "low": "./recursos/Imagenes/RocketLeague/ElDesafioPringles/IMG_Title_low.webp",
+          "high": "./recursos/Imagenes/RocketLeague/ElDesafioPringles/IMG_Title_high.webp",
+          "alt": "Imagen promocional del juego" },
+        { "low": "./recursos/Imagenes/RocketLeague/ElDesafioPringles/IMG_01_low.webp",
+          "high": "./recursos/Imagenes/RocketLeague/ElDesafioPringles/IMG_01_high.webp",
+          "alt": "Imagen del juego." },
+        { "low": "./recursos/Imagenes/RocketLeague/ElDesafioPringles/IMG_02_low.webp",
+          "high": "./recursos/Imagenes/RocketLeague/ElDesafioPringles/IMG_02_high.webp",
+          "alt": "Imagen del juego." },
+        { "low": "./recursos/Imagenes/RocketLeague/ElDesafioPringles/IMG_03_low.webp",
+          "high": "./recursos/Imagenes/RocketLeague/ElDesafioPringles/IMG_03_high.webp",
+          "alt": "Imagen del juego." }
+      ],
+      "enlaces": {
+        "linkedin": { "url": "https://lnkd.in/p/eiKNDwiZ" },
+        "youtube": { "url": "https://www.youtube.com/watch?v=fWL4v_1SYfU" },
+        "web-generico": [
+          { "texto": "Caso de éxito", "url": "https://playoffnations.com/blog/entrada/desafio-pringles-rocketleague/" }
+        ]
+      }
     }
 
 
@@ -314,12 +539,13 @@
     "proyecto-ref-portfolio-web": {"titulo": "Portfolio web", "enlace": "#proyecto-portfolio-web"},
 
     "proyecto-ref-american-crew-style-hunt": { "titulo": "American Crew: Style Hunt", "enlace": "#proyecto-american-crew-style-hunt" },
-    "proyecto-ref-fire-lunar-rush": { "titulo": "[Provisional] Fire Lunar Rush" },
-    "proyecto-ref-color-switch-race": { "titulo": "[Provisional] Color Switch Race" },
-    "proyecto-ref-the-donatos-mind": { "titulo": "[Provisional] The Donato's Mind" },
-    "proyecto-ref-telefonica-town": { "titulo": "[Provisional] Telefónica Town" },
-    "proyecto-ref-mcdonalds-land-tycoon": { "titulo": "[Provisional] McDonald's Land Tycoon" },
-    "proyecto-ref-mansion-krave": { "titulo": "[Provisional] La Mansion Krave" },
-    "proyecto-ref-el-desafio-pringles": { "titulo": "[Provisional] El desafío Pringles" }
+    "proyecto-ref-fire-lunar-rush": { "titulo": "Fire Lunar Rush", "enlace": "#proyecto-fire-lunar-rush" },
+    "proyecto-ref-color-switch-race": { "titulo": "Color Switch Race", "enlace": "#proyecto-color-switch-race" },
+    "proyecto-ref-easy-obby-incremental": { "titulo": "Easy Obby Incremental", "enlace": "#proyecto-easy-obby-incremental" },
+    "proyecto-ref-the-donatos-mind": { "titulo": "The Donato's Mind", "enlace": "proyecto-the-donatos-mind" },
+    "proyecto-ref-telefonica-town": { "titulo": "Telefónica Town", "enlace": "#proyecto-telefonica-town" },
+    "proyecto-ref-mcdonalds-land-tycoon": { "titulo": "McDonald's Land Tycoon", "enlace": "#proyecto-mcdonalds-land-tycoon" },
+    "proyecto-ref-mansion-krave": { "titulo": "La Mansion Krave", "enlace": "#proyecto-mansion-krave" },
+    "proyecto-ref-el-desafio-pringles": { "titulo": "El desafío Pringles", "enlace": "#proyecto-el-desafio-pringles" }
   }
 }
