@@ -553,6 +553,7 @@ var aplicarFiltroProyectos = (function () {
 
     // Se cancela cualquier fase pendiente de un filtro anterior
     cancelarAnimaciones();
+    if (contenedor) contenedor.style.overflow = '';
     if (instantaneo || !contenedor) {
       window.Proyectos.montar(filtro);
       return;
@@ -564,13 +565,18 @@ var aplicarFiltroProyectos = (function () {
         var altoAntes = contenedor.offsetHeight;
         window.Proyectos.montar(filtro);
         var altoDespues = contenedor.offsetHeight;
+        // overflow va en línea y no en los fotogramas: si se anima y la
+        // animación se cancela a medias (otro filtro), Chrome deja el
+        // contenedor sin recibir clics aunque se vea bien
+        contenedor.style.overflow = 'hidden';
         return animar(contenedor, [
-          { opacity: 0, overflow: 'hidden', height: altoAntes + 'px' },
-          { opacity: 0, overflow: 'hidden', height: altoDespues + 'px' }
+          { opacity: 0, height: altoAntes + 'px' },
+          { opacity: 0, height: altoDespues + 'px' }
         ], duracion('--duracion-expansion'));
       })
       .then(function () {
         if (gen !== generacion) return;
+        contenedor.style.overflow = '';
         return animar(contenedor, [{ opacity: 0 }, { opacity: 1 }], duracion('--duracion-fundido'));
       })
       .then(function () {
@@ -598,7 +604,16 @@ var aplicarFiltroProyectos = (function () {
   var contenido = visor.querySelector('.visor-imagen-contenido');
   var botonCerrar = visor.querySelector('.visor-imagen-cerrar');
   var movimientoReducido = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var CERRANDO = 'visor-imagen--cerrando';
+  var MARGEN_CIERRE = 100; // ms extra si no llega animationend
   var miniaturaOrigen = null;
+  var esperaCierre = 0;
+
+  function duracionFundido() {
+    var valor = getComputedStyle(document.documentElement).getPropertyValue('--duracion-fundido').trim();
+    var numero = parseFloat(valor) || 0;
+    return /ms$/.test(valor) ? numero : numero * 1000;
+  }
 
   function crearImagen(miniatura) {
     var img = miniatura.querySelector('img');
@@ -615,29 +630,42 @@ var aplicarFiltroProyectos = (function () {
     return provisional;
   }
 
+  // Olvida un cierre animado pendiente (listener y temporizador de respaldo).
+  // Si se quedaran puestos tras un cierre por otra vía, cerrarían el visor
+  // en cuanto se volviera a abrir
+  function cancelarCierre() {
+    clearTimeout(esperaCierre);
+    visor.removeEventListener('animationend', terminarCierre);
+    visor.classList.remove(CERRANDO);
+  }
+
   function abrir(miniatura) {
+    cancelarCierre();
     miniaturaOrigen = miniatura;
     contenido.replaceChildren(crearImagen(miniatura));
-    visor.classList.remove('visor-imagen--cerrando');
     document.body.classList.add('visor-abierto');
-    visor.showModal();
+    if (!visor.open) visor.showModal();
     botonCerrar.focus();
   }
 
-  function terminarCierre() {
-    visor.removeEventListener('animationend', terminarCierre);
-    visor.classList.remove('visor-imagen--cerrando');
+  // Fin del fundido de salida: solo cuenta el animationend del propio dialog
+  // (o de su ::backdrop) durante el cierre; sin evento, lo llama el temporizador
+  function terminarCierre(evento) {
+    if (evento && (evento.target !== visor || !visor.classList.contains(CERRANDO))) return;
+    cancelarCierre();
     if (visor.open) visor.close();
   }
 
   function cerrar() {
-    if (!visor.open || visor.classList.contains('visor-imagen--cerrando')) return;
+    if (!visor.open || visor.classList.contains(CERRANDO)) return;
     if (movimientoReducido.matches) {
       visor.close();
       return;
     }
-    visor.classList.add('visor-imagen--cerrando');
+    visor.classList.add(CERRANDO);
     visor.addEventListener('animationend', terminarCierre);
+    // Respaldo: el visor se cierra aunque no llegue animationend
+    esperaCierre = setTimeout(terminarCierre, duracionFundido() + MARGEN_CIERRE);
   }
 
   // Delegación: un solo listener para todas las miniaturas y la imagen del panel Destacado
@@ -659,8 +687,11 @@ var aplicarFiltroProyectos = (function () {
     cerrar();
   });
 
+  // También cuando el navegador lo cierra sin pasar por cerrar() (p. ej. un
+  // segundo Esc seguido, que ya no se puede cancelar)
   visor.addEventListener('close', function () {
-    visor.classList.remove('visor-imagen--cerrando');
+    if (visor.open) return; // reabierto antes de llegar el evento
+    cancelarCierre();
     document.body.classList.remove('visor-abierto');
     contenido.replaceChildren();
     if (miniaturaOrigen) miniaturaOrigen.focus();
@@ -706,6 +737,7 @@ var aplicarFiltroProyectos = (function () {
   var idAbierto = null; // proyecto que muestra la ventana
   var clave = null; // identifica la entrada de historial propia de la ventana abierta
   var volviendo = false; // se ha pedido history.back() para cerrar
+  var pendiente = null; // { id, opciones }: apertura pedida mientras volviendo
   var esperaVuelta = 0;
   var esperaCierre = 0;
   var pulsacionFuera = false;
@@ -759,11 +791,20 @@ var aplicarFiltroProyectos = (function () {
     history.replaceState(null, '', location.pathname + location.search);
   }
 
-  function terminarCierre(evento) {
-    if (evento && evento.target !== dialogo) return;
+  // Olvida un cierre animado pendiente (listener y temporizador de respaldo).
+  // Si se quedaran puestos tras un cierre por otra vía, cerrarían la ventana
+  // en cuanto se volviera a abrir
+  function cancelarCierre() {
     clearTimeout(esperaCierre);
     dialogo.removeEventListener('animationend', terminarCierre);
     dialogo.classList.remove(CERRANDO);
+  }
+
+  // Fin del fundido de salida: solo cuenta el animationend del propio dialog
+  // (o de su ::backdrop) durante el cierre; sin evento, lo llama el temporizador
+  function terminarCierre(evento) {
+    if (evento && (evento.target !== dialogo || !cerrando())) return;
+    cancelarCierre();
     if (dialogo.open) dialogo.close();
   }
 
@@ -874,7 +915,20 @@ var aplicarFiltroProyectos = (function () {
     }
     dialogo.classList.add(CERRANDO);
     dialogo.addEventListener('animationend', terminarCierre);
+    clearTimeout(esperaCierre);
     esperaCierre = setTimeout(terminarCierre, duracionFundido() + MARGEN_CIERRE);
+  }
+
+  // Fin de la espera de history.back() (llegue el popstate o no): cierra la
+  // ventana y, si entretanto se pidió abrir un proyecto, lo abre ahora
+  function terminarVuelta() {
+    volviendo = false;
+    clearTimeout(esperaVuelta);
+    clave = null;
+    ocultar();
+    var siguiente = pendiente;
+    pendiente = null;
+    if (siguiente) abrir(siguiente.id, siguiente.opciones);
   }
 
   // Quita la entrada propia del historial; el popstate cierra la ventana.
@@ -884,10 +938,7 @@ var aplicarFiltroProyectos = (function () {
     history.back();
     clearTimeout(esperaVuelta);
     esperaVuelta = setTimeout(function () {
-      if (!volviendo) return;
-      volviendo = false;
-      clave = null;
-      ocultar();
+      if (volviendo) terminarVuelta();
     }, ESPERA_HISTORIAL);
   }
 
@@ -910,7 +961,14 @@ var aplicarFiltroProyectos = (function () {
   // y sustituye la entrada en lugar de añadir otra
   function abrir(id, opciones) {
     opciones = opciones || {};
-    if (volviendo) return false;
+    if (volviendo) {
+      // Pendiente de que history.back() quite la entrada anterior: se abre
+      // al terminar esa espera (terminarVuelta), en lugar de perder el clic
+      if (!window.Proyectos.tarjeta(id)) return false;
+      // (con la ventana aún abierta, el foco volverá al origen que ya tenía)
+      pendiente = { id: id, opciones: { origen: opciones.origen || (dialogo.open ? origen : document.activeElement) } };
+      return true;
+    }
     var cuerpo = window.Proyectos.detalle(id);
     if (!cuerpo) return false;
     if (cerrando()) terminarCierre();
@@ -948,10 +1006,7 @@ var aplicarFiltroProyectos = (function () {
   function sincronizar() {
     if (volviendo) {
       // Llega el popstate del history.back() de cerrar()
-      volviendo = false;
-      clearTimeout(esperaVuelta);
-      clave = null;
-      ocultar();
+      terminarVuelta();
       return;
     }
     var id = idDeHash(location.hash);
@@ -1021,7 +1076,10 @@ var aplicarFiltroProyectos = (function () {
 
   dialogo.addEventListener('close', function () {
     if (dialogo.open) return; // reabierta antes de llegar el evento
-    dialogo.classList.remove(CERRANDO);
+    // Cerrada por el navegador a mitad del fundido (p. ej. un segundo Esc
+    // seguido, que ya no se puede cancelar): sin esto, el temporizador o el
+    // listener pendientes cerrarían la siguiente ventana que se abriera
+    cancelarCierre();
     document.body.classList.remove('detalle-abierto');
     caja.replaceChildren();
     quitarAviso();
