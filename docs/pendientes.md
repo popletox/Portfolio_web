@@ -16,7 +16,6 @@ Cómo mantenerlo:
 - [ ] **P02 · Revisar**: los nombres inclinados de periodos cercanos se pisan (p. ej. "QA Tester…" y "Técnico Desarrollo…"). Revisar con datos reales y, si sigue pasando, separarlos automáticamente.
   - Decisión: separarlos automáticamente desplazándolos a izquierda y derecha; se hace en P38 (y P39 para 3 o más).
 - [ ] **P03 · Revisar**: espacio vacío encima de los nombres (la altura se calcula para el nombre más largo posible).
-- [ ] **P04 · Decidir**: el primer año no tiene etiqueta si el eje empieza a mitad de año.
 - [ ] **P06 · Decidir**: añadir arrastrar con el ratón o un "slider" visible para desplazar la franja (ahora solo hay scroll nativo).
 - [ ] **P07 · Revisar**: vista de móvil con los datos reales.
 - [ ] **P33 · Hacer**: ajustes de móvil y pulido de la Línea de tiempo.
@@ -89,6 +88,8 @@ Puntos abiertos del [documento de diseño](diseno-portfolio.md).
 
 ## Hechos
 
+- [x] **P04 · Decidir** (2026-10-15): el primer año no tenía etiqueta si el eje empezaba a mitad de año.
+  - Decisión: el eje empieza siempre en enero del año del dato más antiguo (con su marca y etiqueta de año) y, por la izquierda, tiene el mismo degradado que hacia el futuro por la derecha (simétrico). Ver [`diseno-portfolio.md`](diseno-portfolio.md).
 - [x] **P01 · Decidir** (2026-10-15): qué hacer cuando el conector de una tarjeta de proyecto queda tapado por otra tarjeta en proyectos de meses consecutivos.
   - Decisión: el conector se desvanece sutilmente antes de la tarjeta que lo tapa y reaparece gradualmente al otro lado, sin lógica en la línea; se hace con «halos» en las tarjetas (variables `--alto-halo-tarjeta-cronologia` y `--ranura-halo-tarjeta-cronologia`). Ver [`diseno-portfolio.md`](diseno-portfolio.md).
   - Ajuste de esquinas (2026-10-15): cada halo se extiende `--radio-medio` bajo la tarjeta en color sólido para que el conector no reaparezca en las esquinas redondeadas.
