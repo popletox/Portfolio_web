@@ -100,6 +100,7 @@ Puntos abiertos del [documento de diseño](diseno-portfolio.md).
   - Relacionado con P16 (creación de `recursos/`).
   - Relacionado con P32 (aviso de consola por tipos de enlace desconocidos): conviene revisarlo al ampliar las categorías.
   - Nota: hecho en la ventana de detalle, la cabecera y el visor (iconos en `recursos/Iconos/`, máscara CSS `.icono-mascara` para los monocromo). Ver [`diseno-portfolio.md`](diseno-portfolio.md).
+  - Decisión: botones de icono por categoría implementados (github, itch.io, steam, linkedin, instagram, pdf-download, más web-generico como botón de texto). Si hace falta un tipo nuevo, se abrirá un pendiente aparte.
 - [x] **P47 · Revisar** (2026-10-15): contraste de la región de enlaces del detalle de proyecto en el tema Código.
   - Nota: resuelto con la variable de tema nueva `--color-fondo-enlaces` (más `--color-boton-enlaces-hover`), en los cuatro temas.
 - [x] **P48 · Revisar** (2026-10-15): región de enlaces en el tema Cómic.
