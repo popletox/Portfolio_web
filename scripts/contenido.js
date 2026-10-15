@@ -518,7 +518,7 @@
         img.height = 24;
         boton.appendChild(img);
       } else {
-        var mascara = crear('span', 'detalle-proyecto-icono detalle-proyecto-icono-mascara');
+        var mascara = crear('span', 'detalle-proyecto-icono icono-mascara');
         mascara.setAttribute('aria-hidden', 'true');
         boton.appendChild(mascara);
       }

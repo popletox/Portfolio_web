@@ -59,9 +59,6 @@
 
   /* Visor de imágenes */
   --color-fondo-visor: rgba(0, 0, 0, 0.85);
-  --color-boton-visor: rgba(0, 0, 0, 0.6);
-  --color-boton-visor-hover: #3a3f44;
-  --color-boton-visor-texto: #ffffff;
 
   /* Botón-pestaña del panel destacado (el fondo es --color-panel) */
   --color-boton-panel-texto: var(--color-texto-suave);

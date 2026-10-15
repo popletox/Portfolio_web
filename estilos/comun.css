@@ -39,7 +39,18 @@ img {
   --z-menu-opciones: 1;
   --tamano-flecha-menu: 0.75rem;
   --tamano-boton-contacto: 2.5rem;
-  --tamano-icono-contacto: 1.25rem;
+  --tamano-icono-contacto: 1.5rem;
+  /* Botones redondos de icono (cabecera, enlaces y botones del detalle,
+     Cerrar del visor): colores comunes, derivados del tema. Un contexto
+     puede cambiar solo --boton-redondo-fondo (ver .detalle-proyecto-enlaces) */
+  --boton-redondo-fondo: var(--color-fondo-suave);
+  --boton-redondo-fondo-hover: var(--color-boton-enlaces-hover);
+  --boton-redondo-icono: var(--color-texto);
+  /* Icono de los botones redondos de la región de enlaces del detalle */
+  --tamano-icono-enlace: 1.75rem;
+  /* Factor de tamaño para iconos cuyo dibujo tiene mucho margen interno
+     en su viewBox (itch.io, correo, PDF): así pesan como los demás */
+  --escala-icono-con-margen: 1.2;
   --area-tactil-minima: 2.75rem;
   --ancho-contenido: 72rem;
   --alto-panel-inferior: min(48vh, 26rem);
@@ -74,6 +85,8 @@ img {
   --separacion-bandas: 2.25rem;
   --separacion-banda-vacia: 0.5rem;
   --tamano-boton-visor: 2.75rem;
+  /* Icono (máscara) de los botones redondos del visor y del detalle */
+  --tamano-icono-visor: 1.5rem;
   /* Separación de los botones redondos (✕, compartir) con el borde */
   --margen-boton-visor: 0.5rem;
   /* Tiempo que se ve el aviso "Enlace copiado" antes del fundido */
@@ -279,6 +292,44 @@ main {
   flex-shrink: 0;
 }
 
+/* Colores, hover y foco comunes a los botones redondos de icono de la
+   página (y al botón de texto de la región de enlaces). El hover es un tono
+   más claro u oscuro según el tema; el icono (currentColor) no cambia.
+   Tamaños y posición, en la regla de cada botón */
+.boton-contacto,
+.boton-opciones,
+.detalle-proyecto-boton-icono,
+.detalle-proyecto-boton-texto,
+.detalle-proyecto-compartir,
+.detalle-proyecto-cerrar,
+.visor-imagen-cerrar {
+  background: var(--boton-redondo-fondo);
+  color: var(--boton-redondo-icono);
+  transition: background-color var(--duracion-transicion) ease;
+}
+
+.boton-contacto:hover,
+.boton-opciones:hover,
+.boton-opciones[aria-expanded="true"],
+.detalle-proyecto-boton-icono:hover,
+.detalle-proyecto-boton-texto:hover,
+.detalle-proyecto-compartir:hover,
+.detalle-proyecto-cerrar:hover,
+.visor-imagen-cerrar:hover {
+  background: var(--boton-redondo-fondo-hover);
+}
+
+.boton-contacto:focus-visible,
+.boton-opciones:focus-visible,
+.detalle-proyecto-boton-icono:focus-visible,
+.detalle-proyecto-boton-texto:focus-visible,
+.detalle-proyecto-compartir:focus-visible,
+.detalle-proyecto-cerrar:focus-visible,
+.visor-imagen-cerrar:focus-visible {
+  outline: 3px solid var(--color-foco);
+  outline-offset: 2px;
+}
+
 /* Botones de contacto y de Opciones: iconos en círculo */
 .boton-contacto,
 .boton-opciones {
@@ -289,12 +340,9 @@ main {
   width: var(--tamano-boton-contacto);
   height: var(--tamano-boton-contacto);
   border-radius: 50%;
-  background: var(--color-fondo-suave);
-  color: var(--color-texto);
   text-decoration: none;
   transition:
     background-color var(--duracion-transicion) ease,
-    color var(--duracion-transicion) ease,
     width var(--duracion-transicion) ease,
     height var(--duracion-transicion) ease;
 }
@@ -306,8 +354,8 @@ main {
   cursor: pointer;
 }
 
-.boton-contacto svg,
-.boton-opciones svg {
+.boton-contacto-icono {
+  display: block;
   width: var(--tamano-icono-contacto);
   height: var(--tamano-icono-contacto);
   transition:
@@ -323,17 +371,10 @@ main {
   inset: calc((var(--tamano-boton-contacto) - var(--area-tactil-minima)) / 2);
 }
 
-.boton-contacto:hover,
-.boton-opciones:hover,
-.boton-opciones[aria-expanded="true"] {
-  background: var(--color-acento);
-  color: var(--color-texto-sobre-acento);
-}
-
-.boton-contacto:focus-visible,
-.boton-opciones:focus-visible {
-  outline: 3px solid var(--color-foco);
-  outline-offset: 2px;
+.boton-contacto-icono--itch-io,
+.boton-contacto-icono.icono-mascara--correo {
+  width: calc(var(--tamano-icono-contacto) * var(--escala-icono-con-margen));
+  height: calc(var(--tamano-icono-contacto) * var(--escala-icono-con-margen));
 }
 
 /* Bocadillo de Opciones: bajo el engranaje, alineado a su borde derecho.
@@ -885,25 +926,8 @@ button.proyecto-miniatura:focus-visible {
   padding: 0;
   border: 0;
   border-radius: 50%;
-  background: var(--color-boton-visor);
-  color: var(--color-boton-visor-texto);
   font: inherit;
-  font-size: 1.25rem;
-  line-height: 1;
   cursor: pointer;
-}
-
-.visor-imagen-cerrar:hover,
-.detalle-proyecto-cerrar:hover,
-.detalle-proyecto-compartir:hover {
-  background: var(--color-boton-visor-hover);
-}
-
-.visor-imagen-cerrar:focus-visible,
-.detalle-proyecto-cerrar:focus-visible,
-.detalle-proyecto-compartir:focus-visible {
-  outline: 3px solid var(--color-foco);
-  outline-offset: 2px;
 }
 
 /* Compartir: a la izquierda del ✕ */
@@ -911,9 +935,10 @@ button.proyecto-miniatura:focus-visible {
   right: calc(var(--margen-boton-visor) * 2 + var(--tamano-boton-visor));
 }
 
-.detalle-proyecto-compartir svg {
-  width: var(--tamano-icono-contacto);
-  height: var(--tamano-icono-contacto);
+.boton-visor-icono {
+  display: block;
+  width: var(--tamano-icono-visor);
+  height: var(--tamano-icono-visor);
 }
 
 /* Bloquea el desplazamiento del fondo con el visor o la ventana de detalle abiertos */
@@ -1112,6 +1137,9 @@ body.detalle-abierto {
   border: 1px solid var(--color-borde-boton-panel);
   border-radius: var(--radio-medio);
   background: var(--color-fondo-enlaces);
+  /* Sobre esta caja los botones en reposo usan el fondo de la página para
+     distinguirse; hover e icono, los comunes */
+  --boton-redondo-fondo: var(--color-fondo);
 }
 
 .detalle-proyecto-enlaces-fila {
@@ -1122,8 +1150,7 @@ body.detalle-abierto {
   gap: 0.5rem;
 }
 
-/* Botón redondo con solo el icono; fondo del color de la página, como las
-   píldoras de filtro dentro de una caja suave */
+/* Botón redondo con solo el icono (colores: regla común de botones redondos) */
 .detalle-proyecto-boton-icono {
   display: inline-flex;
   align-items: center;
@@ -1132,20 +1159,25 @@ body.detalle-abierto {
   width: var(--area-tactil-minima);
   height: var(--area-tactil-minima);
   border-radius: 50%;
-  background: var(--color-fondo);
-  color: var(--color-texto);
-  transition: background-color var(--duracion-transicion) ease;
 }
 
 .detalle-proyecto-icono {
   display: block;
-  width: 1.5rem;
-  height: 1.5rem;
+  width: var(--tamano-icono-enlace);
+  height: var(--tamano-icono-enlace);
+}
+
+.detalle-proyecto-boton-icono--itch-io .detalle-proyecto-icono,
+.detalle-proyecto-boton-icono--pdf .detalle-proyecto-icono {
+  width: calc(var(--tamano-icono-enlace) * var(--escala-icono-con-margen));
+  height: calc(var(--tamano-icono-enlace) * var(--escala-icono-con-margen));
 }
 
 /* Iconos monocromo: el SVG hace de máscara y se pinta con el color de texto
-   del tema (negro en claro, claro en oscuro…) */
-.detalle-proyecto-icono-mascara {
+   del botón (currentColor), así sigue al tema y a los estados hover/abierto.
+   Se usa en la cabecera, en los botones del visor y del detalle y en los
+   enlaces de proyecto. El modificador --nombre elige el SVG */
+.icono-mascara {
   background-color: currentColor;
   -webkit-mask-position: center;
   mask-position: center;
@@ -1155,12 +1187,32 @@ body.detalle-abierto {
   mask-size: contain;
 }
 
-.detalle-proyecto-boton-icono--github .detalle-proyecto-icono-mascara {
+.icono-mascara--correo {
+  -webkit-mask-image: url("../recursos/Iconos/email-icon.svg");
+  mask-image: url("../recursos/Iconos/email-icon.svg");
+}
+
+.icono-mascara--opciones {
+  -webkit-mask-image: url("../recursos/Iconos/settings-icon.svg");
+  mask-image: url("../recursos/Iconos/settings-icon.svg");
+}
+
+.icono-mascara--compartir {
+  -webkit-mask-image: url("../recursos/Iconos/share-icon.svg");
+  mask-image: url("../recursos/Iconos/share-icon.svg");
+}
+
+.icono-mascara--cerrar {
+  -webkit-mask-image: url("../recursos/Iconos/close-icon.svg");
+  mask-image: url("../recursos/Iconos/close-icon.svg");
+}
+
+.detalle-proyecto-boton-icono--github .icono-mascara {
   -webkit-mask-image: url("../recursos/Iconos/github-icon.svg");
   mask-image: url("../recursos/Iconos/github-icon.svg");
 }
 
-.detalle-proyecto-boton-icono--pdf .detalle-proyecto-icono-mascara {
+.detalle-proyecto-boton-icono--pdf .icono-mascara {
   -webkit-mask-image: url("../recursos/Iconos/download-pdf-icon.svg");
   mask-image: url("../recursos/Iconos/download-pdf-icon.svg");
 }
@@ -1172,22 +1224,8 @@ body.detalle-abierto {
   min-height: var(--area-tactil-minima);
   padding: 0.4rem 0.9rem;
   border-radius: var(--radio-pequeno);
-  background: var(--color-fondo);
-  color: var(--color-texto);
   text-decoration: none;
   overflow-wrap: anywhere;
-  transition: background-color var(--duracion-transicion) ease;
-}
-
-.detalle-proyecto-boton-icono:hover,
-.detalle-proyecto-boton-texto:hover {
-  background: var(--color-boton-enlaces-hover);
-}
-
-.detalle-proyecto-boton-icono:focus-visible,
-.detalle-proyecto-boton-texto:focus-visible {
-  outline: 3px solid var(--color-foco);
-  outline-offset: 2px;
 }
 
 .detalle-proyecto-imagenes {
@@ -2463,7 +2501,7 @@ body.panel-abierto .boton-destacado-flecha {
   /* Cabecera compacta al bajar: una fila con el nombre corto y los iconos */
   .cabecera--compacta {
     --tamano-boton-contacto: 2.25rem;
-    --tamano-icono-contacto: 1.1rem;
+    --tamano-icono-contacto: 1.35rem;
     grid-template-areas:
       "nombre acciones"
       "subtitulo subtitulo"
