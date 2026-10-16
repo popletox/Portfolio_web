@@ -1836,6 +1836,27 @@ button.proyecto-tarjeta {
   scrollbar-color: var(--color-texto-suave) transparent;
 }
 
+/* Arrastre con ratón (scripts/linea-tiempo.js): cursor de mano si hay algo
+   que desplazar (--desplazable) y mano cerrada mientras se arrastra
+   (--arrastrando, también sobre las tarjetas), sin seleccionar texto y sin
+   desplazamiento suave que retrase el seguimiento del ratón */
+@media (hover: hover) and (pointer: fine) {
+  .cronologia--desplazable {
+    cursor: grab;
+  }
+}
+
+.cronologia--arrastrando,
+.cronologia--arrastrando * {
+  cursor: grabbing;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.cronologia--arrastrando {
+  scroll-behavior: auto;
+}
+
 /* Navegadores sin scrollbar-color (Safari) */
 @supports not (scrollbar-color: auto) {
   .cronologia::-webkit-scrollbar {

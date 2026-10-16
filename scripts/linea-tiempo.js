@@ -33,6 +33,13 @@
 // borde derecho), sin cálculos en JS. Empieza en el extremo derecho y, si
 // está en él, sigue en él al cambiar de ancho (abrir o cerrar el panel,
 // redimensionar); si no, conserva la posición.
+//
+// Arrastre con ratón: además del scroll nativo, con el botón principal del
+// ratón se puede pulsar, mover y soltar para desplazar la franja (táctil y
+// lápiz siguen solo con el nativo). Cuenta como arrastre a partir de
+// UMBRAL_ARRASTRE_PX; entonces captura el puntero, y el clic que sigue al
+// soltar no abre la tarjeta de proyecto. Cambia scrollLeft, así que el
+// listener de 'scroll' lo trata como desplazamiento del usuario.
 (function () {
   // Espacio, en meses, entre cada extremo del degradado del eje y el borde
   // del lienzo (antes del degradado inicial y tras el final)
@@ -45,6 +52,9 @@
   // Proyectos en un mismo mes a partir de los cuales todos los de ese mes
   // usan la tarjeta compacta (sin imagen)
   var MIN_PROYECTOS_COMPACTAS = 3;
+  // Píxeles que hay que mover el ratón pulsado para que cuente como
+  // arrastre (por debajo, es un clic normal)
+  var UMBRAL_ARRASTRE_PX = 5;
   var TEXTO_AVISO = 'No se ha podido cargar el contenido.';
   var TEXTO_ACTUALIDAD = 'actualidad';
   var MESES = [
@@ -580,6 +590,108 @@
   } else {
     window.addEventListener('resize', alCambiarAncho);
   }
+
+  // ---- Arrastre con ratón ----
+
+  // Estado del arrastre en curso (null si no hay botón pulsado):
+  // { id: pointerId, x: clientX inicial, scroll: scrollLeft inicial,
+  //   arrastrando: si ya pasó el umbral }
+  var arrastre = null;
+  // Si el último pulsado acabó en arrastre: el clic que le sigue no cuenta
+  var anularClic = false;
+
+  // .cronologia--desplazable (cursor grab, estilos/comun.css) solo si hay
+  // algo que desplazar. Cambia con el ancho del contenedor y con el del
+  // lienzo (montaje, cambio de --ancho-mes-cronologia)
+  function marcarDesplazable() {
+    cronologia.classList.toggle('cronologia--desplazable',
+      cronologia.scrollWidth > cronologia.clientWidth + 1);
+  }
+
+  if ('ResizeObserver' in window) {
+    var observadorDesplazable = new ResizeObserver(marcarDesplazable);
+    observadorDesplazable.observe(cronologia);
+    observadorDesplazable.observe(lienzo);
+  } else {
+    window.addEventListener('resize', marcarDesplazable);
+    document.addEventListener('contenido:listo', marcarDesplazable);
+  }
+
+  // Pulsación sobre la barra de scroll (debajo del área de contenido): se
+  // deja al navegador
+  function sobreBarra(evento) {
+    var caja = cronologia.getBoundingClientRect();
+    return evento.clientY >= caja.top + cronologia.clientTop + cronologia.clientHeight;
+  }
+
+  function terminarArrastre() {
+    if (!arrastre) return;
+    var terminado = arrastre;
+    arrastre = null; // antes de soltar la captura (lanza lostpointercapture)
+    if (!terminado.arrastrando) return;
+    anularClic = true;
+    // Si el navegador no manda clic (se soltó fuera de la tarjeta), que no
+    // se quede anulado el siguiente
+    setTimeout(function () { anularClic = false; }, 0);
+    cronologia.classList.remove('cronologia--arrastrando');
+    if (cronologia.hasPointerCapture(terminado.id)) {
+      cronologia.releasePointerCapture(terminado.id);
+    }
+  }
+
+  cronologia.addEventListener('pointerdown', function (evento) {
+    if (evento.pointerType !== 'mouse' || evento.button !== 0) return;
+    if (!cronologia.classList.contains('cronologia--desplazable') || sobreBarra(evento)) return;
+    arrastre = {
+      id: evento.pointerId,
+      x: evento.clientX,
+      scroll: cronologia.scrollLeft,
+      arrastrando: false
+    };
+  });
+
+  cronologia.addEventListener('pointermove', function (evento) {
+    if (!arrastre || evento.pointerId !== arrastre.id) return;
+    // Soltado fuera de la ventana antes del umbral (sin pointerup)
+    if (!(evento.buttons & 1)) {
+      terminarArrastre();
+      return;
+    }
+    var desplazamiento = evento.clientX - arrastre.x;
+    if (!arrastre.arrastrando) {
+      if (Math.abs(desplazamiento) < UMBRAL_ARRASTRE_PX) return;
+      arrastre.arrastrando = true;
+      // La captura empieza aquí y no al pulsar: así un clic sin movimiento
+      // llega a la tarjeta como siempre
+      cronologia.setPointerCapture(arrastre.id);
+      cronologia.classList.add('cronologia--arrastrando');
+      // Texto que se hubiera empezado a seleccionar al pulsar
+      var seleccion = window.getSelection && window.getSelection();
+      if (seleccion && seleccion.rangeCount &&
+          cronologia.contains(seleccion.anchorNode)) {
+        seleccion.removeAllRanges();
+      }
+    }
+    cronologia.scrollLeft = arrastre.scroll - desplazamiento;
+  });
+
+  cronologia.addEventListener('pointerup', terminarArrastre);
+  cronologia.addEventListener('pointercancel', terminarArrastre);
+  cronologia.addEventListener('lostpointercapture', terminarArrastre);
+
+  // Fase de captura: el clic tras un arrastre no llega a la delegación de
+  // main.js (no abre la ventana del proyecto)
+  cronologia.addEventListener('click', function (evento) {
+    if (!anularClic) return;
+    anularClic = false;
+    evento.preventDefault();
+    evento.stopPropagation();
+  }, true);
+
+  // Sin arrastre nativo de imágenes ni enlaces dentro del lienzo
+  lienzo.addEventListener('dragstart', function (evento) {
+    evento.preventDefault();
+  });
   document.addEventListener('contenido:listo', function (evento) {
     montar(evento.detail);
   });
