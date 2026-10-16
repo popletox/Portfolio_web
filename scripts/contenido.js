@@ -445,19 +445,18 @@
   }
 
   // Botones de icono de "enlaces", en el orden en que se muestran (después
-  // van los de "web-generico"). nombre: aria-label y title; icono: ruta del
-  // SVG (con colores de marca, como <img>) o null si es monocromo (el icono
-  // lo pinta una máscara CSS en .detalle-proyecto-boton-icono--<clase>);
+  // van los de "web-generico"). nombre: aria-label y title; el icono (SVG
+  // monocromo) lo pinta una máscara CSS en .detalle-proyecto-boton-icono--<clase>;
   // descarga: añade el atributo download. Para añadir un tipo nuevo, añade
-  // aquí una entrada y, si es monocromo, su máscara en estilos/comun.css
+  // aquí una entrada y su máscara en estilos/comun.css
   var TIPOS_ENLACE_PROYECTO = [
-    { tipo: 'github', nombre: 'GitHub', clase: 'github', icono: null },
-    { tipo: 'itch.io', nombre: 'itch.io', clase: 'itch-io', icono: './recursos/Iconos/itch-io-icon.svg' },
-    { tipo: 'steam', nombre: 'Steam', clase: 'steam', icono: './recursos/Iconos/steam-icon.svg' },
-    { tipo: 'linkedin', nombre: 'LinkedIn', clase: 'linkedin', icono: './recursos/Iconos/linkedin-icon.svg' },
-    { tipo: 'instagram', nombre: 'Instagram', clase: 'instagram', icono: './recursos/Iconos/instagram-icon.svg' },
-    { tipo: 'youtube', nombre: 'YouTube', clase: 'youtube', icono: null },
-    { tipo: 'pdf-download', nombre: 'Descargar PDF', clase: 'pdf', icono: null, descarga: true }
+    { tipo: 'github', nombre: 'GitHub', clase: 'github' },
+    { tipo: 'itch.io', nombre: 'itch.io', clase: 'itch-io' },
+    { tipo: 'steam', nombre: 'Steam', clase: 'steam' },
+    { tipo: 'linkedin', nombre: 'LinkedIn', clase: 'linkedin' },
+    { tipo: 'instagram', nombre: 'Instagram', clase: 'instagram' },
+    { tipo: 'youtube', nombre: 'YouTube', clase: 'youtube' },
+    { tipo: 'pdf-download', nombre: 'Descargar PDF', clase: 'pdf', descarga: true }
   ];
   var TIPO_ENLACE_GENERICO = 'web-generico';
 
@@ -512,18 +511,9 @@
       boton.title = t.nombre;
       if (t.descarga) boton.setAttribute('download', '');
       abrirEnPestanaNueva(boton, url);
-      if (t.icono) {
-        var img = crear('img', 'detalle-proyecto-icono');
-        img.src = t.icono;
-        img.alt = '';
-        img.width = 24;
-        img.height = 24;
-        boton.appendChild(img);
-      } else {
-        var mascara = crear('span', 'detalle-proyecto-icono icono-mascara');
-        mascara.setAttribute('aria-hidden', 'true');
-        boton.appendChild(mascara);
-      }
+      var mascara = crear('span', 'detalle-proyecto-icono icono-mascara');
+      mascara.setAttribute('aria-hidden', 'true');
+      boton.appendChild(mascara);
       fila.appendChild(boton);
     });
 

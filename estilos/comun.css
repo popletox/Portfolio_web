@@ -49,7 +49,7 @@ img {
   /* Icono de los botones redondos de la región de enlaces del detalle */
   --tamano-icono-enlace: 1.75rem;
   /* Factor de tamaño para iconos cuyo dibujo tiene mucho margen interno
-     en su viewBox (itch.io, correo, PDF): así pesan como los demás */
+     en su viewBox (correo, PDF): así pesan como los demás */
   --escala-icono-con-margen: 1.2;
   --area-tactil-minima: 2.75rem;
   --ancho-contenido: 72rem;
@@ -380,7 +380,6 @@ main {
   inset: calc((var(--tamano-boton-contacto) - var(--area-tactil-minima)) / 2);
 }
 
-.boton-contacto-icono--itch-io,
 .boton-contacto-icono.icono-mascara--correo {
   width: calc(var(--tamano-icono-contacto) * var(--escala-icono-con-margen));
   height: calc(var(--tamano-icono-contacto) * var(--escala-icono-con-margen));
@@ -1176,7 +1175,6 @@ body.detalle-abierto {
   height: var(--tamano-icono-enlace);
 }
 
-.detalle-proyecto-boton-icono--itch-io .detalle-proyecto-icono,
 .detalle-proyecto-boton-icono--pdf .detalle-proyecto-icono {
   width: calc(var(--tamano-icono-enlace) * var(--escala-icono-con-margen));
   height: calc(var(--tamano-icono-enlace) * var(--escala-icono-con-margen));
@@ -1219,6 +1217,28 @@ body.detalle-abierto {
 .detalle-proyecto-boton-icono--github .icono-mascara {
   -webkit-mask-image: url("../recursos/Iconos/github-icon.svg");
   mask-image: url("../recursos/Iconos/github-icon.svg");
+}
+
+.icono-mascara--itch-io,
+.detalle-proyecto-boton-icono--itch-io .icono-mascara {
+  -webkit-mask-image: url("../recursos/Iconos/itch-io-icon.svg");
+  mask-image: url("../recursos/Iconos/itch-io-icon.svg");
+}
+
+.detalle-proyecto-boton-icono--steam .icono-mascara {
+  -webkit-mask-image: url("../recursos/Iconos/steam-icon.svg");
+  mask-image: url("../recursos/Iconos/steam-icon.svg");
+}
+
+.icono-mascara--linkedin,
+.detalle-proyecto-boton-icono--linkedin .icono-mascara {
+  -webkit-mask-image: url("../recursos/Iconos/linkedin-icon.svg");
+  mask-image: url("../recursos/Iconos/linkedin-icon.svg");
+}
+
+.detalle-proyecto-boton-icono--instagram .icono-mascara {
+  -webkit-mask-image: url("../recursos/Iconos/instagram-icon.svg");
+  mask-image: url("../recursos/Iconos/instagram-icon.svg");
 }
 
 .detalle-proyecto-boton-icono--youtube .icono-mascara {
