@@ -40,10 +40,11 @@ Cómo mantenerlo:
 ## Méritos
 
 - [ ] **P13 · Decidir**: cómo navegar a un mérito (no hay forma desde el paso 3 de Proyectos y la estrella de la línea de tiempo no hace nada propio: abre el proyecto). ¿Ventana propia como los proyectos?
-  - Relacionado con P36: depende del rework de los méritos.
+  - Relacionado con P36: el rework ya está hecho (2026-10-16), así que ya no está bloqueado; queda por decidir.
 - [ ] **P35 · Decidir**: mostrar también la estrella de reconocimiento en las tarjetas de la sección Proyectos (ahora solo está en la Línea de tiempo).
-  - Relacionado con P36: depende del rework de los méritos.
-- [ ] **P36 · Decidir**: rework de la sección "Méritos y reconocimientos" y de cómo se muestran los méritos en la web (sección, tarjetas de Referencias, estrellas de la Línea de tiempo). Pendiente de definir el planteamiento.
+  - Relacionado con P36: el rework ya está hecho (2026-10-16), así que ya no está bloqueado; queda por decidir.
+- [ ] **P51 · Decidir** (añadido 2026-10-16): si las tarjetas de proyecto dentro de los méritos se quedan con el formato compacto actual (9rem, imagen 16:9 recortada, título en una línea con «…») o pasan a ser iguales que las tarjetas de proyecto del resto de la web.
+- [ ] **P54 · Hacer** (añadido 2026-10-16): sustituir los méritos provisionales por los reales. El usuario tiene que recopilar título, entidad, fecha, descripción y proyecto de cada uno (ahora apuntan a `proyecto-beans-out`, `proyecto-color-switch-race` y `proyecto-fire-lunar-rush` solo para pruebas, y el mérito 2 no tiene entidad).
 
 ## Contenido
 
@@ -88,6 +89,13 @@ Puntos abiertos del [documento de diseño](diseno-portfolio.md).
 - [ ] **P32 · Revisar**: el aviso de consola por tipos de enlace desconocidos se repite cada vez que se abre la ventana.
 
 ## Hechos
+
+- [x] **P53 · Hacer** (2026-10-16): paso 3 del rediseño de méritos: franja «Reconocimiento» en el detalle del proyecto, entre el contenido y los enlaces, con el título y la descripción del premio.
+  - Nota: ver [`diseno-portfolio.md`](diseno-portfolio.md).
+- [x] **P36 · Decidir** (2026-10-16): rework de la sección «Méritos y reconocimientos» y de cómo se muestran los méritos en la web.
+  - Nota: hechos los tres pasos (tarjeta fija de mérito, estrella sin tooltip en P52 y franja en el detalle en P53). Siguen abiertos P51 (formato de las tarjetas de proyecto en los méritos) y P54 (méritos reales).
+- [x] **P52 · Hacer** (2026-10-16): paso 2 del rediseño de méritos: quitar el tooltip de la estrella de la Línea de tiempo.
+  - Nota: la estrella es solo una marca decorativa (`aria-hidden`); los títulos se anuncian en el `aria-label` de la tarjeta.
 
 - [x] **P04 · Decidir** (2026-10-15): el primer año no tenía etiqueta si el eje empezaba a mitad de año.
   - Decisión: el eje empieza siempre en enero del año del dato más antiguo (con su marca y etiqueta de año) y, por la izquierda, tiene el mismo degradado que hacia el futuro por la derecha (simétrico). Ver [`diseno-portfolio.md`](diseno-portfolio.md).

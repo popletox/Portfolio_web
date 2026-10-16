@@ -32,7 +32,7 @@ Cada tema es un archivo en `estilos/temas/<id>.css` que define **todas** las var
 | `--color-fondo-suave` | Fondo de títulos de sección (y de la sección entera cuando está abierta), botones de contacto y de Opciones, pie y franja de la Línea de tiempo (entra y sale con un degradado desde y hacia `--color-fondo`); fondo de los años del eje de la Línea de tiempo (tapa los conectores que pasan por debajo). |
 | `--color-fondo-suave-hover` | Hover sobre `--color-fondo-suave` (títulos de sección, filtros, títulos de entradas y tarjetas de Referencias y de Proyectos) y sobre los temas del bocadillo de Opciones. |
 | `--color-panel` | Fondo del panel destacado y de su botón-pestaña (forman una sola pieza). Debe distinguirse de `--color-fondo`. |
-| `--color-fondo-enlaces` | Fondo de la región de enlaces del detalle de proyecto. Debe distinguirse de `--color-fondo`. Claro `#e3e7ed`, Oscuro `#2b2f33`, Código `#333337`, Cómic `#e3e7ed` (copia de Claro). |
+| `--color-fondo-enlaces` | Fondo de la región de enlaces y de la franja de reconocimiento del detalle de proyecto. Debe distinguirse de `--color-fondo`. Claro `#e3e7ed`, Oscuro `#2b2f33`, Código `#333337`, Cómic `#e3e7ed` (copia de Claro). |
 | `--color-boton-enlaces-hover` | Fondo al pasar el ratón de todos los botones redondos de icono (cabecera, región de enlaces, Compartir y Cerrar del detalle y Cerrar del visor), a través de `--boton-redondo-fondo-hover`. Claro `#d3d9e1`, Oscuro `#3a3f44`, Código `#3c3c3c`, Cómic `#d3d9e1` (copia de Claro). |
 | `--color-texto` | Texto principal; marcas de año del eje y nombres de estudios y experiencias de la Línea de tiempo. |
 | `--color-texto-suave` | Texto secundario: introducción, subtítulo de la cabecera, flechas, separadores, título del bocadillo de Opciones; línea, marcas de mes, barra de scroll y conectores de las tarjetas de proyectos de la Línea de tiempo. |
@@ -53,13 +53,13 @@ Cada tema es un archivo en `estilos/temas/<id>.css` que define **todas** las var
 | `--color-punto-tiempo` | Punto de cada entrada. |
 | `--color-periodo-estudio` | Barras de estudios de la Línea de tiempo, su conector vertical y el punto donde empieza el nombre (azul; más claro en temas oscuros). El nombre va en `--color-texto`. |
 | `--color-periodo-experiencia` | Barras de experiencias de la Línea de tiempo, su conector vertical y el punto donde empieza el nombre (rojo; más claro en temas oscuros). El nombre va en `--color-texto`. |
-| `--color-estrella` | Estrella de reconocimiento de las tarjetas de proyecto con mérito en la Línea de tiempo (dorado). |
+| `--color-estrella` | Estrella de reconocimiento (dorado) de las tarjetas con mérito en la Línea de tiempo y del título de la franja de reconocimiento del detalle de proyecto. |
 | `--color-fondo-estrella` | Fondo circular de esa estrella. |
 | `--color-miniatura-provisional` | Cuadrado provisional (verde) de miniaturas, imagen del visor y tarjetas de Referencias y de Proyectos que no tienen imagen real. Con imagen, el fondo es `--color-fondo-imagen` (ver abajo). |
 | `--color-destacado-provisional` | Cuadrado provisional del panel destacado. |
 | `--color-fondo-visor` | Fondo oscurecido tras la imagen ampliada y tras la ventana de detalle de un proyecto. |
 | `--color-boton-panel-texto` | Flecha del botón-pestaña, sobre `--color-panel` (contraste ≥ 3:1; normalmente `var(--color-texto-suave)`). |
-| `--color-borde-boton-panel` | Filo de 1px del botón-pestaña con el panel cerrado, para distinguirlo de la página. |
+| `--color-borde-boton-panel` | Filo de 1px del botón-pestaña con el panel cerrado, para distinguirlo de la página; también el borde de la región de enlaces y de la franja de reconocimiento del detalle de proyecto. |
 | `--color-sombra-panel` | Sombra del panel destacado (solo abierto) y de su botón-pestaña, proyectada hacia la página para que parezcan por encima. Semitransparente; en temas oscuros, más opaca (p. ej. 0.6) para que se note. |
 | `--desenfoque-sombra-panel` | Desenfoque de esa sombra (p. ej. `16px` en claros, algo más en oscuros). No pasar de unos `40px`: el botón recorta su sombra a `--margen-sombra-panel` (4rem, en `comun.css`). |
 

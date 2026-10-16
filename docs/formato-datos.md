@@ -68,7 +68,7 @@ Igual que Experiencia, cambiando `puesto` por `titulo` y `empresa` por `instituc
 - `tecnologia` (opcional): array de strings. Se muestra en línea antes de las habilidades personales: «Tecnología: Java · Python». La ventana de detalle de Proyectos tiene el mismo campo.
 - `aptitudes` puede ser un array vacío `[]` (de momento lo está en todos los estudios; ver P46).
 
-Las habilidades personales (campo `aptitudes`, etiqueta «Habilidades personales:») se muestran igual en Experiencia, Estudios y Proyectos. En el detalle de Estudios se omite el título «Referencias» sobre las tarjetas; Experiencia y Méritos lo conservan.
+Las habilidades personales (campo `aptitudes`, etiqueta «Habilidades personales:») se muestran igual en Experiencia, Estudios y Proyectos. En el detalle de Estudios se omite el título «Referencias» sobre las tarjetas; Experiencia lo conserva.
 
 ## Proyectos
 
@@ -147,16 +147,20 @@ Copia este bloque dentro del array `"proyectos"`, separado del anterior por una 
 | Campo | Obligatorio | Descripción |
 | --- | --- | --- |
 | `titulo` | Sí | Nombre del premio o reconocimiento. |
-| `entidad` | Sí | Evento o institución (subtítulo). |
-| `fecha` | Sí | `"AAAA-MM"`. |
-| `descripcion` | Sí | String o array de strings. |
-| `referencias` | No | Array de ids de proyectos o del catálogo `referencias`, como en Experiencia. |
+| `entidad` | No | Evento o institución (subtítulo, en una línea pequeña). Si falta o está vacía, no se pinta. |
+| `fecha` | Sí | `"AAAA-MM"`. Se muestra siempre como «mes, AAAA». |
+| `descripcion` | Sí | String o array de strings. Es el texto del mérito y también el que se muestra en la franja «Reconocimiento» del detalle del proyecto. |
+| `proyecto` | No | Una única cadena: el `id` de un proyecto de la sección Proyectos o una clave del catálogo `referencias` (mismas reglas que cada elemento de `referencias` en Experiencia). |
 
-**Enlazar un mérito con un proyecto:** pon el `id` exacto del proyecto en el campo `referencias` del mérito (p. ej. `["mi-juego"]`); no hace falta ninguna entrada en el catálogo. La tarjeta toma el título y la primera imagen del proyecto y, al pulsarla, abre la ventana de detalle del proyecto sin mover la página; al cerrarla (también con el botón Atrás) se sigue en el mérito. Además, citar un proyecto en `referencias` (por id, o con una entrada del catálogo cuyo `enlace` sea `#<id>`) hace que su tarjeta de la Línea de tiempo lleve una estrella de reconocimiento.
+Cada mérito referencia como mucho un proyecto. Compatibilidad: si falta `proyecto`, se toma el primer elemento de un antiguo array `referencias` (el resto se ignoran); conviene migrar los datos a `proyecto`.
+
+**Enlazar un mérito con un proyecto:** pon el `id` exacto del proyecto en `proyecto` (p. ej. `"mi-juego"`); no hace falta ninguna entrada en el catálogo. Los méritos son tarjetas fijas (no se expanden): a la derecha llevan la tarjeta del proyecto con su título y primera imagen, que al pulsarla abre la ventana de detalle del proyecto sin mover la página; al cerrarla (también con el botón Atrás) se sigue en el mérito. Sin `proyecto`, no hay tarjeta y el texto ocupa todo el ancho. Además, el campo `proyecto` hace que el mérito aparezca también en el detalle de ese proyecto (franja «Reconocimiento» con título y descripción; solo cuentan los méritos con `titulo`). Citar un proyecto (por id, o con una entrada del catálogo cuyo `enlace` sea `#<id>`) hace que su tarjeta de la Línea de tiempo lleve una estrella de reconocimiento.
+
+Los datos actuales de méritos son provisionales (apuntan a `proyecto-beans-out`, `proyecto-color-switch-race` y `proyecto-fire-lunar-rush` solo para pruebas).
 
 ## Referencias
 
-Las tarjetas del bloque «Referencias» que aparece en el detalle de Experiencia, Estudios y Méritos se indican con el campo `referencias` de cada entrada: un array de ids, en el orden en que se muestran. Cada id puede ser de dos tipos:
+Las tarjetas del bloque «Referencias» que aparece en el detalle de Experiencia y Estudios se indican con el campo `referencias` de cada entrada: un array de ids, en el orden en que se muestran. Cada id puede ser de dos tipos:
 
 **a) Id de un proyecto de la sección Proyectos** (p. ej. `"mi-juego"`). La tarjeta se genera sola, sin entrada en el catálogo:
 
