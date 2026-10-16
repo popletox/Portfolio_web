@@ -53,7 +53,7 @@ Cada tema es un archivo en `estilos/temas/<id>.css` que define **todas** las var
 | `--color-punto-tiempo` | Punto de cada entrada. |
 | `--color-periodo-estudio` | Barras de estudios de la Línea de tiempo, su conector vertical y el punto donde empieza el nombre (azul; más claro en temas oscuros). El nombre va en `--color-texto`. |
 | `--color-periodo-experiencia` | Barras de experiencias de la Línea de tiempo, su conector vertical y el punto donde empieza el nombre (rojo; más claro en temas oscuros). El nombre va en `--color-texto`. |
-| `--color-estrella` | Estrella de reconocimiento (dorado) de las tarjetas con mérito en la Línea de tiempo y del título de la franja de reconocimiento del detalle de proyecto. |
+| `--color-estrella` | Estrella de reconocimiento (dorado) de todas las tarjetas de proyecto con mérito (Proyectos, Referencias y Línea de tiempo; no la del propio mérito) y del título de la franja de reconocimiento del detalle de proyecto. |
 | `--color-fondo-estrella` | Fondo circular de esa estrella. |
 | `--color-miniatura-provisional` | Cuadrado provisional (verde) de miniaturas, imagen del visor y tarjetas de Referencias y de Proyectos que no tienen imagen real. Con imagen, el fondo es `--color-fondo-imagen` (ver abajo). |
 | `--color-destacado-provisional` | Cuadrado provisional del panel destacado. |

@@ -39,10 +39,6 @@ Cómo mantenerlo:
 
 ## Méritos
 
-- [ ] **P13 · Decidir**: cómo navegar a un mérito (no hay forma desde el paso 3 de Proyectos y la estrella de la línea de tiempo no hace nada propio: abre el proyecto). ¿Ventana propia como los proyectos?
-  - Relacionado con P36: el rework ya está hecho (2026-10-16), así que ya no está bloqueado; queda por decidir.
-- [ ] **P35 · Decidir**: mostrar también la estrella de reconocimiento en las tarjetas de la sección Proyectos (ahora solo está en la Línea de tiempo).
-  - Relacionado con P36: el rework ya está hecho (2026-10-16), así que ya no está bloqueado; queda por decidir.
 - [ ] **P51 · Decidir** (añadido 2026-10-16): si las tarjetas de proyecto dentro de los méritos se quedan con el formato compacto actual (9rem, imagen 16:9 recortada, título en una línea con «…») o pasan a ser iguales que las tarjetas de proyecto del resto de la web.
 - [ ] **P54 · Hacer** (añadido 2026-10-16): sustituir los méritos provisionales por los reales. El usuario tiene que recopilar título, entidad, fecha, descripción y proyecto de cada uno (ahora apuntan a `proyecto-beans-out`, `proyecto-color-switch-race` y `proyecto-fire-lunar-rush` solo para pruebas, y el mérito 2 no tiene entidad).
 
@@ -90,6 +86,10 @@ Puntos abiertos del [documento de diseño](diseno-portfolio.md).
 
 ## Hechos
 
+- [x] **P35 · Hacer** (2026-10-16): estrella de reconocimiento en todas las tarjetas de proyecto con mérito (Proyectos, Referencias de Experiencia y Estudios, Línea de tiempo), salvo la del proyecto dentro de la tarjeta de mérito.
+  - Nota: ver [`diseno-portfolio.md`](diseno-portfolio.md).
+- [x] **P13 · Decidir** (2026-10-16): no se navega a los méritos ni tienen ventana propia.
+  - Decisión: los méritos referencian al proyecto; desde el proyecto solo se ven sus méritos, en la franja «Reconocimiento» de su detalle.
 - [x] **P53 · Hacer** (2026-10-16): paso 3 del rediseño de méritos: franja «Reconocimiento» en el detalle del proyecto, entre el contenido y los enlaces, con el título y la descripción del premio.
   - Nota: ver [`diseno-portfolio.md`](diseno-portfolio.md).
 - [x] **P36 · Decidir** (2026-10-16): rework de la sección «Méritos y reconocimientos» y de cómo se muestran los méritos en la web.
