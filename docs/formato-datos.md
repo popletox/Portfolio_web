@@ -241,7 +241,7 @@ Enlaces (`enlaces`):
 - `url`: `http(s)` o ruta relativa `./` o `../`; las `http(s)` se abren en pestaña nueva.
 - Las claves desconocidas y las URL no válidas se ignoran, con un aviso en consola `Destacado "<título>": ...`.
 - Compatible con `enlace`: si están los dos, primero se muestra `enlace` y debajo la caja de `enlaces`.
-- La caja va al final del texto de la diapositiva, no encoge ni se recorta (solo se recortan las descripciones). En móvil resta unos 70 px a la descripción.
+- La caja va después del texto de la diapositiva y siempre se ve completa; si las descripciones no caben, son ellas las que tienen scroll vertical propio (no se recortan). En móvil con imagen, la caja se coloca bajo la imagen, en la columna de la derecha (el texto queda a la izquierda); sin imagen, en columna a la derecha del texto.
 - Es la misma función (`crearEnlacesProyecto` en `scripts/contenido.js`) que usan los proyectos: un tipo de enlace nuevo vale para ambos.
 
 Si el JSON no tiene destacados (ni `destacados` ni `destacado`, o la lista está vacía), el panel y su botón-pestaña no se muestran y la página ocupa todo el ancho. Si falla la carga del JSON, el panel muestra el título «Proyecto destacado» y el aviso de error.

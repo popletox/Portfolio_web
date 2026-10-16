@@ -31,7 +31,6 @@ Cómo mantenerlo:
 ## Proyectos y ventana de detalle
 
 - [ ] **P08 · Decidir**: pausar el carrusel del Destacado mientras la ventana de detalle está abierta.
-- [ ] **P09 · Revisar**: el bocadillo "Enlace copiado" sale debajo del botón en proyectos largos y en móvil.
 - [ ] **P10 · Revisar**: esquinas redondeadas y barra de scroll de la ventana en los 4 temas (tras `overflow: visible`).
 - [ ] **P11 · Revisar**: una banda de año con una sola tarjeta deja mucho espacio; al filtrar se funde todo el bloque, incluidas las tarjetas que siguen visibles.
 - [ ] **P12 · Revisar**: un lector de pantalla puede no anunciar "Enlace copiado" dos veces seguidas.
@@ -66,6 +65,7 @@ Puntos abiertos del [documento de diseño](diseno-portfolio.md).
 - [ ] **P25 · Decidir**: alinear la introducción con el borde de las cajas de sección (actual) o con el texto de dentro.
 - [ ] **P43 · Revisar**: los cambios sobre la sombra del Panel destacado y su botón-pestaña se juntaron con la Línea de tiempo durante una fusión automática: sombra animada del panel, botón de color sólido (`--color-panel`) unido al panel como una sola pieza (filo, `drop-shadow` y `clip-path`), variables de tema nuevas (`--color-enlace-panel`, `--color-borde-boton-panel`, `--color-sombra-panel`, `--desenfoque-sombra-panel`; se quita `--color-boton-panel`), `--color-panel` más oscuro en Claro (y en el tema Cómic, eliminado el 2026-10-16) y `docs/temas.md` actualizado. Falta probarlos en los 3 temas actuales y en móvil.
 - [ ] **P49 · Hacer** (añadido 2026-10-15): añadir iconos SVG a los botones de tema (Claro, Oscuro, Código) del menú Opciones, que ahora no tienen SVG. Petición del usuario.
+- [ ] **P57 · Revisar** (no urgente, añadido 2026-10-16): en móvil a 360x640, un destacado sin imagen con tres o más botones de enlace no cabe en alto (la caja de enlaces se recorta unos 27 px por abajo). Hoy no afecta a ningún dato real.
 
 ## Publicación e infraestructura
 
@@ -82,6 +82,8 @@ Puntos abiertos del [documento de diseño](diseno-portfolio.md).
 
 ## Hechos
 
+- [x] **P09 · Revisar** (2026-10-16): el bocadillo "Enlace copiado" sale debajo del botón en proyectos largos y en móvil.
+  - Nota: revisado por el usuario y dado por bueno, sin cambios de código.
 - [x] **P56 · Revisar** (2026-10-16): enlaces de ejemplo del primer destacado de `datos/datos-destacados.json`.
   - Nota: sustituidos por los reales; el primer destacado enlaza al GitHub del repositorio (https://github.com/popletox/Portfolio_web) y ya no hay «Ver más» a `example.com`.
 - [x] **P20 · Hacer** (descartado 2026-10-16): diseño propio del tema Cómic.
