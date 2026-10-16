@@ -487,6 +487,88 @@ main {
   outline-offset: 2px;
 }
 
+/* Interruptor "Efectos" (role="switch"): píldora con un círculo que se
+   desliza; separado de los temas por una línea fina. El movimiento del
+   círculo lo quita la regla general de prefers-reduced-motion */
+.menu-opciones-efectos {
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--color-linea-tiempo);
+}
+
+.interruptor-efectos {
+  --ancho-interruptor: 2.25rem;
+  --alto-interruptor: 1.25rem;
+  --borde-interruptor: 2px;
+  --tamano-circulo-interruptor: 0.75rem;
+  --hueco-circulo-interruptor: 0.125rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  min-height: var(--area-tactil-minima);
+  padding: 0.4rem 0.75rem;
+  border: 0;
+  border-radius: var(--radio-pequeno);
+  background: none;
+  color: var(--color-texto);
+  font: inherit;
+  text-align: left;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color var(--duracion-transicion) ease;
+}
+
+.interruptor-efectos:hover {
+  background: var(--color-fondo-suave-hover);
+}
+
+.interruptor-efectos:focus-visible {
+  outline: 3px solid var(--color-foco);
+  outline-offset: 2px;
+}
+
+.interruptor-pista {
+  position: relative;
+  flex-shrink: 0;
+  width: var(--ancho-interruptor);
+  height: var(--alto-interruptor);
+  border: var(--borde-interruptor) solid var(--color-texto-suave);
+  border-radius: calc(var(--alto-interruptor) / 2);
+  background: transparent;
+  transition:
+    background-color var(--duracion-transicion) ease,
+    border-color var(--duracion-transicion) ease;
+}
+
+.interruptor-circulo {
+  position: absolute;
+  top: 50%;
+  left: var(--hueco-circulo-interruptor);
+  width: var(--tamano-circulo-interruptor);
+  height: var(--tamano-circulo-interruptor);
+  border-radius: 50%;
+  background: var(--color-texto-suave);
+  transform: translateY(-50%);
+  transition:
+    transform var(--duracion-transicion) ease,
+    background-color var(--duracion-transicion) ease;
+}
+
+.interruptor-efectos[aria-checked="true"] .interruptor-pista {
+  border-color: var(--color-acento);
+  background: var(--color-acento);
+}
+
+/* Recorrido: ancho interior de la pista menos el círculo y los dos huecos */
+.interruptor-efectos[aria-checked="true"] .interruptor-circulo {
+  background: var(--color-texto-sobre-acento);
+  transform: translate(
+    calc(var(--ancho-interruptor) - 2 * var(--borde-interruptor) - var(--tamano-circulo-interruptor) - 2 * var(--hueco-circulo-interruptor)),
+    -50%
+  );
+}
+
 .seccion h2 {
   border-radius: var(--radio-medio);
   background: var(--color-fondo-suave);

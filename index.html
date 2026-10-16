@@ -8,6 +8,8 @@
   <meta name="theme-color" content="#ffffff">
   <!-- Sin defer: aplica data-tema antes del primer pintado -->
   <script src="scripts/temas.js"></script>
+  <!-- Sin defer: aplica data-efectos antes del primer pintado -->
+  <script src="scripts/efectos.js"></script>
   <link rel="stylesheet" href="estilos/comun.css">
   <!-- Temas: claro.css es el de por defecto; los demás van después -->
   <link rel="stylesheet" href="estilos/temas/claro.css">
@@ -51,7 +53,14 @@
         <div class="menu-opciones" id="menu-opciones" hidden>
           <p class="menu-opciones-titulo" id="titulo-menu-tema">Tema</p>
           <div class="menu-opciones-grupo" role="group" aria-labelledby="titulo-menu-tema"></div>
-          <!-- Aquí irá el interruptor de "Efectos divertidos" (docs/diseno-portfolio.md, apartado 11) -->
+          <!-- Interruptor de "Efectos divertidos" (docs/diseno-portfolio.md, apartado 11):
+               estado en scripts/efectos.js; scripts/opciones.js lo sincroniza -->
+          <div class="menu-opciones-efectos">
+            <button type="button" class="interruptor-efectos" role="switch" aria-checked="false">
+              <span class="interruptor-pista" aria-hidden="true"><span class="interruptor-circulo"></span></span>
+              <span class="interruptor-texto">Efectos</span>
+            </button>
+          </div>
         </div>
       </div>
     </header>

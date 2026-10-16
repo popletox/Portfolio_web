@@ -1,7 +1,7 @@
 // Opciones: el engranaje de la cabecera abre un bocadillo con el selector de
 // tema. Los botones se generan desde window.Temas.lista (scripts/temas.js).
-// Aquí irá también el interruptor de "Efectos divertidos" (apartado 11 de
-// docs/diseno-portfolio.md), todavía sin implementar.
+// Debajo, el interruptor "Efectos" (apartado 11 de docs/diseno-portfolio.md),
+// cuyo estado guarda window.Efectos (scripts/efectos.js).
 (function () {
   var boton = document.querySelector('.boton-opciones');
   var menu = document.getElementById('menu-opciones');
@@ -9,7 +9,10 @@
   if (!boton || !menu || !grupo || !window.Temas) return;
 
   var raiz = document.documentElement;
-  var movimientoReducido = window.matchMedia('(prefers-reduced-motion: reduce)');
+  // consultarMedios está en scripts/main.js; sin ella ni soporte, movimiento reducido
+  var movimientoReducido = typeof consultarMedios === 'function'
+    ? consultarMedios('(prefers-reduced-motion: reduce)', true)
+    : { matches: true };
   var metaColor = document.querySelector('meta[name="theme-color"]');
   var MARGEN_TRANSICION = 50; // ms extra por si no llega transitionend
   var temporizadorCierre = 0;
@@ -128,14 +131,15 @@
     temporizadorCierre = setTimeout(terminarCierre, duracion('--duracion-fundido') + MARGEN_TRANSICION);
   }
 
-  // Cambio de tema con transición de colores solo durante el cambio
-  function elegirTema(id) {
+  // Cambio de tema con transición de colores solo durante el cambio.
+  // sinGuardar = true cuando se sigue al tema del sistema (no es una elección)
+  function elegirTema(id, sinGuardar) {
     var animar = !sinAnimaciones();
     if (animar) {
       clearTimeout(temporizadorTema);
       raiz.classList.add('cambiando-tema');
     }
-    if (!window.Temas.aplicar(id)) {
+    if (!window.Temas.aplicar(id, sinGuardar)) {
       raiz.classList.remove('cambiando-tema');
       return;
     }
@@ -191,6 +195,30 @@
     var paso = evento.key === 'ArrowDown' ? 1 : -1;
     opciones[(indice + paso + opciones.length) % opciones.length].focus();
   });
+
+  // Interruptor "Efectos": se alcanza con Tab (las flechas son solo de los
+  // temas). Enter y Espacio los da el propio <button>. El menú sigue abierto
+  var interruptor = menu.querySelector('.interruptor-efectos');
+  if (interruptor && window.Efectos) {
+    var marcarEfectos = function () {
+      interruptor.setAttribute('aria-checked', String(window.Efectos.activo()));
+    };
+    interruptor.addEventListener('click', function () {
+      window.Efectos.aplicar(!window.Efectos.activo());
+      marcarEfectos();
+    });
+    document.addEventListener(window.Efectos.evento, marcarEfectos);
+    marcarEfectos();
+  }
+
+  // Cambio del tema del sistema sin tema elegido (lo avisa scripts/temas.js)
+  if (window.Temas.evento) {
+    document.addEventListener(window.Temas.evento, function (evento) {
+      if (!evento.detail || !evento.detail.tema) return;
+      evento.preventDefault();
+      elegirTema(evento.detail.tema, true);
+    });
+  }
 
   marcarActivo();
   actualizarColorNavegador();
