@@ -58,7 +58,7 @@ img {
   --area-tactil-minima: 2.75rem;
   --ancho-contenido: 72rem;
   --alto-panel-inferior: min(48vh, 26rem);
-  --lado-destacado-inferior: 5.5rem;
+  --lado-destacado-inferior: 4.875rem;
   /* Carrusel de destacados: margen para que el foco no se recorte, duración
      del desplazamiento y alto de la fila de puntos (botón + separación) */
   --margen-foco-destacado: 0.5rem;
@@ -2315,7 +2315,8 @@ button.proyecto-tarjeta {
   width: var(--ancho-panel);
   height: 100vh;
   height: 100dvh;
-  /* Sin scroll interno: el contenido se ajusta (ver .destacado-descripcion) */
+  /* Sin scroll en el panel: solo se desplazan las descripciones
+     (ver .destacado-descripciones) */
   overflow: hidden;
   padding: var(--espacio);
   background: var(--color-panel);
@@ -2435,20 +2436,60 @@ button.proyecto-tarjeta {
   margin-top: 1rem;
 }
 
-/* Texto: ocupa el alto restante de la diapositiva. Si no cabe, encogen solo
-   las descripciones (main.js las recorta con puntos suspensivos); el enlace
-   "Ver proyecto" no encoge y siempre se ve */
+/* Texto: mide lo que su contenido, sin crecer, para que la caja de enlaces
+   (hija de la diapositiva) quede justo debajo. Si no cabe, encoge solo
+   el bloque de descripciones, que pasa a tener scroll vertical propio; el
+   enlace "Ver proyecto" y la caja de enlaces no encogen y siempre se ven */
 .destacado-texto {
-  flex: 1 1 auto;
+  flex: 0 1 auto;
   min-height: 0;
   display: flex;
   flex-direction: column;
 }
 
-.destacado-descripcion {
+/* Scroll vertical con barra fina del color del tema (como .cronologia).
+   overscroll-behavior: al llegar al final no desplaza la página.
+   main.js le pone tabindex="0" solo si desborda */
+.destacado-descripciones {
   flex: 0 1 auto;
   min-height: 0;
-  overflow: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-texto-suave) transparent;
+}
+
+/* El primer párrafo pegado arriba: el margen va fuera, para que el
+   scroll empiece justo bajo el título o la imagen */
+.destacado-texto > .destacado-descripciones {
+  margin-top: 1rem;
+}
+
+.destacado-descripciones > .destacado-descripcion:first-child {
+  margin-top: 0;
+}
+
+/* Navegadores sin scrollbar-color (Safari) */
+@supports not (scrollbar-color: auto) {
+  .destacado-descripciones::-webkit-scrollbar {
+    width: 0.5rem;
+  }
+
+  .destacado-descripciones::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .destacado-descripciones::-webkit-scrollbar-thumb {
+    border-radius: var(--radio-pequeno);
+    background: var(--color-texto-suave);
+  }
+}
+
+/* Contorno hacia dentro: el bloque está recortado por la ventana del carrusel */
+.destacado-descripciones:focus-visible {
+  border-radius: var(--radio-pequeno);
+  outline: 3px solid var(--color-foco);
+  outline-offset: -3px;
 }
 
 .destacado-accion {
@@ -2456,22 +2497,11 @@ button.proyecto-tarjeta {
 }
 
 /* Región de "enlaces" del destacado: la misma del detalle de proyecto
-   (.detalle-proyecto-enlaces), al final del texto. Como el enlace, no
+   (.detalle-proyecto-enlaces), detrás del texto. Como el enlace, no
    encoge; el margen, como el de los párrafos del panel */
-.destacado-texto > .detalle-proyecto-enlaces {
+.destacado-diapositiva > .detalle-proyecto-enlaces {
   flex-shrink: 0;
   margin-top: 1rem;
-}
-
-.destacado-descripcion--recortada {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: var(--lineas-descripcion, 1);
-  line-clamp: var(--lineas-descripcion, 1);
-}
-
-.destacado-descripcion--oculta {
-  display: none;
 }
 
 /* Imagen: botón que abre el visor, sin estilos por defecto */
@@ -2678,25 +2708,45 @@ body.panel-abierto .boton-destacado-flecha {
     box-shadow: 0 calc(-1 * var(--desplazamiento-sombra-panel)) var(--desenfoque-sombra-panel) transparent;
   }
 
-  /* Cada diapositiva: rejilla imagen | título y texto */
+  /* Cada diapositiva: rejilla título y texto | imagen y, debajo, enlaces
+     (a la derecha, como la caja de enlaces sin imagen).
+     Filas: la del título mide justo el título (fit-content(0): la imagen,
+     que la abarca, no la estira); la segunda, lo que le falte a la imagen;
+     la tercera, la caja de enlaces (0 si no hay), pegada bajo la imagen;
+     la última (1fr) se lleva el sobrante. El texto abarca de la segunda a
+     la última. Mínimo 0 para que nada desborde la diapositiva: si no cabe,
+     encoge la imagen (ver .destacado-imagen) y el texto pasa a scroll */
   .destacado-diapositiva {
     display: grid;
-    grid-template-columns: var(--lado-destacado-inferior) minmax(0, 1fr);
-    /* 1fr: el sobrante va bajo el texto, no entre título y texto;
-       mínimo 0 para que el texto no desborde la diapositiva */
-    grid-template-rows: auto minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr) var(--lado-destacado-inferior);
+    grid-template-rows: fit-content(0) minmax(0, auto) auto minmax(0, 1fr);
     grid-template-areas:
-      "imagen titulo"
-      "imagen texto";
+      "titulo imagen"
+      "texto imagen"
+      "texto enlaces"
+      "texto .";
     column-gap: var(--espacio);
     align-items: start;
   }
 
+  /* Con imagen y enlaces, la columna de la imagen se ensancha lo justo
+     para dos botones redondos por fila dentro de la caja (botones de
+     2.5rem, relleno y hueco de 0.125rem, borde de 1px) */
+  .destacado-diapositiva--con-enlaces {
+    grid-template-columns:
+      minmax(0, 1fr)
+      max(var(--lado-destacado-inferior), calc(2 * 2.5rem + 3 * 0.125rem + 2px));
+  }
+
+  /* Sin imagen: título a todo el ancho y, debajo, texto y (si hay) caja de
+     enlaces a su derecha; sin caja, la segunda columna mide 0 */
   .destacado-diapositiva--sin-imagen {
-    grid-template-columns: minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-rows: auto minmax(0, 1fr);
     grid-template-areas:
-      "titulo"
-      "texto";
+      "titulo titulo"
+      "texto enlaces";
+    column-gap: 0;
   }
 
   /* Puntos pegados al borde inferior del panel */
@@ -2705,16 +2755,27 @@ body.panel-abierto .boton-destacado-flecha {
     padding-top: calc(var(--alto-puntos-destacado) - var(--tamano-punto-destacado));
   }
 
-  /* Imagen a la izquierda con ancho fijo; título y texto a la derecha */
+  /* Título y texto a la izquierda; imagen a la derecha con ancho fijo */
   .destacado-titulo {
     grid-area: titulo;
     margin-bottom: 0;
     font-size: 1.125rem;
   }
 
+  /* Ancho de su columna. Tope de alto: el de su área (filas del título y
+     de la imagen), para dejar sitio a la caja de enlaces; la foto, en
+     columna flexible, encoge en alto sin deformarse (cover la recorta) */
   .destacado-imagen {
     grid-area: imagen;
-    width: var(--lado-destacado-inferior);
+    width: 100%;
+    max-height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .destacado-imagen img {
+    flex: 0 1 auto;
+    min-height: 0;
   }
 
   /* Alto automático con tope: el alto útil del panel (sin su padding
@@ -2727,10 +2788,29 @@ body.panel-abierto .boton-destacado-flecha {
     max-height: calc(var(--alto-panel-inferior) - 2 * var(--espacio) - var(--alto-puntos-destacado));
   }
 
-  /* Estirado al alto de su fila para que encojan las descripciones */
+  /* Estirado al alto de su área para que encojan las descripciones.
+     Rejilla propia: las descripciones (con scroll) y debajo el enlace
+     "Ver proyecto". Filas minmax(0, auto) + auto arriba: el enlace va
+     justo bajo el texto y, si no cabe todo, encoge solo el bloque de
+     descripciones */
   .destacado-texto {
     grid-area: texto;
     align-self: stretch;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, auto) auto;
+    align-content: start;
+  }
+
+  .destacado-texto > .destacado-descripciones {
+    grid-column: 1;
+    grid-row: 1;
+    margin-top: 0.75rem;
+  }
+
+  .destacado-accion {
+    grid-column: 1;
+    grid-row: 2;
   }
 
   .panel-destacado p {
@@ -2738,8 +2818,51 @@ body.panel-abierto .boton-destacado-flecha {
     font-size: 0.875rem;
   }
 
-  .destacado-texto > .detalle-proyecto-enlaces {
+  /* Caja de enlaces. Con imagen, bajo ella (a la derecha) y a su ancho:
+     botones en fila que pasan a la línea siguiente (dos redondos por fila,
+     algo más pequeños para estrechar la columna; los de texto, en la suya).
+     Solo la del panel: la del detalle de proyecto no cambia */
+  .destacado-diapositiva > .detalle-proyecto-enlaces {
+    grid-area: enlaces;
+    margin-top: 0.5rem;
+    padding: 0.125rem;
+  }
+
+  .destacado-diapositiva .detalle-proyecto-enlaces-fila {
+    gap: 0.125rem;
+  }
+
+  .destacado-diapositiva:not(.destacado-diapositiva--sin-imagen) .detalle-proyecto-boton-icono {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  /* Sin imagen: a la derecha del texto, con los botones en columna */
+  .destacado-diapositiva--sin-imagen > .detalle-proyecto-enlaces {
     margin-top: 0.75rem;
+    margin-left: 0.75rem;
+    padding: 0.375rem;
+  }
+
+  .destacado-diapositiva--sin-imagen .detalle-proyecto-enlaces-fila {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+  }
+
+  /* Los de texto, con salto de línea si no caben: bajo la imagen, como
+     mucho el ancho de la caja; en la columna de la derecha, 5rem */
+  .destacado-diapositiva .detalle-proyecto-boton-texto {
+    max-width: 100%;
+    justify-content: center;
+    padding: 0.4rem 0.5rem;
+    font-size: 0.8125rem;
+    line-height: 1.2;
+    text-align: center;
+  }
+
+  .destacado-diapositiva--sin-imagen .detalle-proyecto-boton-texto {
+    max-width: 5rem;
   }
 
   body.panel-abierto .panel-destacado {

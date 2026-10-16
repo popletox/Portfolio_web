@@ -1025,18 +1025,34 @@
     diapositiva.appendChild(crear('h2', 'destacado-titulo', textoTitulo));
     if (hayImagen) diapositiva.appendChild(crearImagenDestacado(destacado.imagen, textoTitulo));
 
+    // Las descripciones van en un bloque con scroll vertical propio si no
+    // caben (título, imagen y enlaces quedan fijos). main.js lo hace
+    // enfocable con teclado solo cuando desborda
     var texto = crear('div', 'destacado-texto');
-    crearParrafos(destacado.descripcion, 'destacado-descripcion').forEach(function (p) {
-      texto.appendChild(p);
-    });
+    var parrafos = crearParrafos(destacado.descripcion, 'destacado-descripcion');
+    if (parrafos.length) {
+      var descripciones = crear('div', 'destacado-descripciones');
+      descripciones.setAttribute('role', 'region');
+      descripciones.setAttribute('aria-label', 'Texto de "' + textoTitulo + '"');
+      parrafos.forEach(function (p) {
+        descripciones.appendChild(p);
+      });
+      texto.appendChild(descripciones);
+    }
     if (destacado.enlace && destacado.enlace.texto) {
       var parrafo = crear('p', 'destacado-accion');
       parrafo.appendChild(crearEnlaceDestacado(destacado.enlace, proyectosPorId));
       texto.appendChild(parrafo);
     }
-    var enlaces = crearEnlacesProyecto(destacado.enlaces, 'Destacado "' + textoTitulo + '"');
-    if (enlaces) texto.appendChild(enlaces);
     if (texto.childNodes.length) diapositiva.appendChild(texto);
+    // La caja de enlaces va detrás del texto, como hija de la diapositiva:
+    // en ordenador queda igual, al final del texto; en móvil el CSS la
+    // coloca bajo la imagen o, sin imagen, a la derecha del texto
+    var enlaces = crearEnlacesProyecto(destacado.enlaces, 'Destacado "' + textoTitulo + '"');
+    if (enlaces) {
+      diapositiva.appendChild(enlaces);
+      diapositiva.classList.add('destacado-diapositiva--con-enlaces');
+    }
     return diapositiva;
   }
 

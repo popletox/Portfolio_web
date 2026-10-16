@@ -237,7 +237,8 @@ var mostrarDiapositivaDestacado = function () {};
 // Carrusel del panel Destacado: rotación automática y puntos indicadores.
 // Se pausa con el ratón encima o el foco de teclado dentro, con el panel
 // cerrado, con la pestaña oculta y con el visor de imágenes abierto. Al
-// reanudar se espera un intervalo completo. Con movimiento reducido no rota
+// reanudar se espera un intervalo completo; desplazar el texto de una
+// diapositiva también reinicia la cuenta. Con movimiento reducido no rota
 (function () {
   var INTERVALO = 10000; // ms entre diapositivas
   var panel = document.getElementById('panel-destacado');
@@ -273,6 +274,9 @@ var mostrarDiapositivaDestacado = function () {};
       diapositiva.inert = !visible;
       if (visible) diapositiva.removeAttribute('aria-hidden');
       else diapositiva.setAttribute('aria-hidden', 'true');
+      // La que entra empieza con su texto desplazado arriba del todo
+      var descripciones = diapositiva.querySelector('.destacado-descripciones');
+      if (visible && descripciones) descripciones.scrollTop = 0;
     });
     puntos.forEach(function (punto, i) {
       if (i === actual) punto.setAttribute('aria-current', 'true');
@@ -360,6 +364,15 @@ var mostrarDiapositivaDestacado = function () {};
     programar();
   });
 
+  // Desplazar el texto de una descripción (rueda, táctil o teclado) reinicia
+  // la cuenta: no cambia de diapositiva mientras se lee. "scroll" no
+  // burbujea: se escucha en fase de captura
+  panel.addEventListener('scroll', function (evento) {
+    var objetivo = evento.target;
+    if (!objetivo.classList || !objetivo.classList.contains('destacado-descripciones')) return;
+    if (temporizador) programar();
+  }, true);
+
   document.addEventListener('destacado:estado', programar);
   document.addEventListener('visibilitychange', programar);
   if (visor) visor.addEventListener('close', programar);
@@ -373,50 +386,27 @@ var mostrarDiapositivaDestacado = function () {};
   document.addEventListener('contenido:listo', iniciar);
 })();
 
-// Panel Destacado sin scroll interno: si una descripción no cabe en el alto
-// que le deja la diapositiva (CSS la encoge), se recorta a las líneas enteras
-// que caben, con puntos suspensivos. Se recalcula cuando cambia el tamaño del
-// bloque de texto (ventana, imagen cargada, tema) o terminan de cargar fuentes
+// Panel Destacado: el bloque de descripciones (.destacado-descripciones)
+// tiene scroll vertical propio si no cabe. Solo cuando desborda se puede
+// enfocar con teclado (tabindex="0") para desplazarlo con las flechas.
+// Se recalcula cuando cambia su tamaño (ventana, imagen cargada, tema) o
+// terminan de cargar fuentes
 (function () {
   var panel = document.getElementById('panel-destacado');
   if (!panel) return;
-  var RECORTADA = 'destacado-descripcion--recortada';
-  var OCULTA = 'destacado-descripcion--oculta';
   var pendiente = 0;
   var observador = null;
 
-  function altoLinea(parrafo) {
-    var estilo = getComputedStyle(parrafo);
-    var alto = parseFloat(estilo.lineHeight);
-    return alto > 0 ? alto : parseFloat(estilo.fontSize) * 1.2;
-  }
-
   function ajustar() {
     pendiente = 0;
-    var parrafos = Array.prototype.slice.call(panel.querySelectorAll('.destacado-descripcion'));
-    // Primero se quitan los recortes y se mide; después se aplica (sin alternar
-    // lecturas y escrituras)
-    parrafos.forEach(function (parrafo) {
-      parrafo.classList.remove(RECORTADA, OCULTA);
-      parrafo.style.removeProperty('--lineas-descripcion');
+    var bloques = Array.prototype.slice.call(panel.querySelectorAll('.destacado-descripciones'));
+    // Primero se mide todo y después se aplica (sin alternar lecturas y escrituras)
+    var desborda = bloques.map(function (bloque) {
+      return bloque.scrollHeight > bloque.clientHeight + 1;
     });
-    var medidas = parrafos.map(function (parrafo) {
-      return {
-        visible: parrafo.clientHeight,
-        total: parrafo.scrollHeight,
-        linea: altoLinea(parrafo)
-      };
-    });
-    parrafos.forEach(function (parrafo, i) {
-      var medida = medidas[i];
-      if (medida.total <= medida.visible + 1) return;
-      var lineas = Math.floor((medida.visible + 1) / medida.linea);
-      if (lineas < 1) {
-        parrafo.classList.add(OCULTA);
-      } else {
-        parrafo.style.setProperty('--lineas-descripcion', String(lineas));
-        parrafo.classList.add(RECORTADA);
-      }
+    bloques.forEach(function (bloque, i) {
+      if (desborda[i]) bloque.setAttribute('tabindex', '0');
+      else bloque.removeAttribute('tabindex');
     });
   }
 
@@ -429,8 +419,12 @@ var mostrarDiapositivaDestacado = function () {};
     if (observador) observador.disconnect();
     if ('ResizeObserver' in window) {
       observador = new ResizeObserver(programar);
-      panel.querySelectorAll('.destacado-texto').forEach(function (texto) {
-        observador.observe(texto);
+      panel.querySelectorAll('.destacado-descripciones').forEach(function (bloque) {
+        observador.observe(bloque);
+        // El contenido puede crecer sin que cambie el tamaño del bloque
+        Array.prototype.forEach.call(bloque.children, function (parrafo) {
+          observador.observe(parrafo);
+        });
       });
     }
     programar();
@@ -441,7 +435,7 @@ var mostrarDiapositivaDestacado = function () {};
     document.fonts.addEventListener('loadingdone', programar);
   }
   // Cambio de tema (temas.js cambia data-tema en <html>): puede cambiar la
-  // fuente sin cambiar el tamaño del bloque de texto
+  // fuente sin cambiar el tamaño del bloque
   if ('MutationObserver' in window) {
     new MutationObserver(programar).observe(document.documentElement, {
       attributes: true,
