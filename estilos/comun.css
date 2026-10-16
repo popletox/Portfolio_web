@@ -2455,6 +2455,14 @@ button.proyecto-tarjeta {
   flex-shrink: 0;
 }
 
+/* Región de "enlaces" del destacado: la misma del detalle de proyecto
+   (.detalle-proyecto-enlaces), al final del texto. Como el enlace, no
+   encoge; el margen, como el de los párrafos del panel */
+.destacado-texto > .detalle-proyecto-enlaces {
+  flex-shrink: 0;
+  margin-top: 1rem;
+}
+
 .destacado-descripcion--recortada {
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -2728,6 +2736,10 @@ body.panel-abierto .boton-destacado-flecha {
   .panel-destacado p {
     margin-top: 0.75rem;
     font-size: 0.875rem;
+  }
+
+  .destacado-texto > .detalle-proyecto-enlaces {
+    margin-top: 0.75rem;
   }
 
   body.panel-abierto .panel-destacado {

@@ -544,12 +544,13 @@
     return esUrlSegura(url) || /^\.{1,2}\//.test(url.trim());
   }
 
-  // URL de una entrada { url: "…" }; '' si no es válida (con aviso)
-  function urlEntradaEnlace(entrada, tipo, idProyecto) {
+  // URL de una entrada { url: "…" }; '' si no es válida (con aviso).
+  // origen: quién tiene el enlace en los avisos, p. ej. 'Proyecto "<id>"'
+  function urlEntradaEnlace(entrada, tipo, origen) {
     var url = entrada && typeof entrada === 'object' && typeof entrada.url === 'string'
       ? entrada.url.trim() : '';
     if (!esUrlEnlaceSegura(url)) {
-      console.warn('Proyecto "' + idProyecto + '": enlace "' + tipo + '" sin url válida; se ignora.');
+      console.warn(origen + ': enlace "' + tipo + '" sin url válida; se ignora.');
       return '';
     }
     return url;
@@ -566,13 +567,15 @@
   // Región de enlaces del detalle: fila de botones redondos de icono (en el
   // orden de TIPOS_ENLACE_PROYECTO) y después los botones de texto de
   // "web-generico" (objeto o array de { texto, url }). Claves desconocidas y
-  // entradas sin url válida: se ignoran con aviso. null si no queda ninguno
-  function crearEnlacesProyecto(enlaces, idProyecto) {
+  // entradas sin url válida: se ignoran con aviso. null si no queda ninguno.
+  // Se usa en el detalle de proyecto y en los destacados; origen: quién tiene
+  // los enlaces en los avisos de consola (p. ej. 'Proyecto "<id>"')
+  function crearEnlacesProyecto(enlaces, origen) {
     if (!enlaces || typeof enlaces !== 'object' || Array.isArray(enlaces)) return null;
     var tiposConocidos = TIPOS_ENLACE_PROYECTO.map(function (t) { return t.tipo; });
     Object.keys(enlaces).forEach(function (tipo) {
       if (tipo !== TIPO_ENLACE_GENERICO && tiposConocidos.indexOf(tipo) === -1) {
-        console.warn('Proyecto "' + idProyecto + '": tipo de enlace desconocido "' + tipo +
+        console.warn(origen + ': tipo de enlace desconocido "' + tipo +
           '". Añádelo a TIPOS_ENLACE_PROYECTO en scripts/contenido.js.');
       }
     });
@@ -580,7 +583,7 @@
     var fila = crear('div', 'detalle-proyecto-enlaces-fila');
     TIPOS_ENLACE_PROYECTO.forEach(function (t) {
       if (!Object.prototype.hasOwnProperty.call(enlaces, t.tipo)) return;
-      var url = urlEntradaEnlace(enlaces[t.tipo], t.tipo, idProyecto);
+      var url = urlEntradaEnlace(enlaces[t.tipo], t.tipo, origen);
       if (!url) return;
       var boton = crear('a', 'detalle-proyecto-boton-icono detalle-proyecto-boton-icono--' + t.clase);
       boton.setAttribute('href', url);
@@ -597,7 +600,7 @@
     var genericos = enlaces[TIPO_ENLACE_GENERICO];
     if (genericos != null) {
       (Array.isArray(genericos) ? genericos : [genericos]).forEach(function (entrada) {
-        var url = urlEntradaEnlace(entrada, TIPO_ENLACE_GENERICO, idProyecto);
+        var url = urlEntradaEnlace(entrada, TIPO_ENLACE_GENERICO, origen);
         if (!url) return;
         var texto = typeof entrada.texto === 'string' && entrada.texto.trim()
           ? entrada.texto.trim() : limpiarUrl(url);
@@ -647,7 +650,7 @@
     }
     var premios = crearPremiosDetalle(meritosDeProyecto(proyecto.id));
     if (premios) texto.appendChild(premios);
-    var enlaces = crearEnlacesProyecto(proyecto.enlaces, proyecto.id);
+    var enlaces = crearEnlacesProyecto(proyecto.enlaces, 'Proyecto "' + proyecto.id + '"');
     if (enlaces) texto.appendChild(enlaces);
     cuerpo.appendChild(texto);
 
@@ -1000,7 +1003,8 @@
     return lista.filter(function (item) { return item && typeof item === 'object'; });
   }
 
-  // Diapositiva: título, imagen y texto (descripción y enlace), en ese orden.
+  // Diapositiva: título, imagen y texto (descripción, enlace y región de
+  // botones de "enlaces", con el formato de los proyectos), en ese orden.
   // Solo la primera empieza visible; main.js actualiza inert y aria-hidden
   function crearDiapositivaDestacado(destacado, indice, total, proyectosPorId) {
     var hayImagen = !!(destacado.imagen && typeof destacado.imagen === 'object');
@@ -1030,6 +1034,8 @@
       parrafo.appendChild(crearEnlaceDestacado(destacado.enlace, proyectosPorId));
       texto.appendChild(parrafo);
     }
+    var enlaces = crearEnlacesProyecto(destacado.enlaces, 'Destacado "' + textoTitulo + '"');
+    if (enlaces) texto.appendChild(enlaces);
     if (texto.childNodes.length) diapositiva.appendChild(texto);
     return diapositiva;
   }

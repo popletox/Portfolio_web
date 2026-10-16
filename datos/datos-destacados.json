@@ -1,20 +1,37 @@
 {
   "destacados": [
     {
-      "titulo": "Proyecto destacado",
-      "imagen": { "alt": "Imagen provisional del proyecto destacado" },
-      "descripcion": "[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore."
-    },
-    {
-      "titulo": "Noticia provisional",
-      "imagen": { "alt": "Imagen provisional de la noticia" },
-      "descripcion": "[Provisional] Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-    },
-    {
-      "titulo": "Aviso provisional sin imagen",
+      "titulo": "¡Bienvenido a mi portfolio web!",
       "descripcion": [
-        "[Provisional] Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
-        "[Provisional] Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+        "Este es un proyecto realizado de forma autonoma en una semana que planeo continuar actualizando con el tiempo. Este proyecto comenzó como un pequeño proyecto para aprender la integración de IA en una proyecto de desarrollo.",
+        "Si quieres revisar todo lo que contiene esta web o el proceso de como se ha creado, sus retos, su organizacion o la documentacion, el repositorio de GitHub del proyecto contiene toda la información relevante al proyecto.",
+        "Muchas gracias por revisar esta página"
+      ],
+      "enlaces": {
+        "github": { "url": "https://github.com/popletox/Portfolio_web" }
+      }
+    },
+    {
+      "titulo": "NILSH está en Steam",
+      "descripcion": [
+        "Mi último proyecto ya tiene pagina en Steam. Un juego de aventura y exploracion en un mundo que está cayendo lentamente en decadencia. Tu misión principal es encontrar respuestas a las preguntas antiguas y salvar el mundo.",
+        "Desde Hoja Studio y yo personalmente, agreadecemos mucho vuestro cariño y que agregueis el juego a vuestras listas de deseados."
+      ],
+      "imagen": { 
+        "low": "./recursos/Imagenes/Unity/NILSH/IMG-Title_low.webp",
+        "high": "./recursos/Imagenes/Unity/NILSH/IMG-Title_high.webp",
+        "alt": "Titulo principal del juego." 
+      },
+      "enlaces": {
+        "steam": { "url": "https://store.steampowered.com/app/4916130/NILSH/" },
+        "youtube": { "url": "https://www.youtube.com/@HojaStudioGames" },
+        "web-generico": [{ "texto": "Web NILSH", "url": "https://nilsh.games/" }]
+      }
+    },
+    {
+      "titulo": "Notas sobre esta web",
+      "descripcion": [
+        "Este proyecto ha sido, a la vez, una forma de aprender y mejorar mis conocimientos como desarrollador y un portfolio web que pueda mantener actualizado de forma sencilla. Para generar esta web se ha hecho uso de inteligencia artificial, a través de varios agentes especializados en tareas concretas. Todos los cambios han pasado por mi supervisión y verificación antes de ser aceptados. Además, los textos que figuran en esta web han sido escritos completamente por mí, sin ayuda de IA generativa."
       ]
     }
   ]
