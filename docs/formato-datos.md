@@ -110,7 +110,7 @@ Las habilidades personales (campo `aptitudes`, etiqueta «Habilidades personales
 - **URLs válidas:** `http:`, `https:`, `mailto:`, `#…` o rutas relativas que empiecen por `./` o `../` (p. ej. un PDF de `recursos/Documentos/`). Los enlaces `http(s)` se abren en una pestaña nueva; `"#<id>"` de un proyecto abre su ventana.
 - **Se ignora (con `console.warn`):** una clave desconocida o una entrada sin URL válida. Si no queda ningún enlace válido, no se muestra la región de enlaces.
 - Los tipos antiguos `web` y `juego` ya no existen (los datos se migraron a `itch.io` y `steam`).
-- **Añadir un tipo nuevo:** añade una entrada `{ tipo, nombre, clase, icono, descarga }` al array ordenado `TIPOS_ENLACE_PROYECTO` de `scripts/contenido.js`, el SVG en `recursos/Iconos/` y, si el icono es monocromo, su regla de máscara en `estilos/comun.css`.
+- **Añadir un tipo nuevo:** añade una entrada `{ tipo, nombre, clase, descarga }` al array ordenado `TIPOS_ENLACE_PROYECTO` de `scripts/contenido.js`, el SVG en `recursos/Iconos/` y su regla de máscara en `estilos/comun.css` (el icono siempre se pinta con máscara y el color del tema).
 
 Cada imagen:
 
