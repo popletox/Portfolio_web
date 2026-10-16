@@ -16,7 +16,6 @@ Cómo mantenerlo:
 - [ ] **P02 · Revisar**: los nombres inclinados de periodos cercanos se pisan (p. ej. "QA Tester…" y "Técnico Desarrollo…"). Revisar con datos reales y, si sigue pasando, separarlos automáticamente.
   - Decisión: separarlos automáticamente desplazándolos a izquierda y derecha; se hace en P38 (y P39 para 3 o más).
 - [ ] **P03 · Revisar**: espacio vacío encima de los nombres (la altura se calcula para el nombre más largo posible).
-- [ ] **P06 · Decidir**: añadir arrastrar con el ratón o un "slider" visible para desplazar la franja (ahora solo hay scroll nativo).
 - [ ] **P07 · Revisar**: vista de móvil con los datos reales.
 - [ ] **P33 · Hacer**: ajustes de móvil y pulido de la Línea de tiempo.
 - [ ] **P34 · Revisar**: el hueco reservado a la estrella hace que los títulos de las tarjetas con mérito se corten antes (p. ej. en el tema Código "Proyecto provisional 1" se ve como "Proyecto provisional…").
@@ -85,6 +84,8 @@ Puntos abiertos del [documento de diseño](diseno-portfolio.md).
 
 ## Hechos
 
+- [x] **P06 · Decidir** (2026-10-16): arrastrar con el ratón o un "slider" visible para desplazar la Línea de tiempo.
+  - Decisión: arrastre con el ratón, sin slider visible. Ver [`diseno-portfolio.md`](diseno-portfolio.md).
 - [x] **P55 · Hacer** (2026-10-16): blindar las llamadas a `window.matchMedia` de `main.js` y `opciones.js`.
   - Decisión: sin `matchMedia` (o si falla) se asume que el visitante prefiere reducir el movimiento. Resuelto con `consultarMedios`; ver [`diseno-portfolio.md`](diseno-portfolio.md).
 - [x] **P23 · Decidir** (2026-10-16): tema inicial Claro o seguir el del sistema.
