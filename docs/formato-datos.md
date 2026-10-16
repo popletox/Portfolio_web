@@ -204,7 +204,7 @@ Aquí `mi-juego` es el `id` de un proyecto (tipo a) y `proyecto-cliente` una ent
 
 Contenido del panel Destacado (lateral derecho en ordenador, panel inferior en móvil). La clave `destacados` es una lista: cada elemento es una diapositiva del panel. Con dos o más, el panel muestra puntos indicadores debajo y pasa al siguiente cada 10 segundos (en bucle, deslizándose en horizontal); la rotación se pausa con el ratón encima o el foco de teclado dentro, con el panel cerrado o con la pestaña oculta, y no existe si el sistema pide movimiento reducido. Con uno solo, no hay puntos ni rotación. Por compatibilidad, también se acepta la clave antigua `destacado` con un único objeto.
 
-Cada diapositiva se muestra en este orden: título, imagen, descripción y enlace.
+Cada diapositiva se muestra en este orden: título, imagen, descripción, enlace y caja de enlaces.
 
 | Campo | Obligatorio | Descripción |
 | --- | --- | --- |
@@ -212,6 +212,7 @@ Cada diapositiva se muestra en este orden: título, imagen, descripción y enlac
 | `imagen` | No | `{ "low", "high", "alt" }`, como las imágenes de Proyectos (sin `encuadre`). Si falta la clave entera, esa diapositiva no lleva imagen. |
 | `descripcion` | No | String o array de strings. Mejor breve: 1 o 2 frases. |
 | `enlace` | No | `{ "texto": "...", "url": "..." }`. Se muestra con una flecha «→». |
+| `enlaces` | No | Objeto con botones de enlace, mismo formato que `enlaces` de los proyectos (ver abajo). |
 
 Imagen:
 
@@ -226,6 +227,22 @@ Enlace:
 - **A un proyecto de la web:** `"url": "#<id>"` con el `id` del proyecto (p. ej. `"#mi-juego"`). Al pulsarlo abre la ventana de detalle del proyecto, igual que las tarjetas de Referencias con enlace interno. Si el `id` no existe, queda como un enlace normal a `#<id>`.
 - **Externo:** `"url": "https://..."`. Se abre en una pestaña nueva.
 - Se aplican las mismas reglas de URL que en el resto de enlaces (`http:`, `https:`, `mailto:` o `#`).
+
+Enlaces (`enlaces`):
+
+```json
+"enlaces": {
+  "github": { "url": "https://github.com/..." },
+  "web-generico": { "texto": "Ver más", "url": "https://..." }
+}
+```
+
+- Claves: `github`, `itch.io`, `steam`, `linkedin`, `instagram`, `youtube` y `pdf-download` (botones redondos de icono, en ese orden fijo) y `web-generico` (después, botón de texto; objeto o array de `{ texto, url }`; sin `texto` se muestra la URL sin protocolo).
+- `url`: `http(s)` o ruta relativa `./` o `../`; las `http(s)` se abren en pestaña nueva.
+- Las claves desconocidas y las URL no válidas se ignoran, con un aviso en consola `Destacado "<título>": ...`.
+- Compatible con `enlace`: si están los dos, primero se muestra `enlace` y debajo la caja de `enlaces`.
+- La caja va al final del texto de la diapositiva, no encoge ni se recorta (solo se recortan las descripciones). En móvil resta unos 70 px a la descripción.
+- Es la misma función (`crearEnlacesProyecto` en `scripts/contenido.js`) que usan los proyectos: un tipo de enlace nuevo vale para ambos.
 
 Si el JSON no tiene destacados (ni `destacados` ni `destacado`, o la lista está vacía), el panel y su botón-pestaña no se muestran y la página ocupa todo el ancho. Si falla la carga del JSON, el panel muestra el título «Proyecto destacado» y el aviso de error.
 
