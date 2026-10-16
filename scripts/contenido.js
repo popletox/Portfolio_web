@@ -13,6 +13,11 @@
   ];
   var TEXTO_ACTUALIDAD = 'actualidad';
   var TEXTO_AVISO = 'No se ha podido cargar el contenido.';
+  var SVG_NS = 'http://www.w3.org/2000/svg';
+  // Estrella de cinco puntas en una caja de 24 x 24 (méritos: detalle de
+  // proyecto y Línea de tiempo)
+  var RUTA_ESTRELLA = 'M12 2.5l2.94 5.96 6.58.96-4.76 4.64 1.12 6.55L12 17.52l-5.88 3.09 ' +
+    '1.12-6.55-4.76-4.64 6.58-.96z';
   var MESES = [
     'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
     'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
@@ -253,15 +258,10 @@
     return bloque;
   }
 
-  // Fecha simple: corta "AAAA" y larga "mes, AAAA"
+  // Fecha simple (Méritos, siempre visibles): solo "mes, AAAA"
   function crearFechaSimple(fecha) {
     var contenedor = crear('p', 'linea-tiempo-fecha linea-tiempo-fecha--simple');
-    var corta = crear('span', 'linea-tiempo-fecha-corta');
-    corta.appendChild(crearTime(formatearAnio(fecha), formatearAnio(fecha)));
-    var larga = crear('span', 'linea-tiempo-fecha-larga');
-    larga.appendChild(crearTime(fecha, formatearMesAnio(fecha)));
-    contenedor.appendChild(corta);
-    contenedor.appendChild(larga);
+    contenedor.appendChild(crearTime(fecha, formatearMesAnio(fecha)));
     return contenedor;
   }
 
@@ -434,6 +434,41 @@
     return url.replace(/^https?:\/\//i, '').replace(/\/+$/, '') || url;
   }
 
+  // Estrella decorativa: <span aria-hidden> con la clase indicada y el SVG
+  function crearIconoEstrella(clase) {
+    var estrella = crear('span', clase);
+    estrella.setAttribute('aria-hidden', 'true');
+    var svg = document.createElementNS(SVG_NS, 'svg');
+    svg.setAttribute('viewBox', '0 0 24 24');
+    svg.setAttribute('focusable', 'false');
+    var ruta = document.createElementNS(SVG_NS, 'path');
+    ruta.setAttribute('d', RUTA_ESTRELLA);
+    svg.appendChild(ruta);
+    estrella.appendChild(svg);
+    return estrella;
+  }
+
+  // Franja de reconocimientos del detalle: un bloque por mérito con su
+  // título (h3, con estrella decorativa) y descripción, como en Méritos
+  // (sin entidad ni fecha). null si el proyecto no tiene méritos
+  function crearPremiosDetalle(meritos) {
+    if (!Array.isArray(meritos) || !meritos.length) return null;
+    var region = crear('section', 'detalle-proyecto-premios');
+    region.setAttribute('aria-label', meritos.length === 1 ? 'Reconocimiento' : 'Reconocimientos');
+    meritos.forEach(function (merito) {
+      var premio = crear('div', 'detalle-proyecto-premio');
+      var titulo = crear('h3', 'detalle-proyecto-premio-titulo');
+      titulo.appendChild(crearIconoEstrella('detalle-proyecto-premio-estrella'));
+      titulo.appendChild(document.createTextNode(merito.titulo));
+      premio.appendChild(titulo);
+      crearParrafos(merito.descripcion, 'detalle-proyecto-premio-descripcion').forEach(function (p) {
+        premio.appendChild(p);
+      });
+      region.appendChild(premio);
+    });
+    return region;
+  }
+
   // Apartado opcional con título (h3) y párrafos; null si no hay texto
   function crearApartadoDetalle(titulo, contenido) {
     var parrafos = crearParrafos(contenido, 'detalle-proyecto-parrafo');
@@ -538,8 +573,9 @@
   }
 
   // Contenido de la ventana: texto (título, categoría, fecha, descripción,
-  // retos, tecnología, experiencia personal, comentarios, aptitudes y
-  // enlaces; los opcionales solo si tienen contenido) y, si hay imágenes,
+  // retos, tecnología, experiencia personal, comentarios, aptitudes,
+  // reconocimientos (méritos del proyecto) y enlaces; los opcionales solo si
+  // tienen contenido) y, si hay imágenes,
   // su cuadrícula de miniaturas
   function crearDetalleProyecto(proyecto) {
     var imagenes = Array.isArray(proyecto.imagenes) ? proyecto.imagenes : [];
@@ -567,6 +603,8 @@
     if (Array.isArray(proyecto.aptitudes) && proyecto.aptitudes.length) {
       texto.appendChild(crearAptitudes(proyecto.aptitudes));
     }
+    var premios = crearPremiosDetalle(meritosDeProyecto(proyecto.id));
+    if (premios) texto.appendChild(premios);
     var enlaces = crearEnlacesProyecto(proyecto.enlaces, proyecto.id);
     if (enlaces) texto.appendChild(enlaces);
     cuerpo.appendChild(texto);
@@ -638,16 +676,72 @@
     contenedorBandas.replaceChildren.apply(contenedorBandas, bandas);
   }
 
-  function crearEntradaMerito(merito, indice, contexto) {
-    var entrada = crear('li', 'linea-tiempo-entrada');
+  // ---- Méritos ----
+
+  // Referencia del proyecto de un mérito (id del proyecto o clave del
+  // catálogo): campo "proyecto" o, en datos antiguos, el primer elemento
+  // de "referencias". null si no tiene
+  function referenciaDeMerito(merito) {
+    if (!merito || typeof merito !== 'object') return null;
+    if (typeof merito.proyecto === 'string' && merito.proyecto !== '') return merito.proyecto;
+    if (Array.isArray(merito.referencias) && typeof merito.referencias[0] === 'string') {
+      return merito.referencias[0];
+    }
+    return null;
+  }
+
+  // Méritos por proyecto: { idProyecto: [méritos] }, en el orden de la
+  // sección Méritos (fecha descendente). Un mérito cuenta para el proyecto
+  // al que lleva su referencia (proyectoDeReferencia); los que no llevan a
+  // ningún proyecto o no tienen título no cuentan. Se calcula una vez al
+  // cargar los datos (meritosPorIdProyecto)
+  var meritosPorIdProyecto = {};
+  function crearMeritosPorProyecto(meritos, contexto) {
+    var mapa = {};
+    ordenarPorFecha(Array.isArray(meritos) ? meritos : [], 'fecha').forEach(function (merito) {
+      if (!merito || typeof merito !== 'object') return;
+      if (typeof merito.titulo !== 'string' || merito.titulo === '') return;
+      var proyecto = proyectoDeReferencia(referenciaDeMerito(merito), contexto);
+      if (!proyecto) return;
+      if (!Object.prototype.hasOwnProperty.call(mapa, proyecto.id)) mapa[proyecto.id] = [];
+      mapa[proyecto.id].push(merito);
+    });
+    return mapa;
+  }
+
+  // Méritos de un proyecto (copia; vacía si no tiene)
+  function meritosDeProyecto(id) {
+    return typeof id === 'string' && Object.prototype.hasOwnProperty.call(meritosPorIdProyecto, id)
+      ? meritosPorIdProyecto[id].slice()
+      : [];
+  }
+
+  // Entrada fija (sin desplegable): fecha y tarjeta con título, entidad
+  // (opcional) y descripción a la izquierda y, si lo hay, la tarjeta del
+  // proyecto (crearTarjetaReferencia) a la derecha
+  function crearEntradaMerito(merito, contexto) {
+    var entrada = crear('li', 'linea-tiempo-entrada linea-tiempo-entrada--merito');
     entrada.appendChild(crearFechaSimple(merito.fecha));
-    entrada.appendChild(crearCuerpo({
-      idDetalle: 'detalle-meritos-' + (indice + 1),
-      titulo: merito.titulo,
-      subtitulo: merito.entidad,
-      descripcion: merito.descripcion,
-      referencias: crearReferencias(merito.referencias, contexto)
-    }));
+
+    var cuerpo = crear('div', 'linea-tiempo-cuerpo merito-tarjeta');
+    var texto = crear('div', 'merito-texto');
+    texto.appendChild(crear('h3', 'linea-tiempo-titulo', merito.titulo));
+    if (typeof merito.entidad === 'string' && merito.entidad !== '') {
+      texto.appendChild(crear('p', 'linea-tiempo-subtitulo', merito.entidad));
+    }
+    crearParrafos(merito.descripcion, 'linea-tiempo-descripcion').forEach(function (p) {
+      texto.appendChild(p);
+    });
+    cuerpo.appendChild(texto);
+
+    var referencia = referenciaDeMerito(merito);
+    var referencias = referencia ? resolverReferencias([referencia], contexto) : [];
+    if (referencias.length) {
+      var proyecto = crear('div', 'merito-proyecto');
+      proyecto.appendChild(crearTarjetaReferencia(referencias[0]).firstChild);
+      cuerpo.appendChild(proyecto);
+    }
+    entrada.appendChild(cuerpo);
     return entrada;
   }
 
@@ -728,8 +822,11 @@
   // crear el contenido de su ventana de detalle (null si el id no existe).
   // crearTarjeta: <li> con una tarjeta nueva de un proyecto e
   // idProyectoDeReferencia: id del proyecto al que lleva un id de referencia
-  // de los datos cargados, o null (los usa la Línea de tiempo, scripts/
-  // linea-tiempo.js). main.js añade abrirDetalle y urlDetalle
+  // de los datos cargados, o null, e idProyectoDeMerito: lo mismo con el
+  // proyecto de un mérito, meritosDeProyecto: méritos de un proyecto por id
+  // (lista vacía si no tiene) y crearIconoEstrella: estrella decorativa con
+  // una clase (los usa la Línea de tiempo, scripts/linea-tiempo.js).
+  // main.js añade abrirDetalle y urlDetalle
   window.Proyectos = {
     montar: montarBandasProyectos,
     crearTarjeta: crearTarjetaProyecto,
@@ -737,6 +834,12 @@
       var proyecto = proyectoDeReferencia(id, contextoReferencias);
       return proyecto ? proyecto.id : null;
     },
+    idProyectoDeMerito: function (merito) {
+      var proyecto = proyectoDeReferencia(referenciaDeMerito(merito), contextoReferencias);
+      return proyecto ? proyecto.id : null;
+    },
+    meritosDeProyecto: meritosDeProyecto,
+    crearIconoEstrella: crearIconoEstrella,
     tarjeta: function (id) {
       return typeof id === 'string' && Object.prototype.hasOwnProperty.call(tarjetasPorId, id)
         ? tarjetasPorId[id]
@@ -784,8 +887,8 @@
   function montarMeritos(meritos, contexto) {
     var lista = document.querySelector('#meritos .linea-tiempo[data-seccion="meritos"]');
     if (!lista) return;
-    var entradas = ordenarPorFecha(meritos || [], 'fecha').map(function (item, indice) {
-      return crearEntradaMerito(item, indice, contexto);
+    var entradas = ordenarPorFecha(meritos || [], 'fecha').map(function (item) {
+      return crearEntradaMerito(item, contexto);
     });
     lista.replaceChildren.apply(lista, entradas);
   }
@@ -990,6 +1093,7 @@
       montarIntroduccion(datos.introduccion);
       var contexto = crearContextoReferencias(datos);
       contextoReferencias = contexto;
+      meritosPorIdProyecto = crearMeritosPorProyecto(datos.meritos, contexto);
       montarExperiencia(datos.experiencia, contexto);
       montarProyectos(datos.proyectos);
       montarMeritos(datos.meritos, contexto);

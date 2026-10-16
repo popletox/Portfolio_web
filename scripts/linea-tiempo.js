@@ -47,11 +47,6 @@
   var MIN_PROYECTOS_COMPACTAS = 3;
   var TEXTO_AVISO = 'No se ha podido cargar el contenido.';
   var TEXTO_ACTUALIDAD = 'actualidad';
-  var TEXTO_RECONOCIMIENTO = 'Reconocimiento: ';
-  var SVG_NS = 'http://www.w3.org/2000/svg';
-  // Estrella de cinco puntas en una caja de 24 x 24
-  var RUTA_ESTRELLA = 'M12 2.5l2.94 5.96 6.58.96-4.76 4.64 1.12 6.55L12 17.52l-5.88 3.09 ' +
-    '1.12-6.55-4.76-4.64 6.58-.96z';
   var MESES = [
     'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
     'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
@@ -302,42 +297,31 @@
     return partes.join(', ');
   }
 
-  // Méritos por proyecto: { idProyecto: [títulos] }. Un mérito cuenta para
-  // cada proyecto al que lleva alguna de sus referencias (id del proyecto o
-  // entrada del catálogo con enlace "#<id>": window.Proyectos.
-  // idProyectoDeReferencia). Los méritos sin proyecto no cuentan
+  // Méritos por proyecto: { idProyecto: [títulos] } (solo los proyectos con
+  // alguno), a partir del mapa que calcula la sección (window.Proyectos.
+  // meritosDeProyecto: un mérito cuenta para el proyecto al que lleva su
+  // campo "proyecto"; los méritos sin proyecto no cuentan)
   function meritosPorProyecto(datos) {
     var mapa = {};
-    var idDeReferencia = window.Proyectos && window.Proyectos.idProyectoDeReferencia;
-    if (typeof idDeReferencia !== 'function') return mapa;
-    (Array.isArray(datos.meritos) ? datos.meritos : []).forEach(function (merito) {
-      if (!merito || typeof merito !== 'object' || !Array.isArray(merito.referencias)) return;
-      var titulo = String(merito.titulo || '');
-      if (!titulo) return;
-      merito.referencias.forEach(function (referencia) {
-        var id = idDeReferencia(referencia);
-        if (!id) return;
-        if (!Object.prototype.hasOwnProperty.call(mapa, id)) mapa[id] = [];
-        if (mapa[id].indexOf(titulo) === -1) mapa[id].push(titulo);
+    var deProyecto = window.Proyectos && window.Proyectos.meritosDeProyecto;
+    if (typeof deProyecto !== 'function') return mapa;
+    (Array.isArray(datos.proyectos) ? datos.proyectos : []).forEach(function (proyecto) {
+      if (!proyecto || typeof proyecto.id !== 'string') return;
+      var titulos = [];
+      deProyecto(proyecto.id).forEach(function (merito) {
+        if (titulos.indexOf(merito.titulo) === -1) titulos.push(merito.titulo);
       });
+      if (titulos.length) mapa[proyecto.id] = titulos;
     });
     return mapa;
   }
 
-  // Estrella decorativa (sin acción) en la esquina de la tarjeta, con los
-  // méritos en el tooltip. Va dentro del botón: pulsarla abre la ventana
-  function crearEstrella(titulos) {
-    var estrella = crear('span', 'cronologia-estrella');
-    estrella.title = TEXTO_RECONOCIMIENTO + titulos.join(' · ');
-    estrella.setAttribute('aria-hidden', 'true');
-    var svg = document.createElementNS(SVG_NS, 'svg');
-    svg.setAttribute('viewBox', '0 0 24 24');
-    svg.setAttribute('focusable', 'false');
-    var ruta = document.createElementNS(SVG_NS, 'path');
-    ruta.setAttribute('d', RUTA_ESTRELLA);
-    svg.appendChild(ruta);
-    estrella.appendChild(svg);
-    return estrella;
+  // Estrella decorativa (sin acción ni tooltip) en la esquina de la tarjeta:
+  // solo marca visual; los méritos van en el aria-label de la tarjeta
+  // (etiquetaMeritos). Va dentro del botón: pulsarla abre la ventana. El
+  // SVG es el común (window.Proyectos.crearIconoEstrella)
+  function crearEstrella() {
+    return window.Proyectos.crearIconoEstrella('cronologia-estrella');
   }
 
   // Lo que se añade al aria-label de una tarjeta con méritos
@@ -408,7 +392,7 @@
         : null;
       if (titulos) {
         tarjeta.classList.add('proyecto-tarjeta--merito');
-        tarjeta.appendChild(crearEstrella(titulos));
+        tarjeta.appendChild(crearEstrella());
         etiqueta += etiquetaMeritos(titulos);
       }
       tarjeta.setAttribute('aria-label', etiqueta);

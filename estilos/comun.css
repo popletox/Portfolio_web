@@ -800,6 +800,69 @@ main {
   color: var(--color-subtitulo);
 }
 
+/* Méritos: entrada fija (sin desplegable). El cuerpo es una tarjeta baja
+   con el texto a la izquierda y la tarjeta del proyecto pegada a la
+   derecha; si no cabe al lado, pasa debajo (flex-wrap). El punto, la línea
+   y la fecha se bajan el relleno de la tarjeta para seguir alineados con
+   el título */
+.linea-tiempo-entrada--merito {
+  --relleno-merito: 0.75rem;
+  --ancho-proyecto-merito: 9rem;
+  --desplazamiento-titulo-tiempo: var(--relleno-merito);
+  --separacion-entradas: 1rem;
+}
+
+.linea-tiempo-entrada--merito .linea-tiempo-fecha {
+  padding-top: var(--relleno-merito);
+}
+
+.merito-tarjeta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--relleno-merito);
+  padding: var(--relleno-merito);
+  border: 1px solid var(--color-borde-boton-panel);
+  border-radius: var(--radio-medio);
+  background: var(--color-fondo);
+}
+
+.merito-texto {
+  flex: 1 1 16rem;
+  min-width: 0;
+}
+
+.merito-tarjeta .linea-tiempo-descripcion {
+  margin: 0.35rem 0 0;
+  font-size: 0.95rem;
+}
+
+.merito-proyecto {
+  flex: none;
+  width: var(--ancho-proyecto-merito);
+  margin-left: auto;
+}
+
+/* Tarjeta del proyecto: la de Referencias, con fondo suave para separarla
+   de la del mérito, título en una línea e imagen apaisada para que sea baja */
+.merito-proyecto .referencia-tarjeta {
+  background: var(--color-fondo-suave);
+}
+
+.merito-proyecto .referencia-titulo {
+  height: 1.3em;
+  padding: 0.35rem 0.5rem;
+  font-size: 0.85rem;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+}
+
+/* overflow: sin él, la imagen estira la caja por encima de su proporción */
+.merito-proyecto .referencia-imagen {
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+}
+
 /* Filtros por categoría: píldoras como .boton-contacto; activo en acento */
 .filtros-proyectos {
   display: flex;
@@ -1109,16 +1172,19 @@ body.detalle-abierto {
   align-self: stretch;
 }
 
-/* Espaciador elástico (alto mínimo 0) justo antes de los enlaces: absorbe
-   el sobrante de la fila; los enlaces conservan su margin-top. Los enlaces
-   ya son el último hijo, así que order no cambia el orden visual. Sin
-   enlaces, el espaciador queda al final y no añade nada */
+/* Espaciador elástico (alto mínimo 0) justo antes de los reconocimientos
+   y los enlaces: absorbe el sobrante de la fila y los dos bajan juntos al
+   final; conservan su margin-top. Son los últimos hijos y comparten order,
+   así que el orden visual sigue siendo el del DOM (reconocimientos y
+   después enlaces). Sin ninguno, el espaciador queda al final y no añade
+   nada */
 .detalle-proyecto-texto::after {
   content: "";
   flex: 1 0 0;
   order: 1;
 }
 
+.detalle-proyecto-texto > .detalle-proyecto-premios,
 .detalle-proyecto-texto > .detalle-proyecto-enlaces {
   order: 2;
 }
@@ -1185,6 +1251,64 @@ body.detalle-abierto {
   /* Sobre esta caja los botones en reposo usan el fondo de la página para
      distinguirse; hover e icono, los comunes */
   --boton-redondo-fondo: var(--color-fondo);
+}
+
+/* Franja de reconocimientos (méritos del proyecto), justo antes de los
+   enlaces: misma caja que .detalle-proyecto-enlaces, a todo el ancho de la
+   columna de texto. Varios méritos van apilados, separados por una línea */
+.detalle-proyecto-premios {
+  margin-top: var(--espacio);
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--color-borde-boton-panel);
+  border-radius: var(--radio-medio);
+  background: var(--color-fondo-enlaces);
+}
+
+/* Con enlaces debajo, las dos cajas van más juntas */
+.detalle-proyecto-premios + .detalle-proyecto-enlaces {
+  margin-top: 0.5rem;
+}
+
+.detalle-proyecto-premio + .detalle-proyecto-premio {
+  margin-top: 0.6rem;
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--color-borde-boton-panel);
+}
+
+.detalle-proyecto-premio-titulo {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--color-titulo);
+}
+
+/* Estrella como la de la Línea de tiempo (.cronologia-estrella), en línea */
+.detalle-proyecto-premio-estrella {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--tamano-estrella-cronologia);
+  height: var(--tamano-estrella-cronologia);
+  border-radius: 50%;
+  background: var(--color-fondo-estrella);
+  color: var(--color-estrella);
+}
+
+.detalle-proyecto-premio-estrella svg {
+  display: block;
+  width: 72%;
+  height: 72%;
+  fill: currentColor;
+}
+
+.detalle-proyecto-premio-descripcion {
+  margin: 0.25rem 0 0;
+  font-size: 0.95rem;
 }
 
 .detalle-proyecto-enlaces-fila {
@@ -1360,7 +1484,7 @@ body.detalle-abierto {
   outline-offset: 2px;
 }
 
-/* Referencias (Experiencia, Estudios y Méritos): cuadrícula de tarjetas
+/* Referencias (Experiencia y Estudios; Méritos usa solo la tarjeta): cuadrícula de tarjetas
    con el título arriba (siempre alto de 2 líneas, para que todas las de
    una fila midan igual) e imagen cuadrada (1:1) debajo. Con auto-fill sobran columnas vacías en vez de estirarse:
    cada tarjeta mide como mucho ~2 veces el ancho mínimo (solo si cabe una) */
@@ -2009,7 +2133,8 @@ button.proyecto-tarjeta {
 }
 
 /* Insignia decorativa, sin acción: es parte del botón, así que pulsarla
-   abre la ventana como el resto de la tarjeta; title con los méritos */
+   abre la ventana como el resto de la tarjeta; sin tooltip (los méritos
+   van en el aria-label de la tarjeta) */
 .cronologia-estrella {
   position: absolute;
   top: calc(-1 * var(--salida-estrella-cronologia));
@@ -2744,6 +2869,21 @@ body.panel-abierto .boton-destacado-flecha {
 
   .linea-tiempo-cuerpo {
     grid-row: 2;
+  }
+
+  /* Méritos: la fecha va encima de la tarjeta (sin relleno propio) y el
+     título queda una línea de fecha más el relleno por debajo */
+  .linea-tiempo-entrada--merito {
+    --desplazamiento-titulo-tiempo: calc(var(--alto-linea-fecha-movil) + var(--relleno-merito));
+  }
+
+  .linea-tiempo-entrada--merito .linea-tiempo-fecha {
+    padding-top: 0;
+  }
+
+  /* Debajo del texto, alineada a la izquierda */
+  .merito-proyecto {
+    margin-left: 0;
   }
 
   /* Proyectos: dos tarjetas por fila en un móvil normal (desde 360px),
