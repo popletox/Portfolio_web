@@ -20,14 +20,26 @@ Copyright (c) 2026 Miguel Ángel Torrijos. Todos los derechos reservados.
 
 Se aplica a:
 - El contenido de datos/ (los archivos JSON de datos).
-- Las imágenes y recursos gráficos personales (por ejemplo, la carpeta
-  recursos/ si se añade).
+- Las imágenes de la carpeta recursos/Imagenes/.
+- Los documentos de la carpeta recursos/Documentos/ (por ejemplo, el PDF del TFG).
 - Los textos y datos personales de index.html: nombre, subtítulo profesional,
   enlaces de contacto y la nota "Sobre esta web" del pie.
 
 Este contenido no se puede copiar, modificar, distribuir ni usar sin permiso
 expreso y por escrito del autor. Si reutilizas el código, debes sustituir este
 contenido por el tuyo.
+
+Algunas imágenes proceden de proyectos realizados para clientes y muestran
+marcas, logotipos y material de clientes o de terceros. La reserva de derechos
+de este punto se refiere solo al trabajo del autor; esas marcas, logotipos y
+materiales pertenecen a sus respectivos propietarios.
+
+3. Iconos de terceros
+
+Los iconos de la carpeta recursos/Iconos/ no son del autor. Proceden de webs de
+terceros y se usan bajo sus propias licencias. No están cubiertos ni por la
+licencia MIT (punto 1) ni por el punto 2. Los logos son marcas de sus
+respectivos propietarios.
 
 ---
 
@@ -68,11 +80,23 @@ Copyright (c) 2026 Miguel Ángel Torrijos. All rights reserved.
 
 Applies to:
 - The content of datos/ (the JSON data files).
-- Personal images and graphic assets (for example, the recursos/ folder if
-  added).
+- The images in the recursos/Imagenes/ folder.
+- The documents in the recursos/Documentos/ folder (for example, the TFG PDF).
 - The personal texts and data in index.html: name, professional subtitle,
   contact links and the "Sobre esta web" note in the footer.
 
 This content may not be copied, modified, distributed or used without the
 express written permission of the author. If you reuse the code, you must
 replace this content with your own.
+
+Some images come from projects carried out for clients and show trademarks,
+logos and client or third-party material. The reservation of rights in this
+section refers only to the author's own work; those trademarks, logos and
+materials belong to their respective owners.
+
+3. Third-party icons
+
+The icons in the recursos/Iconos/ folder are not the author's. They come from
+third-party websites and are used under their own licenses. They are covered
+neither by the MIT License (section 1) nor by section 2. The logos are
+trademarks of their respective owners.
