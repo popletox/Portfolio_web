@@ -1097,6 +1097,32 @@ body.detalle-abierto {
   grid-template-columns: minmax(0, 1fr);
 }
 
+/* La columna de texto ocupa todo el alto de la fila (las imágenes siguen
+   arriba) y es flex en columna para que la caja de enlaces baje al final
+   del cuerpo si las imágenes son más altas que el texto. Sus hijos solo
+   llevan margin-top, así que el espaciado no cambia respecto al flujo normal.
+   En una sola columna (sin imágenes o en móvil) la fila mide lo que el
+   texto y no aparece hueco */
+.detalle-proyecto-texto {
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+}
+
+/* Espaciador elástico (alto mínimo 0) justo antes de los enlaces: absorbe
+   el sobrante de la fila; los enlaces conservan su margin-top. Los enlaces
+   ya son el último hijo, así que order no cambia el orden visual. Sin
+   enlaces, el espaciador queda al final y no añade nada */
+.detalle-proyecto-texto::after {
+  content: "";
+  flex: 1 0 0;
+  order: 1;
+}
+
+.detalle-proyecto-texto > .detalle-proyecto-enlaces {
+  order: 2;
+}
+
 .detalle-proyecto-titulo {
   margin: 0;
   /* Hueco para los botones compartir y ✕ */
