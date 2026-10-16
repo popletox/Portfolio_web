@@ -48,7 +48,6 @@ Cómo mantenerlo:
   - Avance 2026-10-15: las imágenes de proyectos ya están en `recursos/Imagenes/<Motor>/<Proyecto>/` (WebP `_low`/`_high`, incluido `Fortnite/RevlonStyleHunt/`). Falta lo definitivo de proyectos y las `img` de referencias.
 - [ ] **P17 · Hacer**: crear los proyectos reales (Fire Lunar Rush, Color Switch Race…) y cambiar sus referencias del catálogo por el id del proyecto.
 - [ ] **P18 · Revisar**: "Proyecto provisional 1" tiene `enCurso: true` puesto para pruebas.
-- [ ] **P56 · Revisar** (añadido 2026-10-16): el primer destacado de `datos/datos-destacados.json` tiene enlaces de ejemplo (GitHub del repositorio y un «Ver más» provisional a `https://example.com`); sustituir por enlaces reales o quitarlos.
 - [ ] **P19 · Decidir**: si un `\n` dentro de un texto debe crear un salto de línea (ahora se ignora; hay uno sobrante en la introducción).
 - [ ] **P45 · Decidir** (añadido 2026-10-15): fijar un tamaño máximo por imagen de `recursos/Imagenes/` (peso en KB y/o resolución en píxeles, por decidir).
   - Hecho 2026-10-15: todas las imágenes de proyectos están convertidas a WebP con dos versiones, `_low` y `_high` (ya no queda ningún PNG). Solo queda abierto el tamaño máximo.
@@ -83,6 +82,8 @@ Puntos abiertos del [documento de diseño](diseno-portfolio.md).
 
 ## Hechos
 
+- [x] **P56 · Revisar** (2026-10-16): enlaces de ejemplo del primer destacado de `datos/datos-destacados.json`.
+  - Nota: sustituidos por los reales; el primer destacado enlaza al GitHub del repositorio (https://github.com/popletox/Portfolio_web) y ya no hay «Ver más» a `example.com`.
 - [x] **P20 · Hacer** (descartado 2026-10-16): diseño propio del tema Cómic.
   - Nota: el tema Cómic se ha eliminado por decisión del usuario (quedan Claro, Oscuro y Código). Los puntos históricos que hablan de «4 temas» o de Cómic (P48, P50) se refieren al estado anterior.
 - [x] **P06 · Decidir** (2026-10-16): arrastrar con el ratón o un "slider" visible para desplazar la Línea de tiempo.
