@@ -18,8 +18,15 @@
       "titulo": "Mejor uso de temática",
       "entidad": "Universidad Complutense de Madrid",
       "fecha": "2023-02",
-      "descripcion": "Este proyecto recibió el premio a mejor uso de la temática \"Root\" en el evento Global Game Jam 2023",
+      "descripcion": "Este proyecto recibió el premio a mejor uso de la temática \"Root\" en el evento Global Game Jam 2023.",
       "proyecto": "proyecto-the-root"
+    },
+    {
+      "titulo": "Más de un millón de visitas",
+      "entidad": "Telefónica",
+      "fecha": "2024-03",
+      "descripcion": "En menos de 1 mes desde el lanzamiento de la experiencia, Telefónica Town consiguió más de 1.000.000 de visitas.",
+      "proyecto": "proyecto-telefonica-town"
     },
     {
       "titulo": "Mejor ambientación",
