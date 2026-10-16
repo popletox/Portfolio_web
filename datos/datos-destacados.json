@@ -23,9 +23,7 @@
         "alt": "Título principal del juego."
       },
       "enlaces": {
-        "steam": { "url": "https://store.steampowered.com/app/4916130/NILSH/" },
-        "youtube": { "url": "https://www.youtube.com/@HojaStudioGames" },
-        "web-generico": [{ "texto": "Web NILSH", "url": "https://nilsh.games/" }]
+        "steam": { "url": "https://store.steampowered.com/app/4916130/NILSH/" }
       }
     },
     {
