@@ -1,3 +1,19 @@
+// Consulta de medios protegida: si window.matchMedia no existe o falla,
+// devuelve un sustituto { matches: porDefecto } sin escuchadores (el código que
+// los usa ya comprueba addEventListener/addListener antes de llamarlos).
+// La usa también scripts/opciones.js, que se carga después
+function consultarMedios(consulta, porDefecto) {
+  try {
+    if (typeof window.matchMedia === 'function') {
+      var lista = window.matchMedia(consulta);
+      if (lista) return lista;
+    }
+  } catch (error) {
+    // Sin soporte: se usa el valor por defecto
+  }
+  return { matches: porDefecto };
+}
+
 // Debe coincidir con la media query del panel inferior en estilos/comun.css
 var DISPOSICION_VERTICAL = '(max-width: 768px), (max-aspect-ratio: 3/4)';
 
@@ -11,8 +27,8 @@ var UMBRAL_NORMAL = 8;
 (function () {
   var cabecera = document.querySelector('.cabecera');
   if (!cabecera) return;
-  var consultaEstrecha = window.matchMedia(CABECERA_ESTRECHA);
-  var movimientoReducido = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var consultaEstrecha = consultarMedios(CABECERA_ESTRECHA, false); // sin soporte: cabecera normal
+  var movimientoReducido = consultarMedios('(prefers-reduced-motion: reduce)', true);
   var pendiente = false;
   var MARGEN_TRANSICION = 50; // ms extra para cubrir el final de la transición
 
@@ -163,7 +179,7 @@ var UMBRAL_NORMAL = 8;
   var boton = document.getElementById('boton-destacado');
   if (!boton) return;
 
-  var consultaVertical = window.matchMedia(DISPOSICION_VERTICAL);
+  var consultaVertical = consultarMedios(DISPOSICION_VERTICAL, true); // sin soporte: panel plegado
 
   function aplicarEstado(abierto) {
     cuerpo.classList.toggle('panel-abierto', abierto);
@@ -226,7 +242,7 @@ var mostrarDiapositivaDestacado = function () {};
   var INTERVALO = 10000; // ms entre diapositivas
   var panel = document.getElementById('panel-destacado');
   if (!panel) return;
-  var movimientoReducido = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var movimientoReducido = consultarMedios('(prefers-reduced-motion: reduce)', true);
   var visor = document.getElementById('visor-imagen');
 
   var ventana = null;
@@ -514,7 +530,7 @@ function aplicarEstadoEntrada(entrada, abierta) {
 // (window.Proyectos.montar, en contenido.js). Con transición: fundido de
 // salida, cambio del contenido, ajuste de la altura y fundido de entrada.
 var aplicarFiltroProyectos = (function () {
-  var movimientoReducido = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var movimientoReducido = consultarMedios('(prefers-reduced-motion: reduce)', true);
   var generacion = 0; // invalida las fases pendientes de un filtro anterior
   var animaciones = [];
 
@@ -603,7 +619,7 @@ var aplicarFiltroProyectos = (function () {
   if (!visor || typeof visor.showModal !== 'function') return;
   var contenido = visor.querySelector('.visor-imagen-contenido');
   var botonCerrar = visor.querySelector('.visor-imagen-cerrar');
-  var movimientoReducido = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var movimientoReducido = consultarMedios('(prefers-reduced-motion: reduce)', true);
   var CERRANDO = 'visor-imagen--cerrando';
   var MARGEN_CIERRE = 100; // ms extra si no llega animationend
   var miniaturaOrigen = null;
@@ -724,8 +740,8 @@ var aplicarFiltroProyectos = (function () {
   var botonCerrar = dialogo.querySelector('.detalle-proyecto-cerrar');
   var botonCompartir = dialogo.querySelector('.detalle-proyecto-compartir');
   var aviso = dialogo.querySelector('.aviso-compartir');
-  var tactil = window.matchMedia('(pointer: coarse)');
-  var movimientoReducido = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var tactil = consultarMedios('(pointer: coarse)', false); // sin soporte: copiar enlace
+  var movimientoReducido = consultarMedios('(prefers-reduced-motion: reduce)', true);
   var historialDisponible = !!(history.pushState && history.replaceState);
   var CERRANDO = 'detalle-proyecto--cerrando';
   var ESPERA_HISTORIAL = 500; // ms máximos hasta el popstate de history.back()
