@@ -55,7 +55,9 @@
         "Redacción técnica",
         "Gestión de proyectos"
       ],
-      "referencias": ["proyecto-american-crew-style-hunt"]
+      "referencias": [
+        "proyecto-american-crew-style-hunt"
+      ]
     },
     {
       "puesto": "Desarrollador de videojuegos",
@@ -75,9 +77,11 @@
       "referencias": [
         "proyecto-fire-lunar-rush",
         "proyecto-color-switch-race",
+        "proyecto-ref-easy-obby-incremental",
         "proyecto-the-donatos-mind",
         "proyecto-telefonica-town",
         "proyecto-mcdonalds-land-tycoon",
+        "proyecto-ref-mansion-krave",
         "proyecto-el-desafio-pringles"
       ]
     },
