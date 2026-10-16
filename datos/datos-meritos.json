@@ -1,24 +1,32 @@
 {
   "meritos": [
     {
-      "titulo": "Premio provisional 1",
-      "entidad": "Evento o institución provisional 1",
-      "fecha": "2024-11",
-      "descripcion": "[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "titulo": "Calificación sobresaliente",
+      "entidad": "Universidad Carlos III Madrid",
+      "fecha": "2021-07",
+      "descripcion": "Este proyecto obtuvo una calificación de 9,2 puntos sobre 10.",
       "proyecto": "proyecto-beans-out"
     },
     {
-      "titulo": "Premio provisional 2",
-      "fecha": "2023-05",
-      "descripcion": "[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      "proyecto": "proyecto-color-switch-race"
+      "titulo": "5º puesto",
+      "entidad": "Newbies Game Jam 2022",
+      "fecha": "2022-05",
+      "descripcion": "Este proyecto obtuvo la quinta posición de entre más de un centenar de proyectos presentados en el evento.",
+      "proyecto": "proyecto-minimal-space-to-live"
     },
     {
-      "titulo": "Premio provisional 3",
-      "entidad": "Evento o institución provisional 3",
-      "fecha": "2022-03",
-      "descripcion": "[Provisional] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      "proyecto": "proyecto-fire-lunar-rush"
+      "titulo": "Mejor uso de temática",
+      "entidad": "Universidad Complutense de Madrid",
+      "fecha": "2023-02",
+      "descripcion": "Este proyecto recibió el premio a mejor uso de la temática \"Root\" en el evento Global Game Jam 2023",
+      "proyecto": "proyecto-the-root"
+    },
+    {
+      "titulo": "Mejor ambientación",
+      "entidad": "Kenney's Jam 2025",
+      "fecha": "2025-07",
+      "descripcion": "Este juego recibió el premio a la mejor ambientación en Kenney’s Jam 2025, un evento con más de setecientos juegos presentados.",
+      "proyecto": "proyecto-running-out-of-power"
     }
   ]
 }
