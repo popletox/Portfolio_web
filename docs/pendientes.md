@@ -63,8 +63,8 @@ Puntos abiertos del [documento de diseño](diseno-portfolio.md).
 - [ ] **P20 · Hacer**: diseño propio del tema Cómic (ahora es una copia de Claro).
   - Al hacerlo, revisar `--color-fondo-enlaces` y `--color-boton-enlaces-hover`.
 - [ ] **P21 · Hacer**: "Efectos divertidos" (interruptor en Opciones y animaciones de los títulos).
+  - 2026-10-16: interruptor hecho (`scripts/efectos.js`) y estado inicial decidido: apagado. Pendientes: las animaciones de los títulos y cómo se activan en táctil.
 - [ ] **P22 · Decidir**: panel Destacado en móvil fijo abajo o al final del documento.
-- [ ] **P23 · Decidir**: tema inicial Claro o seguir el del sistema.
 - [ ] **P24 · Decidir**: versión en inglés.
 - [ ] **P25 · Decidir**: alinear la introducción con el borde de las cajas de sección (actual) o con el texto de dentro.
 - [ ] **P43 · Revisar**: los cambios sobre la sombra del Panel destacado y su botón-pestaña se juntaron con la Línea de tiempo durante una fusión automática: sombra animada del panel, botón de color sólido (`--color-panel`) unido al panel como una sola pieza (filo, `drop-shadow` y `clip-path`), variables de tema nuevas (`--color-enlace-panel`, `--color-borde-boton-panel`, `--color-sombra-panel`, `--desenfoque-sombra-panel`; se quita `--color-boton-panel`), `--color-panel` más oscuro en Claro y Cómic y `docs/temas.md` actualizado. Falta probarlos en los 4 temas y en móvil.
@@ -85,6 +85,10 @@ Puntos abiertos del [documento de diseño](diseno-portfolio.md).
 
 ## Hechos
 
+- [x] **P55 · Hacer** (2026-10-16): blindar las llamadas a `window.matchMedia` de `main.js` y `opciones.js`.
+  - Decisión: sin `matchMedia` (o si falla) se asume que el visitante prefiere reducir el movimiento. Resuelto con `consultarMedios`; ver [`diseno-portfolio.md`](diseno-portfolio.md).
+- [x] **P23 · Decidir** (2026-10-16): tema inicial Claro o seguir el del sistema.
+  - Decisión: sigue al sistema (guardado > `prefers-color-scheme: dark` → Oscuro > Claro) y, mientras no se elija tema, sigue sus cambios en vivo. Ver [`temas.md`](temas.md).
 - [x] **P54 · Hacer** (2026-10-16): sustituir los méritos provisionales por los reales.
   - Nota: `datos/datos-meritos.json` ya contiene los cuatro méritos reales, todos con entidad y proyecto.
 - [x] **P35 · Hacer** (2026-10-16): estrella de reconocimiento en todas las tarjetas de proyecto con mérito (Proyectos, Referencias de Experiencia y Estudios, Línea de tiempo), salvo la del proyecto dentro de la tarjeta de mérito.

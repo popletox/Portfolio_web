@@ -26,7 +26,7 @@ Flujo: petición → coordinador → programador → revisión → documentador 
 - Referencias en tarjetas (cuadrícula con título e imagen) en el detalle de Experiencia y Estudios: las de proyectos toman solas su título y primera imagen; las demás, de un catálogo común del JSON. Las que enlazan a un proyecto (y el enlace interno del Destacado) abren su ventana de detalle sin mover la página.
 - Línea de tiempo horizontal bajo las secciones, a todo el ancho hasta el panel Destacado, desplazable en horizontal y empezando en lo más reciente. Sobre un eje de meses y años muestra barras de estudios (azul) y experiencias (rojo) con su nombre inclinado, y tarjetas de proyecto en su mes (compactas, sin imagen, cuando un mes tiene 3 o más) que abren la ventana de detalle; los proyectos con mérito llevan una estrella de reconocimiento en todas sus tarjetas (Proyectos, Referencias y Línea de tiempo).
 - Panel Destacado en forma de carrusel (lateral en ordenador, inferior en móvil), cerrable y reabrible.
-- Temas Claro, Oscuro, Código y Cómic, elegibles en el menú de Opciones y guardados en el navegador.
+- Temas Claro, Oscuro, Código y Cómic, elegibles en el menú de Opciones y guardados en el navegador. Por defecto sigue el tema claro u oscuro del sistema (claro si no se puede saber). El menú incluye también un interruptor "Efectos" (apagado por defecto; por ahora no activa nada, está reservado para futuras animaciones).
 - Contenido cargado desde varios archivos JSON de `datos/`.
 - Nota "Sobre esta web" en el pie.
 

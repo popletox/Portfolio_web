@@ -102,11 +102,15 @@ La tematización forma parte de la arquitectura desde el inicio. El tema princip
 
 Todos los temas comparten variables de estilo con significado estable: fondo, texto, acento, superficies, tipografía, etc. El degradado del encabezado y todos los colores usan el tema activo. JavaScript activa el tema y guarda la elección en el navegador. Una lista de temas disponibles genera el selector; añadir un tema no exige rehacer el contenido.
 
-Opciones es un botón con un engranaje en el encabezado, junto a los iconos de contacto, que abre un pequeño bocadillo con Claro, Oscuro, Código y Cómic (icono y texto), mostrando el activo. Código es un tema de apariencia oscura, fuente monoespaciada y colores coherentes para títulos, fechas, tecnologías y enlaces. Conservar la legibilidad de los párrafos. Tema inicial normal; concretar si será claro o seguirá el sistema. No cambiar el orden ni el contenido al cambiar de tema.
+Opciones es un botón con un engranaje en el encabezado, junto a los iconos de contacto, que abre un pequeño bocadillo con Claro, Oscuro, Código y Cómic (icono y texto), mostrando el activo. Código es un tema de apariencia oscura, fuente monoespaciada y colores coherentes para títulos, fechas, tecnologías y enlaces. Conservar la legibilidad de los párrafos. El tema inicial sigue el sistema del visitante (oscuro si lo prefiere; claro si no, o si no se puede saber), salvo que haya guardado uno; no hay opción «Sistema» en el menú. Detalle en [`temas.md`](temas.md). No cambiar el orden ni el contenido al cambiar de tema.
 
 11. Efectos divertidos
 
-Interruptor independiente del tema, dentro de Opciones. Controla los adornos de los títulos; no las transiciones de los desplegables. Reconocimientos: explosión puntual de confeti con caída. Estudios: libros apilándose sobre la E, tambaleo y caída, repitiendo mientras permanezca el cursor. Experiencia: engranajes que aparecen, encajan y giran. Proyectos: pequeño mando sobre la P, con inclinación e iluminación secuencial de botones.
+Interruptor "Efectos" hecho, independiente del tema, dentro de Opciones (bajo los temas, separado por una línea fina). Apagado por defecto y se recuerda en `localStorage` (clave `efectos`, valores `on`/`off`; cualquier otro valor cuenta como apagado). De momento no activa nada: las animaciones especiales siguen pendientes (P21).
+
+Implementación: `scripts/efectos.js` (en el `<head>`, sin `defer`, tras `temas.js`) pone `data-efectos="on|off"` en `<html>` antes del primer pintado; es el gancho para las futuras animaciones (ningún estilo lo usa aún). Expone `window.Efectos = { evento: 'efectoscambio', activo(), aplicar(bool) }`; `aplicar` guarda siempre y solo lanza `efectoscambio` en `document` (con `detail.activo`) si el estado cambia. El marcado está en `index.html` (`button.interruptor-efectos`, `role="switch"`, `aria-checked`) y `scripts/opciones.js` lo alterna con clic, Enter o Espacio. Con teclado, las flechas recorren solo los temas y el interruptor se alcanza con Tab; activarlo no cierra el menú. El círculo se desliza con transición, anulada con movimiento reducido.
+
+Animaciones previstas: el interruptor controla los adornos de los títulos; no las transiciones de los desplegables. Reconocimientos: explosión puntual de confeti con caída. Estudios: libros apilándose sobre la E, tambaleo y caída, repitiendo mientras permanezca el cursor. Experiencia: engranajes que aparecen, encajan y giran. Proyectos: pequeño mando sobre la P, con inclinación e iluminación secuencial de botones.
 
 Efectos superpuestos que no mueven la página ni bloquean clics. Al salir, detener nuevas emisiones y terminar brevemente; al apagar, limpiar inmediatamente. Organizar cada efecto por separado. No se requiere física real para el apilado. Pendiente decidir estado inicial y activación en dispositivos táctiles; no depender del hover para funciones esenciales.
 
@@ -115,6 +119,19 @@ Efectos superpuestos que no mueven la página ni bloquean clics. Al salir, deten
 1) Estructura, estilos comunes y temas Claro/Oscuro. 2) Encabezado adaptable y Opciones. 3) Desplegables y líneas de tiempo de Experiencia/Estudios. 4) Proyectos, filtros y ampliación de imágenes. 5) Reconocimientos y enlaces internos. 6) Destacado y nota del pie. 7) Tema Código y efectos decorativos. 8) Contenido real, comprobaciones y publicación.
 
 Trabajar por tareas pequeñas referidas a este documento. Usar contenido provisional claramente identificado, sin inventar experiencia ni premios. Actualizar la referencia al tomar nuevas decisiones. Verificar ordenador y móvil, todos los temas, teclado, cierre de paneles, filtros y enlaces internos; respetar la preferencia de movimiento reducido.
+
+Consultas de medios en JavaScript (`consultarMedios`)
+
+`scripts/main.js` define la función global `consultarMedios(consulta, porDefecto)`, que llama a `matchMedia` dentro de un `try` y, si no existe o falla, devuelve un sustituto `{ matches: porDefecto }`. `scripts/opciones.js` también la usa (`main.js` se carga antes, con `defer`). Norma: toda consulta de medios nueva en JS debe pasar por `consultarMedios` con un valor por defecto prudente. El CSS `@media` no cambia. Sin soporte se asume que el visitante prefiere reducir el movimiento.
+
+| Consulta | Valor por defecto | Efecto sin soporte |
+| --- | --- | --- |
+| `(prefers-reduced-motion: reduce)` | `true` | Sin fundidos, el carrusel de Destacado no rota, el diálogo se cierra sin fundido y el cambio de tema no anima. |
+| `CABECERA_ESTRECHA` (`max-width: 768px`) | `false` | La cabecera no se compacta. |
+| `DISPOSICION_VERTICAL` | `true` | El panel Destacado empieza plegado. |
+| `(pointer: coarse)` | `false` | Al compartir se copia el enlace. |
+
+`scripts/temas.js` ya estaba protegido: sin soporte usa el tema claro.
 
 13. Uso como referencia
 
