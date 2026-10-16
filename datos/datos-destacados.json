@@ -3,9 +3,9 @@
     {
       "titulo": "¡Bienvenido a mi portfolio web!",
       "descripcion": [
-        "Este es un proyecto realizado de forma autonoma en una semana que planeo continuar actualizando con el tiempo. Este proyecto comenzó como un pequeño proyecto para aprender la integración de IA en una proyecto de desarrollo.",
-        "Si quieres revisar todo lo que contiene esta web o el proceso de como se ha creado, sus retos, su organizacion o la documentacion, el repositorio de GitHub del proyecto contiene toda la información relevante al proyecto.",
-        "Muchas gracias por revisar esta página"
+        "Este es un proyecto realizado de forma autónoma en una semana que planeo continuar actualizando con el tiempo. Esta web comenzó como un pequeño proyecto para aprender la integración de IA en un desarrollo de software.",
+        "Si quieres revisar todo lo que contiene esta web o el proceso de cómo se ha creado, sus retos, su organización o la documentación, el repositorio de GitHub del proyecto contiene toda la información relevante para el proyecto.",
+        "Muchas gracias por revisar esta página."
       ],
       "enlaces": {
         "github": { "url": "https://github.com/popletox/Portfolio_web" }
@@ -14,13 +14,13 @@
     {
       "titulo": "NILSH está en Steam",
       "descripcion": [
-        "Mi último proyecto ya tiene pagina en Steam. Un juego de aventura y exploracion en un mundo que está cayendo lentamente en decadencia. Tu misión principal es encontrar respuestas a las preguntas antiguas y salvar el mundo.",
-        "Desde Hoja Studio y yo personalmente, agreadecemos mucho vuestro cariño y que agregueis el juego a vuestras listas de deseados."
+        "Mi último proyecto ya tiene página en Steam. Un juego de aventura y exploración en un mundo que está cayendo lentamente en decadencia. Tu misión principal es encontrar respuestas a las preguntas antiguas y salvar el mundo.",
+        "Desde Hoja Studio y yo personalmente, agradecemos mucho vuestro cariño y que agreguéis el juego a vuestras listas de deseados."
       ],
-      "imagen": { 
+      "imagen": {
         "low": "./recursos/Imagenes/Unity/NILSH/IMG-Title_low.webp",
         "high": "./recursos/Imagenes/Unity/NILSH/IMG-Title_high.webp",
-        "alt": "Titulo principal del juego." 
+        "alt": "Título principal del juego."
       },
       "enlaces": {
         "steam": { "url": "https://store.steampowered.com/app/4916130/NILSH/" },
