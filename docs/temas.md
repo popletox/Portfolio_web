@@ -55,13 +55,17 @@ Cada tema es un archivo en `estilos/temas/<id>.css` que define **todas** las var
 | `--color-periodo-experiencia` | Barras de experiencias de la Línea de tiempo, su conector vertical y el punto donde empieza el nombre (rojo; más claro en temas oscuros). El nombre va en `--color-texto`. |
 | `--color-estrella` | Estrella de reconocimiento de las tarjetas de proyecto con mérito en la Línea de tiempo (dorado). |
 | `--color-fondo-estrella` | Fondo circular de esa estrella. |
-| `--color-miniatura-provisional` | Miniaturas, imagen del visor y tarjetas de Referencias y de Proyectos sin imagen real. |
+| `--color-miniatura-provisional` | Cuadrado provisional (verde) de miniaturas, imagen del visor y tarjetas de Referencias y de Proyectos que no tienen imagen real. Con imagen, el fondo es `--color-fondo-imagen` (ver abajo). |
 | `--color-destacado-provisional` | Cuadrado provisional del panel destacado. |
 | `--color-fondo-visor` | Fondo oscurecido tras la imagen ampliada y tras la ventana de detalle de un proyecto. |
 | `--color-boton-panel-texto` | Flecha del botón-pestaña, sobre `--color-panel` (contraste ≥ 3:1; normalmente `var(--color-texto-suave)`). |
 | `--color-borde-boton-panel` | Filo de 1px del botón-pestaña con el panel cerrado, para distinguirlo de la página. |
 | `--color-sombra-panel` | Sombra del panel destacado (solo abierto) y de su botón-pestaña, proyectada hacia la página para que parezcan por encima. Semitransparente; en temas oscuros, más opaca (p. ej. 0.6) para que se note. |
 | `--desenfoque-sombra-panel` | Desenfoque de esa sombra (p. ej. `16px` en claros, algo más en oscuros). No pasar de unos `40px`: el botón recorta su sombra a `--margen-sombra-panel` (4rem, en `comun.css`). |
+
+## Excepción: `--color-fondo-imagen`
+
+`--color-fondo-imagen` (`#141414`, casi negro, no `#000`) es la única variable `--color-*` que NO se define en los temas: está fija en el `:root` de `estilos/comun.css` y es igual en todos. Es el fondo sobre el que se ven las zonas transparentes de las imágenes de proyecto (p. ej. un logo con fondo transparente) en miniaturas, tarjetas de Referencias, panel Destacado y visor; así el aspecto no depende del tema. No hay que añadirla a un tema nuevo.
 
 ## Botones redondos de icono
 
