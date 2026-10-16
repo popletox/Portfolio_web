@@ -19,7 +19,7 @@
     {
       "puesto": "Desarrollador de videojuegos",
       "empresa": "Hoja Studio",
-      "fechaInicio": "2026-04",
+      "fechaInicio": "2026-05",
       "fechaFin": null,
       "descripcion": "Programador en Hoja Studio, un equipo multidisciplinar de más de diez personas que desarrolla NILSH en régimen de colaboración. Es un juego de acción y aventura con vista cenital, ambientado en un mundo de fantasía donde la naturaleza se está apagando. El proyecto sigue en desarrollo y ampliación continua, y ya tiene página en Steam. Mi trabajo se ha centrado en varios componentes del juego: el sistema de fijación de objetivos (ZTarget) y algunos elementos de combate, las transiciones y la interfaz, y el sistema de inventario y de potenciadores. También colaboro en los procesos de QA y trabajo con perfiles de otras disciplinas.",
       "aptitudes": [

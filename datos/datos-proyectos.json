@@ -97,6 +97,7 @@
           "alt": "Imagen del juego." }
       ],
       "enlaces":{
+        "github": { "url": "https://github.com/MarcoExpPer/TheRoot"},
         "itch.io": { "url": "https://popletox.itch.io/the-root" }
       }
     },
@@ -207,7 +208,7 @@
       "categoria": "Unity",
       "fecha": "2025-07",
       "descripcion": [
-        "Después de casi dos años sin participar en game jams, me apunté a la Kenny Jam 2025, una jam especial en la que había que usar los assets que se proporcionaban. Vi esta oportunidad como una forma de centrarme por completo en la programación.",
+        "Después de casi dos años sin participar en game jams, me apunté a la Kenny's Jam 2025, una jam especial en la que había que usar los assets que se proporcionaban. Vi esta oportunidad como una forma de centrarme por completo en la programación.",
         "Para este evento, el tema fue “Power”, y yo lo usé para hacer un juego sobre un tren que se queda sin combustible. En este proyecto aprendí mucho sobre splines y sobre el movimiento de cuerpos con anclajes en Unity, lo que me permitió lograr un movimiento de tren realista. Además, desarrollé un bucle jugable en el que el jugador debía tomar decisiones y recoger recursos por el camino."
       ],
       "tecnologia": [
@@ -243,7 +244,7 @@
       "id": "proyecto-nilsh",
       "titulo": "NILSH",
       "categoria": "Unity",
-      "fecha": "2026-05",
+      "fecha": "2026-09",
       "enCurso": true,
       "descripcion": [
         "NILSH es un proyecto ambicioso que actualmente desarrolla Hoja Studio. Se trata de un juego de aventura y exploración ambientado en un mundo de fantasía donde la naturaleza se está apagando, y el jugador deberá averiguar qué está pasando.",
