@@ -5,7 +5,11 @@
       "titulo": "Beans out (TFG)",
       "categoria": "Unity",
       "fecha": "2021-06",
-      "descripcion": "Trabajo de Fin de Grado en la Universidad Carlos III de Madrid, calificado con Sobresaliente (9,2). Prototipo de videojuego 2.5D con generación procedural de niveles mediante salas ponderadas por pesos, varios tipos de enemigos con IA y comportamientos diferenciados, y un sistema de spawn que equilibra la dificultad de cada nivel generado.",
+      "descripcion": [
+        "Para mi trabajo de fin de grado, quise aprender más sobre algo que no conocía en profundidad pero que me apasionaba, así que decidí desarrollar un videojuego. Debido a limitaciones técnicas y de tiempo, el resultado fue un prototipo de un juego roguelike con generación procedural de escenarios y combate contra enemigos autónomos con distintos comportamientos.",
+        "En el juego, el jugador encarna a una alubia que sale de su tarro en busca de la germinación o, dicho de forma más sencilla, de plantarse en el jardín. En su camino se encontrará con múltiples enemigos que intentarán devorarla. Desarrollé un sistema de generación procedural con más de 30 salas posibles y millones de combinaciones, además de diseñar e implementar tres enemigos: la mosca, la hormiga y la araña.",
+        "Mis referencias a la hora de desarrollar este proyecto fueron Dead Cells, The Binding of Isaac y Super Mario Bros."
+      ],
       "aptitudes": [
         "Documentación técnica"
       ],
@@ -36,7 +40,11 @@
       "titulo": "Minimal space 2 live",
       "categoria": "Unity",
       "fecha": "2022-05",
-      "descripcion": "Desarrollé este juego en solitario para la Newbies Game Jam 2022, que se celebró entre el 18 de abril y el 3 de mayo. Es un puzle casual en 3D en el que hay que colocar todos los muebles de una casa antigua dentro de una vivienda muy pequeña, aprovechando al máximo el espacio. Me encargué de todas las partes del proyecto: el diseño, la programación en Unity, la interfaz y la publicación en itch.io. El juego terminó en quinto puesto en la clasificación general del evento.",
+      "descripcion": [
+        "Minimal Space 2 Live fue mi primer paso en el mundo de los videojuegos. Fue el primer proyecto que podría considerar terminado, además de mi primera participación en una game jam: la Newbies Game Jam 2022, dos semanas entre abril y mayo que me llevaron al límite.",
+        "El tema de la jam fue “Minimalism”, y lo enfoqué hacia la idea de espacio mínimo. Desarrollé un juego de puzles en el que debes alinear o agrupar por colores los muebles de una casa pequeña. Tomando como referencia principal el Tetris, el jugador gana puntos al completar filas.",
+        "Además de implementar las mecánicas y el gameplay principal, modelé todos los muebles y assets del juego y compuse la música."
+      ],
       "tecnologia": [
         "Unity",
         "C#",
@@ -65,7 +73,11 @@
       "titulo": "The Root",
       "categoria": "Unity",
       "fecha": "2023-02",
-      "descripcion": "Lo desarrollamos en un equipo pequeño durante la Global Game Jam 2023, en la sede de la Universidad Complutense de Madrid. Tuvimos 48 horas y la temática era “Root”. Es un juego arcade en 2D inspirado en Papers, Please, en el que el jugador revisa las peticiones que llegan al servidor de una empresa y decide si aceptarlas o rechazarlas antes de que el sistema colapse. Mi papel en el equipo fue el de programador. El proyecto ganó el premio a la mejor temática en esa sede.",
+      "descripcion": [
+        "Durante mis estudios de máster en la Universidad Complutense, participé con mis compañeros en la Global Game Jam 2023. La universidad montó una sede en su campus y durante un fin de semana entero estuvimos trabajando en The Root.",
+        "El tema de este evento fue “Root” y nuestro equipo lo tomó literalmente, pensando en la carpeta raíz de un proyecto. Esa idea derivó en un clon de Papers Please: un juego basado en la interfaz en el que el jugador debe decidir qué operaciones se realizan en la base de datos de un servidor. Para ello, tiene que comprobar nombres de solicitantes, tipos de operación y demás datos, y determinar si una operación es maliciosa o no.",
+        "De este juego me llevo la gratificante experiencia de poner en práctica todo lo aprendido durante el curso junto a mis compañeros."
+      ],
       "tecnologia": [
         "Unity",
         "C#"
@@ -93,7 +105,11 @@
       "titulo": "Gloom Reaper",
       "categoria": "Unreal Engine",
       "fecha": "2023-07",
-      "descripcion": "Gloom Reaper fue mi Trabajo de Fin de Máster en la Universidad Complutense de Madrid. Lo desarrollamos en equipo con el nombre de Smoki Tanuki Games y tiene una demo publicada en Steam. Es un juego de acción y plataformas en 2.5D ambientado en la cultura celtíbera y gallega. La protagonista es una cazadora que usa una guadaña con los poderes de la luz y la oscuridad para enfrentarse a criaturas que cambian de forma y de comportamiento según la zona en la que se encuentren. Dentro del equipo me encargué del sistema de combate: desarrollé todos los ataques del jugador y la lógica que los controla. También colaboré en otras tareas del proyecto.",
+      "descripcion": [
+        "Como trabajo de fin de máster, participé en el desarrollo de Gloom Reaper. En este proyecto trabajaron más de 30 personas con formación en varias áreas. Durante varios meses realizamos múltiples pruebas, presentaciones y decisiones hasta llegar a la versión que publicamos en Steam.",
+        "Yo tuve un rol de programador centrado en el gameplay del jugador. Me encargué principalmente del control y del combate, creando un sistema de animaciones que gestionaba todos los eventos relacionados con el combate.",
+        "Gloom Reaper fue mi primer paso en un proyecto más profesional. Al contar con personas de distintos ámbitos, el trabajo ya no consistía solo en hacer mi parte. Aprendí a comunicarme con eficacia, a presentar mis ideas y a debatir y valorar las opiniones sobre el trabajo que estábamos realizando."
+      ],
       "aptitudes": [
         "Comunicación técnica"
       ],
@@ -127,7 +143,11 @@
       "titulo": "Dungeon's Staff",
       "categoria": "Unreal Engine",
       "fecha": "2023-06",
-      "descripcion": "Desarrollamos este juego en equipo para la Game Maker’s Toolkit Game Jam 2023, cuya temática era “Roles reversed” (roles invertidos). Siguiendo esa idea, el jugador no controla al héroe. Es Antonio, el encargado de mantenimiento de una mazmorra, y su tarea es dejarla preparada para que lleguen los aventureros: encender las antorchas, limpiar la sangre y regar las plantas. Es un juego de puzle con elementos de ritmo y está publicado en itch.io. Dentro del equipo me encargué de la inteligencia artificial del héroe y del núcleo principal del juego: el temporizador y el sistema de objetivos.",
+      "descripcion": [
+        "Para esta jam, volví a reunirme con varios de mis compañeros de máster y nos presentamos a la Game Maker’s Toolkit Game Jam (GMTK), donde tuvimos un fin de semana para desarrollar un juego con la temática “Roles Reversed”.",
+        "Con esta idea en mente creamos Dungeon’s Staff, un juego en el que el jugador es el conserje encargado de mantener una mazmorra en un mundo de fantasía. Debe limpiar, rellenar cofres y apagar antorchas, entre otras tareas, todo mientras evita que el héroe lo descubra.",
+        "Yo me centré principalmente en el comportamiento del héroe. Su inteligencia artificial hacía que eligiera rutas hacia los elementos de la mazmorra que le interesaban. Además, el juego incluye un cono de visión que el jugador debe evitar."
+      ],
       "tecnologia": [
         "C++",
         "Blueprints"
@@ -152,7 +172,10 @@
       "titulo": "The Endless Fishing Sheep",
       "categoria": "Unity",
       "fecha": "2023-10",
-      "descripcion": "Desarrollamos este juego en equipo para la Madrid In Game Hack Jam 2023, que se celebró del 20 al 22 de octubre con Tetris como temática. Es un arcade de pesca en 2D que incorpora mecánicas de supervivencia inspiradas en Tetris y está publicado en itch.io. Mientras el resto del equipo se ocupaba del arte, el diseño y el sonido, yo me encargué de toda la parte técnica: programé el movimiento, las mecánicas de juego y la coordinación de los patrones de los enemigos.",
+      "descripcion": [
+        "The Endless Fishing Sheep fue el resultado de mi participación en la Madrid In Game HackJam de 2023. En este proyecto colaboré con otras cuatro personas en el desarrollo de un juego con la temática “Tetris” durante un fin de semana completo.",
+        "Fue un proyecto especialmente interesante para mí, ya que me encargué de toda la implementación del juego. Esto supuso asumir muchas tareas y aprender a gestionar el tiempo y a planificar. Era fundamental organizar el trabajo para asegurar que las partes importantes del juego llegaran al producto final."
+      ],
       "tecnologia": [
         "Unity",
         "C#"
@@ -183,7 +206,10 @@
       "titulo": "Running Out Of Power",
       "categoria": "Unity",
       "fecha": "2025-07",
-      "descripcion": "Desarrollé este juego en solitario para la Kenney Jam 2025, que se celebró del 18 al 20 de julio, y ganó el premio a la mejor ambientación. Es un juego de exploración en 3D con elementos roguelike. El jugador conduce un tren que se ha quedado sin combustible y tiene que adentrarse en el bosque para conseguir carbón, recoger pasajeros y esquivar zombis antes de quedarse sin energía. Los assets procedían de las librerías de Kenney y KayKit que facilitaba la organización, y el logo y las ilustraciones de fondo los hizo Paloma, así que yo me centré en el desarrollo. Las partes más técnicas fueron un sistema de tren que sigue las vías de forma realista sin perder el control propio de un arcade y un mapa que se genera aleatoriamente en cada partida. Se puede jugar en el navegador o descargar para Windows desde itch.io.",
+      "descripcion": [
+        "Después de casi dos años sin participar en game jams, me apunté a la Kenny Jam 2025, una jam especial en la que había que usar los assets que se proporcionaban. Vi esta oportunidad como una forma de centrarme por completo en la programación.",
+        "Para este evento, el tema fue “Power”, y yo lo usé para hacer un juego sobre un tren que se queda sin combustible. En este proyecto aprendí mucho sobre splines y sobre el movimiento de cuerpos con anclajes en Unity, lo que me permitió lograr un movimiento de tren realista. Además, desarrollé un bucle jugable en el que el jugador debía tomar decisiones y recoger recursos por el camino."
+      ],
       "tecnologia": [
         "Unity",
         "C#"
@@ -219,7 +245,11 @@
       "categoria": "Unity",
       "fecha": "2026-05",
       "enCurso": true,
-      "descripcion": "Proyecto en grupo desarrollado por Hoja Studio, un equipo multidisciplinar de más de diez personas. Sigue en desarrollo y ampliación continua, y ya tiene página en Steam, aunque todavía sin fecha de lanzamiento. Es un juego de acción y aventura con vista cenital, ambientado en un mundo de fantasía donde la naturaleza se está apagando. El jugador explora un mundo interconectado, resuelve puzles de entorno y combate contra criaturas corrompidas. Mi trabajo como programador ha abarcado varios componentes: el sistema de fijación de objetivos (ZTarget) y algunos elementos de combate, las transiciones y la interfaz, y el sistema de inventario y de potenciadores. También he colaborado en los procesos de QA.",
+      "descripcion": [
+        "NILSH es un proyecto ambicioso que actualmente desarrolla Hoja Studio. Se trata de un juego de aventura y exploración ambientado en un mundo de fantasía donde la naturaleza se está apagando, y el jugador deberá averiguar qué está pasando.",
+        "Me incorporé al proyecto como programador y desde entonces trabajo codo a codo con un equipo talentoso de más de una decena de personas. Por ahora, el juego está en desarrollo y no tiene fecha de publicación.",
+        "NILSH me ha dado la oportunidad de poner a prueba todo lo que sé y de seguir aprendiendo mucho más. En mi caso, me he centrado en tareas relevantes para el gameplay, como el sistema de inventario, las interfaces o algunos elementos del sistema de combate."
+      ],
       "tecnologia": [
         "Unity",
         "C#",
