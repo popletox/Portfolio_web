@@ -156,7 +156,6 @@ Cada mérito referencia como mucho un proyecto. Compatibilidad: si falta `proyec
 
 **Enlazar un mérito con un proyecto:** pon el `id` exacto del proyecto en `proyecto` (p. ej. `"mi-juego"`); no hace falta ninguna entrada en el catálogo. Los méritos son tarjetas fijas (no se expanden): a la derecha llevan la tarjeta del proyecto con su título y primera imagen, que al pulsarla abre la ventana de detalle del proyecto sin mover la página; al cerrarla (también con el botón Atrás) se sigue en el mérito. Sin `proyecto`, no hay tarjeta y el texto ocupa todo el ancho. Además, el campo `proyecto` hace que el mérito aparezca también en el detalle de ese proyecto (franja «Reconocimiento» con título y descripción; solo cuentan los méritos con `titulo`). Citar un proyecto (por id, o con una entrada del catálogo cuyo `enlace` sea `#<id>`) hace que su tarjeta de la Línea de tiempo lleve una estrella de reconocimiento.
 
-Los datos actuales de méritos son provisionales (apuntan a `proyecto-beans-out`, `proyecto-color-switch-race` y `proyecto-fire-lunar-rush` solo para pruebas).
 
 ## Referencias
 
