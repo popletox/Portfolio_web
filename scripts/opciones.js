@@ -31,10 +31,6 @@
     terminal: [
       ['rect', { x: 2, y: 4, width: 20, height: 16, rx: 2 }],
       ['path', { d: 'M6 9l3 3-3 3M12 15h5' }]
-    ],
-    // Bocadillo de cómic: globo ovalado con pico abajo a la izquierda
-    comic: [
-      ['path', { d: 'M7.5 17.2C4.8 16 3 13.8 3 11.2 3 7.2 7 4 12 4s9 3.2 9 7.2-4 7.2-9 7.2c-.9 0-1.8-.1-2.6-.3L5 20.5z' }]
     ]
   };
 

@@ -4,12 +4,11 @@
 // (ver docs/temas.md).
 (function () {
   // Lista de temas disponibles; el selector de Opciones se genera a partir de
-  // ella. icono: 'sol' | 'luna' | 'terminal' | 'comic' (mapa de iconos en opciones.js)
+  // ella. icono: 'sol' | 'luna' | 'terminal' (mapa de iconos en opciones.js)
   var TEMAS = [
     { id: 'claro', nombre: 'Claro', icono: 'sol' },
     { id: 'oscuro', nombre: 'Oscuro', icono: 'luna' },
-    { id: 'codigo', nombre: 'Código', icono: 'terminal' },
-    { id: 'comic', nombre: 'Cómic', icono: 'comic' }
+    { id: 'codigo', nombre: 'Código', icono: 'terminal' }
   ];
   var TEMA_POR_DEFECTO = 'claro';
   var TEMA_SISTEMA_OSCURO = 'oscuro';
