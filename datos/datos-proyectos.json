@@ -289,14 +289,19 @@
       "titulo": "Portfolio web",
       "categoria": "HTML",
       "fecha": "2026-10",
-      "descripcion": "Portfolio personal publicado en GitHub Pages que desarrollé para aprender a integrar agentes de IA en un proyecto de desarrollo. Yo definí el diseño y las funcionalidades, y el código lo generó Claude Code bajo mi revisión. El trabajo se reparte entre agentes con funciones distintas: uno coordina y planifica, otro programa, otro mantiene la documentación y otro gestiona los commits, siempre con mi aprobación. La web está hecha con HTML, CSS y JavaScript sin frameworks, y su código está disponible en GitHub.",
+      "descripcion": [
+        "Para este proyecto quise aprender más sobre la integración de la IA en el desarrollo. Elegí hacer una web porque llevaba mucho tiempo queriendo crear un portfolio y me pareció algo pequeño y manejable para sacarlo adelante en poco tiempo.",
+        "Lo que comenzó siendo una web sencilla con un par de secciones acabó convirtiéndose en un portfolio con líneas de tiempo, tarjetas de proyectos y toda mi trayectoria profesional condensada en una página. Lo que estimé en un fin de semana terminó ocupando una semana y media de trabajo, pero estoy muy contento con el resultado.",
+        "Para esta web usé una red pequeña de cuatro agentes, encargados de la coordinación, la documentación, la programación y la gestión del repositorio. Puedes consultar el repositorio en GitHub para más información detallada sobre la estructura y la forma de trabajo."
+      ],
       "tecnologia": [
         "Claude Code",
         "HTML",
         "CSS",
         "JavaScript"
       ],
-      "enalces": {
+      "enlaces": {
+        "github": { "url": "https://github.com/popletox/Portfolio_web" },
         "linkedin": { "url": "[TODO] enlace publicacion de linkedin" },
         "web-generico": [{ "texto": "Ver Web", "url": "[TODO]" }]
       }
