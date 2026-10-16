@@ -11,14 +11,14 @@ Cada tema es un archivo en `estilos/temas/<id>.css` que define **todas** las var
 
 El tema inicial se elige por prioridad:
 
-1. Tema guardado y válido en `localStorage` (clave `tema`).
+1. Tema guardado y válido en `localStorage` (clave `tema`). Un tema guardado que ya no existe (p. ej. `comic`, eliminado) se ignora y cuenta como «sin elección»: se aplica el del sistema y se siguen sus cambios.
 2. `prefers-color-scheme: dark` → `oscuro`.
 3. `claro` (también si no se puede saber la preferencia).
 
 - Se aplica en el `<head>`, antes del primer pintado.
 - Mientras el visitante no haya elegido tema, la web sigue en vivo los cambios del sistema, con la misma transición que al elegir en Opciones, y actualiza `aria-pressed` y `<meta name="theme-color">`.
 - Al elegir un tema en Opciones se guarda y el sistema deja de mandar. Un indicador en memoria lo garantiza aunque `localStorage` falle.
-- No hay opción «Sistema» en el menú. Código y Cómic nunca se eligen automáticamente.
+- No hay opción «Sistema» en el menú. Código nunca se elige automáticamente.
 
 ### Cómo funciona el seguimiento
 
@@ -43,12 +43,11 @@ El tema inicial se elige por prioridad:
 | `claro` | Claro | `claro.css` | Tema de reserva; también el inicial si el sistema no prefiere oscuro. |
 | `oscuro` | Oscuro | `oscuro.css` | Provisional: fondo gris muy oscuro, texto claro y acento azul claro. |
 | `codigo` | Código | `codigo.css` | Provisional: apariencia de editor oscuro, fuente monoespaciada y un color para títulos, fechas, subtítulos (tecnologías) y enlaces. |
-| `comic` | Cómic | `comic.css` | Provisional: copia de Claro, pendiente de diseño. |
 
 ## Cómo añadir un tema
 
 1. Crea `estilos/temas/<id>.css` con el selector `:root[data-tema="<id>"]`, `color-scheme` y **todas** las variables de la tabla de abajo (lo más fácil es copiar `oscuro.css`).
-2. Añade una entrada a `TEMAS` en `scripts/temas.js`: `{ id: '<id>', nombre: 'Nombre visible', icono: 'sol' | 'luna' | 'terminal' | 'comic' }`. Para un icono nuevo, añádelo al mapa `ICONOS` de `scripts/opciones.js`.
+2. Añade una entrada a `TEMAS` en `scripts/temas.js`: `{ id: '<id>', nombre: 'Nombre visible', icono: 'sol' | 'luna' | 'terminal' }`. Para un icono nuevo, añádelo al mapa `ICONOS` de `scripts/opciones.js`.
 3. Enlaza el CSS en `index.html`, después de `claro.css`.
 
 ## Variables obligatorias
@@ -60,8 +59,8 @@ El tema inicial se elige por prioridad:
 | `--color-fondo-suave` | Fondo de títulos de sección (y de la sección entera cuando está abierta), botones de contacto y de Opciones, pie y franja de la Línea de tiempo (entra y sale con un degradado desde y hacia `--color-fondo`); fondo de los años del eje de la Línea de tiempo (tapa los conectores que pasan por debajo). |
 | `--color-fondo-suave-hover` | Hover sobre `--color-fondo-suave` (títulos de sección, filtros, títulos de entradas y tarjetas de Referencias y de Proyectos) y sobre los temas y el interruptor Efectos del bocadillo de Opciones. |
 | `--color-panel` | Fondo del panel destacado y de su botón-pestaña (forman una sola pieza). Debe distinguirse de `--color-fondo`. |
-| `--color-fondo-enlaces` | Fondo de la región de enlaces y de la franja de reconocimiento del detalle de proyecto. Debe distinguirse de `--color-fondo`. Claro `#e3e7ed`, Oscuro `#2b2f33`, Código `#333337`, Cómic `#e3e7ed` (copia de Claro). |
-| `--color-boton-enlaces-hover` | Fondo al pasar el ratón de todos los botones redondos de icono (cabecera, región de enlaces, Compartir y Cerrar del detalle y Cerrar del visor), a través de `--boton-redondo-fondo-hover`. Claro `#d3d9e1`, Oscuro `#3a3f44`, Código `#3c3c3c`, Cómic `#d3d9e1` (copia de Claro). |
+| `--color-fondo-enlaces` | Fondo de la región de enlaces y de la franja de reconocimiento del detalle de proyecto. Debe distinguirse de `--color-fondo`. Claro `#e3e7ed`, Oscuro `#2b2f33`, Código `#333337`. |
+| `--color-boton-enlaces-hover` | Fondo al pasar el ratón de todos los botones redondos de icono (cabecera, región de enlaces, Compartir y Cerrar del detalle y Cerrar del visor), a través de `--boton-redondo-fondo-hover`. Claro `#d3d9e1`, Oscuro `#3a3f44`, Código `#3c3c3c`. |
 | `--color-texto` | Texto principal; marcas de año del eje y nombres de estudios y experiencias de la Línea de tiempo. |
 | `--color-texto-suave` | Texto secundario: introducción, subtítulo de la cabecera, flechas, separadores, título del bocadillo de Opciones, círculo del interruptor Efectos apagado; línea, marcas de mes, barra de scroll y conectores de las tarjetas de proyectos de la Línea de tiempo. |
 | `--color-titulo` | Nombre de la cabecera, títulos de sección, de entradas y del panel destacado (en Claro, igual que `--color-texto`). |

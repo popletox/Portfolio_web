@@ -59,15 +59,13 @@ Cómo mantenerlo:
 
 Puntos abiertos del [documento de diseño](diseno-portfolio.md).
 
-- [ ] **P20 · Hacer**: diseño propio del tema Cómic (ahora es una copia de Claro).
-  - Al hacerlo, revisar `--color-fondo-enlaces` y `--color-boton-enlaces-hover`.
 - [ ] **P21 · Hacer**: "Efectos divertidos" (interruptor en Opciones y animaciones de los títulos).
   - 2026-10-16: interruptor hecho (`scripts/efectos.js`) y estado inicial decidido: apagado. Pendientes: las animaciones de los títulos y cómo se activan en táctil.
 - [ ] **P22 · Decidir**: panel Destacado en móvil fijo abajo o al final del documento.
 - [ ] **P24 · Decidir**: versión en inglés.
 - [ ] **P25 · Decidir**: alinear la introducción con el borde de las cajas de sección (actual) o con el texto de dentro.
-- [ ] **P43 · Revisar**: los cambios sobre la sombra del Panel destacado y su botón-pestaña se juntaron con la Línea de tiempo durante una fusión automática: sombra animada del panel, botón de color sólido (`--color-panel`) unido al panel como una sola pieza (filo, `drop-shadow` y `clip-path`), variables de tema nuevas (`--color-enlace-panel`, `--color-borde-boton-panel`, `--color-sombra-panel`, `--desenfoque-sombra-panel`; se quita `--color-boton-panel`), `--color-panel` más oscuro en Claro y Cómic y `docs/temas.md` actualizado. Falta probarlos en los 4 temas y en móvil.
-- [ ] **P49 · Hacer** (añadido 2026-10-15): añadir iconos SVG a los botones de tema (Claro, Oscuro, Código, Cómic) del menú Opciones, que ahora no tienen SVG. Petición del usuario.
+- [ ] **P43 · Revisar**: los cambios sobre la sombra del Panel destacado y su botón-pestaña se juntaron con la Línea de tiempo durante una fusión automática: sombra animada del panel, botón de color sólido (`--color-panel`) unido al panel como una sola pieza (filo, `drop-shadow` y `clip-path`), variables de tema nuevas (`--color-enlace-panel`, `--color-borde-boton-panel`, `--color-sombra-panel`, `--desenfoque-sombra-panel`; se quita `--color-boton-panel`), `--color-panel` más oscuro en Claro (y en el tema Cómic, eliminado el 2026-10-16) y `docs/temas.md` actualizado. Falta probarlos en los 3 temas actuales y en móvil.
+- [ ] **P49 · Hacer** (añadido 2026-10-15): añadir iconos SVG a los botones de tema (Claro, Oscuro, Código) del menú Opciones, que ahora no tienen SVG. Petición del usuario.
 
 ## Publicación e infraestructura
 
@@ -84,6 +82,8 @@ Puntos abiertos del [documento de diseño](diseno-portfolio.md).
 
 ## Hechos
 
+- [x] **P20 · Hacer** (descartado 2026-10-16): diseño propio del tema Cómic.
+  - Nota: el tema Cómic se ha eliminado por decisión del usuario (quedan Claro, Oscuro y Código). Los puntos históricos que hablan de «4 temas» o de Cómic (P48, P50) se refieren al estado anterior.
 - [x] **P06 · Decidir** (2026-10-16): arrastrar con el ratón o un "slider" visible para desplazar la Línea de tiempo.
   - Decisión: arrastre con el ratón, sin slider visible. Ver [`diseno-portfolio.md`](diseno-portfolio.md).
 - [x] **P55 · Hacer** (2026-10-16): blindar las llamadas a `window.matchMedia` de `main.js` y `opciones.js`.
