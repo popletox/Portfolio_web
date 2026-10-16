@@ -153,12 +153,13 @@ img {
      halo superior por la que llega nítido el conector propio */
   --alto-halo-tarjeta-cronologia: 0.375rem;
   --ranura-halo-tarjeta-cronologia: 5px;
-  /* Estrella de los proyectos con mérito: diámetro de la insignia y cuánto
+  /* Estrella de las tarjetas de proyectos con mérito (Proyectos,
+     Referencias y Línea de tiempo): diámetro de la insignia y cuánto
      sobresale de la esquina superior derecha de la tarjeta (menos que
-     --hueco-tarjeta-cronologia y --separacion-filas-proyectos-cronologia,
-     para no tocar otra tarjeta) */
-  --tamano-estrella-cronologia: 1.375rem;
-  --salida-estrella-cronologia: 0.4rem;
+     --hueco-tarjeta-cronologia, --separacion-filas-proyectos-cronologia y
+     --hueco-referencias, para no tocar otra tarjeta) */
+  --tamano-estrella-tarjeta: 1.375rem;
+  --salida-estrella-tarjeta: 0.4rem;
   /* Hueco con el fondo de página entre la Línea de tiempo y el pie */
   --separacion-cronologia-pie: 2.75rem;
 }
@@ -1286,14 +1287,14 @@ body.detalle-abierto {
   color: var(--color-titulo);
 }
 
-/* Estrella como la de la Línea de tiempo (.cronologia-estrella), en línea */
+/* Estrella como la de las tarjetas (.tarjeta-estrella), en línea */
 .detalle-proyecto-premio-estrella {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: var(--tamano-estrella-cronologia);
-  height: var(--tamano-estrella-cronologia);
+  width: var(--tamano-estrella-tarjeta);
+  height: var(--tamano-estrella-tarjeta);
   border-radius: 50%;
   background: var(--color-fondo-estrella);
   color: var(--color-estrella);
@@ -1436,6 +1437,11 @@ body.detalle-abierto {
 .linea-tiempo-detalle-interior {
   min-height: 0;
   overflow: hidden;
+  /* El recorte llega un poco más a la derecha (mismo ancho de contenido):
+     así no corta la estrella de una tarjeta de Referencias de la última
+     columna (.tarjeta-estrella) */
+  margin-right: calc(-1 * var(--salida-estrella-tarjeta));
+  padding-right: var(--salida-estrella-tarjeta);
 }
 
 .linea-tiempo .linea-tiempo-descripcion {
@@ -1565,7 +1571,52 @@ button.proyecto-tarjeta:focus-visible {
   background: var(--color-fondo-imagen);
 }
 
-/* Proyectos: bandas por año. Cada banda empieza con una línea horizontal
+/* Proyectos: bandas por año.
+/* Tarjetas de proyectos con mérito (Proyectos, Referencias de Experiencia
+   y Estudios y Línea de tiempo; no la de dentro de un mérito): la tarjeta
+   deja sobresalir la estrella (la imagen recorta ella misma sus esquinas
+   inferiores) y el título le deja sitio (mismo alto: no cambia el tamaño
+   de la tarjeta ni las filas). Doble clase para ganar a los paddings de
+   los títulos de la Línea de tiempo y de las vistas estrechas */
+.referencia-tarjeta--merito {
+  position: relative;
+  overflow: visible;
+}
+
+.referencia-tarjeta--merito .referencia-imagen {
+  overflow: hidden;
+  border-radius: 0 0 var(--radio-medio) var(--radio-medio);
+}
+
+.referencia-tarjeta.referencia-tarjeta--merito .referencia-titulo {
+  padding-right: calc(var(--tamano-estrella-tarjeta) - var(--salida-estrella-tarjeta));
+}
+
+/* Insignia decorativa, sin acción: es parte del botón o enlace, así que
+   pulsarla abre la ventana como el resto de la tarjeta; sin tooltip (los
+   méritos van en el aria-label de la tarjeta) */
+.tarjeta-estrella {
+  position: absolute;
+  top: calc(-1 * var(--salida-estrella-tarjeta));
+  right: calc(-1 * var(--salida-estrella-tarjeta));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--tamano-estrella-tarjeta);
+  height: var(--tamano-estrella-tarjeta);
+  border-radius: 50%;
+  background: var(--color-fondo-estrella);
+  box-shadow: 0 1px 3px var(--color-sombra);
+  color: var(--color-estrella);
+}
+
+.tarjeta-estrella svg {
+  display: block;
+  width: 72%;
+  height: 72%;
+  fill: currentColor;
+}
+ Cada banda empieza con una línea horizontal
    con la etiqueta (año o "Actual") a la izquierda, que hace de encabezado,
    y debajo, muy pegadas, sus tarjetas. Entre el final de una banda y la
    línea siguiente queda más espacio.
@@ -2114,47 +2165,6 @@ button.proyecto-tarjeta {
    acaso): solo el título (alto de dos líneas) y la categoría */
 .proyecto-tarjeta--compacta .referencia-imagen {
   display: none;
-}
-
-/* Proyectos con mérito: la tarjeta deja sobresalir la estrella (la imagen
-   recorta ella misma sus esquinas inferiores) y el título le deja sitio
-   (mismo alto: no cambia el tamaño de la tarjeta ni las filas) */
-.proyecto-tarjeta--merito {
-  overflow: visible;
-}
-
-.proyecto-tarjeta--merito .referencia-imagen {
-  overflow: hidden;
-  border-radius: 0 0 var(--radio-medio) var(--radio-medio);
-}
-
-.proyecto-tarjeta--cronologia.proyecto-tarjeta--merito .proyecto-tarjeta-titulo {
-  padding-right: calc(var(--tamano-estrella-cronologia) - var(--salida-estrella-cronologia));
-}
-
-/* Insignia decorativa, sin acción: es parte del botón, así que pulsarla
-   abre la ventana como el resto de la tarjeta; sin tooltip (los méritos
-   van en el aria-label de la tarjeta) */
-.cronologia-estrella {
-  position: absolute;
-  top: calc(-1 * var(--salida-estrella-cronologia));
-  right: calc(-1 * var(--salida-estrella-cronologia));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--tamano-estrella-cronologia);
-  height: var(--tamano-estrella-cronologia);
-  border-radius: 50%;
-  background: var(--color-fondo-estrella);
-  box-shadow: 0 1px 3px var(--color-sombra);
-  color: var(--color-estrella);
-}
-
-.cronologia-estrella svg {
-  display: block;
-  width: 72%;
-  height: 72%;
-  fill: currentColor;
 }
 
 /* Oculto a la vista, legible por lector de pantalla */
@@ -2916,8 +2926,8 @@ body.panel-abierto .boton-destacado-flecha {
     --ancho-tarjeta-cronologia: 5.5rem;
     --separacion-filas-proyectos-cronologia: 0.5rem;
     --alto-halo-tarjeta-cronologia: 0.25rem;
-    --tamano-estrella-cronologia: 1.125rem;
-    --salida-estrella-cronologia: 0.35rem;
+    --tamano-estrella-tarjeta: 1.125rem;
+    --salida-estrella-tarjeta: 0.35rem;
   }
 
   .proyecto-tarjeta--cronologia .proyecto-tarjeta-titulo {

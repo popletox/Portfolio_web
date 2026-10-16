@@ -198,8 +198,12 @@
   // Tarjeta: título arriba e imagen (o rectángulo provisional) debajo.
   // Con enlace válido es un <a>: si apunta a un proyecto, main.js abre su
   // ventana de detalle; http(s), pestaña nueva.
-  // Sin enlace es un <div> no interactivo
-  function crearTarjetaReferencia(referencia) {
+  // Sin enlace es un <div> no interactivo.
+  // Si lleva a un proyecto con méritos, lleva la estrella (marcarTarjetaMerito)
+  // salvo con opciones.sinEstrella (la tarjeta dentro de un mérito, donde
+  // sería redundante)
+  function crearTarjetaReferencia(referencia, opciones) {
+    var sinEstrella = !!(opciones && opciones.sinEstrella);
     var url = typeof referencia.enlace === 'string' ? referencia.enlace.trim() : '';
     var tarjeta;
     if (esUrlSegura(url)) {
@@ -218,6 +222,10 @@
     }
     tarjeta.appendChild(crear('span', 'referencia-titulo', referencia.titulo));
     tarjeta.appendChild(crearImagenTarjeta(referencia.img, referencia.alt));
+    if (!sinEstrella && marcarTarjetaMerito(tarjeta, referencia.idProyecto) &&
+        tarjeta.hasAttribute('aria-label')) {
+      tarjeta.setAttribute('aria-label', referencia.titulo + etiquetaMeritos(referencia.idProyecto));
+    }
 
     var li = crear('li');
     li.appendChild(tarjeta);
@@ -395,9 +403,43 @@
       tarjeta.appendChild(crear('span', 'proyecto-tarjeta-categoria', proyecto.categoria));
     }
     tarjeta.appendChild(crearImagenTarjeta(referencia.img, referencia.alt));
+    if (marcarTarjetaMerito(tarjeta, proyecto.id)) {
+      tarjeta.setAttribute('aria-label', tarjeta.getAttribute('aria-label') + etiquetaMeritos(proyecto.id));
+    }
     var li = crear('li');
     li.appendChild(tarjeta);
     return li;
+  }
+
+  // Títulos (sin repetir) de los méritos de un proyecto
+  function titulosMeritos(id) {
+    var titulos = [];
+    meritosDeProyecto(id).forEach(function (merito) {
+      if (titulos.indexOf(merito.titulo) === -1) titulos.push(merito.titulo);
+    });
+    return titulos;
+  }
+
+  // Lo que se añade al aria-label de una tarjeta de un proyecto con méritos
+  // ('' si no tiene)
+  function etiquetaMeritos(id) {
+    var titulos = titulosMeritos(id);
+    if (!titulos.length) return '';
+    return titulos.length === 1
+      ? ', con reconocimiento: ' + titulos[0]
+      : ', con ' + titulos.length + ' reconocimientos: ' + titulos.join(', ');
+  }
+
+  // Si el proyecto tiene méritos, añade a la tarjeta la clase
+  // --merito y la estrella decorativa de la esquina (sin acción ni
+  // tooltip: los méritos van en el aria-label, etiquetaMeritos). Devuelve
+  // si la ha marcado. La usan las tarjetas de Proyectos, de Referencias y
+  // de la Línea de tiempo (que reutiliza crearTarjetaProyecto)
+  function marcarTarjetaMerito(tarjeta, id) {
+    if (!titulosMeritos(id).length) return false;
+    tarjeta.classList.add('referencia-tarjeta--merito');
+    tarjeta.appendChild(crearIconoEstrella('tarjeta-estrella'));
+    return true;
   }
 
   // ---- Proyectos: ventana de detalle ----
@@ -738,7 +780,8 @@
     var referencias = referencia ? resolverReferencias([referencia], contexto) : [];
     if (referencias.length) {
       var proyecto = crear('div', 'merito-proyecto');
-      proyecto.appendChild(crearTarjetaReferencia(referencias[0]).firstChild);
+      // Sin estrella: la tarjeta ya está dentro de su mérito
+      proyecto.appendChild(crearTarjetaReferencia(referencias[0], { sinEstrella: true }).firstChild);
       cuerpo.appendChild(proyecto);
     }
     entrada.appendChild(cuerpo);
@@ -824,8 +867,10 @@
   // idProyectoDeReferencia: id del proyecto al que lleva un id de referencia
   // de los datos cargados, o null, e idProyectoDeMerito: lo mismo con el
   // proyecto de un mérito, meritosDeProyecto: méritos de un proyecto por id
-  // (lista vacía si no tiene) y crearIconoEstrella: estrella decorativa con
-  // una clase (los usa la Línea de tiempo, scripts/linea-tiempo.js).
+  // (lista vacía si no tiene), etiquetaMeritos: texto para el aria-label
+  // de una tarjeta con méritos ('' si no tiene) y crearIconoEstrella:
+  // estrella decorativa con una clase (los usa la Línea de tiempo,
+  // scripts/linea-tiempo.js).
   // main.js añade abrirDetalle y urlDetalle
   window.Proyectos = {
     montar: montarBandasProyectos,
@@ -839,6 +884,7 @@
       return proyecto ? proyecto.id : null;
     },
     meritosDeProyecto: meritosDeProyecto,
+    etiquetaMeritos: etiquetaMeritos,
     crearIconoEstrella: crearIconoEstrella,
     tarjeta: function (id) {
       return typeof id === 'string' && Object.prototype.hasOwnProperty.call(tarjetasPorId, id)

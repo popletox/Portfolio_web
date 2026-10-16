@@ -51,8 +51,8 @@
   --color-periodo-estudio: #1967d2;
   --color-periodo-experiencia: #d93025;
 
-  /* Línea de tiempo horizontal: estrella de los proyectos con mérito y su
-     fondo circular */
+  /* Estrella de las tarjetas de proyectos con mérito (Proyectos,
+     Referencias y Línea de tiempo) y del detalle, y su fondo circular */
   --color-estrella: #b47b00;
   --color-fondo-estrella: #fff4d1;
 

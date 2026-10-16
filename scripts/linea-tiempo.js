@@ -297,40 +297,6 @@
     return partes.join(', ');
   }
 
-  // Méritos por proyecto: { idProyecto: [títulos] } (solo los proyectos con
-  // alguno), a partir del mapa que calcula la sección (window.Proyectos.
-  // meritosDeProyecto: un mérito cuenta para el proyecto al que lleva su
-  // campo "proyecto"; los méritos sin proyecto no cuentan)
-  function meritosPorProyecto(datos) {
-    var mapa = {};
-    var deProyecto = window.Proyectos && window.Proyectos.meritosDeProyecto;
-    if (typeof deProyecto !== 'function') return mapa;
-    (Array.isArray(datos.proyectos) ? datos.proyectos : []).forEach(function (proyecto) {
-      if (!proyecto || typeof proyecto.id !== 'string') return;
-      var titulos = [];
-      deProyecto(proyecto.id).forEach(function (merito) {
-        if (titulos.indexOf(merito.titulo) === -1) titulos.push(merito.titulo);
-      });
-      if (titulos.length) mapa[proyecto.id] = titulos;
-    });
-    return mapa;
-  }
-
-  // Estrella decorativa (sin acción ni tooltip) en la esquina de la tarjeta:
-  // solo marca visual; los méritos van en el aria-label de la tarjeta
-  // (etiquetaMeritos). Va dentro del botón: pulsarla abre la ventana. El
-  // SVG es el común (window.Proyectos.crearIconoEstrella)
-  function crearEstrella() {
-    return window.Proyectos.crearIconoEstrella('cronologia-estrella');
-  }
-
-  // Lo que se añade al aria-label de una tarjeta con méritos
-  function etiquetaMeritos(titulos) {
-    return titulos.length === 1
-      ? ', con reconocimiento: ' + titulos[0]
-      : ', con ' + titulos.length + ' reconocimientos: ' + titulos.join(', ');
-  }
-
   // Una tarjeta por proyecto (todos: los filtros de la sección Proyectos no
   // cuentan), creada con la función de la sección (window.Proyectos.
   // crearTarjeta) más la clase --cronologia, en la marca del mes de su
@@ -338,13 +304,13 @@
   // ascendente y, en el mismo mes, el del JSON (también el del Tab). Al
   // pulsarla, main.js abre la ventana por delegación (button.proyecto-
   // tarjeta[data-proyecto]) con el foco de vuelta en esta tarjeta. Los
-  // proyectos con algún mérito llevan una estrella (crearEstrella). En un
+  // proyectos con algún mérito traen ya la estrella de crearTarjeta y su
+  // aria-label añade los reconocimientos (window.Proyectos.etiquetaMeritos). En un
   // mes con MIN_PROYECTOS_COMPACTAS o más proyectos, todos llevan la
   // tarjeta compacta (--compacta: sin imagen, solo título y categoría; mismo botón y
   // aria-label)
   function montarProyectos(datos) {
     proyectos = [];
-    var meritos = meritosPorProyecto(datos);
     var crearTarjeta = window.Proyectos && window.Proyectos.crearTarjeta;
     var validos = [];
     if (typeof crearTarjeta === 'function') {
@@ -387,13 +353,8 @@
         if (imagen) tarjeta.removeChild(imagen);
       }
       var etiqueta = etiquetaProyecto(item.proyecto);
-      var titulos = Object.prototype.hasOwnProperty.call(meritos, item.proyecto.id)
-        ? meritos[item.proyecto.id]
-        : null;
-      if (titulos) {
-        tarjeta.classList.add('proyecto-tarjeta--merito');
-        tarjeta.appendChild(crearEstrella());
-        etiqueta += etiquetaMeritos(titulos);
+      if (typeof window.Proyectos.etiquetaMeritos === 'function') {
+        etiqueta += window.Proyectos.etiquetaMeritos(item.proyecto.id);
       }
       tarjeta.setAttribute('aria-label', etiqueta);
       nodo.insertBefore(crear('span', 'cronologia-proyecto-conector'), tarjeta);
