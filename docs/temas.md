@@ -88,6 +88,7 @@ El tema inicial se elige por prioridad:
 | `--color-boton-panel-texto` | Flecha del botón-pestaña, sobre `--color-panel` (contraste ≥ 3:1; normalmente `var(--color-texto-suave)`). |
 | `--color-borde-boton-panel` | Filo de 1px del botón-pestaña con el panel cerrado, para distinguirlo de la página; también el borde de la región de enlaces y de la franja de reconocimiento del detalle de proyecto. |
 | `--color-sombra-panel` | Sombra del panel destacado (solo abierto) y de su botón-pestaña, proyectada hacia la página para que parezcan por encima. Semitransparente; en temas oscuros, más opaca (p. ej. 0.6) para que se note. |
+| `--filtro-logo-aclarado` | Filtro CSS de los logos de empresa de Experiencia con `logoAclararEnOscuro` (clase `.linea-tiempo-logo--aclarar-oscuro`). Claro `none`, Oscuro `brightness(0) invert(0.9)`, Código `brightness(0) invert(0.83)`. Si un tema no la define, se usa `none`. Se aplica también cuando el tema viene de `prefers-color-scheme`, porque `temas.js` pone `data-tema` en `<html>`. |
 | `--desenfoque-sombra-panel` | Desenfoque de esa sombra (p. ej. `16px` en claros, algo más en oscuros). No pasar de unos `40px`: el botón recorta su sombra a `--margen-sombra-panel` (4rem, en `comun.css`). |
 
 ## Excepción: `--color-fondo-imagen`
@@ -95,6 +96,8 @@ El tema inicial se elige por prioridad:
 `--color-fondo-imagen` (`#141414`, casi negro, no `#000`) es la única variable `--color-*` que NO se define en los temas: está fija en el `:root` de `estilos/comun.css` y es igual en todos. Es el fondo sobre el que se ven las zonas transparentes de las imágenes de proyecto (p. ej. un logo con fondo transparente) en miniaturas, tarjetas de Referencias, panel Destacado y visor; así el aspecto no depende del tema. No hay que añadirla a un tema nuevo.
 
 `--margen-derecho-detalle-tiempo` también está solo en `estilos/comun.css` (no es de tema): margen fijo entre el contenido desplegado de las entradas de la línea de tiempo y el borde derecho de la sección (`calc(var(--espacio) * 1.25)`; `1rem` en `max-width: 768px`). No hay que añadirla a un tema nuevo.
+
+`--alto-logo-tiempo` (2.5rem en escritorio, 1.75rem en `max-width: 768px`) y `--separacion-logo-tiempo` (0.375rem en escritorio, 0.25rem en móvil) también están solo en `estilos/comun.css` (no son de tema): alto máximo del logo de empresa en las entradas de Experiencia y `margin-top` del logo respecto a la fecha. No hay que añadirlas a un tema nuevo.
 
 ## Botones redondos de icono
 

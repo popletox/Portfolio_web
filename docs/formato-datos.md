@@ -60,6 +60,12 @@ Una vez fusionados los archivos, el contenido equivale a este objeto:
 | `descripcion` | Sí | String o array de strings. |
 | `aptitudes` | Sí | Array de strings. |
 | `referencias` | No | Array de ids de proyectos de la sección Proyectos o del catálogo `referencias` (ver más abajo), p. ej. `["mi-juego", "proyecto-cliente"]`. |
+| `logo` | No | Logo de la empresa, p. ej. `"recursos/Logos/getronics-logo.webp"`. Ruta relativa o `http(s)://` (se valida igual que las imágenes: otra ruta se ignora). Se muestra debajo de las fechas en la línea de tiempo de la sección. Es decorativo (`alt=""`, carga diferida); si falla al cargar, se quita y la entrada se ve como una sin logo. |
+| `logoAclararEnOscuro` | No | `true` para aclarar el logo en los temas oscuros (útil para logos oscuros sobre fondo transparente). Sin la clave (o con `false`), el logo se ve tal cual en todos los temas. De momento solo lo usa Hoja Studio. |
+
+Los logos de empresa se guardan en `recursos/Logos/` (WebP). La altura máxima del logo es de 2.5rem en ordenador y fija de 1.75rem en móvil; se escala sin deformarse. Detalle visual en [`diseno-portfolio.md`](diseno-portfolio.md).
+
+Estudios aún no usa estos campos, pero la función que genera las entradas (`crearEntradaRango` en `scripts/contenido.js`) ya los admite. Para activarlos en Estudios, hay que añadir el campo en su JSON y pasar `logo` y `logoAclararEnOscuro` en `montarEstudios`.
 
 ## Estudios
 

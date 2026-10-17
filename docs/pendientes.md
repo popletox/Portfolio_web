@@ -28,6 +28,10 @@ Cómo mantenerlo:
 - [ ] **P39 · Decidir**: cómo evitar que los textos se pisen si coinciden 3 o más estudios o experiencias (caso poco probable).
   - Relacionado con P38.
 
+## Logos de empresa
+
+- [ ] **P59 · Decidir** (no urgente, añadido 2026-10-17): valorar logos de institución en Estudios. `crearEntradaRango` ya admite `logo` y `logoAclararEnOscuro`; faltaría el campo en `datos/datos-estudios.json` y pasarlos en `montarEstudios`.
+
 ## Proyectos y ventana de detalle
 
 - [ ] **P08 · Decidir**: pausar el carrusel del Destacado mientras la ventana de detalle está abierta.
@@ -73,7 +77,6 @@ Puntos abiertos del [documento de diseño](diseno-portfolio.md).
 - [ ] **P26 · Hacer**: activar GitHub Pages (Settings → Pages → rama `main`, carpeta raíz) y comprobar la web publicada en https://popletox.github.io/Portfolio_web/ (rutas relativas, carga del JSON).
 - [ ] **P27 · Revisar** (tras publicar): menú de compartir en móvil (requiere HTTPS), Safari, Firefox y lector de pantalla.
 - [ ] **P28 · Hacer**: añadir reglas al [`.gitignore`](../.gitignore) (ahora vacío): `.env`, `node_modules/`, logs y archivos del sistema (`Thumbs.db`, `.DS_Store`).
-- [ ] **P29 · Hacer**: corregir [`docs/estructura-proyecto.md`](estructura-proyecto.md), que menciona la carpeta `recursos/` aunque aún no existe.
 
 ## Limpieza menor
 
@@ -83,6 +86,10 @@ Puntos abiertos del [documento de diseño](diseno-portfolio.md).
 
 ## Hechos
 
+- [x] **P58 · Hacer** (2026-10-17): recortar el logo de Playoffnations (`recursos/Logos/playoffnations-logo.webp`), que se veía pequeño por el margen transparente.
+  - Nota: recortado por el usuario con un editor.
+- [x] **P29 · Hacer** (2026-10-17): corregir [`docs/estructura-proyecto.md`](estructura-proyecto.md), que decía que `recursos/` aún no existía.
+  - Nota: la carpeta `recursos/` ya existe (`Documentos/`, `Iconos/`, `Imagenes/` y `Logos/`) y el documento la describe correctamente; no quedaba nada más por hacer.
 - [x] **P09 · Revisar** (2026-10-16): el bocadillo "Enlace copiado" sale debajo del botón en proyectos largos y en móvil.
   - Nota: revisado por el usuario y dado por bueno, sin cambios de código.
 - [x] **P56 · Revisar** (2026-10-16): enlaces de ejemplo del primer destacado de `datos/datos-destacados.json`.
