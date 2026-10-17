@@ -23,6 +23,8 @@
   --color-titulo: #569cd6;
   --color-fecha: #ce9178;
   --color-subtitulo: #c586c0;
+  /* Filtro de los logos con "logoAclararEnOscuro": silueta en el tono de --color-texto (#d4d4d4) */
+  --filtro-logo-aclarado: brightness(0) invert(0.83);
 
   /* Acento, enlaces y foco */
   --color-acento: #4ec9b0;

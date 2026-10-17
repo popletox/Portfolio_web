@@ -273,12 +273,46 @@
   }
 
   // Entrada de línea de tiempo con fechas de rango (Experiencia, Estudios)
-  // datos: { idDetalle, titulo, subtitulo, fechaInicio, fechaFin, descripcion, tecnologia, aptitudes, referencias }
+  // datos: { idDetalle, titulo, subtitulo, fechaInicio, fechaFin, descripcion, tecnologia, aptitudes, referencias, logo, logoAclararEnOscuro }
+  // datos.logo (ruta de imagen) es opcional: si es válida, fecha y logo van
+  // juntos en un contenedor (.linea-tiempo-lateral) que ocupa la celda de la
+  // fecha, con el logo en el flujo normal debajo de la fecha (ocupe esta una
+  // línea o varias). datos.logoAclararEnOscuro (true) lo pasa a silueta clara
+  // en los temas oscuros (logos oscuros transparentes)
   function crearEntradaRango(datos) {
     var entrada = crear('li', 'linea-tiempo-entrada');
-    entrada.appendChild(crearFechaRango(datos.fechaInicio, datos.fechaFin));
+    var fecha = crearFechaRango(datos.fechaInicio, datos.fechaFin);
+    var logo = crearLogoEntrada(datos.logo, entrada, datos.logoAclararEnOscuro === true);
+    if (logo) {
+      var lateral = crear('div', 'linea-tiempo-lateral');
+      lateral.appendChild(fecha);
+      lateral.appendChild(logo);
+      entrada.appendChild(lateral);
+    } else {
+      entrada.appendChild(fecha);
+    }
     entrada.appendChild(crearCuerpo(datos));
     return entrada;
+  }
+
+  // Logo decorativo de la entrada (el nombre ya va en el subtítulo, alt
+  // vacío). Marca la entrada con --con-logo (en móvil baja el título y el
+  // punto); si la imagen no carga, se quita el logo y la marca para que la
+  // entrada quede como sin logo. Devuelve null si la ruta no es válida.
+  function crearLogoEntrada(ruta, entrada, aclararEnOscuro) {
+    if (!esRutaImagenSegura(ruta)) return null;
+    var img = crear('img', 'linea-tiempo-logo');
+    if (aclararEnOscuro) img.classList.add('linea-tiempo-logo--aclarar-oscuro');
+    img.src = ruta.trim();
+    img.alt = '';
+    img.loading = 'lazy';
+    img.decoding = 'async';
+    img.addEventListener('error', function () {
+      img.remove();
+      entrada.classList.remove('linea-tiempo-entrada--con-logo');
+    });
+    entrada.classList.add('linea-tiempo-entrada--con-logo');
+    return img;
   }
 
   // Separador tras la descripción (detalle de proyecto y entradas de la
@@ -836,7 +870,9 @@
         fechaFin: item.fechaFin,
         descripcion: item.descripcion,
         aptitudes: item.aptitudes,
-        referencias: crearReferencias(item.referencias, contexto)
+        referencias: crearReferencias(item.referencias, contexto),
+        logo: item.logo,
+        logoAclararEnOscuro: item.logoAclararEnOscuro
       });
     });
     lista.replaceChildren.apply(lista, entradas);

@@ -24,6 +24,8 @@
   --color-titulo: var(--color-texto);
   --color-fecha: var(--color-texto-suave);
   --color-subtitulo: var(--color-texto-suave);
+  /* Filtro de los logos con "logoAclararEnOscuro": tema claro: el logo se ve con sus colores */
+  --filtro-logo-aclarado: none;
 
   /* Acento, enlaces y foco */
   --color-acento: #1a73e8;

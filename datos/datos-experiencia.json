@@ -3,6 +3,7 @@
     {
       "puesto": "Técnico Desarrollo y Soporte de Aplicaciones",
       "empresa": "Getronics",
+      "logo": "recursos/Logos/getronics-logo.webp",
       "fechaInicio": "2026-09",
       "fechaFin": null,
       "descripcion": [
@@ -19,6 +20,8 @@
     {
       "puesto": "Desarrollador de videojuegos",
       "empresa": "Hoja Studio",
+      "logo": "recursos/Logos/hoja_studio-logo.webp",
+      "logoAclararEnOscuro": true,
       "fechaInicio": "2026-05",
       "fechaFin": null,
       "descripcion": [
@@ -37,6 +40,7 @@
     {
       "puesto": "QA Tester de videojuegos (testing funcional)",
       "empresa": "Universally Speaking",
+      "logo": "recursos/Logos/universally-speaking-logo.webp",
       "fechaInicio": "2026-05",
       "fechaFin": "2026-06",
       "descripcion": [
@@ -52,6 +56,7 @@
     {
       "puesto": "Desarrollador jefe de proyectos",
       "empresa": "Playoffnations",
+      "logo": "recursos/Logos/playoffnations-logo.webp",
       "fechaInicio": "2024-12",
       "fechaFin": "2025-10",
       "descripcion": [
@@ -71,6 +76,7 @@
     {
       "puesto": "Desarrollador de videojuegos",
       "empresa": "Playoffnations",
+      "logo": "recursos/Logos/playoffnations-logo.webp",
       "fechaInicio": "2023-10",
       "fechaFin": "2024-12",
       "descripcion": [
@@ -97,6 +103,7 @@
     {
       "puesto": "Desarrollador de software",
       "empresa": "Smokey Tauki Games",
+      "logo": "recursos/Logos/smokei-tanuki-logo.webp",
       "fechaInicio": "2023-01",
       "fechaFin": "2023-07",
       "descripcion": [

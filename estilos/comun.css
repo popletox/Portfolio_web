@@ -73,6 +73,9 @@ img {
   --alto-linea-titulo: 1.75rem;
   --separacion-entradas: 2.25rem;
   --hueco-columnas-tiempo: 0.75rem;
+  /* Logo de empresa bajo la fecha: alto máximo y separación con la fecha */
+  --alto-logo-tiempo: 2.5rem;
+  --separacion-logo-tiempo: 0.375rem;
   /* Tarjetas de Referencias: ancho mínimo de columna y separación */
   --ancho-min-referencia: 8rem;
   --hueco-referencias: 0.75rem;
@@ -827,6 +830,51 @@ main {
   overflow: hidden;
   clip-path: inset(50%);
   white-space: nowrap;
+}
+
+/* Fecha + logo de empresa (opcional): columna flex en la celda de la fecha;
+   el logo va en el flujo normal justo debajo de la fecha, ocupe esta una
+   línea, dos o más (fuente del tema, zoom, textos largos) */
+.linea-tiempo-lateral {
+  display: flex;
+  flex-direction: column;
+  grid-column: 1;
+  grid-row: 1;
+  align-self: start;
+  min-width: 0;
+}
+
+/* La fecha larga va en absoluto y no dicta la altura: abierta, la fecha
+   reserva al menos sus dos líneas para que el logo quede debajo. Se anima a
+   la vez que el fundido de la fecha (al abrir, tras la expansión) y el logo
+   baja con naturalidad; si la corta ya ocupaba dos líneas, no se mueve */
+.linea-tiempo-lateral .linea-tiempo-fecha {
+  /* Todo el ancho de la columna (anula el align-self del grid) */
+  align-self: stretch;
+  min-height: var(--alto-linea-titulo);
+  transition: min-height var(--duracion-fundido) ease;
+}
+
+.linea-tiempo-entrada--abierta .linea-tiempo-lateral .linea-tiempo-fecha {
+  min-height: calc(var(--alto-linea-titulo) * 2);
+  transition: min-height var(--duracion-fundido) ease var(--duracion-expansion);
+}
+
+.linea-tiempo-logo {
+  display: block;
+  align-self: flex-end;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: var(--alto-logo-tiempo);
+  margin-top: var(--separacion-logo-tiempo);
+  object-fit: contain;
+}
+
+.linea-tiempo-logo--aclarar-oscuro {
+  /* Logos oscuros transparentes (campo "logoAclararEnOscuro"): el tema
+     decide el filtro (--filtro-logo-aclarado); sin variable, tal cual */
+  filter: var(--filtro-logo-aclarado, none);
 }
 
 .linea-tiempo-cuerpo {
@@ -3147,6 +3195,35 @@ body.panel-abierto .boton-destacado-flecha {
 
   .linea-tiempo-cuerpo {
     grid-row: 2;
+  }
+
+  /* Logo debajo de la fecha, a la izquierda, con alto fijo para que la
+     fila de la fecha mida siempre lo mismo; las entradas con logo bajan el
+     título (y con él el punto y la línea) lo que ocupan fecha y logo. Aquí
+     la fecha (corta y larga) va siempre en una línea (nowrap), así que esa
+     suma es fija y el logo no se mueve al abrir */
+  :root {
+    --alto-logo-tiempo: 1.75rem;
+    --separacion-logo-tiempo: 0.25rem;
+  }
+
+  .linea-tiempo-lateral {
+    grid-column: 3;
+  }
+
+  .linea-tiempo-lateral .linea-tiempo-fecha,
+  .linea-tiempo-entrada--abierta .linea-tiempo-lateral .linea-tiempo-fecha {
+    min-height: 0;
+    transition: none;
+  }
+
+  .linea-tiempo-logo {
+    align-self: flex-start;
+    height: var(--alto-logo-tiempo);
+  }
+
+  .linea-tiempo-entrada--con-logo {
+    --desplazamiento-titulo-tiempo: calc(var(--alto-linea-fecha-movil) + var(--separacion-logo-tiempo) + var(--alto-logo-tiempo));
   }
 
   /* Méritos: la fecha va encima de la tarjeta (sin relleno propio) y el
