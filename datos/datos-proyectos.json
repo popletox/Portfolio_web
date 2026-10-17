@@ -42,7 +42,7 @@
       "fecha": "2022-05",
       "descripcion": [
         "Minimal Space 2 Live fue mi primer paso en el mundo de los videojuegos. Fue el primer proyecto que podría considerar terminado, además de mi primera participación en una game jam: la Newbies Game Jam 2022, dos semanas entre abril y mayo que me llevaron al límite.",
-        "El tema de la jam fue “Minimalism”, y lo enfoqué hacia la idea de espacio mínimo. Desarrollé un juego de puzles en el que debes alinear o agrupar por colores los muebles de una casa pequeña. Tomando como referencia principal el Tetris, el jugador gana puntos al completar filas.",
+        "El tema de la jam fue \"Minimalism\", y lo enfoqué hacia la idea de espacio mínimo. Desarrollé un juego de puzles en el que debes alinear o agrupar por colores los muebles de una casa pequeña. Tomando como referencia principal el Tetris, el jugador gana puntos al completar filas.",
         "Además de implementar las mecánicas y el gameplay principal, modelé todos los muebles y assets del juego y compuse la música."
       ],
       "tecnologia": [
@@ -75,7 +75,7 @@
       "fecha": "2023-02",
       "descripcion": [
         "Durante mis estudios de máster en la Universidad Complutense, participé con mis compañeros en la Global Game Jam 2023. La universidad montó una sede en su campus y durante un fin de semana entero estuvimos trabajando en The Root.",
-        "El tema de este evento fue “Root” y nuestro equipo lo tomó literalmente, pensando en la carpeta raíz de un proyecto. Esa idea derivó en un clon de Papers Please: un juego basado en la interfaz en el que el jugador debe decidir qué operaciones se realizan en la base de datos de un servidor. Para ello, tiene que comprobar nombres de solicitantes, tipos de operación y demás datos, y determinar si una operación es maliciosa o no.",
+        "El tema de este evento fue \"Root\" y nuestro equipo lo tomó literalmente, pensando en la carpeta raíz de un proyecto. Esa idea derivó en un clon de Papers Please: un juego basado en la interfaz en el que el jugador debe decidir qué operaciones se realizan en la base de datos de un servidor. Para ello, tiene que comprobar nombres de solicitantes, tipos de operación y demás datos, y determinar si una operación es maliciosa o no.",
         "De este juego me llevo la gratificante experiencia de poner en práctica todo lo aprendido durante el curso junto a mis compañeros."
       ],
       "tecnologia": [
@@ -145,8 +145,8 @@
       "categoria": "Unreal Engine",
       "fecha": "2023-06",
       "descripcion": [
-        "Para esta jam, volví a reunirme con varios de mis compañeros de máster y nos presentamos a la Game Maker’s Toolkit Game Jam (GMTK), donde tuvimos un fin de semana para desarrollar un juego con la temática “Roles Reversed”.",
-        "Con esta idea en mente creamos Dungeon’s Staff, un juego en el que el jugador es el conserje encargado de mantener una mazmorra en un mundo de fantasía. Debe limpiar, rellenar cofres y apagar antorchas, entre otras tareas, todo mientras evita que el héroe lo descubra.",
+        "Para esta jam, volví a reunirme con varios de mis compañeros de máster y nos presentamos a la Game Maker's Toolkit Game Jam (GMTK), donde tuvimos un fin de semana para desarrollar un juego con la temática \"Roles Reversed\".",
+        "Con esta idea en mente creamos Dungeon's Staff, un juego en el que el jugador es el conserje encargado de mantener una mazmorra en un mundo de fantasía. Debe limpiar, rellenar cofres y apagar antorchas, entre otras tareas, todo mientras evita que el héroe lo descubra.",
         "Yo me centré principalmente en el comportamiento del héroe. Su inteligencia artificial hacía que eligiera rutas hacia los elementos de la mazmorra que le interesaban. Además, el juego incluye un cono de visión que el jugador debe evitar."
       ],
       "tecnologia": [
@@ -174,7 +174,7 @@
       "categoria": "Unity",
       "fecha": "2023-10",
       "descripcion": [
-        "The Endless Fishing Sheep fue el resultado de mi participación en la Madrid In Game HackJam de 2023. En este proyecto colaboré con otras cuatro personas en el desarrollo de un juego con la temática “Tetris” durante un fin de semana completo.",
+        "The Endless Fishing Sheep fue el resultado de mi participación en la Madrid In Game HackJam de 2023. En este proyecto colaboré con otras cuatro personas en el desarrollo de un juego con la temática \"Tetris\" durante un fin de semana completo.",
         "Fue un proyecto especialmente interesante para mí, ya que me encargué de toda la implementación del juego. Esto supuso asumir muchas tareas y aprender a gestionar el tiempo y a planificar. Era fundamental organizar el trabajo para asegurar que las partes importantes del juego llegaran al producto final."
       ],
       "tecnologia": [
@@ -208,8 +208,8 @@
       "categoria": "Unity",
       "fecha": "2025-07",
       "descripcion": [
-        "Después de casi dos años sin participar en game jams, me apunté a la Kenny's Jam 2025, una jam especial en la que había que usar los assets que se proporcionaban. Vi esta oportunidad como una forma de centrarme por completo en la programación.",
-        "Para este evento, el tema fue “Power”, y yo lo usé para hacer un juego sobre un tren que se queda sin combustible. En este proyecto aprendí mucho sobre splines y sobre el movimiento de cuerpos con anclajes en Unity, lo que me permitió lograr un movimiento de tren realista. Además, desarrollé un bucle jugable en el que el jugador debía tomar decisiones y recoger recursos por el camino."
+        "Después de casi dos años sin participar en game jams, me apunté a la Kenney's Jam 2025, una jam especial en la que había que usar los assets que se proporcionaban. Vi esta oportunidad como una forma de centrarme por completo en la programación.",
+        "Para este evento, el tema fue \"Power\", y yo lo usé para hacer un juego sobre un tren que se queda sin combustible. En este proyecto aprendí mucho sobre splines y sobre el movimiento de cuerpos con anclajes en Unity, lo que me permitió lograr un movimiento de tren realista. Además, desarrollé un bucle jugable en el que el jugador debía tomar decisiones y recoger recursos por el camino."
       ],
       "tecnologia": [
         "Unity",
@@ -313,7 +313,10 @@
       "titulo": "American Crew: Style Hunt",
       "categoria": "Fortnite",
       "fecha": "2025-09",
-      "descripcion": "",
+      "descripcion": [
+        "American Crew: Style Hunt fue un proyecto de Fortnite con la dinámica de un Prop Hunt ambientado en una ciudad dividida en varias zonas. Los jugadores podían ser cazadores o esconderse disfrazándose de objetos y personajes del entorno, y cada área del mapa ofrecía un espacio distinto para ocultarse.",
+        "Lo más interesante del proyecto fue el sistema de personalización de NPCs. El jugador podía elegir el color de pelo, el estilo de peinado y la ropa de un personaje del entorno, lo que permitía adaptar su apariencia y disfrazarse de forma más creativa."
+      ],
       "tecnologia": [
         "Unreal Engine"
       ],
@@ -336,7 +339,10 @@
       "titulo": "Fire Lunar Rush",
       "categoria": "Roblox",
       "fecha": "2024-09",
-      "descripcion": "",
+      "descripcion": [
+        "Fire Lunar Rush es un proyecto de Roblox del género endless runner. El personaje corre sin parar mientras el jugador debe saltar los obstáculos que aparecen en su camino.",
+        "Para este juego desarrollé un sistema de generación de terreno infinito capaz de pasar de una zona a otra. Cada pieza tenía un peso asignado, lo que permitía definir la probabilidad de cada sección y personalizar así la experiencia. Además, creé un sistema de generación de recolectables que se adaptaba a los terrenos y obstáculos existentes."
+      ],
       "tecnologia": [
         "Roblox"
       ],
@@ -366,7 +372,10 @@
       "titulo": "Color Switch Race",
       "categoria": "Roblox",
       "fecha": "2024-05",
-      "descripcion": "",
+      "descripcion": [
+        "Color Switch Race es un juego que desarrolló el equipo de Playoffnations como medio para practicar y aplicar lo que habíamos aprendido durante nuestro tiempo en el proyecto. En él, los jugadores deben correr por una plataforma de colores mientras, cada 10 segundos, desaparecen todas las casillas que no sean de un color específico. El primero en llegar a la meta gana.",
+        "Es un juego sencillo, pero en él introdujimos todo nuestro conocimiento técnico y de mercado sobre Roblox. Aplicamos modos de juego que sabíamos que funcionaban y diseñamos experiencias con un ritmo y una duración pensados para mantener el interés del jugador."
+      ],
       "tecnologia": [
         "Roblox"
       ],
@@ -396,9 +405,13 @@
       "titulo": "Easy Obby Incremental",
       "categoria": "Roblox",
       "fecha": "2024-06",
-      "descripcion": "",
+      "descripcion": [
+        "Este juego fue una iniciativa personal dentro de Playoffnations, en la que tuve libertad para explorar las ideas que quisiera. Decidí decantarme por un género sencillo en Roblox, el obby, que equivale a un juego de plataformas largo y visualmente simple.",
+        "Pero mi aprendizaje principal de este proyecto no fue el juego. Durante su desarrollo estudié y probé a fondo las herramientas de plugins de Roblox, y llegué a crear un plugin capaz de gestionar los puntos de control del juego. Permitía eliminar o crear puntos nuevos, insertar uno entre dos existentes y actualizar automáticamente todo el sistema al nuevo número. También podía generar las plataformas intermedias entre puntos de control a partir de varias plantillas y colorearlas de forma automática. Todo ello me permitió completar el proyecto con mucha más rapidez."
+      ],
       "tecnologia": [
-        "Roblox"
+        "Roblox",
+        "Plugins"
       ],
       "imagenes": [
         { "low": "./recursos/Imagenes/Roblox/EasyObbyIncremental/IMG_Title_low.webp",
@@ -423,9 +436,13 @@
       "titulo": "Telefónica Town",
       "categoria": "Roblox",
       "fecha": "2024-03",
-      "descripcion": "",
+      "descripcion": [
+        "Para la campaña de 100 años de Telefónica desarrollamos un entorno en Roblox. En este juego, el jugador podía visitar edificios y tecnología real de Telefónica en un entorno virtual y disfrutar de distintos modos de juego. Se desarrollaron cuatro islas con modalidades independientes, además de una isla central que funcionaba como lugar de reunión para todos los jugadores.",
+        "Para este entorno se crearon varios sistemas propios: un sistema de traducción automática basado en la región del jugador, un sistema de puntuación global con recompensas semanales para los mejores jugadores, y servicios de partidas multijugador con salas de espera y sistema de emparejamiento."
+      ],
       "tecnologia": [
-        "Roblox"
+        "Roblox",
+        "Firebase"
       ],
       "imagenes": [
         { "low": "./recursos/Imagenes/Roblox/TelefonicaTown/IMG_Title_low.webp",
@@ -455,9 +472,13 @@
       "titulo": "The Donato's Mind",
       "categoria": "Roblox",
       "fecha": "2024-03",
-      "descripcion": "",
+      "descripcion": [
+        "The Donato's Mind fue un proyecto breve que desarrollé en un periodo de dos semanas para una pequeña campaña publicitaria en Latinoamérica. El juego era una versión del clásico Subway Surfers, en el que el jugador debe cambiar de carril o saltar mientras corre sin parar para evitar chocar contra obstáculos.",
+        "En este proyecto, la parte más interesante fue la creación de un modo de juego especial al que solo podía acceder un jugador si introducía un código recibido al comprar el producto de la campaña de marketing. Esto dependió de una integración con una base de datos externa para la comprobación de esos códigos."
+      ],
       "tecnologia": [
-        "Roblox"
+        "Roblox",
+        "Firebase"
       ],
       "imagenes": [
         { "low": "./recursos/Imagenes/Roblox/TheDonatosMind/IMG_Title_low.webp",
@@ -474,9 +495,13 @@
       "titulo": "McDonald's Land Tycoon",
       "categoria": "Roblox",
       "fecha": "2024-03",
-      "descripcion": "",
+      "descripcion": [
+        "El entorno de Roblox desarrollado para la campaña de McDonald's fue uno de los proyectos más ambiciosos de mi carrera en Playoffnations. En este juego se creó una ciudad y un restaurante que el jugador podía gestionar. Podía personalizar el local, cocinar las hamburguesas siguiendo las indicaciones de los clientes y desbloquear nuevos elementos a medida que avanzaba de nivel.",
+        "Además, tuve un papel muy activo en la comunicación entre los distintos departamentos de la empresa implicados en el proyecto, con el objetivo de que el juego y la campaña avanzaran en la misma dirección."
+      ],
       "tecnologia": [
-        "Roblox"
+        "Roblox",
+        "Firebase"
       ],
       "imagenes": [
         { "low": "./recursos/Imagenes/Roblox/McDonaldsLandTycoon/IMG_Title_low.webp",
@@ -503,10 +528,13 @@
     },
     {
       "id": "proyecto-mansion-krave",
-      "titulo": "La Mansion Krave",
+      "titulo": "La Mansión Krave",
       "categoria": "Fortnite",
       "fecha": "2024-02",
-      "descripcion": "",
+      "descripcion": [
+        "El proyecto de Mansión Krave se mantuvo en mantenimiento durante un año completo, con actualizaciones temáticas por temporadas: Navidad, Pascua, verano y Halloween. En este proyecto de Fortnite aprendí mucho sobre el editor de Unreal Engine y sus herramientas.",
+        "La empresa había lanzado previamente un mapa similar de Fortnite con la misma marca. En este proyecto me encargué principalmente de transformar el modo de minijuegos anterior en un modo Prop Hunt, en el que los jugadores podían ser cazadores o esconderse disfrazándose de objetos del mapa."
+      ],
       "tecnologia": [
         "Unreal Engine"
       ],
@@ -528,12 +556,16 @@
     },
     {
       "id": "proyecto-el-desafio-pringles",
-      "titulo": "El desafío Pringles",
+      "titulo": "El desafío de Pringles",
       "categoria": "Rocket League",
       "fecha": "2023-11",
-      "descripcion": "",
+      "descripcion": [
+        "El primer proyecto que realicé en mi etapa en Playoffnations fue El desafío de Pringles, un mapa personalizado de Rocket League con el que se organizó un torneo entre varios streamers e influencers. Para este proyecto aprendí mucho sobre modificaciones y herramientas de Unreal Engine, y tuve que adaptarme a un entorno en el que cada detalle debía funcionar de cara al público.",
+        "Además del propio desarrollo, participé activamente en el mantenimiento y en la solución de problemas técnicos durante el lanzamiento de la campaña."
+      ],
       "tecnologia": [
-        "Unreal Engine"
+        "Unreal Engine",
+        "Discord"
       ],
       "imagenes": [
         { "low": "./recursos/Imagenes/RocketLeague/ElDesafioPringles/IMG_Title_low.webp",
@@ -581,7 +613,7 @@
     "proyecto-ref-the-donatos-mind": { "titulo": "The Donato's Mind", "enlace": "#proyecto-the-donatos-mind" },
     "proyecto-ref-telefonica-town": { "titulo": "Telefónica Town", "enlace": "#proyecto-telefonica-town" },
     "proyecto-ref-mcdonalds-land-tycoon": { "titulo": "McDonald's Land Tycoon", "enlace": "#proyecto-mcdonalds-land-tycoon" },
-    "proyecto-ref-mansion-krave": { "titulo": "La Mansion Krave", "enlace": "#proyecto-mansion-krave" },
-    "proyecto-ref-el-desafio-pringles": { "titulo": "El desafío Pringles", "enlace": "#proyecto-el-desafio-pringles" }
+    "proyecto-ref-mansion-krave": { "titulo": "La Mansión Krave", "enlace": "#proyecto-mansion-krave" },
+    "proyecto-ref-el-desafio-pringles": { "titulo": "El desafío de Pringles", "enlace": "#proyecto-el-desafio-pringles" }
   }
 }

@@ -6,8 +6,8 @@
       "fechaInicio": "2026-09",
       "fechaFin": null,
       "descripcion": [
-        "Soporte técnico al Servicio de Investigación de la Universidad Carlos III de Madrid, atendiendo incidencias e implementando ajustes y mejoras en herramientas y aplicaciones existentes.",
-        "Trabajo con múltiples entornos. Participo en reuniones con el personal del servicio para analizar necesidades y aportar criterios técnicos sobre posibles soluciones y cambios en los sistemas."
+        "Trabajo como soporte técnico en el Servicio de Investigación de la Universidad Carlos III de Madrid, donde atiendo incidencias e implemento ajustes y mejoras en las herramientas y aplicaciones que ya utiliza el servicio.",
+        "Trabajo con múltiples entornos y participo en reuniones con el personal del servicio para analizar sus necesidades, aportando criterios técnicos sobre posibles soluciones y cambios en los sistemas."
       ],
       "aptitudes": [
         "Soporte técnico",
@@ -21,7 +21,10 @@
       "empresa": "Hoja Studio",
       "fechaInicio": "2026-05",
       "fechaFin": null,
-      "descripcion": "Programador en Hoja Studio, un equipo multidisciplinar de más de diez personas que desarrolla NILSH en régimen de colaboración. Es un juego de acción y aventura con vista cenital, ambientado en un mundo de fantasía donde la naturaleza se está apagando. El proyecto sigue en desarrollo y ampliación continua, y ya tiene página en Steam. Mi trabajo se ha centrado en varios componentes del juego: el sistema de fijación de objetivos (ZTarget) y algunos elementos de combate, las transiciones y la interfaz, y el sistema de inventario y de potenciadores. También colaboro en los procesos de QA y trabajo con perfiles de otras disciplinas.",
+      "descripcion": [
+        "Trabajo como programador en Hoja Studio, un equipo multidisciplinar de más de diez personas que desarrolla NILSH en colaboración. Se trata de un juego de acción y aventura con vista cenital, ambientado en un mundo de fantasía donde la naturaleza se está apagando. El proyecto sigue en desarrollo y en continua ampliación, y ya cuenta con una página en Steam.",
+        "Mi trabajo se ha centrado en varios componentes del juego: el sistema de fijación de objetivos (ZTarget) y algunos elementos de combate, las transiciones y la interfaz, y el sistema de inventario y de potenciadores. También colaboro en los procesos de QA y trabajo junto a perfiles de otras disciplinas."
+      ],
       "aptitudes": [
         "Desarrollo de videojuegos",
         "Unity",
@@ -33,7 +36,10 @@
       "empresa": "Universally Speaking",
       "fechaInicio": "2026-05",
       "fechaFin": "2026-06",
-      "descripcion": "Pruebas de calidad funcional (QA) para un único proyecto de videojuego, con redacción de informes de errores en inglés y registro y seguimiento de incidencias en una base de datos de bugs.",
+      "descripcion": [
+        "Durante un periodo de trabajo, me dediqué a las pruebas de calidad funcional (QA) de un único proyecto de videojuego. Mi labor consistió en detectar, documentar y hacer seguimiento de los errores encontrados, redactando los informes en inglés para que el equipo de desarrollo pudiera reproducirlos y corregirlos con precisión.",
+        "Para ello, registré y gestioné cada incidencia en una base de datos de bugs, lo que permitió tener una visión clara del estado del proyecto en todo momento. Este trabajo me enseñó la importancia del detalle, de la comunicación precisa y de la coordinación con los programadores, algo que después he aplicado en el resto de mi experiencia profesional."
+      ],
       "aptitudes": [
         "Aseguramiento de la calidad",
         "Inglés",
@@ -46,8 +52,8 @@
       "fechaInicio": "2024-12",
       "fechaFin": "2025-10",
       "descripcion": [
-        "Desarrollo y coordinación de proyectos en Roblox y Fortnite, combinando la programación con la gestión del equipo y la toma de decisiones de diseño e implementación.",
-        "Participación en reuniones con clientes, elaboración de documentación de resultados y seguimiento del progreso de los proyectos. Coordinación con los distintos departamentos de la empresa para comunicar avances, resolver necesidades y organizar el trabajo del equipo."
+        "Trabajé en el desarrollo y la coordinación de proyectos en Roblox y Fortnite, donde compaginaba la programación con la gestión del equipo. En ese rol participaba activamente en la toma de decisiones de diseño e implementación, valorando las distintas propuestas del equipo y buscando la solución más viable para cada etapa del proyecto.",
+        "Participé en reuniones con clientes, elaboré la documentación de resultados y seguí el progreso de los proyectos. Además, coordiné con los distintos departamentos de la empresa para comunicar avances, resolver necesidades y organizar el trabajo del equipo."
       ],
       "aptitudes": [
         "Liderazgo",
@@ -65,8 +71,8 @@
       "fechaInicio": "2023-10",
       "fechaFin": "2024-12",
       "descripcion": [
-        "Desarrollo de juegos y experiencias interactivas para marcas en plataformas como Roblox, Fortnite y Rocket League, combinando programación de gameplay e interfaces con diseño de experiencias y elaboración de documentos de diseño de juego (GDD).",
-        "Colaboración directa con el equipo artístico para integrar recursos y resolver necesidades técnicas. Participación en decisiones de diseño e implementación, utilizando Unreal Engine y Roblox para el desarrollo y Holded para la gestión de tareas."
+        "Desarrollé juegos y experiencias interactivas para marcas en plataformas como Roblox, Fortnite y Rocket League. Mi trabajo combinaba la programación del gameplay y de las interfaces con el diseño de experiencias y la elaboración de documentos de diseño de juego (GDD).",
+        "Colaboraba directamente con el equipo artístico para integrar recursos y resolver necesidades técnicas, y participaba en las decisiones de diseño e implementación. Para el desarrollo utilizaba Unreal Engine y Roblox, y para la gestión de tareas empleaba Holded."
       ],
       "aptitudes": [
         "Desarrollo de videojuegos",
@@ -91,8 +97,8 @@
       "fechaInicio": "2023-01",
       "fechaFin": "2023-07",
       "descripcion": [
-        "Programador de gameplay en Gloom Reaper, desarrollado en Unreal Engine 5 como proyecto de fin de máster, con especial dedicación al sistema de combate del jugador.",
-        "Participación en pruebas, coordinación del equipo y presentaciones del proyecto, asumiendo de forma rotativa el papel de portavoz. Trabajo con Perforce y Notion para el control de versiones y la organización del desarrollo. El proyecto cuenta con una demo pública en Steam."
+        "Trabajé como programador de gameplay en Gloom Reaper, desarrollado en Unreal Engine 5 como proyecto de fin de máster. Me dediqué especialmente al sistema de combate del jugador.",
+        "Participé en pruebas, coordinación del equipo y presentaciones del proyecto, asumiendo de forma rotativa el papel de portavoz. Para el control de versiones y la organización del desarrollo utilizábamos Perforce y Notion. El proyecto cuenta con una demo pública en Steam."
       ],
       "aptitudes": [
         "Desarrollo de videojuegos",
