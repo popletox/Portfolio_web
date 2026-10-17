@@ -249,16 +249,15 @@
     return imagen;
   }
 
-  // Bloque "Referencias": h4 y cuadrícula de tarjetas (null si no hay ninguna válida).
-  // sinTitulo (opcional): true para omitir el h4 (se usa en Estudios)
-  function crearReferencias(ids, contexto, sinTitulo) {
+  // Bloque de referencias: cuadrícula de tarjetas sin título visible (null si
+  // no hay ninguna válida). La lista lleva aria-label para que los lectores
+  // de pantalla la sigan identificando como "Referencias"
+  function crearReferencias(ids, contexto) {
     var referencias = resolverReferencias(ids, contexto);
     if (!referencias.length) return null;
     var bloque = crear('div', 'linea-tiempo-proyectos linea-tiempo-referencias');
-    if (!sinTitulo) {
-      bloque.appendChild(crear('h4', 'linea-tiempo-proyectos-titulo', 'Referencias'));
-    }
     var lista = crear('ul', 'referencias-lista');
+    lista.setAttribute('aria-label', 'Referencias');
     referencias.forEach(function (referencia) {
       lista.appendChild(crearTarjetaReferencia(referencia));
     });
@@ -282,7 +281,18 @@
     return entrada;
   }
 
-  // Cuerpo común: h3 con botón, subtítulo y detalle desplegable.
+  // Separador tras la descripción (detalle de proyecto y entradas de la
+  // línea de tiempo): inserta un <hr> en la posición `posicion` de
+  // `contenedor`, solo si después de la descripción se ha añadido algo
+  function insertarSeparadorDescripcion(contenedor, posicion) {
+    if (contenedor.childNodes.length > posicion) {
+      contenedor.insertBefore(crear('hr', 'separador-descripcion'), contenedor.childNodes[posicion]);
+    }
+  }
+
+  // Cuerpo común: h3 con botón, subtítulo y detalle desplegable (descripción,
+  // separador si sigue algo, tecnología, aptitudes, separador si hay alguno
+  // de los dos anteriores y referencias).
   // datos.tecnologia (array de textos) y datos.referencias (bloque de
   // Referencias o null) son opcionales.
   function crearCuerpo(datos) {
@@ -311,13 +321,24 @@
     crearParrafos(datos.descripcion, 'linea-tiempo-descripcion').forEach(function (p) {
       interior.appendChild(p);
     });
+    // Posición tras la descripción para el separador
+    var hijosTrasDescripcion = interior.childNodes.length;
     if (Array.isArray(datos.tecnologia) && datos.tecnologia.length) {
       interior.appendChild(crearAptitudes(datos.tecnologia, 'Tecnología:'));
     }
     if (Array.isArray(datos.aptitudes) && datos.aptitudes.length) {
       interior.appendChild(crearAptitudes(datos.aptitudes));
     }
-    if (datos.referencias) interior.appendChild(datos.referencias);
+    if (datos.referencias) {
+      // Separador antes de las referencias solo si entre la descripción y
+      // ellas hay algún bloque (tecnología o aptitudes); si van justo tras
+      // la descripción ya las separa el <hr> de la descripción
+      if (interior.childNodes.length > hijosTrasDescripcion) {
+        interior.appendChild(crear('hr', 'separador-descripcion'));
+      }
+      interior.appendChild(datos.referencias);
+    }
+    insertarSeparadorDescripcion(interior, hijosTrasDescripcion);
     detalle.appendChild(interior);
     cuerpo.appendChild(detalle);
     return cuerpo;
@@ -618,7 +639,7 @@
   }
 
   // Contenido de la ventana: texto (título, categoría, fecha, descripción,
-  // retos, tecnología, experiencia personal, comentarios, aptitudes,
+  // separador (solo si sigue algo), retos, tecnología, experiencia personal, comentarios, aptitudes,
   // reconocimientos (méritos del proyecto) y enlaces; los opcionales solo si
   // tienen contenido) y, si hay imágenes,
   // su cuadrícula de miniaturas
@@ -636,6 +657,9 @@
     crearParrafos(proyecto.descripcion, 'detalle-proyecto-descripcion').forEach(function (p) {
       texto.appendChild(p);
     });
+    // Posición tras la descripción: el separador se inserta aquí al final,
+    // solo si después se ha añadido alguna sección o los enlaces
+    var hijosTrasDescripcion = texto.childNodes.length;
     var retos = crearApartadoDetalle('Retos', proyecto.retos);
     if (retos) texto.appendChild(retos);
     if (Array.isArray(proyecto.tecnologia) && proyecto.tecnologia.length) {
@@ -652,6 +676,7 @@
     if (premios) texto.appendChild(premios);
     var enlaces = crearEnlacesProyecto(proyecto.enlaces, 'Proyecto "' + proyecto.id + '"');
     if (enlaces) texto.appendChild(enlaces);
+    insertarSeparadorDescripcion(texto, hijosTrasDescripcion);
     cuerpo.appendChild(texto);
 
     if (imagenes.length) {
@@ -830,7 +855,7 @@
         descripcion: item.descripcion,
         tecnologia: item.tecnologia,
         aptitudes: item.aptitudes,
-        referencias: crearReferencias(item.referencias, contexto, true)
+        referencias: crearReferencias(item.referencias, contexto)
       });
     });
     lista.replaceChildren.apply(lista, entradas);

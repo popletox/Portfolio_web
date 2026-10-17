@@ -160,6 +160,9 @@ img {
      --hueco-referencias, para no tocar otra tarjeta) */
   --tamano-estrella-tarjeta: 1.375rem;
   --salida-estrella-tarjeta: 0.4rem;
+  /* Hueco a la derecha del detalle desplegado de la Línea de tiempo
+     (experiencia y estudios); mismo que el relleno de .detalle-proyecto-caja */
+  --margen-derecho-detalle-tiempo: calc(var(--espacio) * 1.25);
   /* Hueco con el fondo de página entre la Línea de tiempo y el pie */
   --separacion-cronologia-pie: 2.75rem;
 }
@@ -212,6 +215,18 @@ main {
    mismo valor que .seccion p para distinguirlos de un salto de línea */
 .introduccion p + p {
   margin-top: 1rem;
+}
+
+/* Textos largos justificados, como .introduccion: descripciones de la
+   línea de tiempo (experiencia, estudios y méritos), descripción, apartados
+   y premios del detalle de proyecto, y párrafos del Destacado.
+   Títulos, fechas, chips y botones siguen alineados a la izquierda */
+.linea-tiempo-descripcion,
+.detalle-proyecto-descripcion,
+.detalle-proyecto-parrafo,
+.detalle-proyecto-premio-descripcion,
+.destacado-descripcion {
+  text-align: justify;
 }
 
 /* Aviso si falla la carga de los JSON de datos/ */
@@ -915,7 +930,10 @@ main {
   min-width: 0;
 }
 
-.merito-tarjeta .linea-tiempo-descripcion {
+/* Se antepone .linea-tiempo para superar en especificidad a
+   .linea-tiempo .linea-tiempo-descripcion (0.75rem, más abajo), que si no
+   ganaría por ir después: en los méritos el texto va más pegado al título */
+.linea-tiempo .merito-tarjeta .linea-tiempo-descripcion {
   margin: 0.35rem 0 0;
   font-size: 0.95rem;
 }
@@ -1301,6 +1319,20 @@ body.detalle-abierto {
   margin: 0.75rem 0 0;
 }
 
+/* Separador tras la descripción, común al detalle de proyecto y a las
+   entradas desplegables de la línea de tiempo (solo si sigue algo); en la
+   línea de tiempo se repite antes de las referencias si hay tecnología o
+   aptitudes entre medias: línea
+   de 1px a todo el ancho del contenido, sólida en el centro y fundida a
+   transparente en los extremos, con el color de borde del tema */
+.separador-descripcion {
+  flex-shrink: 0;
+  height: 1px;
+  margin: 0.75rem 0 0;
+  border: 0;
+  background: linear-gradient(to right, transparent, var(--color-borde-boton-panel), transparent);
+}
+
 /* Apartados opcionales (Retos, Experiencia personal, Comentarios adicionales) */
 .detalle-proyecto-apartado {
   margin-top: 0.75rem;
@@ -1523,7 +1555,11 @@ body.detalle-abierto {
      así no corta la estrella de una tarjeta de Referencias de la última
      columna (.tarjeta-estrella) */
   margin-right: calc(-1 * var(--salida-estrella-tarjeta));
-  padding-right: var(--salida-estrella-tarjeta);
+  /* Al relleno que compensa ese margen se suma el hueco derecho
+     (--margen-derecho-detalle-tiempo): descripción, tecnología, aptitudes
+     y referencias terminan a la misma distancia del borde de la sección.
+     Solo experiencia y estudios: los méritos no tienen detalle plegable */
+  padding-right: calc(var(--salida-estrella-tarjeta) + var(--margen-derecho-detalle-tiempo));
 }
 
 .linea-tiempo .linea-tiempo-descripcion {
@@ -1535,8 +1571,7 @@ body.detalle-abierto {
   margin-top: 0.75rem;
 }
 
-.linea-tiempo-etiqueta,
-.linea-tiempo-proyectos-titulo {
+.linea-tiempo-etiqueta {
   font-weight: 600;
 }
 
@@ -1555,11 +1590,6 @@ body.detalle-abierto {
 .lista-en-linea li + li::before {
   content: " · ";
   color: var(--color-texto-suave);
-}
-
-.linea-tiempo-proyectos-titulo {
-  margin: 0;
-  font-size: 1rem;
 }
 
 .enlace-proyecto {
@@ -3166,6 +3196,9 @@ body.panel-abierto .boton-destacado-flecha {
     --alto-halo-tarjeta-cronologia: 0.25rem;
     --tamano-estrella-tarjeta: 1.125rem;
     --salida-estrella-tarjeta: 0.35rem;
+    /* Hueco derecho del detalle de la Línea de tiempo más corto para no
+       estrechar el texto; igual que el relleno de .detalle-proyecto-caja */
+    --margen-derecho-detalle-tiempo: 1rem;
   }
 
   .proyecto-tarjeta--cronologia .proyecto-tarjeta-titulo {
