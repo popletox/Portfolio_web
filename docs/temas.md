@@ -94,6 +94,8 @@ El tema inicial se elige por prioridad:
 
 `--color-fondo-imagen` (`#141414`, casi negro, no `#000`) es la única variable `--color-*` que NO se define en los temas: está fija en el `:root` de `estilos/comun.css` y es igual en todos. Es el fondo sobre el que se ven las zonas transparentes de las imágenes de proyecto (p. ej. un logo con fondo transparente) en miniaturas, tarjetas de Referencias, panel Destacado y visor; así el aspecto no depende del tema. No hay que añadirla a un tema nuevo.
 
+`--margen-derecho-detalle-tiempo` también está solo en `estilos/comun.css` (no es de tema): margen fijo entre el contenido desplegado de las entradas de la línea de tiempo y el borde derecho de la sección (`calc(var(--espacio) * 1.25)`; `1rem` en `max-width: 768px`). No hay que añadirla a un tema nuevo.
+
 ## Botones redondos de icono
 
 Los temas no definen colores propios para los botones redondos (cabecera, enlaces del detalle, Compartir y Cerrar del detalle, Cerrar del visor): todos usan el patrón común de `:root` en `estilos/comun.css`, con variables sin prefijo `--color-` a propósito para que no sean variables de tema: `--boton-redondo-fondo` (= `--color-fondo-suave`), `--boton-redondo-fondo-hover` (= `--color-boton-enlaces-hover`) y `--boton-redondo-icono` (= `--color-texto`). Así siguen el tema, sin acento al pasar el ratón. Los antiguos `--color-boton-visor`, `--color-boton-visor-hover` y `--color-boton-visor-texto` se han eliminado. `--color-fondo-visor` se mantiene (fondo oscurecido tras el visor y la ventana de detalle). Detalle y modo de añadir un botón nuevo en [`diseno-portfolio.md`](diseno-portfolio.md).

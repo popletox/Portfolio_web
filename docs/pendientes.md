@@ -53,6 +53,7 @@ Cómo mantenerlo:
   - Relacionado con P16 (creación de `recursos/`).
 - [ ] **P46 · Hacer** (añadido 2026-10-15): rellenar `aptitudes` (habilidades personales) en `datos/datos-estudios.json` y confirmar los valores provisionales de `tecnologia` (Grado: Java, Python, C++, Linux; Máster: Unity, Unreal Engine, Perforce, Jira).
   - Decidido 2026-10-15: la etiqueta de aptitudes pasa a «Habilidades personales:» (el campo JSON sigue siendo `aptitudes`) y el título «Referencias» se quita solo en Estudios.
+  - Decidido 2026-10-17: el título «Referencias» también se quita en Experiencia (la lista conserva `aria-label`); queda un segundo separador antes de las tarjetas si hay tecnología o aptitudes tras la descripción.
 
 ## Diseño
 

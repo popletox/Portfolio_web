@@ -68,7 +68,7 @@ Igual que Experiencia, cambiando `puesto` por `titulo` y `empresa` por `instituc
 - `tecnologia` (opcional): array de strings. Se muestra en línea antes de las habilidades personales: «Tecnología: Java · Python». La ventana de detalle de Proyectos tiene el mismo campo.
 - `aptitudes` puede ser un array vacío `[]` (de momento lo está en todos los estudios; ver P46).
 
-Las habilidades personales (campo `aptitudes`, etiqueta «Habilidades personales:») se muestran igual en Experiencia, Estudios y Proyectos. En el detalle de Estudios se omite el título «Referencias» sobre las tarjetas; Experiencia lo conserva.
+Las habilidades personales (campo `aptitudes`, etiqueta «Habilidades personales:») se muestran igual en Experiencia, Estudios y Proyectos. En el detalle de Experiencia y Estudios las tarjetas de referencias no llevan título visible (la lista tiene `aria-label="Referencias"`).
 
 ## Proyectos
 
@@ -159,7 +159,7 @@ Cada mérito referencia como mucho un proyecto. Compatibilidad: si falta `proyec
 
 ## Referencias
 
-Las tarjetas del bloque «Referencias» que aparece en el detalle de Experiencia y Estudios se indican con el campo `referencias` de cada entrada: un array de ids, en el orden en que se muestran. Cada id puede ser de dos tipos:
+Las tarjetas de referencias que aparecen en el detalle de Experiencia y Estudios se indican con el campo `referencias` de cada entrada: un array de ids, en el orden en que se muestran. Cada id puede ser de dos tipos:
 
 **a) Id de un proyecto de la sección Proyectos** (p. ej. `"mi-juego"`). La tarjeta se genera sola, sin entrada en el catálogo:
 
