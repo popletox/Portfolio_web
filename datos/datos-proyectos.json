@@ -301,6 +301,17 @@
         "CSS",
         "JavaScript"
       ],
+      "imagenes": [
+        { "low": "./recursos/Imagenes/HTML/Portfolio/IMG_Portfolio_movil_01_low.webp",
+          "high": "./recursos/Imagenes/HTML/Portfolio/IMG_Portfolio_movil_01_high.webp",
+          "alt": "Imagen promocional en formato movil de la web." },
+        { "low": "./recursos/Imagenes/HTML/Portfolio/IMG_Portfolio_movil_02_low.webp",
+          "high": "./recursos/Imagenes/HTML/Portfolio/IMG_Portfolio_movil_02_high.webp",
+          "alt": "Imagen promocional en formato movil de la web." },
+        { "low": "./recursos/Imagenes/HTML/Portfolio/IMG_Portfolio_pc_01_low.webp",
+          "high": "./recursos/Imagenes/HTML/Portfolio/IMG_Portfolio_pc_01_high.webp",
+          "alt": "Imagen promocional en formato navegador de la web." }
+      ],
       "enlaces": {
         "github": { "url": "https://github.com/popletox/Portfolio_web" },
         "linkedin": { "url": "[TODO] enlace publicacion de linkedin" },
