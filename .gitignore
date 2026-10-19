@@ -1,0 +1,21 @@
+# Variables de entorno (nunca subir claves ni datos privados)
+.env
+.env.*
+
+# Dependencias
+node_modules/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Archivos del sistema
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Editor
+.vscode/
+
+# Ajustes personales de Claude Code (settings.json y agents/ sí se comparten)
+.claude/settings.local.json
