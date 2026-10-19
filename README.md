@@ -37,7 +37,7 @@ Lo que falta por hacer, revisar o decidir está en [docs/pendientes.md](docs/pen
 ## Tecnologías
 
 - HTML, CSS y JavaScript vanilla, sin frameworks ni bundlers.
-- Alojamiento en GitHub Pages (pendiente de activar), publicando la rama `main` sin paso de compilación. URL prevista: https://popletox.github.io/Portfolio_web/
+- Alojamiento en GitHub Pages , publicando la rama `main` sin paso de compilación. Web publicada en https://popletox.github.io/Portfolio_web/
 
 ## Estructura de carpetas
 

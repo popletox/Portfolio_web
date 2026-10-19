@@ -46,7 +46,6 @@ Cómo mantenerlo:
 ## Contenido
 
 - [ ] **P14 · Hacer**: sustituir el contenido "[Provisional]" (85 marcas a 2026-10-14 en los archivos de [`datos/`](../datos/)).
-- [ ] **P15 · Hacer**: sustituir los enlaces provisionales `#` (p. ej. Revlon en el catálogo `referencias` y `"web": "#"` de los proyectos).
 - [ ] **P16 · Hacer**: crear `recursos/` con las imágenes `low`/`high` de los proyectos y las `img` del catálogo de referencias.
   - Avance 2026-10-15: las imágenes de proyectos ya están en `recursos/Imagenes/<Motor>/<Proyecto>/` (WebP `_low`/`_high`, incluido `Fortnite/RevlonStyleHunt/`). Falta lo definitivo de proyectos y las `img` de referencias.
 - [ ] **P17 · Hacer**: crear los proyectos reales (Fire Lunar Rush, Color Switch Race…) y cambiar sus referencias del catálogo por el id del proyecto.
@@ -74,9 +73,7 @@ Puntos abiertos del [documento de diseño](diseno-portfolio.md).
 
 ## Publicación e infraestructura
 
-- [ ] **P26 · Hacer**: activar GitHub Pages (Settings → Pages → rama `main`, carpeta raíz) y comprobar la web publicada en https://popletox.github.io/Portfolio_web/ (rutas relativas, carga del JSON).
-- [ ] **P27 · Revisar** (tras publicar): menú de compartir en móvil (requiere HTTPS), Safari, Firefox y lector de pantalla.
-- [ ] **P28 · Hacer**: añadir reglas al [`.gitignore`](../.gitignore) (ahora vacío): `.env`, `node_modules/`, logs y archivos del sistema (`Thumbs.db`, `.DS_Store`).
+Sin puntos abiertos.
 
 ## Limpieza menor
 
@@ -86,6 +83,14 @@ Puntos abiertos del [documento de diseño](diseno-portfolio.md).
 
 ## Hechos
 
+- [x] **P26 · Hacer** (2026-10-19): activar GitHub Pages y comprobar la web publicada.
+  - Nota: GitHub Pages activado; el usuario ha comprobado que la web en https://popletox.github.io/Portfolio_web/ funciona bien.
+- [x] **P27 · Revisar** (2026-10-19): revisión tras publicar.
+  - Nota: el usuario ha revisado el menú de compartir en móvil, los navegadores y el lector de pantalla, y funciona correctamente.
+- [x] **P28 · Hacer** (2026-10-19): rellenar el [`.gitignore`](../.gitignore).
+  - Nota: reglas preventivas agrupadas: entorno (`.env`, `.env.*`), dependencias (`node_modules/`), logs (`*.log`, `npm-debug.log*`), sistema (`Thumbs.db`, `desktop.ini`, `.DS_Store`), editor (`.vscode/`) y Claude Code (`.claude/settings.local.json`). En `.claude/` solo se ignora `settings.local.json`; `settings.json` y `agents/` siguen en el repositorio. Ningún archivo rastreado queda ignorado.
+- [x] **P15 · Hacer** (2026-10-19): sustituir los enlaces provisionales `#`.
+  - Nota: ya no quedan enlaces `#` ni `[TODO]` en `datos/` ni en `index.html`. El último era el LinkedIn del proyecto «Portfolio web» (subido en el commit 4a8dd7f, donde también se quitó un botón «Ver Web» sin URL).
 - [x] **P58 · Hacer** (2026-10-17): recortar el logo de Playoffnations (`recursos/Logos/playoffnations-logo.webp`), que se veía pequeño por el margen transparente.
   - Nota: recortado por el usuario con un editor.
 - [x] **P29 · Hacer** (2026-10-17): corregir [`docs/estructura-proyecto.md`](estructura-proyecto.md), que decía que `recursos/` aún no existía.
