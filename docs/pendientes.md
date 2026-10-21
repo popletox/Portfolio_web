@@ -15,21 +15,19 @@ Cómo mantenerlo:
 
 - [ ] **P02 · Revisar**: los nombres inclinados de periodos cercanos se pisan (p. ej. "QA Tester…" y "Técnico Desarrollo…"). Revisar con datos reales y, si sigue pasando, separarlos automáticamente.
   - Decisión: separarlos automáticamente desplazándolos a izquierda y derecha; se hace en P38 (y P39 para 3 o más).
+  - 2026-10-21: P38 pasa a no urgente porque ahora no se pisa ningún nombre; este punto sigue abierto hasta que se vuelva a ver el problema con datos reales.
 - [ ] **P03 · Revisar**: espacio vacío encima de los nombres (la altura se calcula para el nombre más largo posible).
-- [ ] **P07 · Revisar**: vista de móvil con los datos reales.
-- [ ] **P33 · Hacer**: ajustes de móvil y pulido de la Línea de tiempo.
-- [ ] **P34 · Revisar**: el hueco reservado a la estrella hace que los títulos de las tarjetas con mérito se corten antes (p. ej. en el tema Código "Proyecto provisional 1" se ve como "Proyecto provisional…").
-- [ ] **P38 · Hacer**: cuando una experiencia y un estudio, o dos experiencias, comparten periodo o sus títulos se solapan, desplazar uno a la izquierda de su centro y el otro a la derecha.
+- [ ] **P38 · Hacer** (no urgente): cuando una experiencia y un estudio, o dos experiencias, comparten periodo o sus títulos se solapan, desplazar uno a la izquierda de su centro y el otro a la derecha.
+  - 2026-10-21: ahora mismo no se pisa ningún texto de la Línea de tiempo; se hará solo si vuelve a pasar.
   - Relacionado con P02 (decisión de separarlos automáticamente) y P39 (3 o más).
 - [ ] **P41 · Hacer** (no urgente, pospuesto): si algún día hay fechas posteriores al mes actual, el degradado del eje empieza tras la última fecha, pero el de las barras en curso sigue terminando en el mes actual + 2, así que no acabarían a la par.
   - Decisión (2026-10-14): no tiene sentido mostrar algo que todavía no ha sucedido. Al abordarlo, las fechas posteriores al mes actual se limitarán (se "fijarán") al mes actual en la cronología, de modo que el eje y las barras en curso siempre terminen a la par. Implementación pendiente.
-- [ ] **P42 · Revisar** (no urgente): los nombres a 45° de periodos cercanos se pisan (ahora, "QA Tester…" y "Desarrollador de videojuegos"). Ya pasaba antes del degradado.
-  - Relacionado con P02 y P38.
 - [ ] **P39 · Decidir**: cómo evitar que los textos se pisen si coinciden 3 o más estudios o experiencias (caso poco probable).
   - Relacionado con P38.
 
 ## Logos de empresa
 
+- [ ] **P60 · Decidir** (añadido 2026-10-21): retocar los logos de empresa de la sección Experiencia en móvil (petición del usuario; qué cambiar, por decidir).
 - [ ] **P59 · Decidir** (no urgente, añadido 2026-10-17): valorar logos de institución en Estudios. `crearEntradaRango` ya admite `logo` y `logoAclararEnOscuro`; faltaría el campo en `datos/datos-estudios.json` y pasarlos en `montarEstudios`.
 
 ## Proyectos y ventana de detalle
@@ -45,16 +43,11 @@ Cómo mantenerlo:
 
 ## Contenido
 
-- [ ] **P14 · Hacer**: sustituir el contenido "[Provisional]" (85 marcas a 2026-10-14 en los archivos de [`datos/`](../datos/)).
-- [ ] **P16 · Hacer**: crear `recursos/` con las imágenes `low`/`high` de los proyectos y las `img` del catálogo de referencias.
-  - Avance 2026-10-15: las imágenes de proyectos ya están en `recursos/Imagenes/<Motor>/<Proyecto>/` (WebP `_low`/`_high`, incluido `Fortnite/RevlonStyleHunt/`). Falta lo definitivo de proyectos y las `img` de referencias.
-- [ ] **P17 · Hacer**: crear los proyectos reales (Fire Lunar Rush, Color Switch Race…) y cambiar sus referencias del catálogo por el id del proyecto.
-- [ ] **P18 · Revisar**: "Proyecto provisional 1" tiene `enCurso: true` puesto para pruebas.
 - [ ] **P19 · Decidir**: si un `\n` dentro de un texto debe crear un salto de línea (ahora se ignora; hay uno sobrante en la introducción).
 - [ ] **P45 · Decidir** (añadido 2026-10-15): fijar un tamaño máximo por imagen de `recursos/Imagenes/` (peso en KB y/o resolución en píxeles, por decidir).
   - Hecho 2026-10-15: todas las imágenes de proyectos están convertidas a WebP con dos versiones, `_low` y `_high` (ya no queda ningún PNG). Solo queda abierto el tamaño máximo.
-  - Relacionado con P16 (creación de `recursos/`).
-- [ ] **P46 · Hacer** (añadido 2026-10-15): rellenar `aptitudes` (habilidades personales) en `datos/datos-estudios.json` y confirmar los valores provisionales de `tecnologia` (Grado: Java, Python, C++, Linux; Máster: Unity, Unreal Engine, Perforce, Jira).
+  - Relacionado con P16 (creación de `recursos/`, ya hecho).
+- [ ] **P46 · Hacer** (añadido 2026-10-15): confirmar las tecnologías y las habilidades personales (`tecnologia` y `aptitudes`) tanto en Estudios ([`datos/datos-estudios.json`](../datos/datos-estudios.json)) como en Experiencia.
   - Decidido 2026-10-15: la etiqueta de aptitudes pasa a «Habilidades personales:» (el campo JSON sigue siendo `aptitudes`) y el título «Referencias» se quita solo en Estudios.
   - Decidido 2026-10-17: el título «Referencias» también se quita en Experiencia (la lista conserva `aria-label`); queda un segundo separador antes de las tarjetas si hay tecnología o aptitudes tras la descripción.
 
@@ -67,7 +60,6 @@ Puntos abiertos del [documento de diseño](diseno-portfolio.md).
 - [ ] **P22 · Decidir**: panel Destacado en móvil fijo abajo o al final del documento.
 - [ ] **P24 · Decidir**: versión en inglés.
 - [ ] **P25 · Decidir**: alinear la introducción con el borde de las cajas de sección (actual) o con el texto de dentro.
-- [ ] **P43 · Revisar**: los cambios sobre la sombra del Panel destacado y su botón-pestaña se juntaron con la Línea de tiempo durante una fusión automática: sombra animada del panel, botón de color sólido (`--color-panel`) unido al panel como una sola pieza (filo, `drop-shadow` y `clip-path`), variables de tema nuevas (`--color-enlace-panel`, `--color-borde-boton-panel`, `--color-sombra-panel`, `--desenfoque-sombra-panel`; se quita `--color-boton-panel`), `--color-panel` más oscuro en Claro (y en el tema Cómic, eliminado el 2026-10-16) y `docs/temas.md` actualizado. Falta probarlos en los 3 temas actuales y en móvil.
 - [ ] **P49 · Hacer** (añadido 2026-10-15): añadir iconos SVG a los botones de tema (Claro, Oscuro, Código) del menú Opciones, que ahora no tienen SVG. Petición del usuario.
 - [ ] **P57 · Revisar** (no urgente, añadido 2026-10-16): en móvil a 360x640, un destacado sin imagen con tres o más botones de enlace no cabe en alto (la caja de enlaces se recorta unos 27 px por abajo). Hoy no afecta a ningún dato real.
 
@@ -83,6 +75,24 @@ Sin puntos abiertos.
 
 ## Hechos
 
+- [x] **P43 · Revisar** (2026-10-21): probar los cambios de la sombra del Panel destacado y su botón-pestaña (sombra animada, botón unido al panel, variables de tema nuevas) en los 3 temas y en móvil.
+  - Nota: revisado por el usuario en los 3 temas y en móvil; todo correcto, sin cambios de código.
+- [x] **P07 · Revisar** (2026-10-21): vista de móvil con los datos reales.
+  - Nota: revisado por el usuario en móvil con los datos finales; la Línea de tiempo, la introducción, Proyectos, Méritos, Estudios y Experiencia se ven bien (los logos de empresa quedan en P60).
+- [x] **P33 · Hacer** (2026-10-21): ajustes de móvil y pulido de la Línea de tiempo.
+  - Nota: el usuario confirma que en móvil la Línea de tiempo se ve perfecta, sin cambios de código.
+- [x] **P42 · Revisar** (2026-10-21): los nombres a 45° de periodos cercanos se pisaban ("QA Tester…" y "Desarrollador de videojuegos").
+  - Nota: el usuario confirma que ya no se pisan los nombres de la Línea de tiempo; si vuelve a pasar, se resolverá con P38.
+- [x] **P34 · Revisar** (2026-10-21): el hueco reservado a la estrella cortaba antes los títulos de las tarjetas con mérito.
+  - Nota: revisado por el usuario y dado por bueno, sin cambios de código (los títulos de las tarjetas con estrella se leen bien).
+- [x] **P14 · Hacer** (2026-10-21): sustituir el contenido "[Provisional]".
+  - Nota: comprobado que ya no queda ninguna marca "Provisional" en `datos/`.
+- [x] **P17 · Hacer** (2026-10-21): crear los proyectos reales y cambiar sus referencias del catálogo por el id del proyecto.
+  - Nota: el usuario confirma que todos los proyectos reales están creados.
+- [x] **P18 · Revisar** (2026-10-21): "Proyecto provisional 1" tenía `enCurso: true` puesto para pruebas.
+  - Nota: el proyecto provisional ya no existe.
+- [x] **P16 · Hacer** (2026-10-21): crear `recursos/` con las imágenes `low`/`high` de los proyectos y las `img` del catálogo de referencias.
+  - Nota: el usuario confirma que todas las imágenes están subidas.
 - [x] **P26 · Hacer** (2026-10-19): activar GitHub Pages y comprobar la web publicada.
   - Nota: GitHub Pages activado; el usuario ha comprobado que la web en https://popletox.github.io/Portfolio_web/ funciona bien.
 - [x] **P27 · Revisar** (2026-10-19): revisión tras publicar.
@@ -116,7 +126,7 @@ Sin puntos abiertos.
 - [x] **P53 · Hacer** (2026-10-16): paso 3 del rediseño de méritos: franja «Reconocimiento» en el detalle del proyecto, entre el contenido y los enlaces, con el título y la descripción del premio.
   - Nota: ver [`diseno-portfolio.md`](diseno-portfolio.md).
 - [x] **P36 · Decidir** (2026-10-16): rework de la sección «Méritos y reconocimientos» y de cómo se muestran los méritos en la web.
-  - Nota: hechos los tres pasos (tarjeta fija de mérito, estrella sin tooltip en P52 y franja en el detalle en P53). Siguen abiertos P51 (formato de las tarjetas de proyecto en los méritos) y P54 (méritos reales, ya hecho).
+  - Nota: hechos los tres pasos (tarjeta fija de mérito, estrella sin tooltip en P52 y franja en el detalle en P53). Sigue abierto P51 (formato de las tarjetas de proyecto en los méritos); P54 (méritos reales) ya está hecho.
 - [x] **P52 · Hacer** (2026-10-16): paso 2 del rediseño de méritos: quitar el tooltip de la estrella de la Línea de tiempo.
   - Nota: la estrella es solo una marca decorativa (`aria-hidden`); los títulos se anuncian en el `aria-label` de la tarjeta.
 

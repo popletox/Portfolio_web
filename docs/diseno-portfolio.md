@@ -89,7 +89,7 @@ Plan por pasos:
 2. Hecho: barras de estudios y experiencias en filas por solape, con conector vertical y su nombre a 45°.
 3. Hecho: tarjetas de proyecto con colocación automática por altura (compactas en meses con 3 o más proyectos) y línea hasta su mes; abren la ventana de detalle.
 4. Hecho: estrella de reconocimiento en los proyectos con mérito.
-5. Pendiente: ajustes de móvil y pulido (ver [pendientes](pendientes.md), P33).
+5. Hecho: ajustes de móvil y pulido (revisado en móvil con los datos finales; ver [pendientes](pendientes.md), P33).
 
 9. Pie: Sobre esta web
 
