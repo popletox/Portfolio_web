@@ -3310,6 +3310,88 @@ body.panel-abierto .boton-destacado-flecha {
   }
 }
 
+/* Efectos de las secciones (scripts/efectos-secciones.js): solo existen con
+   el interruptor "Efectos" encendido y la sección abierta. Decorativos: no
+   reciben clics ni ocupan sitio. No se anulan con movimiento reducido
+   (decisión del proyecto: vienen apagados por defecto) */
+
+/* Méritos: confeti. El contenido desplegado es el recuadro: la capa va por
+   detrás de su contenido (z-index -1 dentro de un contexto propio) y se
+   recorta a él */
+.efecto-confeti-anfitrion {
+  position: relative;
+  isolation: isolate;
+}
+
+.efecto-confeti {
+  /* Paleta: colores del tema, más verde y morado suaves que encajan en los tres */
+  --color-confeti-1: var(--color-acento);
+  --color-confeti-2: var(--color-periodo-experiencia);
+  --color-confeti-3: var(--color-estrella);
+  --color-confeti-4: #34a853;
+  --color-confeti-5: #a77bdb;
+  --duracion-caida-confeti: 8s;
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Envoltorio de cada pieza: ocupa todo el alto de la capa, así el
+   translateY en % recorre el alto del recuadro sea cual sea */
+.efecto-confeti-caida {
+  position: absolute;
+  top: 0;
+  width: 0;
+  height: 100%;
+  animation: efecto-confeti-caer linear infinite backwards;
+  animation-duration: calc(var(--duracion-caida-confeti) * var(--factor-confeti, 1));
+  will-change: transform;
+}
+
+/* La pieza empieza justo por encima del borde superior */
+.efecto-confeti-pieza {
+  position: absolute;
+  bottom: 100%;
+  left: -0.25rem;
+  width: 0.5rem;
+  height: 0.8rem;
+  border-radius: 1px;
+  opacity: 0.7;
+  animation: efecto-confeti-balanceo ease-in-out infinite alternate;
+}
+
+.efecto-confeti-pieza--redonda {
+  height: 0.5rem;
+  border-radius: 50%;
+}
+
+.efecto-confeti-pieza--color1 { background: var(--color-confeti-1); }
+.efecto-confeti-pieza--color2 { background: var(--color-confeti-2); }
+.efecto-confeti-pieza--color3 { background: var(--color-confeti-3); }
+.efecto-confeti-pieza--color4 { background: var(--color-confeti-4); }
+.efecto-confeti-pieza--color5 { background: var(--color-confeti-5); }
+
+@keyframes efecto-confeti-caer {
+  from {
+    transform: translateY(0);
+  }
+  /* Hasta salir del todo por abajo */
+  to {
+    transform: translateY(calc(100% + 2rem));
+  }
+}
+
+@keyframes efecto-confeti-balanceo {
+  from {
+    transform: translateX(-0.6rem) rotate(0deg);
+  }
+  to {
+    transform: translateX(0.6rem) rotate(var(--giro-confeti, 360deg));
+  }
+}
+
 /* Cambio de tema: transición de colores solo mientras dura (clase temporal
    en <html> que pone scripts/opciones.js). Sustituye a las transiciones
    propias de cada elemento durante ese momento; el bocadillo conserva la suya

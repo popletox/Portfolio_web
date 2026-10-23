@@ -2,7 +2,8 @@
 // docs/diseno-portfolio.md). Se carga en el <head> sin defer para poner
 // data-efectos="on" | "off" en <html> antes del primer pintado. Es
 // independiente del tema, por eso va aparte de scripts/temas.js.
-// De momento no activa nada: solo guarda y expone el estado.
+// Solo guarda y expone el estado; los efectos de cada sección los arranca
+// y detiene scripts/efectos-secciones.js.
 (function () {
   var CLAVE_ALMACEN = 'efectos';
   var POR_DEFECTO = false; // desactivados

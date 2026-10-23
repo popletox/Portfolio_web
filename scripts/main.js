@@ -445,15 +445,27 @@ var mostrarDiapositivaDestacado = function () {};
   document.addEventListener('contenido:listo', iniciar);
 })();
 
-// Secciones plegables: abre o cierra una sección (clase, aria-expanded e inert)
+// Secciones plegables: abre o cierra una sección (clase, aria-expanded e inert).
+// Si el estado cambia, emite 'seccion:cambio' en la sección (burbujea hasta
+// document) con detail.abierta; lo usa scripts/efectos-secciones.js
 function aplicarEstadoSeccion(seccion, abierta) {
   var boton = seccion.querySelector('.seccion-alternar');
   if (!boton) return;
   var contenido = document.getElementById(boton.getAttribute('aria-controls'));
   if (!contenido) return;
+  var cambia = seccion.classList.contains('seccion--abierta') !== Boolean(abierta);
   seccion.classList.toggle('seccion--abierta', abierta);
   boton.setAttribute('aria-expanded', String(abierta));
   contenido.inert = !abierta;
+  if (!cambia) return;
+  try {
+    seccion.dispatchEvent(new CustomEvent('seccion:cambio', {
+      bubbles: true,
+      detail: { abierta: Boolean(abierta) }
+    }));
+  } catch (error) {
+    // Sin CustomEvent: la sección ya ha cambiado; solo no se avisa
+  }
 }
 
 // Secciones plegables: cada encabezado abre o cierra su contenido
