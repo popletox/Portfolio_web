@@ -57,6 +57,10 @@ Puntos abiertos del [documento de diseño](diseno-portfolio.md).
 
 - [ ] **P21 · Hacer**: "Efectos divertidos" (interruptor en Opciones y animaciones de los títulos).
   - 2026-10-16: interruptor hecho (`scripts/efectos.js`) y estado inicial decidido: apagado. Pendientes: las animaciones de los títulos y cómo se activan en táctil.
+  - 2026-10-23: cambio de enfoque. Los efectos ya no son adornos del título con hover: cada uno se activa al abrir su sección y dura mientras esté abierta (sirve igual en táctil). El interruptor sigue siendo el control general (al apagar se limpian; al encender con secciones abiertas empiezan). Sin regla general de ubicación: Méritos y reconocimientos, confeti continuo en el fondo del recuadro, tras las cajas y sin salirse (sustituye a la explosión puntual); Experiencia, engranajes por fuera del área de la sección (visibles al cargar con Efectos encendido); Estudios y Proyectos, por definir (libros y mando descartados como decididos). Decidido: no se desactivan con `prefers-reduced-motion`, al ser opcionales y apagados por defecto. Se implementa ya la base común y el confeti de Méritos.
+  - 2026-10-23: base común y confeti de Méritos hechos (`scripts/efectos-secciones.js`).
+  - Pendiente dentro de P21: engranajes de Experiencia (por fuera de la sección; probar en móvil, poco espacio exterior); definir el efecto de Estudios y el de Proyectos.
+  - **Revisar** dentro de P21: el confeti se ve poco porque las cajas de mérito son opacas y ocupan casi todo el ancho (solo asoma por la columna de fechas, la línea y los huecos; en móvil casi nada). Opciones: bajar la opacidad de las cajas mientras el efecto está activo, o incluir el título en el recuadro. Sin decidir.
 - [ ] **P22 · Decidir**: panel Destacado en móvil fijo abajo o al final del documento.
 - [ ] **P24 · Decidir**: versión en inglés.
 - [ ] **P25 · Decidir**: alinear la introducción con el borde de las cajas de sección (actual) o con el texto de dentro.

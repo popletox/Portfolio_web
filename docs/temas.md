@@ -99,6 +99,8 @@ El tema inicial se elige por prioridad:
 
 `--alto-logo-tiempo` (2.5rem en escritorio, 1.75rem en `max-width: 768px`) y `--separacion-logo-tiempo` (0.375rem en escritorio, 0.25rem en móvil) también están solo en `estilos/comun.css` (no son de tema): alto máximo del logo de empresa en las entradas de Experiencia y `margin-top` del logo respecto a la fecha. No hay que añadirlas a un tema nuevo.
 
+`--color-confeti-1…5`, `--duracion-caida-confeti`, `--factor-confeti` y `--giro-confeti` también están solo en `estilos/comun.css` (bloque "Efectos de las secciones", definidas en `.efecto-confeti`; no son de tema): colores y animación del confeti de Méritos. Por defecto los colores reutilizan `--color-acento`, `--color-periodo-experiencia` y `--color-estrella` (más dos fijos), así que siguen al tema; un tema puede sobrescribirlas si quiere otra paleta. No hay que añadirlas a un tema nuevo.
+
 ## Botones redondos de icono
 
 Los temas no definen colores propios para los botones redondos (cabecera, enlaces del detalle, Compartir y Cerrar del detalle, Cerrar del visor): todos usan el patrón común de `:root` en `estilos/comun.css`, con variables sin prefijo `--color-` a propósito para que no sean variables de tema: `--boton-redondo-fondo` (= `--color-fondo-suave`), `--boton-redondo-fondo-hover` (= `--color-boton-enlaces-hover`) y `--boton-redondo-icono` (= `--color-texto`). Así siguen el tema, sin acento al pasar el ratón. Los antiguos `--color-boton-visor`, `--color-boton-visor-hover` y `--color-boton-visor-texto` se han eliminado. `--color-fondo-visor` se mantiene (fondo oscurecido tras el visor y la ventana de detalle). Detalle y modo de añadir un botón nuevo en [`diseno-portfolio.md`](diseno-portfolio.md).
